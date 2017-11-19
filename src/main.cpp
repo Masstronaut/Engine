@@ -259,6 +259,16 @@ struct somegameplayshit {
 
 };
 
+#include "Simulation.hpp"
+#include "World.hpp"
+void ECSDemo( ) {
+  Simulation Sim;
+  World &TestWorld{ Sim.CreateWorld( "Test World" ) };
+  TestWorld.AddSystem<somegameplayshit>( "Game Logic" );
+  constexpr bool b = std::is_empty_v<somegameplayshit>;
+}
+
+
 int main( ) {
   if( has_RequiredComponents_v<somegameplayshit> ) {
     std::cout << "somegameplayshit requires components!" << std::endl;
@@ -266,6 +276,6 @@ int main( ) {
   if( has_Update_memfn_v<somegameplayshit> ) {
     std::cout << "somegameplayshit has an update method." << std::endl;
   }
-
+  ECSDemo( );
   return NanosuitDemo( );
 }

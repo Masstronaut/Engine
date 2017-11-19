@@ -47,27 +47,7 @@ constexpr bool is_pure_system_v{ std::is_empty_v<T> };
 template<typename T>
 constexpr bool is_pure_component_v{ std::is_pod_v<T> };
 
-
-// Type list
-// @@TODO: move this to a better home
-template<typename T, typename... Args>
-struct type_list {
-  using front = T;
-  using pop_front = type_list<Args...>;
-};
-template<typename T>
-struct type_list<T> {
-  using front = T;
-
-};
-template<typename T, typename... Args>
-struct is_type_list : std::false_type { };
-
-template<template<typename...> typename T, typename... Args>
-struct is_type_list<T<Args...>> : public std::is_same<T<Args...>, type_list<Args...>> { };
-
-template<typename T>
-constexpr bool is_type_list_v = is_type_list<T>::value;
+#include "type_list.hpp"
 
 // special types detection
 // Detect if a system has a list of components it wants to iterate over

@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+.vs/LearnOpenGL/v15/Browse.VC.db
+.vs/LearnOpenGL/v15/Browse.VC.opendb
+*.tlog
+*.idb
+LearnOpenGL/main.cpp.PVS-Studio.cmd
+*.ipch

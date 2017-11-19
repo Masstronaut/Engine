@@ -23,6 +23,7 @@
     <ProjectGuid>{FF8E7633-30BE-4894-B416-90CADCAB156D}</ProjectGuid>
     <RootNamespace>LearnOpenGL</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -160,7 +161,9 @@
   <ItemGroup>
     <ClCompile Include="..\Dependencies\src\glad.c" />
     <ClCompile Include="..\Dependencies\src\stb_image.cpp" />
+    <ClCompile Include="..\src\ComponentAggregate.cpp" />
     <ClCompile Include="..\src\Entity.cpp" />
+    <ClCompile Include="..\src\EntityRef.cpp" />
     <ClCompile Include="..\src\GLFWWindow.cpp" />
     <ClCompile Include="..\src\GLProgram.cpp" />
     <ClCompile Include="..\src\GLShader.cpp" />
@@ -172,6 +175,7 @@
     <ClCompile Include="..\src\Simulation.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Window.cpp" />
+    <ClCompile Include="..\src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\Triangle.frag" />
@@ -180,8 +184,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Camera.hpp" />
+    <ClInclude Include="..\src\ComponentAggregate.hpp" />
     <ClInclude Include="..\src\Detectors.hpp" />
     <ClInclude Include="..\src\Entity.hpp" />
+    <ClInclude Include="..\src\EntityID.hpp" />
+    <ClInclude Include="..\src\EntityList.hpp" />
+    <ClInclude Include="..\src\EntityRef.hpp" />
     <ClInclude Include="..\src\EventArena.hpp" />
     <ClInclude Include="..\src\GLFWWindow.hpp" />
     <ClInclude Include="..\src\GLProgram.hpp" />
@@ -192,6 +200,7 @@
     <ClInclude Include="..\src\Resource.hpp" />
     <ClInclude Include="..\src\Simulation.hpp" />
     <ClInclude Include="..\src\Texture.hpp" />
+    <ClInclude Include="..\src\type_list.hpp" />
     <ClInclude Include="..\src\VertexArray.hpp" />
     <ClInclude Include="..\src\Window.hpp" />
     <ClInclude Include="..\src\World.hpp" />

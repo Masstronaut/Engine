@@ -5,28 +5,19 @@
 Entity::Entity( ) {
 
 }
-Entity::Entity( const Entity & ) {
-
-}
-Entity::Entity( Entity && ) {
-
+Entity::Entity( Entity &&rhs )
+  : m_Components( std::move( rhs.m_Components ) )
+  , m_ID( rhs.m_ID )
+  , m_Name( std::move( rhs.m_Name ) ) {
+  
 }
 Entity::~Entity( ) {
 
 }
 
-template<typename Component>
-bool Entity::Has( ) const {
-  return m_Components.count( typeid( Component ).hash_code( ) ) > 0;
-}
 
-template<typename Component>
-Component& Entity::Get( ) {
-
-}
-template<typename Component>
-const Component& Entity::Get( ) const {
-
+bool Entity::Has( std::size_t component_hash ) {
+  return m_Components.count( component_hash ) > 0;
 }
 
 EntityID Entity::ID( ) const {
