@@ -5,8 +5,14 @@
 
 #include "World.hpp"
 
-  bool EntityRef::Has( std::size_t component_hash ) const {
-    return m_World->GetEntity( m_ID ).Has( component_hash );
+
+EntityRef::EntityRef( EntityID ID, World* world ) 
+  : m_ID( ID )
+  , m_World( world ) {
+}
+
+  bool EntityRef::Has( std::type_index component_type ) const {
+    return m_World->GetEntity( m_ID ).Has( component_type );
   }
 
 

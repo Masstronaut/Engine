@@ -1,6 +1,7 @@
 #pragma once
 
 #include <unordered_map>
+#include <typeindex>
 class Entity;
 #include "EntityID.hpp"
 
@@ -17,7 +18,7 @@ public:
   template<typename Component, typename... Components>
   bool Has( ) const;
 
-  bool Has( std::size_t component_hash );
+  bool Has( std::type_index component_type );
 
 
   template<typename Component>
@@ -31,14 +32,14 @@ public:
   Entity& Name( const std::string &name );
   
 private:
-  std::unordered_map<std::size_t, EntityID> m_Components;
+  std::unordered_map<std::type_index, EntityID> m_Components;
   EntityID m_ID{ 0, 0 };
   std::string m_Name{"Nameless Entity"};
 };
 
 template<typename Component>
 bool Entity::Has( ) const {
-  return m_Components.count( typeid( std::decay_t<Component> ) ) > 0;
+  return m_Components.count( std::type_index( typeid( std::decay_t<Component> ) ) ) > 0;
 }
 
 template<typename Component, typename... Components>

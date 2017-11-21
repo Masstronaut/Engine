@@ -16,8 +16,8 @@ Entity::~Entity( ) {
 }
 
 
-bool Entity::Has( std::size_t component_hash ) {
-  return m_Components.count( component_hash ) > 0;
+bool Entity::Has( std::type_index component_type ) {
+  return m_Components.count( component_type ) > 0;
 }
 
 EntityID Entity::ID( ) const {

@@ -95,11 +95,11 @@ const T& World::GetComponent( EntityID entity ) const {
 
 template<typename T>
 ComponentPool<T>& World::GetComponentPool( ) {
-  auto it{ m_Components.find( typeid( T ).hash_code( ) ) };
+  auto it{ m_Components.find( std::type_index( typeid( T ) ) ) };
   if( it != m_Components.end( ) ) {
     return *reinterpret_cast< ComponentPool<T>* >( it->second.get( ) );
   } else {
-    it = m_Components.emplace( typeid( T ).hash_code( ), std::make_unique<ComponentPoolBase>( new ComponentPool<T>( ) ) ).first;
+    it = m_Components.emplace( std::type_index( typeid( T ) ), std::make_unique<ComponentPoolBase>( new ComponentPool<T>( ) ) ).first;
     return *reinterpret_cast< ComponentPool<T>* >( it->second.get( ) );
   }
 }
@@ -107,7 +107,7 @@ ComponentPool<T>& World::GetComponentPool( ) {
 
 template<typename... Args>
 ComponentAggregate& World::GetAggregate( ) {
-  std::vector<std::size_t> hashes{ typeid( Args ).hash_code( )... };
+  std::vector<std::type_index> hashes{ std::type_index( typeid( Args ) )... };
   std::sort( std::begin( hashes ), std::end( hashes ) );
   for( auto& aggregate : m_Aggregates ) {
     if( aggregate.matches( hashes ) ) {

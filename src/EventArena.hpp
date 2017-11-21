@@ -3,6 +3,8 @@
 #include <unordered_map>
 #include <vector>
 #include <memory>
+#include <typeindex>
+#include <typeinfo>
 class EventArena {
 public:
   template<typename T>
@@ -19,7 +21,7 @@ public:
 
 
 private:
-  using KeyType = decltype( typeid( int ).hash_code() );
+  using KeyType = std::type_index;
   struct EventDispatcherBase{ };
   template<typename T>
   class EventDispatcher : public EventDispatcherBase {
@@ -36,9 +38,9 @@ private:
   };
   template<typename T>
   EventDispatcher<T>& Dispatcher( ) { 
-    auto it{ m_Dispatchers.find( typeid( T ).hash_code() ) };
+    auto it{ m_Dispatchers.find( std::type_index( typeid( T ) ) )};
     if( it == m_Dispatchers.end( ) ) {
-      auto res{ m_Dispatchers.try_emplace( typeid( T ).hash_code(), new EventDispatcher<T>{} ) };
+      auto res{ m_Dispatchers.try_emplace( std::type_index( typeid( T )), new EventDispatcher<T>{} ) };
       if( res.second ) it = res.first;
     }
     return *(reinterpret_cast< EventDispatcher<T> * >( it->second.get( ) ));

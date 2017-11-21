@@ -188,7 +188,7 @@
     <ClInclude Include="..\src\Detectors.hpp" />
     <ClInclude Include="..\src\Entity.hpp" />
     <ClInclude Include="..\src\EntityID.hpp" />
-    <ClInclude Include="..\src\EntityList.hpp" />
+    <ClInclude Include="..\src\EntitiesWith.hpp" />
     <ClInclude Include="..\src\EntityRef.hpp" />
     <ClInclude Include="..\src\EventArena.hpp" />
     <ClInclude Include="..\src\GLFWWindow.hpp" />

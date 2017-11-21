@@ -148,7 +148,7 @@
     <ClInclude Include="..\src\type_list.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\EntityList.hpp">
+    <ClInclude Include="..\src\EntitiesWith.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
