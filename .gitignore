@@ -36,3 +36,9 @@
 *.idb
 LearnOpenGL/main.cpp.PVS-Studio.cmd
 *.ipch
+*.pdb
+*.log
+.vs/LearnOpenGL/v15/.suo
+*.iobj
+*.ilk
+*.ipdb

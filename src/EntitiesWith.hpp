@@ -35,10 +35,10 @@ public:
   const_iterator cend( ) const {
     return m_Entities.cend( );
   }
-  ConstrainedEntityRef& operator[]( std::size_t pos ) {
+  ConstrainedEntityRef<Args...>& operator[]( std::size_t pos ) {
     return m_Entities[ pos ];
   }
-  const ConstrainedEntityRef& operator[]( std::size_t pos ) const {
+  const ConstrainedEntityRef<Args...>& operator[]( std::size_t pos ) const {
     return m_Entities[ pos ];
   }
 private:

@@ -48,6 +48,8 @@ public:
   template<typename ReturnType, typename ClassName>
   void AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string&& name = "Nameless System" );
 
+  template<typename... Args>
+  void RegisterEntitiesWith( EntitiesWith<Args...>& );
 
   template<typename T>
   void AddSystem( const std::string &name = "Nameless System" );
@@ -110,11 +112,11 @@ ComponentAggregate& World::GetAggregate( ) {
   std::vector<std::type_index> hashes{ std::type_index( typeid( Args ) )... };
   std::sort( std::begin( hashes ), std::end( hashes ) );
   for( auto& aggregate : m_Aggregates ) {
-    if( aggregate.matches( hashes ) ) {
+    if( aggregate.Matches( hashes ) ) {
       return aggregate;
     }
   }
-  m_Aggregates.push_back( ComponentAggregate( type_list<Args...>{} ) );
+  m_Aggregates.emplace_back( type_list<Args...>{} );
   return m_Aggregates.back( );
 }
 
@@ -161,15 +163,23 @@ void World::AddSystem( const std::string &name ) {
   }
 }
 
+
+
+template<typename... Args>
+void World::RegisterEntitiesWith( EntitiesWith<Args...> &ew ) {
+  this->GetAggregate<Args...>( ).AddEntityList( ew );
+}
+
+
 #include "Detectors.hpp"
 template<typename T>
 void World::AddPureSystem( const std::string & name ) {
-  if constexpr( has_RequiredComponents_v<T> ) {
-    ComponentAggregate& agg{ GetAggregate<typename T::RequiredComponents>( ) };
-
-  }
+  static_assert( 0, "implementation of World::AddPureSystem does not yet exist." );
 }
 template<typename T>
 void World::AddStatefulSystem( const std::string & name ) {
-
+  if constexpr( has_Entities_v<T> ) {
+    ComponentAggregate& agg{ GetAggregate<typename T::Entities>( ) };
+  }
+  //static_assert( 0, "Implementation of World::AddStatefulSystem does not yet exist." );
 }

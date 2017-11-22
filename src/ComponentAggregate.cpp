@@ -27,7 +27,7 @@ void ComponentAggregate::OnEntityDestroyed( const EntityRef &entity ) {
 }
 
 
-bool ComponentAggregate::matches( const std::vector<std::type_index> &hashes ) {
-  if( hashes.size( ) != m_Components.size( ) ) return false;
-  return std::equal( std::begin( hashes ), std::end( hashes ), std::begin( m_Components ) );
+bool ComponentAggregate::Matches( const std::vector<std::type_index> &types ) {
+  if( types.size( ) != m_Components.size( ) ) return false;
+  return std::equal( std::begin( types ), std::end( types ), std::begin( m_Components ) );
 }

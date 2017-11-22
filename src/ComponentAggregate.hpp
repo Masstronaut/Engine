@@ -16,16 +16,20 @@ public:
   ComponentAggregate( type_list<Args...> ) { AddType<Args...>( ); }
 
   template<typename... Args>
-  bool matches( ) const;
+  bool Matches( ) const;
 
   // Expects the vector of hashes to be sorted. 
-  bool matches( const std::vector<std::type_index>& hashes );
+  bool Matches( const std::vector<std::type_index>& hashes );
+
+
 
   // Check if the entity has all the components of this aggregate.
   // If it does
   void OnEntityCreated( const EntityRef &entity );
   void OnEntityDestroyed( const EntityRef &entity );
 private:
+  template<typename... Args>
+  bool AddEntityList( EntitiesWith<Args...>& );
   template<typename T>
   void AddType( ) {
     static_assert( !std::is_reference_v<T>, "References may not be used as components. Try changing \"Component&\" to \"Component\"." );
@@ -47,9 +51,19 @@ private:
 };
 
 template<typename... Args>
-bool ComponentAggregate::matches( ) const {
+bool ComponentAggregate::Matches( ) const {
   if( sizeof...( Args ) != m_Components.size( ) ) return false;
   std::vector<std::type_index> hashes{ std::type_index( typeid( Args ) )... };
   std::sort( std::begin( hashes ), std::end( hashes ) );
   return std::equal( std::begin( hashes ), std::end( hashes ), std::begin( m_Components ) );
 }
+
+
+template<typename... Args>
+bool ComponentAggregate::AddEntityList( EntitiesWith<Args...> &ew ) {
+  assert( this->Matches<Args...>( ) && "Only call ComponentAggregate::AddEntityList after verifying it matches." );
+  m_EntityLists.push_back( &ew );
+  m_EntityLists.back( ).SetEntities( m_Entities );
+}
+
+

@@ -56,8 +56,6 @@ void ProcessInput( GLFWWindow &window ) {
 
 }
 
-
-
 float vertices[ ] = {
   -0.5f, -0.5f, -0.5f,  0.0f, 0.0f,
   0.5f, -0.5f, -0.5f,  1.0f, 0.0f,
@@ -251,10 +249,12 @@ int SaturnDemo( ) {
 
 #include "Detectors.hpp"
 
+#include "EntitiesWith.hpp"
 
 struct somegameplayshit {
-  using RequiredComponents = type_list<int, bool, float>;
+  using Entities = EntitiesWith<int, bool, float>;
 
+  Entities GameObjects;
   void Update( ) { }
 
 };
@@ -264,17 +264,20 @@ struct somegameplayshit {
 void ECSDemo( ) {
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
-  TestWorld.AddSystem<somegameplayshit>( "Game Logic" );
+  TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
   constexpr bool b = std::is_empty_v<somegameplayshit>;
 }
 
 
 int main( ) {
-  if( has_RequiredComponents_v<somegameplayshit> ) {
+  if( has_Entities_v<somegameplayshit> ) {
     std::cout << "somegameplayshit requires components!" << std::endl;
   }
   if( has_Update_memfn_v<somegameplayshit> ) {
     std::cout << "somegameplayshit has an update method." << std::endl;
+  }
+  if( has_GameObjects_v<somegameplayshit> ) {
+    std::cout << "somegameplayshit has GameObjects." << std::endl;
   }
   ECSDemo( );
   return NanosuitDemo( );

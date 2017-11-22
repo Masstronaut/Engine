@@ -52,10 +52,18 @@ constexpr bool is_pure_component_v{ std::is_pod_v<T> };
 // special types detection
 // Detect if a system has a list of components it wants to iterate over
 template<typename T>
-using RequiredComponents_exists = decltype( is_type_list_v<typename T::RequiredComponents> );
+using Entities_exists = decltype( is_type_list_v<typename T::Entities> );
 
 template<typename T>
-using has_RequiredComponents = is_detected<RequiredComponents_exists, T>;
+using has_Entities = is_detected<Entities_exists, T>;
 
 template<typename T>
-constexpr bool has_RequiredComponents_v = has_RequiredComponents<T>::value;
+constexpr bool has_Entities_v = has_Entities<T>::value;
+
+template<typename T>
+using GameObjects_exists = decltype( std::is_same_v<decltype( std::declval<T&>( ).GameObjects ), typename T::Entities> );
+
+template<typename T>
+using has_GameObjects = is_detected<GameObjects_exists, T>;
+template<typename T>
+constexpr bool has_GameObjects_v = has_GameObjects<T>::value;
