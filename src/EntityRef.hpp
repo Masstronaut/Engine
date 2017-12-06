@@ -46,6 +46,11 @@ bool EntityRef::Has( ) const {
   return Has<Component>( ) && Has<Components...>( );
 }
 
+template<typename Component>
+inline Component& EntityRef::Get( ) {
+  return m_World->GetEntity( m_ID ).Get<Component>( );
+}
+
 
 template<typename... Args>
 class ConstrainedEntityRef {

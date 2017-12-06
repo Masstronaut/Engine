@@ -10,11 +10,25 @@
 #include "ComponentAggregate.hpp"
 class ComponentPoolBase {
 public:
+  virtual void* Get( EntityID ID ) = 0;
+  virtual EntityID Clone( EntityID ID ) = 0;
   virtual ~ComponentPoolBase( ) { }
 };
 
 template<typename Component>
 class ComponentPool : public ComponentPoolBase {
+  virtual void* Get( EntityID ID ) final {
+    return &components[ ID ];
+  }
+  // @@TODO: On Clone() all ComponentAggregates holding
+  // this type of component need to re-fetch pointers if allocation occurred.
+  // The easiest way to do this is probably an event triggering the re-fetch.
+  // This could be emitted by the pool on the world, which aggregates could listen for.
+  // "OnPointerInvalidation" event or something. Include the type index so they can early out
+  // if they don't care about that kind of component.
+  virtual EntityID Clone( EntityID ID ) final {
+    return components.insert( components[ ID ] );
+  }
   slot_map<Component> components;
 };
 
@@ -26,6 +40,7 @@ public:
   T& GetComponent( EntityID entity );
   template<typename T>
   const T& GetComponent( EntityID entity ) const;
+  void* GetComponent( EntityID entity, std::type_index ComponentType );
 
   Entity& GetEntity( EntityID ID );
   const Entity& GetEntity( EntityID ID ) const;
@@ -78,9 +93,8 @@ protected:
   template<typename... Args>
   ComponentAggregate& GetAggregate( type_list<Args...> );
 private:
-
   std::string m_Name;
-  std::unordered_map<std::size_t, std::unique_ptr<ComponentPoolBase>> m_Components;
+  std::unordered_map<std::type_index, std::unique_ptr<ComponentPoolBase>> m_Components;
   slot_map<Entity> m_Entities;
   std::vector<ComponentAggregate> m_Aggregates;
   std::vector<Updater> m_Systems;
@@ -88,11 +102,11 @@ private:
 
 template<typename T>
 T& World::GetComponent( EntityID entity ) {
-  return GetComponentPool<T>( ).components[ entity ];
+  return GetComponentPool<std::decay_t<T>>( ).components[ entity ];
 }
 template<typename T>
 const T& World::GetComponent( EntityID entity ) const {
-  return GetComponentPool<T>( ).components[ entity ];
+  return GetComponentPool<std::decay_t<T>>( ).components[ entity ];
 }
 
 template<typename T>

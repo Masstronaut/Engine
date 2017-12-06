@@ -265,20 +265,14 @@ void ECSDemo( ) {
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
   TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
-  constexpr bool b = std::is_empty_v<somegameplayshit>;
+  static_assert( has_Entities_v<somegameplayshit> );
+  static_assert( has_Update_memfn_v<somegameplayshit> );
+  static_assert( has_GameObjects_v<somegameplayshit> );
+  Sim.CreateArchetype( "Enemy" );
 }
 
 
 int main( ) {
-  if( has_Entities_v<somegameplayshit> ) {
-    std::cout << "somegameplayshit requires components!" << std::endl;
-  }
-  if( has_Update_memfn_v<somegameplayshit> ) {
-    std::cout << "somegameplayshit has an update method." << std::endl;
-  }
-  if( has_GameObjects_v<somegameplayshit> ) {
-    std::cout << "somegameplayshit has GameObjects." << std::endl;
-  }
   ECSDemo( );
   return NanosuitDemo( );
 }

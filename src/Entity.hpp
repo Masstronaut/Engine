@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 #include <typeindex>
-class Entity;
 #include "EntityID.hpp"
+class World;
 
 class Entity {
 public:
@@ -32,6 +32,8 @@ public:
   Entity& Name( const std::string &name );
   
 private:
+  void* Get( std::type_index component );
+  World *m_World{ nullptr };
   std::unordered_map<std::type_index, EntityID> m_Components;
   EntityID m_ID{ 0, 0 };
   std::string m_Name{"Nameless Entity"};
@@ -49,9 +51,11 @@ bool Entity::Has( ) const {
 
 template<typename Component>
 Component& Entity::Get( ) {
-
+  using DecayedType = std::decay_t<Component>;
+  constexpr std::type_index TypeIndex = std::type_index( typeid( DecayedType ) );
+  return m_World->GetComponent<DecayedType>( m_Components[ TypeIndex ] );
 }
 template<typename Component>
 const Component& Entity::Get( ) const {
-
+  return m_World->GetComponent<std::decay_t<Component>>( m_Components[ std::type_index( typeid( std::decay_t<Component> ) ) ] );
 }

@@ -19,3 +19,13 @@ World& Simulation::GetWorld( const std::string &name ) {
   //@@TODO: make this stricter so get won't create a world
   return CreateWorld( name );
 }
+
+EntityRef Simulation::CreateArchetype( const std::string & name ) {
+  auto it{ m_Worlds.find( "Archetype World" ) };
+  if( it != m_Worlds.end( ) ) {
+    return it->second.CreateEntity( name );
+  }
+  else {
+    return this->CreateWorld( "Archetype World" ).CreateEntity( name );
+  }
+}

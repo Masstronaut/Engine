@@ -31,3 +31,8 @@ Entity& Entity::Name( const std::string &name ) {
   m_Name = name;
   return *this;
 }
+
+void * Entity::Get( std::type_index component ) {
+  return m_World->GetComponent( m_Components[component] ,component );
+  return nullptr;
+}
