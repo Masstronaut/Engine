@@ -3,15 +3,20 @@
 #include <vector>
 #include <functional>
 #include <algorithm>
-
+#include <tuple>
+#include <typeindex>
 #include <slot_map.hpp>
+
 #include "EventArena.hpp"
 #include "Entity.hpp"
 #include "ComponentAggregate.hpp"
+class ArchetypeRef;
+class World;
 class ComponentPoolBase {
 public:
   virtual void* Get( EntityID ID ) = 0;
   virtual EntityID Clone( EntityID ID ) = 0;
+  virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World& world ) = 0;
   virtual ~ComponentPoolBase( ) { }
 };
 
@@ -21,7 +26,7 @@ class ComponentPool : public ComponentPoolBase {
     return &components[ ID ];
   }
   // @@TODO: On Clone() all ComponentAggregates holding
-  // this type of component need to re-fetch pointers if allocation occurred.
+  // this type of component need to re-fetch pointers if reallocation occurred.
   // The easiest way to do this is probably an event triggering the re-fetch.
   // This could be emitted by the pool on the world, which aggregates could listen for.
   // "OnPointerInvalidation" event or something. Include the type index so they can early out
@@ -29,6 +34,7 @@ class ComponentPool : public ComponentPoolBase {
   virtual EntityID Clone( EntityID ID ) final {
     return components.insert( components[ ID ] );
   }
+  virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World &world ) final;
   slot_map<Component> components;
 };
 
@@ -44,7 +50,7 @@ public:
 
   Entity& GetEntity( EntityID ID );
   const Entity& GetEntity( EntityID ID ) const;
-
+  EntityRef Spawn( EntityRef archetype );
   // System styles:
   // PURE systems (NO singleton data)
   // Systems of the form (dt, Args&...) which are called once per matching entity.
@@ -73,6 +79,9 @@ public:
   const std::string& Name( ) const;
 
 protected:
+  friend class Simulation;
+  friend class Entity;
+  EntityRef CreateEntity( const std::string &name );
   template<typename T>
   void AddPureSystem( const std::string & = "Nameless System" );
   template<typename T>
@@ -88,6 +97,7 @@ protected:
   };
   template<typename T>
   ComponentPool<T>& GetComponentPool( );
+  ComponentPoolBase* GetComponentPool( std::type_index Component );
   template<typename... Args>
   ComponentAggregate& GetAggregate( );
   template<typename... Args>
@@ -196,4 +206,10 @@ void World::AddStatefulSystem( const std::string & name ) {
     ComponentAggregate& agg{ GetAggregate<typename T::Entities>( ) };
   }
   //static_assert( 0, "Implementation of World::AddStatefulSystem does not yet exist." );
+}
+
+template<typename Component>
+virtual std::pair<std::type_index, EntityID> ComponentPool<Component>::Clone( EntityID ID, World &world ) {
+  return std::make_pair( std::type_index( typeid( Component ) ),
+                         world->GetComponentPool<Component>( ).insert( this->components[ ID ] ) );
 }

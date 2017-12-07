@@ -3,7 +3,7 @@
 #include <tuple>
 #include <limits> // find max value of key_size_type
 #include <type_traits> // declval, remove_reference
-
+#include <cassert>
 
 template<typename T, typename Token = std::pair<unsigned, unsigned>, template<typename...>typename Container = std::vector>
 class slot_map {

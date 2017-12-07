@@ -48,22 +48,30 @@ template<typename T>
 constexpr bool is_pure_component_v{ std::is_pod_v<T> };
 
 #include "type_list.hpp"
+template<typename... Args>
+class EntitiesWith;
+
+template<typename T, typename... Args>
+struct IsEntitiesWith : std::false_type { };
+
+template<template<typename...> typename T, typename... Args>
+struct IsEntitiesWith<T<Args...>> : public std::is_same<T<Args...>, EntitiesWith<Args...>> { };
+
+template<typename T>
+constexpr bool IsEntitiesWith_v = IsEntitiesWith<T>::value;
 
 // special types detection
 // Detect if a system has a list of components it wants to iterate over
 template<typename T>
-using Entities_exists = decltype( is_type_list_v<typename T::Entities> );
+using DetectEntitiesMember = decltype(T::Entities);
 
 template<typename T>
-using has_Entities = is_detected<Entities_exists, T>;
+using HasEntities = is_detected<DetectEntitiesMember, T>;
 
 template<typename T>
-constexpr bool has_Entities_v = has_Entities<T>::value;
+constexpr bool HasEntities_v = HasEntities<T>::value && IsEntitiesWith_v<decltype(T::Entities)>;
 
-template<typename T>
-using GameObjects_exists = decltype( std::is_same_v<decltype( std::declval<T&>( ).GameObjects ), typename T::Entities> );
 
+// composition of all minimum requirements for a component
 template<typename T>
-using has_GameObjects = is_detected<GameObjects_exists, T>;
-template<typename T>
-constexpr bool has_GameObjects_v = has_GameObjects<T>::value;
+constexpr bool is_component = std::is_copy_constructible_v<T>;

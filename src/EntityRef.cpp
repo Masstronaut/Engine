@@ -11,6 +11,12 @@ EntityRef::EntityRef( EntityID ID, World* world )
   , m_World( world ) {
 }
 
+EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
+  m_ID = rhs.m_ID; 
+  m_World = rhs.m_World;
+  return *this;
+}
+
   bool EntityRef::Has( std::type_index component_type ) const {
     return m_World->GetEntity( m_ID ).Has( component_type );
   }

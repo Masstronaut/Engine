@@ -20,12 +20,6 @@ World& Simulation::GetWorld( const std::string &name ) {
   return CreateWorld( name );
 }
 
-EntityRef Simulation::CreateArchetype( const std::string & name ) {
-  auto it{ m_Worlds.find( "Archetype World" ) };
-  if( it != m_Worlds.end( ) ) {
-    return it->second.CreateEntity( name );
-  }
-  else {
-    return this->CreateWorld( "Archetype World" ).CreateEntity( name );
-  }
+ArchetypeRef Simulation::CreateArchetype( const std::string & name ) {
+  return this->GetWorld( "Archetype World" ).CreateEntity( name );
 }

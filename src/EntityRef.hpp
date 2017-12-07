@@ -10,7 +10,9 @@ class EntityRef {
 public:
   EntityRef( EntityID ID, World* world );
   EntityRef( const EntityRef& ) = default;
+  EntityRef( EntityRef&& ) = default;
   ~EntityRef( ) = default;
+  EntityRef& operator=( const EntityRef &rhs );
 
   template<typename Component>
   bool Has( ) const;
@@ -32,11 +34,31 @@ public:
   bool operator==( const EntityRef &rhs ) {
     return ( m_ID == rhs.m_ID ) && ( m_World == rhs.m_World );
   }
-private:
+  // World needs access in order to implement cloning
+  friend class World;
+protected:
   EntityID m_ID{ 0, 0 };
   World* m_World;
-
 };
+
+class ArchetypeRef : public EntityRef {
+public:
+  using EntityRef::EntityRef;
+  using EntityRef::operator==;
+  //@@TODO: Make this inaccessible to end users
+  ArchetypeRef( EntityRef er )
+    : EntityRef( er ) { }
+  template<typename Component, typename... Args>
+  Component& Add( Args&&... args ) {
+    return m_World->GetEntity( m_ID ).Add<Component>( std::forward<Args>( args )... );
+  }
+  template<typename Component>
+  void Remove( ) {
+    m_World->GetEntity( m_ID ).Remove<Component>( );
+  }
+};
+
+
 template<typename Component>
 bool EntityRef::Has( ) const {
   return Has( std::type_index( typeid( Component ) ) );
@@ -49,6 +71,11 @@ bool EntityRef::Has( ) const {
 template<typename Component>
 inline Component& EntityRef::Get( ) {
   return m_World->GetEntity( m_ID ).Get<Component>( );
+}
+
+template<typename Component>
+inline const Component & EntityRef::Get( ) const {
+  m_World->GetEntity( m_ID ).Get<Component>( );
 }
 
 

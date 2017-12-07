@@ -252,23 +252,28 @@ int SaturnDemo( ) {
 #include "EntitiesWith.hpp"
 
 struct somegameplayshit {
-  using Entities = EntitiesWith<int, bool, float>;
-
-  Entities GameObjects;
+  EntitiesWith<int, bool, float> Entities;
   void Update( ) { }
 
 };
-
+struct vec3 {
+  float x, y, z;
+};
+struct Transform {
+  vec3 pos, rot, scale;
+};
 #include "Simulation.hpp"
 #include "World.hpp"
 void ECSDemo( ) {
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
   TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
-  static_assert( has_Entities_v<somegameplayshit> );
+  static_assert( IsEntitiesWith_v<decltype( somegameplayshit::Entities )> );
+  static_assert( HasEntities_v<somegameplayshit> );
   static_assert( has_Update_memfn_v<somegameplayshit> );
-  static_assert( has_GameObjects_v<somegameplayshit> );
-  Sim.CreateArchetype( "Enemy" );
+  ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
+  enemy.Add<Transform>( vec3{ 0.f,0.f,0.f }, vec3{ 0.f,0.f,0.f }, vec3{ 1.f,1.f,1.f } );
+  TestWorld.Spawn( enemy );
 }
 
 
