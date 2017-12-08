@@ -34,6 +34,8 @@ public:
   bool operator==( const EntityRef &rhs ) {
     return ( m_ID == rhs.m_ID ) && ( m_World == rhs.m_World );
   }
+
+  EntityRef Clone( ) const;
   // World needs access in order to implement cloning
   friend class World;
 protected:

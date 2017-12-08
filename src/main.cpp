@@ -273,7 +273,8 @@ void ECSDemo( ) {
   TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
   ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
   enemy.Add<Transform>( ).scale = { 1,2,1 };
-  TestWorld.Spawn( enemy );
+  EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
+  EntityRef EnemyB{ EnemyA.Clone( ) };
 }
 
 

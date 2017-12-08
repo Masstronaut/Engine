@@ -34,6 +34,11 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
     m_World->GetEntity( m_ID ).Name( name );
     return *this;
   }
+
+  EntityRef EntityRef::Clone( ) const {
+    Entity& entity{ m_World->GetEntity( m_ID ) };
+    return entity.Clone( );
+  }
   
 
 
