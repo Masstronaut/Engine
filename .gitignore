@@ -44,3 +44,4 @@ LearnOpenGL/main.cpp.PVS-Studio.cmd
 *.ipdb
 .vs/Engine/v15/Browse.VC.db
 .vs/Engine/v15/Solution.VC.db
+*.opendb

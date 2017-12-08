@@ -260,19 +260,19 @@ struct vec3 {
   float x, y, z;
 };
 struct Transform {
-  vec3 pos, rot, scale;
+  vec3 pos{ 0.f,0.f,0.f }, rot{ 0.f,0.f,0.f }, scale{ 1.f, 1.f, 1.f };
 };
 #include "Simulation.hpp"
 #include "World.hpp"
 void ECSDemo( ) {
+  // tests that constraint checking is working correctly
+  static_assert( HasEntities_v<somegameplayshit> );
+  static_assert( HasUpdateMemFn_v<somegameplayshit> );
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
   TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
-  static_assert( IsEntitiesWith_v<decltype( somegameplayshit::Entities )> );
-  static_assert( HasEntities_v<somegameplayshit> );
-  static_assert( has_Update_memfn_v<somegameplayshit> );
   ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
-  enemy.Add<Transform>( vec3{ 0.f,0.f,0.f }, vec3{ 0.f,0.f,0.f }, vec3{ 1.f,1.f,1.f } );
+  enemy.Add<Transform>( ).scale = { 1,2,1 };
   TestWorld.Spawn( enemy );
 }
 

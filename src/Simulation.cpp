@@ -16,7 +16,7 @@ World& Simulation::GetWorld( const std::string &name ) {
   if( result != m_Worlds.end( ) ) {
     return result->second;
   }
-  //@@TODO: make this stricter so get won't create a world
+  assert( 0 && "The world you attempted to get doesn't exist. Try CreateWorld()" );
   return CreateWorld( name );
 }
 

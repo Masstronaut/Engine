@@ -21,7 +21,7 @@ const Entity& World::GetEntity( EntityID ID ) const {
   return m_Entities[ ID ];
 }
 EntityRef World::Spawn( EntityRef archetype ) {
-  ArchetypeRef ent{ this->CreateEntity( archetype.Name( ) ) };
+  EntityRef ent{ this->CreateEntity( archetype.Name( ) ) };
   archetype.m_World->m_Entities[ archetype.ID( ) ].Clone( *this, m_Entities[ ent.ID( ) ] );
   return ent;
 }

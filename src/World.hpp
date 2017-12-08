@@ -14,6 +14,8 @@ class ArchetypeRef;
 class World;
 class ComponentPoolBase {
 public:
+  ComponentPoolBase( ) = default;
+  ComponentPoolBase( const ComponentPoolBase& ) = delete;
   virtual void* Get( EntityID ID ) = 0;
   virtual EntityID Clone( EntityID ID ) = 0;
   virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World& world ) = 0;
@@ -22,6 +24,9 @@ public:
 
 template<typename Component>
 class ComponentPool : public ComponentPoolBase {
+public:
+  ComponentPool( ) = default;
+  ~ComponentPool( ) = default;
   virtual void* Get( EntityID ID ) final {
     return &components[ ID ];
   }
@@ -31,9 +36,7 @@ class ComponentPool : public ComponentPoolBase {
   // This could be emitted by the pool on the world, which aggregates could listen for.
   // "OnPointerInvalidation" event or something. Include the type index so they can early out
   // if they don't care about that kind of component.
-  virtual EntityID Clone( EntityID ID ) final {
-    return components.insert( components[ ID ] );
-  }
+  virtual EntityID Clone( EntityID ID ) final;
   virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World &world ) final;
   slot_map<Component> components;
 };
@@ -79,6 +82,8 @@ public:
   const std::string& Name( ) const;
 
 protected:
+  template<typename Component>
+  friend class ComponentPool;
   friend class Simulation;
   friend class Entity;
   EntityRef CreateEntity( const std::string &name );
@@ -125,7 +130,7 @@ ComponentPool<T>& World::GetComponentPool( ) {
   if( it != m_Components.end( ) ) {
     return *reinterpret_cast< ComponentPool<T>* >( it->second.get( ) );
   } else {
-    it = m_Components.emplace( std::type_index( typeid( T ) ), std::make_unique<ComponentPoolBase>( new ComponentPool<T>( ) ) ).first;
+    it = m_Components.emplace( std::type_index( typeid( T ) ),  new ComponentPool<T>( ) ).first;
     return *reinterpret_cast< ComponentPool<T>* >( it->second.get( ) );
   }
 }
@@ -202,14 +207,26 @@ void World::AddPureSystem( const std::string & name ) {
 }
 template<typename T>
 void World::AddStatefulSystem( const std::string & name ) {
-  if constexpr( has_Entities_v<T> ) {
-    ComponentAggregate& agg{ GetAggregate<typename T::Entities>( ) };
+  if constexpr( HasEntities_v<T> ) {
+    ComponentAggregate& agg{ GetAggregate<decltype(T::Entities)>( ) };
   }
   //static_assert( 0, "Implementation of World::AddStatefulSystem does not yet exist." );
 }
 
+
+// @@TODO: On Clone() all ComponentAggregates holding
+// this type of component need to re-fetch pointers if reallocation occurred.
+// The easiest way to do this is probably an event triggering the re-fetch.
+// This could be emitted by the pool on the world, which aggregates could listen for.
+// "OnPointerInvalidation" event or something. Include the type index so they can early out
+// if they don't care about that kind of component.
 template<typename Component>
-virtual std::pair<std::type_index, EntityID> ComponentPool<Component>::Clone( EntityID ID, World &world ) {
+inline EntityID ComponentPool<Component>::Clone( EntityID ID ) {
+  return components.insert( components[ ID ] );
+}
+
+template<typename Component>
+std::pair<std::type_index, EntityID> ComponentPool<Component>::Clone( EntityID ID, World &world ) {
   return std::make_pair( std::type_index( typeid( Component ) ),
-                         world->GetComponentPool<Component>( ).insert( this->components[ ID ] ) );
+                         world.GetComponentPool<Component>( ).components.insert( this->components[ ID ] ) );
 }

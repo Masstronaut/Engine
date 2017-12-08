@@ -4,7 +4,7 @@
 #include <typeindex>
 #include "EntityID.hpp"
 class World;
-
+class EntityRef;
 class Entity {
 public:
   Entity::Entity( World &world, EntityID id = { 0,0 } );
@@ -14,7 +14,7 @@ public:
 
   template<typename Component>
   bool Has( ) const;
-  template<typename Component, typename... Components>
+  template<typename Component, typename Component2, typename... Components>
   bool Has( ) const;
   bool Has( std::type_index component_type );
   template<typename Component>
@@ -31,10 +31,10 @@ public:
   const std::string& Name( ) const;
   Entity& Name( const std::string &name );
   
+  EntityRef Clone( ) const;
+  
   friend class World;
 private:
-  // @@TODO: Refactor this API to be usable for regular people
-  // or provide an overload that is.
   EntityID Clone( World &world, Entity &entity ) const;
   void* Get( std::type_index component );
   World &m_World;
@@ -48,16 +48,16 @@ bool Entity::Has( ) const {
   return m_Components.count( std::type_index( typeid( std::decay_t<Component> ) ) ) > 0;
 }
 
-template<typename Component, typename... Components>
+template<typename Component, typename Component2, typename... Components>
 bool Entity::Has( ) const {
-  return Has<Component>( ) && Has<Components...>( );
+  return Has<Component>( ) && Has<Component2>( ) && Has<Components...>( );
 }
 
 template<typename Component, typename ...Args>
 inline Component & Entity::Add( Args && ...args ) {
-  assert( !this->Has<Component>( ) && "An entity may only be associated with a single instance of each component type." );
-  EntityID compHandle{ m_World->GetComponentPool<Component>( ).components.emplace( std::forward<Args>( args )... ) };
-  m_Components[ std::type_index( typeid( Component ) ) ] = EntityID;
+  assert( this->Has<Component>( ) == false && "An entity may only be associated with a single instance of each component type." );
+  EntityID compHandle{ m_World.GetComponentPool<Component>( ).components.emplace( std::forward<Args>( args )... ) };
+  m_Components[ std::type_index( typeid( Component ) ) ] = compHandle;
   return this->Get<Component>( );
 }
 
@@ -74,8 +74,8 @@ inline void Entity::Remove( ) {
 template<typename Component>
 Component& Entity::Get( ) {
   using DecayedType = std::decay_t<Component>;
-  constexpr std::type_index TypeIndex = std::type_index( typeid( DecayedType ) );
-  return m_World->GetComponent<DecayedType>( m_Components[ TypeIndex ] );
+  static const std::type_index TypeIndex = std::type_index( typeid( DecayedType ) );
+  return m_World.GetComponent<DecayedType>( m_Components[ TypeIndex ] );
 }
 template<typename Component>
 const Component& Entity::Get( ) const {

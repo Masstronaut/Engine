@@ -2,6 +2,7 @@
 #include <vector>
 #include "Entity.hpp"
 #include "World.hpp"
+#include "EntityRef.hpp"
 Entity::Entity(World &world, EntityID id  )
   : m_World( world ) 
   , m_ID( id )
@@ -40,6 +41,10 @@ const std::string& Entity::Name( ) const {
 Entity& Entity::Name( const std::string &name ) {
   m_Name = name;
   return *this;
+}
+
+EntityRef Entity::Clone( ) const {
+  return m_World.Spawn( EntityRef( this->ID( ), &m_World ) );
 }
 
 void * Entity::Get( std::type_index component ) {

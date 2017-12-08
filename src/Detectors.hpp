@@ -22,11 +22,11 @@ GENERATE_DETECT_HAS_VEC_FIELD( bitangent );
 
 #define GENERATE_DETECT_HAS_VOID_MEMFN( FN ) \
 template<typename T> \
-using FN##_memfn = decltype( std::declval<T&>( ).FN() ); \
+using FN##MemFn = decltype( std::declval<T&>( ).FN() ); \
 template<typename T> \
-using has_##FN##_memfn = is_detected<FN##_memfn, T>; \
+using Has##FN##MemFn = is_detected<FN##MemFn, T>; \
 template<typename T> \
-constexpr bool has_##FN##_memfn_v = has_##FN##_memfn<T>::value; 
+constexpr bool Has##FN##MemFn_v = Has##FN##MemFn<T>::value; 
 
 // MEMFN function detection
 GENERATE_DETECT_HAS_VOID_MEMFN( Update );

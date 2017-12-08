@@ -38,16 +38,16 @@ public:
   friend class World;
 protected:
   EntityID m_ID{ 0, 0 };
-  World* m_World;
+  World *m_World;
 };
 
 class ArchetypeRef : public EntityRef {
 public:
+  ArchetypeRef( const ArchetypeRef& ) = default;
+  ArchetypeRef( ) = delete;
   using EntityRef::EntityRef;
   using EntityRef::operator==;
-  //@@TODO: Make this inaccessible to end users
-  ArchetypeRef( EntityRef er )
-    : EntityRef( er ) { }
+  
   template<typename Component, typename... Args>
   Component& Add( Args&&... args ) {
     return m_World->GetEntity( m_ID ).Add<Component>( std::forward<Args>( args )... );
@@ -56,6 +56,10 @@ public:
   void Remove( ) {
     m_World->GetEntity( m_ID ).Remove<Component>( );
   }
+  friend class Simulation;
+private:
+  ArchetypeRef( EntityRef er )
+    : EntityRef( er ) { }
 };
 
 
@@ -77,7 +81,6 @@ template<typename Component>
 inline const Component & EntityRef::Get( ) const {
   m_World->GetEntity( m_ID ).Get<Component>( );
 }
-
 
 template<typename... Args>
 class ConstrainedEntityRef {
