@@ -251,30 +251,98 @@ int SaturnDemo( ) {
 
 #include "EntitiesWith.hpp"
 
-struct somegameplayshit {
-  EntitiesWith<int, bool, float> Entities;
-  void Update( ) { }
-
-};
 struct vec3 {
   float x, y, z;
+  vec3 operator*( float f ) { return { x*f, y*f, z*f }; }
 };
 struct Transform {
   vec3 pos{ 0.f,0.f,0.f }, rot{ 0.f,0.f,0.f }, scale{ 1.f, 1.f, 1.f };
+};
+struct RigidBody {
+  vec3 velocity{ 0.f,0.f,0.f }, acceleration{ 0.f,0.f,0.f };
+  bool isStatic{ false }, isGhost{ false };
+};
+struct CircleCollider {
+  float radius{ 1.f };
+};
+template<typename T>
+void ComponentPrinter( const T& comp ) { std::cout << comp << std::endl; }
+
+void TransformPrinter( const Transform& trans ) {
+  std::cout << "{\n  pos : { " << trans.pos.x << ", " << trans.pos.y << ", " << trans.pos.z << " },\n  "
+    << "{\n  rot : { " << trans.rot.x << ", " << trans.rot.y << ", " << trans.rot.z << " },\n  "
+    << "{\n  scale : { " << trans.scale.x << ", " << trans.scale.y << ", " << trans.scale.z << " }\n}\n";
+}
+
+class TransformPrinterSystem {
+public:
+  EntitiesWith<const Transform> Entities;
+  void Update( ) { 
+    for( const auto& e : Entities ) 
+      TransformPrinter( e.Get<const Transform>( ) );
+  }
+};
+
+class Gravity {
+public:
+  EntitiesWith<RigidBody> Entities;
+  void Update( float dt ) {
+    for( auto & e : Entities ) {
+      auto &rb = e.Get<RigidBody>( );
+      rb.acceleration.y -= dt * 9.81f;
+    }
+  }
+};
+class VelocitySystem {
+public:
+  EntitiesWith<Transform, const RigidBody> Entities;
+  void Update( float dt ) {
+    for( auto &e : Entities ) {
+      const auto &rb = e.Get<const RigidBody>( );
+      auto &tf = e.Get<Transform>( );
+      if( tf.pos.y <= 0.f ) {
+        tf.pos.y = 0.f;
+      } else {
+        tf.pos.x += rb.velocity.x * dt;
+        tf.pos.y += rb.velocity.y * dt;
+        tf.pos.z += rb.velocity.z * dt;
+      }
+    }
+  }
+};
+class AccelerationSystem {
+public:
+  EntitiesWith<RigidBody> Entities;
+  void Update( float dt ) {
+    for( auto & e : Entities ) {
+      auto &rb = e.Get<RigidBody>( );
+      rb.velocity.x += rb.acceleration.x * dt;
+      rb.velocity.y += rb.acceleration.y * dt;
+      rb.velocity.z += rb.acceleration.z * dt;
+    }
+  }
 };
 #include "Simulation.hpp"
 #include "World.hpp"
 void ECSDemo( ) {
   // tests that constraint checking is working correctly
-  static_assert( HasEntities_v<somegameplayshit> );
-  static_assert( HasUpdateMemFn_v<somegameplayshit> );
+  static_assert( SystemTraits<TransformPrinterSystem>::HasEntities );
+  static_assert( SystemTraits<TransformPrinterSystem>::HasVoidUpdate );
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
-  TestWorld.AddSystem<somegameplayshit>( "Some gameplay shit" );
+  TestWorld.AddSystem<Gravity>( "Gravity" );
+  TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
+  TestWorld.AddSystem<VelocitySystem>( "Velocity" );
+  TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
   ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
   enemy.Add<Transform>( ).scale = { 1,2,1 };
+  enemy.Add<RigidBody>( );
+  enemy.Get<Transform>( ).pos.y = 1000.f;
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   EntityRef EnemyB{ EnemyA.Clone( ) };
+  while( EnemyB.Get<Transform>( ).pos.y > 0.f ) {
+    Sim.Run( 1.f / 60.f, TestWorld.Name() );
+  }
 }
 
 

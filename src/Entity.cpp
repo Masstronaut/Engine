@@ -28,6 +28,7 @@ EntityID Entity::Clone( World &world, Entity &entity ) const {
   for( const auto& comp : m_Components ) {
     entity.m_Components.emplace( m_World.GetComponentPool( comp.first )->Clone( comp.second, world ) );
   }
+  world.Emit<EntitySpawnedEvent>( EntitySpawnedEvent( EntityRef( entity.ID( ), &world ) ) );
   return entity.ID( );
 }
 
@@ -44,7 +45,8 @@ Entity& Entity::Name( const std::string &name ) {
 }
 
 EntityRef Entity::Clone( ) const {
-  return m_World.Spawn( EntityRef( this->ID( ), &m_World ) );
+  EntityRef clone{ m_World.Spawn( EntityRef( this->ID( ), &m_World ) ) };
+  return clone;
 }
 
 void * Entity::Get( std::type_index component ) {

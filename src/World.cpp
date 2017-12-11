@@ -1,9 +1,17 @@
 #include "World.hpp"
 #include "Simulation.hpp"
+#include "WorldEvents.hpp"
 
 
 World::World( const std::string &name )
-  : m_Name( name ) { }
+  : m_Name( name ) { 
+  this->On<EntitySpawnedEvent>( [ & ]( const EntitySpawnedEvent &event ) {
+    for( auto &agg : m_Aggregates ) agg.OnEntityCreated( event.entity );
+  } );
+  this->On<EntityDeathEvent>( [ & ]( const EntityDeathEvent &event ) {
+    for( auto &agg : m_Aggregates ) agg.OnEntityDestroyed( event.entity );
+  } );
+}
 
 
 void * World::GetComponent( EntityID component, std::type_index ComponentType ) {
@@ -42,6 +50,10 @@ ComponentPoolBase * World::GetComponentPool( std::type_index Component ) {
     return it->second.get( );
   }
   return nullptr;
+}
+
+void World::Update( float dt ) {
+  for( auto &updater : m_Updaters ) updater( dt );
 }
 
 bool World::operator==( const World &rhs ) {

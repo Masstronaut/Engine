@@ -11,7 +11,7 @@ protected:
   virtual void PushEntity( const EntityRef& ) = 0;
 };
 template<typename... Args>
-class EntitiesWith : EntitiesWithBase {
+class EntitiesWith : public EntitiesWithBase {
 public:
   using iterator = typename std::vector< ConstrainedEntityRef<Args...> >::iterator;
   using const_iterator = typename std::vector< ConstrainedEntityRef<Args...> >::const_iterator;

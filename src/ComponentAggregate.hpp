@@ -27,9 +27,9 @@ public:
   // If it does
   void OnEntityCreated( const EntityRef &entity );
   void OnEntityDestroyed( const EntityRef &entity );
-private:
   template<typename... Args>
-  bool AddEntityList( EntitiesWith<Args...>& );
+  void AddEntityList( EntitiesWith<Args...>& );
+private:
   template<typename T>
   void AddType( ) {
     static_assert( !std::is_reference_v<T>, "References may not be used as components. Try changing \"Component&\" to \"Component\"." );
@@ -38,15 +38,14 @@ private:
   template<typename T, typename T2, typename... Args>
   void AddType( ) {
     AddType<T>( );
-    AddType<T2>( );
-    AddType<Args...>( );
+    AddType<T2, Args...>( );
     std::sort( std::begin( m_Components ), std::end( m_Components ) );
   }
   std::vector<EntityRef> m_Entities;
   std::vector<std::type_index> m_Components;
   // These can be updated in constant time with events
   std::vector<EntitiesWithBase*> m_EntityLists;
-  std::vector<std::function<void( const std::vector<EntityRef> & )>> m_Systems;
+  std::vector<std::function<void( const std::vector<EntityRef> & )>> m_Updaters;
 
 };
 
@@ -60,10 +59,10 @@ bool ComponentAggregate::Matches( ) const {
 
 
 template<typename... Args>
-bool ComponentAggregate::AddEntityList( EntitiesWith<Args...> &ew ) {
+void ComponentAggregate::AddEntityList( EntitiesWith<Args...> &ew ) {
   assert( this->Matches<Args...>( ) && "Only call ComponentAggregate::AddEntityList after verifying it matches." );
   m_EntityLists.push_back( &ew );
-  m_EntityLists.back( ).SetEntities( m_Entities );
+  m_EntityLists.back( )->SetEntities( m_Entities );
 }
 
 

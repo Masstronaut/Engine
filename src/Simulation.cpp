@@ -3,8 +3,10 @@
 #include "World.hpp"
 
 
-void Simulation::Run( double timestep ) {
-
+void Simulation::Run( double timestep, const std::string &world ) {
+  while( true ) {
+    this->GetWorld( world ).Update( timestep );
+  }
 }
 World& Simulation::CreateWorld( const std::string &name ) {
   auto result{ m_Worlds.emplace( name, name ) };
@@ -21,5 +23,5 @@ World& Simulation::GetWorld( const std::string &name ) {
 }
 
 ArchetypeRef Simulation::CreateArchetype( const std::string & name ) {
-  return this->GetWorld( "Archetype World" ).CreateEntity( name );
+  return this->CreateWorld( "Archetype World" ).CreateEntity( name );
 }

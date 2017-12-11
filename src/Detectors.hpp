@@ -1,12 +1,16 @@
 #pragma once
-
 #include <detection_idiom.hpp>
 
-
+namespace detail {
+struct Wildcard {
+  template<typename T>
+  operator T( );
+};
+}
 
 #define GENERATE_DETECT_HAS_VEC_FIELD( FIELD ) \
 template<typename T> \
-using FIELD##_field = decltype( std::declval<T&>( ).FIELD.x ); \
+using FIELD##_field = decltype( std::declval<T&>( ).FIELD.x + std::declval<T&>( ).FIELD.y ); \
 template<typename T> \
 using has_##FIELD##_field = is_detected<FIELD##_field, T>; \
 template<typename T> \
@@ -39,15 +43,20 @@ GENERATE_DETECT_HAS_VOID_MEMFN( Reload );
 GENERATE_DETECT_HAS_VOID_MEMFN( Load );
 GENERATE_DETECT_HAS_VOID_MEMFN( Unload );
 
+template<typename T>
+using UpdateDTMemFn = decltype( std::declval<T&>( ).Update( std::declval<float>() ) );
+template<typename T>
+using HasUpdateDTMemFn = is_detected<UpdateDTMemFn, T>;
+template<typename T>
+constexpr bool HasUpdateDTMemFn_v = HasUpdateDTMemFn<T>::value;
+
 
 // engine constraints detection
 template<typename T>
-constexpr bool is_pure_system_v{ std::is_empty_v<T> };
+constexpr bool IsPureSystem_v = std::is_empty_v<T>;
 
 template<typename T>
-constexpr bool is_pure_component_v{ std::is_pod_v<T> };
-
-#include "type_list.hpp"
+constexpr bool IsPureComponent_v = std::is_pod_v<T>;
 template<typename... Args>
 class EntitiesWith;
 

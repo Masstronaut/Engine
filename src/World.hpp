@@ -10,8 +10,10 @@
 #include "EventArena.hpp"
 #include "Entity.hpp"
 #include "ComponentAggregate.hpp"
+#include "SystemTraits.hpp"
 class ArchetypeRef;
 class World;
+class SystemBase;
 class ComponentPoolBase {
 public:
   ComponentPoolBase( ) = default;
@@ -65,18 +67,30 @@ public:
   // Pure systems of the form (dt) which are called once per frame
   template<typename ReturnType>
   void AddSystem( ReturnType( *fn )( float ), const std::string& name = "Nameless System" );
+  template<typename ReturnType>
+  void AddSystem( ReturnType( *fn )( void ), const std::string& name = "Nameless System" );
+  // Lambda functions that are called once per frame
+  template<typename Predicate>
+  void AddSystem( Predicate&& pred, const std::string &name );
   // Member functions that run once per update tick
   template<typename ReturnType, typename ClassName>
-  void AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string&& name = "Nameless System" );
+  void AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string& name = "Nameless System" );
+  template<typename ReturnType, typename ClassName>
+  void AddSystem( ReturnType( ClassName::*fn )( void ), ClassName& instance, const std::string& name = "Nameless System" );
+
   // const Member functions that run once per update tick
   template<typename ReturnType, typename ClassName>
-  void AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string&& name = "Nameless System" );
+  void AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string& name = "Nameless System" );
+  template<typename ReturnType, typename ClassName>
+  void AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassName& instance, const std::string& name = "Nameless System" );
 
   template<typename... Args>
   void RegisterEntitiesWith( EntitiesWith<Args...>& );
 
   template<typename T>
   void AddSystem( const std::string &name = "Nameless System" );
+
+  void Update( float dt );
 
   bool operator==( const World &rhs );
   const std::string& Name( ) const;
@@ -112,9 +126,10 @@ private:
   std::unordered_map<std::type_index, std::unique_ptr<ComponentPoolBase>> m_Components;
   slot_map<Entity> m_Entities;
   std::vector<ComponentAggregate> m_Aggregates;
-  std::vector<Updater> m_Systems;
+  std::vector<Updater> m_Updaters;
+  std::vector<std::unique_ptr<SystemBase>> m_Systems;
 };
-
+#include "System.hpp"
 template<typename T>
 T& World::GetComponent( EntityID entity ) {
   return GetComponentPool<std::decay_t<T>>( ).components[ entity ];
@@ -155,38 +170,59 @@ ComponentAggregate& World::GetAggregate( type_list<Args...> ) {
 }
 template<typename ReturnType>
 void World::AddSystem( ReturnType( *fn )( float ), const std::string& name ) {
-  m_Systems.emplace_back( Updater{ std::move( name ),
+  m_Updaters.emplace_back( std::move( name ),
                           [ fn ]( float dt ) {
                             fn( dt );
-                          }
-  } );
+                          } );
+}
+template<typename ReturnType>
+inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & name ) {
+  m_Updaters.emplace_back( std::move( name ),
+                           [ fn ]( float ) {
+                             fn( );
+                           } );
+}
+template<typename Predicate>
+inline void World::AddSystem( Predicate && pred, const std::string & name ) {
+  this->AddSystem( &Predicate::operator(), std::forward<Predicate>( pred ), name );
 }
 // Member functions that run once per update tick
 template<typename ReturnType, typename ClassName>
-void World::AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string&& name ) {
-  m_Systems.emplace_back( Updater{ std::move( name ),
+void World::AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string& name ) {
+  m_Updaters.emplace_back( std::move( name ),
                            [ fn, &instance ]( float dt ) {
                              ( instance.*fn )( dt );
-                           }
-  } );
+                           } );
+}
+template<typename ReturnType, typename ClassName>
+inline void World::AddSystem( ReturnType( ClassName::* fn )( void ), ClassName & instance, const std::string & name ) { 
+  m_Updaters.emplace_back( std::move( name ),
+                           [ fn, &instance ]( float ) {
+                             ( instance.*fn )( );
+                           } );
 }
 // const Member functions that run once per update tick
 template<typename ReturnType, typename ClassName>
-void World::AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string&& name ) {
-  m_System.emplace_back( Updater{ std::move( name ),
+void World::AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string& name ) {
+  m_Updaters.emplace_back( std::move( name ),
                            [ fn, &instance ]( float dt ) {
                              ( instance.*fn )( dt );
-                           }
-  } );
+                           } );
 }
-
+template<typename ReturnType, typename ClassName>
+void World::AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassName& instance, const std::string& name ) {
+  m_Updaters.emplace_back( std::move( name ),
+                           [ fn, &instance ]( float ) {
+                             ( instance.*fn )( );
+                           } );
+}
 template<typename T>
 void World::AddSystem( const std::string &name ) {
-  if constexpr( std::is_empty_v<T> ) {
+  if constexpr( SystemTraits<T>::IsPureSystem ) {
     // PURE system
     AddPureSystem<T>( name );
   }
-  if constexpr ( !std::is_empty_v<T> ) {
+  if constexpr ( !SystemTraits<T>::IsPureSystem ) {
     // STATEFUL system
     AddStatefulSystem<T>( name );
   }
@@ -207,10 +243,7 @@ void World::AddPureSystem( const std::string & name ) {
 }
 template<typename T>
 void World::AddStatefulSystem( const std::string & name ) {
-  if constexpr( HasEntities_v<T> ) {
-    ComponentAggregate& agg{ GetAggregate<decltype(T::Entities)>( ) };
-  }
-  //static_assert( 0, "Implementation of World::AddStatefulSystem does not yet exist." );
+  m_Systems.push_back( std::move( std::unique_ptr<SystemBase>( new System<T>( *this, name ) ) ) );
 }
 
 
