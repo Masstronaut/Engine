@@ -322,6 +322,9 @@ public:
     }
   }
 };
+void Foo(float dt, const RigidBody&, const Transform& ){ 
+  std::cout << "foo invoked.\n";
+}
 #include "Simulation.hpp"
 #include "World.hpp"
 void ECSDemo( ) {
@@ -334,6 +337,7 @@ void ECSDemo( ) {
   TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
   TestWorld.AddSystem<VelocitySystem>( "Velocity" );
   TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
+  TestWorld.AddSystem( Foo, "Foo" );
   ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
   enemy.Add<Transform>( ).scale = { 1,2,1 };
   enemy.Add<RigidBody>( );

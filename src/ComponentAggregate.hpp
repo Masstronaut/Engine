@@ -21,7 +21,9 @@ public:
   // Expects the vector of hashes to be sorted. 
   bool Matches( const std::vector<std::type_index>& hashes );
 
-
+  void AddSystem( std::function<void( const std::vector<EntityRef> & )>&& fn ) {
+    m_Updaters.push_back( std::move(fn) );
+  }
 
   // Check if the entity has all the components of this aggregate.
   // If it does
@@ -45,7 +47,7 @@ private:
   std::vector<std::type_index> m_Components;
   // These can be updated in constant time with events
   std::vector<EntitiesWithBase*> m_EntityLists;
-  std::vector<std::function<void( const std::vector<EntityRef> & )>> m_Updaters;
+  std::vector<std::function<void( std::vector<EntityRef> & )>> m_Updaters;
 
 };
 

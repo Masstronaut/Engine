@@ -185,6 +185,7 @@
   <ItemGroup>
     <ClInclude Include="..\src\Camera.hpp" />
     <ClInclude Include="..\src\ComponentAggregate.hpp" />
+    <ClInclude Include="..\src\ComponentTraits.hpp" />
     <ClInclude Include="..\src\Detectors.hpp" />
     <ClInclude Include="..\src\Entity.hpp" />
     <ClInclude Include="..\src\EntityID.hpp" />

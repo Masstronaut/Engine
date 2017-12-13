@@ -43,6 +43,7 @@ GENERATE_DETECT_HAS_VOID_MEMFN( Reload );
 GENERATE_DETECT_HAS_VOID_MEMFN( Load );
 GENERATE_DETECT_HAS_VOID_MEMFN( Unload );
 
+
 template<typename T>
 using UpdateDTMemFn = decltype( std::declval<T&>( ).Update( std::declval<float>() ) );
 template<typename T>
@@ -50,13 +51,17 @@ using HasUpdateDTMemFn = is_detected<UpdateDTMemFn, T>;
 template<typename T>
 constexpr bool HasUpdateDTMemFn_v = HasUpdateDTMemFn<T>::value;
 
+template<typename T>
+using OperatorFnCall = decltype( T::operator() );
+template<typename T>
+using HasOperatorFnCall = is_detected<OperatorFnCall, T>;
+template<typename T>
+constexpr bool HasOperatorFnCall_v = HasOperatorFnCall<T>::value;
 
 // engine constraints detection
 template<typename T>
 constexpr bool IsPureSystem_v = std::is_empty_v<T>;
 
-template<typename T>
-constexpr bool IsPureComponent_v = std::is_pod_v<T>;
 template<typename... Args>
 class EntitiesWith;
 
@@ -73,14 +78,29 @@ constexpr bool IsEntitiesWith_v = IsEntitiesWith<T>::value;
 // Detect if a system has a list of components it wants to iterate over
 template<typename T>
 using DetectEntitiesMember = decltype(T::Entities);
-
 template<typename T>
 using HasEntities = is_detected<DetectEntitiesMember, T>;
-
 template<typename T>
 constexpr bool HasEntities_v = HasEntities<T>::value && IsEntitiesWith_v<decltype(T::Entities)>;
 
+// detect if a component wants to know its owner
+template<typename T>
+using DetectOwnerMember = decltype( T::Owner );
+template<typename T>
+using HasOwner = is_detected<DetectOwnerMember, T>;
+template<typename T>
+constexpr bool HasOwner_v = HasOwner<T>::value && std::is_same_v<decltype(T::Owner), EntityRef>;
 
 // composition of all minimum requirements for a component
 template<typename T>
-constexpr bool is_component = std::is_copy_constructible_v<T>;
+constexpr bool IsComponent_v = std::is_copy_constructible_v<T>;
+
+
+template<typename T>
+constexpr bool IsPureComponent_v = std::is_pod_v<T>
+&& !HasUpdateMemFn_v<T> 
+&& !HasUpdateDTMemFn_v<T> 
+&& !HasEditorUpdateMemFn_v<T>
+&& !HasOwner_v<T>
+&& !HasFrameStartMemFn_v<T>
+&& !HasFrameEndMemFn_v<T>;

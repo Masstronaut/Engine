@@ -4,9 +4,7 @@
 
 
 void Simulation::Run( double timestep, const std::string &world ) {
-  while( true ) {
-    this->GetWorld( world ).Update( timestep );
-  }
+  this->GetWorld( world ).Update( timestep );
 }
 World& Simulation::CreateWorld( const std::string &name ) {
   auto result{ m_Worlds.emplace( name, name ) };

@@ -28,6 +28,7 @@ template<typename Component>
 class ComponentPool : public ComponentPoolBase {
 public:
   ComponentPool( ) = default;
+  ComponentPool( World &world);
   ~ComponentPool( ) = default;
   virtual void* Get( EntityID ID ) final {
     return &components[ ID ];
@@ -69,8 +70,11 @@ public:
   void AddSystem( ReturnType( *fn )( float ), const std::string& name = "Nameless System" );
   template<typename ReturnType>
   void AddSystem( ReturnType( *fn )( void ), const std::string& name = "Nameless System" );
+  // Pure systems of the form (dt, Args...) which are called once per valid entity per frame
+  template<typename ReturnType, typename... Args>
+  void AddSystem( ReturnType( *fn )( float, Args&... ), const std::string& name );
   // Lambda functions that are called once per frame
-  template<typename Predicate>
+  template<typename Predicate, typename = std::enable_if<HasOperatorFnCall_v<Predicate>>>
   void AddSystem( Predicate&& pred, const std::string &name );
   // Member functions that run once per update tick
   template<typename ReturnType, typename ClassName>
@@ -129,6 +133,31 @@ private:
   std::vector<Updater> m_Updaters;
   std::vector<std::unique_ptr<SystemBase>> m_Systems;
 };
+#include "ComponentTraits.hpp"
+template<typename Component>
+inline ComponentPool<Component>::ComponentPool( World &world ) { 
+  if constexpr( ComponentTraits<Component>::HasVoidUpdate ) {
+    world.AddSystem( [ & ]( float dt ) {
+      for( auto &comp : components ) comp.Update( );
+    }, typeid( Component ).name( ) + "::Update()"s );
+  }
+  if constexpr( ComponentTraits<Component>::HasDTUpdate ) {
+    world.AddSystem( [ & ]( float dt ) {
+      for( auto &comp : components ) comp.Update( dt );
+    }, typeid( Component ).name( ) + "::Update(dt)"s );
+  }
+  if constexpr( ComponentTraits<Component>::HasFixedUpdate ) {
+    world.AddSystem( [ &, time = 0.f ]( float dt ) {
+      time += dt;
+      //@@TODO: change this to use whatever the fixed update frequency specified is
+      if( time >= 1.f / 60.f ) {
+        time -= 1.f / 60.f;
+        for( auto &comp : components ) comp.Update( );
+      }
+    }, typeid( Component ).name( ) + "::Update()"s );
+  }
+}
+
 #include "System.hpp"
 template<typename T>
 T& World::GetComponent( EntityID entity ) {
@@ -182,7 +211,16 @@ inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & nam
                              fn( );
                            } );
 }
-template<typename Predicate>
+template<typename ReturnType, typename ...Args>
+inline void World::AddSystem( ReturnType( *fn )( float, Args&... args ), const std::string & name ) { 
+  GetAggregate<Args...>( ).AddSystem( [ fn ]( std::vector<EntityRef> &ents ) {
+    for( auto &ent : ents ) {
+      // @@TODO: Change this to be not hard coded
+      fn( 1.f / 60.f, ent.Get<Args>( )... );
+    }
+  });
+}
+template<typename Predicate, typename>
 inline void World::AddSystem( Predicate && pred, const std::string & name ) {
   this->AddSystem( &Predicate::operator(), std::forward<Predicate>( pred ), name );
 }
