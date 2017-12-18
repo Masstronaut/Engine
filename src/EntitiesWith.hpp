@@ -16,31 +16,15 @@ public:
   using iterator = typename std::vector< ConstrainedEntityRef<Args...> >::iterator;
   using const_iterator = typename std::vector< ConstrainedEntityRef<Args...> >::const_iterator;
 
-  iterator begin( ) {
-    return m_Entities.begin( );
-  }
-  iterator end( ) {
-    return m_Entities.end( );
-  }
-  const_iterator begin( ) const {
-    return m_Entities.cbegin( );
-  }
-  const_iterator end( ) const {
-    return m_Entities.cend( );
-  }
-  const_iterator cbegin( ) const {
-    return m_Entities.cbegin( );
-  }
+  iterator begin( );
+  iterator end( );
+  const_iterator begin( ) const;
+  const_iterator end( ) const;
+  const_iterator cbegin( ) const;
 
-  const_iterator cend( ) const {
-    return m_Entities.cend( );
-  }
-  ConstrainedEntityRef<Args...>& operator[]( std::size_t pos ) {
-    return m_Entities[ pos ];
-  }
-  const ConstrainedEntityRef<Args...>& operator[]( std::size_t pos ) const {
-    return m_Entities[ pos ];
-  }
+  const_iterator cend( ) const;
+  ConstrainedEntityRef<Args...>& operator[]( std::size_t pos );
+  const ConstrainedEntityRef<Args...>& operator[]( std::size_t pos ) const;
 private:
   // @@TODO:
   // If you can make this just a reference to the vector 
@@ -56,6 +40,36 @@ private:
   void PushEntity( const EntityRef& ) final;
 };
 
+template<typename ...Args>
+inline typename EntitiesWith<Args...>::iterator EntitiesWith<Args...>::begin( ) {
+  return m_Entities.begin( );
+}
+
+template<typename... Args>
+inline typename EntitiesWith<Args...>::iterator EntitiesWith<Args...>::end( ) {
+  return m_Entities.end( );
+}
+
+template<typename ...Args>
+inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<Args...>::begin( ) const {
+  return m_Entities.cbegin( );
+}
+
+template<typename... Args>
+inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<Args...>::end( ) const {
+  return m_Entities.cend( );
+}
+
+template<typename ...Args>
+inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<Args...>::cbegin( ) const {
+  return m_Entities.cbegin( );
+}
+
+template<typename ...Args>
+inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<Args...>::cend( ) const {
+  return m_Entities.cend( );
+}
+
 template<typename... Args>
 void EntitiesWith<Args...>::SetEntities( const std::vector<EntityRef> &entities ) {
   m_Entities.assign( std::begin( entities ), std::end( entities ) );
@@ -70,4 +84,14 @@ void EntitiesWith<Args...>::SwapPopEntity( std::size_t index ) {
 template<typename... Args>
 void EntitiesWith<Args...>::PushEntity( const EntityRef& entity ) {
   m_Entities.push_back( entity );
+}
+
+template<typename... Args>
+ConstrainedEntityRef<Args...>& EntitiesWith<Args...>::operator[]( std::size_t pos ) {
+  return m_Entities[ pos ];
+}
+
+template<typename... Args>
+const ConstrainedEntityRef<Args...>& EntitiesWith<Args...>::operator[]( std::size_t pos ) const {
+  return m_Entities[ pos ];
 }

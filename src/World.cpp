@@ -59,3 +59,7 @@ void World::Update( float dt ) {
 bool World::operator==( const World &rhs ) {
   return ( this == &rhs );
 }
+
+World::Updater::Updater( const std::string && Name, std::function<void( float )>&& Fn )
+  : name( std::move( Name ) )
+  , fn( std::move( Fn ) ) { }

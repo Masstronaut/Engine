@@ -30,9 +30,7 @@ public:
   ComponentPool( ) = default;
   ComponentPool( World &world);
   ~ComponentPool( ) = default;
-  virtual void* Get( EntityID ID ) final {
-    return &components[ ID ];
-  }
+  virtual void* Get( EntityID ID ) final;
   // @@TODO: On Clone() all ComponentAggregates holding
   // this type of component need to re-fetch pointers if reallocation occurred.
   // The easiest way to do this is probably an event triggering the re-fetch.
@@ -88,6 +86,10 @@ public:
   template<typename ReturnType, typename ClassName>
   void AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassName& instance, const std::string& name = "Nameless System" );
 
+
+  template<typename... Args>
+  ComponentAggregate& GetAggregate( );
+
   template<typename... Args>
   void RegisterEntitiesWith( EntitiesWith<Args...>& );
 
@@ -111,9 +113,7 @@ protected:
   void AddStatefulSystem( const std::string & = "Nameless System" );
   class Updater {
   public:
-    Updater( const std::string&& Name, std::function<void( float )>&& Fn )
-      : name( std::move( Name ) )
-      , fn( std::move( Fn ) ) { }
+    Updater( const std::string&& Name, std::function<void( float )>&& Fn );
     inline void operator()( float dt ) const { fn( dt ); }
     std::string name;
     std::function<void( float )> fn;
@@ -121,8 +121,6 @@ protected:
   template<typename T>
   ComponentPool<T>& GetComponentPool( );
   ComponentPoolBase* GetComponentPool( std::type_index Component );
-  template<typename... Args>
-  ComponentAggregate& GetAggregate( );
   template<typename... Args>
   ComponentAggregate& GetAggregate( type_list<Args...> );
 private:
@@ -158,6 +156,11 @@ inline ComponentPool<Component>::ComponentPool( World &world ) {
   }
 }
 
+template<typename Component>
+inline void * ComponentPool<Component>::Get( EntityID ID ) {
+  return &components[ ID ];
+}
+
 #include "System.hpp"
 template<typename T>
 T& World::GetComponent( EntityID entity ) {
@@ -190,8 +193,6 @@ ComponentAggregate& World::GetAggregate( ) {
     }
   }
   m_Aggregates.emplace_back( type_list<Args...>{} );
-  // @@TODO: have this invoke the Update method on the aggregate on each update tick.
-  // NOTE: you can't capture a pointer since it will be invalidated on vector resize.
   return m_Aggregates.back( );
 }
 
@@ -215,7 +216,8 @@ inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & nam
 }
 template<typename ReturnType, typename ...Args>
 inline void World::AddSystem( ReturnType( *fn )( float, Args&... args ), const std::string & name ) { 
-  GetAggregate<Args...>( ).AddSystem( [ fn ](float dt, std::vector<EntityRef> &ents ) {
+  m_Updaters.emplace_back(std::move(name), [ fn, this ]( float dt) {
+    std::vector<EntityRef>& ents{ this->GetAggregate<Args...>( ).GetEntities( ) };
     for( auto &ent : ents ) {
       fn( dt, ent.Get<Args>( )... );
     }
