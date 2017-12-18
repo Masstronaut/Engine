@@ -190,6 +190,8 @@ ComponentAggregate& World::GetAggregate( ) {
     }
   }
   m_Aggregates.emplace_back( type_list<Args...>{} );
+  // @@TODO: have this invoke the Update method on the aggregate on each update tick.
+  // NOTE: you can't capture a pointer since it will be invalidated on vector resize.
   return m_Aggregates.back( );
 }
 
@@ -209,14 +211,13 @@ inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & nam
   m_Updaters.emplace_back( std::move( name ),
                            [ fn ]( float ) {
                              fn( );
-                           } );
+                           });
 }
 template<typename ReturnType, typename ...Args>
 inline void World::AddSystem( ReturnType( *fn )( float, Args&... args ), const std::string & name ) { 
-  GetAggregate<Args...>( ).AddSystem( [ fn ]( std::vector<EntityRef> &ents ) {
+  GetAggregate<Args...>( ).AddSystem( [ fn ](float dt, std::vector<EntityRef> &ents ) {
     for( auto &ent : ents ) {
-      // @@TODO: Change this to be not hard coded
-      fn( 1.f / 60.f, ent.Get<Args>( )... );
+      fn( dt, ent.Get<Args>( )... );
     }
   });
 }
