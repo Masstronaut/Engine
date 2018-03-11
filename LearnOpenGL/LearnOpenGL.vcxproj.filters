@@ -163,5 +163,8 @@
     <ClInclude Include="..\src\ComponentTraits.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\src\NoCopy.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

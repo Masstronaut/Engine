@@ -71,3 +71,8 @@ template<typename... Args>
 void EntitiesWith<Args...>::PushEntity( const EntityRef& entity ) {
   m_Entities.push_back( entity );
 }
+
+template<typename ReturnType, typename Class, typename... Args>
+EntitiesWith<std::remove_reference_t<Args>...> EntitiesToProcess( ReturnType( Class::*Fn )( Args... )const ) {
+  return EntitiesWith<std::remove_reference_t<Args>...>{};
+}

@@ -65,17 +65,18 @@ public:
   // STATEFUL systems (require singleton data, maybe multiple entity lists)
   // Full class systems
 
+  // systems that have already been configured by the engine internally
+  void AddSystem( std::function<void( float )> &&fn, std::string &name );
+
   // Pure systems of the form (dt) which are called once per frame
   template<typename ReturnType>
   void AddSystem( ReturnType( *fn )( float ), const std::string& name = "Nameless System" );
   template<typename ReturnType>
   void AddSystem( ReturnType( *fn )( void ), const std::string& name = "Nameless System" );
-  // Pure systems of the form (dt, Args...) which are called once per valid entity per frame
-  template<typename ReturnType, typename... Args>
-  void AddSystem( ReturnType( *fn )( float, Args&... ), const std::string& name );
   // Lambda functions that are called once per frame
-  template<typename Predicate, typename = std::enable_if<HasOperatorFnCall_v<Predicate>>>
-  void AddSystem( Predicate&& pred, const std::string &name );
+  template<typename Predicate>
+  std::enable_if_t<HasOperatorFnCall_v<Predicate>>
+    AddSystem( Predicate&& pred, const std::string &name );
   // Member functions that run once per update tick
   template<typename ReturnType, typename ClassName>
   void AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string& name = "Nameless System" );
@@ -88,11 +89,17 @@ public:
   template<typename ReturnType, typename ClassName>
   void AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassName& instance, const std::string& name = "Nameless System" );
 
+  // whole class systems
+  template<typename T>
+  void AddSystem( const std::string &name = "Nameless System" );
+  
+  void AddUpdater( const std::string& Name, std::function<void( float )>&& Fn ) {
+    m_Updaters.emplace_back( Name, Fn );
+  }
+
   template<typename... Args>
   void RegisterEntitiesWith( EntitiesWith<Args...>& );
 
-  template<typename T>
-  void AddSystem( const std::string &name = "Nameless System" );
 
   void Update( float dt );
 
@@ -106,14 +113,16 @@ protected:
   friend class Entity;
   EntityRef CreateEntity( const std::string &name );
   template<typename T>
-  void AddPureSystem( const std::string & = "Nameless System" );
+  void AddPureSystem( const std::string & = "Nameless Pure System" );
   template<typename T>
-  void AddStatefulSystem( const std::string & = "Nameless System" );
+  void AddStatefulSystem( const std::string & = "Nameless Stateful System" );
+  template<typename T>
+  void AddParallelSystem( const std::string & = "Nameless Parallel System" );
   class Updater {
   public:
-    Updater( const std::string&& Name, std::function<void( float )>&& Fn )
-      : name( std::move( Name ) )
-      , fn( std::move( Fn ) ) { }
+    Updater( const std::string& Name, std::function<void( float )>& Fn )
+      : name( Name )
+      , fn( Fn ) { }
     inline void operator()( float dt ) const { fn( dt ); }
     std::string name;
     std::function<void( float )> fn;
@@ -190,6 +199,9 @@ ComponentAggregate& World::GetAggregate( ) {
     }
   }
   m_Aggregates.emplace_back( type_list<Args...>{} );
+  for( const auto &entity : m_Entities ) {
+    m_Aggregates.back( ).OnEntityCreated( EntityRef( entity.ID(), this ) );
+  }
   return m_Aggregates.back( );
 }
 
@@ -211,19 +223,15 @@ inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & nam
                              fn( );
                            } );
 }
-template<typename ReturnType, typename ...Args>
-inline void World::AddSystem( ReturnType( *fn )( float, Args&... args ), const std::string & name ) { 
-  GetAggregate<Args...>( ).AddSystem( [ fn ]( std::vector<EntityRef> &ents ) {
-    for( auto &ent : ents ) {
-      // @@TODO: Change this to be not hard coded
-      fn( 1.f / 60.f, ent.Get<Args>( )... );
-    }
-  });
-}
-template<typename Predicate, typename>
-inline void World::AddSystem( Predicate && pred, const std::string & name ) {
+
+
+template<typename Predicate>
+inline std::enable_if_t<HasOperatorFnCall_v<Predicate>> 
+World::AddSystem( Predicate && pred, const std::string & name ) {
   this->AddSystem( &Predicate::operator(), std::forward<Predicate>( pred ), name );
 }
+
+
 // Member functions that run once per update tick
 template<typename ReturnType, typename ClassName>
 void World::AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string& name ) {
@@ -234,10 +242,10 @@ void World::AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instanc
 }
 template<typename ReturnType, typename ClassName>
 inline void World::AddSystem( ReturnType( ClassName::* fn )( void ), ClassName & instance, const std::string & name ) { 
-  m_Updaters.emplace_back( std::move( name ),
+  m_Updaters.emplace_back( std::move( name ), std::function<void(float)>(
                            [ fn, &instance ]( float ) {
                              ( instance.*fn )( );
-                           } );
+  } ) );
 }
 // const Member functions that run once per update tick
 template<typename ReturnType, typename ClassName>
@@ -256,11 +264,14 @@ void World::AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassNa
 }
 template<typename T>
 void World::AddSystem( const std::string &name ) {
-  if constexpr( SystemTraits<T>::IsPureSystem ) {
+  if constexpr ( SystemTraits<T>::IsParallelSystem ) {
+    AddParallelSystem<T>( name );
+  }
+  else if constexpr( SystemTraits<T>::IsPureSystem ) {
     // PURE system
     AddPureSystem<T>( name );
   }
-  if constexpr ( !SystemTraits<T>::IsPureSystem ) {
+  else if constexpr ( !SystemTraits<T>::IsPureSystem ) {
     // STATEFUL system
     AddStatefulSystem<T>( name );
   }
@@ -276,11 +287,16 @@ void World::RegisterEntitiesWith( EntitiesWith<Args...> &ew ) {
 
 #include "Detectors.hpp"
 template<typename T>
-void World::AddPureSystem( const std::string & name ) {
+void World::AddPureSystem( const std::string &name ) {
   static_assert( 0, "implementation of World::AddPureSystem does not yet exist." );
 }
 template<typename T>
-void World::AddStatefulSystem( const std::string & name ) {
+void World::AddStatefulSystem( const std::string &name ) {
+  m_Systems.push_back( std::move( std::unique_ptr<SystemBase>( new System<T>( *this, name ) ) ) );
+}
+
+template<typename T>
+void World::AddParallelSystem( const std::string &name) {
   m_Systems.push_back( std::move( std::unique_ptr<SystemBase>( new System<T>( *this, name ) ) ) );
 }
 

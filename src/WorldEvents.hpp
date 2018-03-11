@@ -14,3 +14,7 @@ struct EntityDeathEvent {
   EntityDeathEvent( const EntityDeathEvent& ) = default;
   EntityRef entity;
 };
+
+struct UpdateEvent {
+  float Dt = 1.f / 60.f;
+};

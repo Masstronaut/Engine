@@ -196,6 +196,7 @@
     <ClInclude Include="..\src\GLProgram.hpp" />
     <ClInclude Include="..\src\GLShader.hpp" />
     <ClInclude Include="..\src\Model.hpp" />
+    <ClInclude Include="..\src\NoCopy.hpp" />
     <ClInclude Include="..\src\Renderer.hpp" />
     <ClInclude Include="..\src\RendererCommon.hpp" />
     <ClInclude Include="..\src\Resource.hpp" />

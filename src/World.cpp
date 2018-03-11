@@ -34,6 +34,10 @@ EntityRef World::Spawn( EntityRef archetype ) {
   return ent;
 }
 
+void World::AddSystem( std::function<void( float )>&& fn, std::string &name ) {
+  m_Updaters.emplace_back( name, fn );
+}
+
 const std::string& World::Name( ) const {
   return m_Name;
 }
@@ -53,6 +57,7 @@ ComponentPoolBase * World::GetComponentPool( std::type_index Component ) {
 }
 
 void World::Update( float dt ) {
+  this->Emit( UpdateEvent{ dt } );
   for( auto &updater : m_Updaters ) updater( dt );
 }
 

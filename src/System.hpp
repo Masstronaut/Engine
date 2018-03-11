@@ -1,5 +1,6 @@
 #pragma once
 #include <functional>
+#include <utility> // forward
 #include "SystemTraits.hpp"
 #include "WorldEvents.hpp"
 class World;
@@ -13,7 +14,9 @@ public:
   virtual bool HasEditorUpdate( ) const = 0;
   virtual bool HasFrameStart( ) const = 0;
   virtual bool HasFrameEnd( ) const = 0;
-
+  virtual bool HasPreProcess( ) const = 0;
+  virtual bool HasProcess( ) const = 0;
+  virtual bool IsParallelSystem( ) const = 0;
   virtual bool IsPureSystem( ) const = 0;
 };
 
@@ -28,8 +31,11 @@ public:
   virtual bool HasEditorUpdate( ) const final { return SystemTraits<T>::HasEditorUpdate; }
   virtual bool HasFrameStart( ) const final { return SystemTraits<T>::HasFrameStart; }
   virtual bool HasFrameEnd( ) const final { return SystemTraits<T>::HasFrameEnd; }
+  virtual bool HasPreProcess( ) const final { return SystemTraits<T>::HasPreProcess; }
+  virtual bool HasProcess( ) const final { return SystemTraits<T>::HasProcess; }
 
   virtual bool IsPureSystem( ) const final { return SystemTraits<T>::IsPureSystem; }
+  virtual bool IsParallelSystem( ) const { return SystemTraits<T>::IsParallelSystem; }
 
 private:
   virtual void AddSystem( World &world ) final;
@@ -38,6 +44,8 @@ private:
   void RegisterDTUpdate( World &world );
   void RegisterFixedUpdate( World &world );
   void RegisterEditorUpdate( World &world );
+  void RegisterParallelSystemProcess( World &world );
+  void RegisterDtMember( World &world );
   T instance;
   std::string m_name;
 };
@@ -51,21 +59,26 @@ inline System<T>::System( World &world, const std::string & name )
 template<typename T>
 inline void System<T>::AddSystem( World & world ) { 
   if constexpr( SystemTraits<T>::HasEntities ) {
-    RegisterEntities( world );
+    this->RegisterEntities( world );
   }
   if constexpr( SystemTraits<T>::HasVoidUpdate ) {
-    RegisterVoidUpdate( world );
+    this->RegisterVoidUpdate( world );
   }
   if constexpr ( SystemTraits<T>::HasDTUpdate ) {
-    RegisterDTUpdate( world );
+    this->RegisterDTUpdate( world );
   }
   if constexpr( SystemTraits<T>::HasFixedUpdate ) {
-    RegisterFixedUpdate( world );
+    this->RegisterFixedUpdate( world );
   }
   if constexpr( SystemTraits<T>::HasEditorUpdate ) {
-    RegisterEditorUpdate( world );
+    this->RegisterEditorUpdate( world );
   }
-
+  if constexpr( SystemTraits<T>::IsParallelSystem ) {
+    this->RegisterParallelSystemProcess( world );
+  }
+  if constexpr( SystemTraits<T>::HasDtMember ) {
+    this->RegisterDtMember( world );
+  }
 }
 
 template<typename T>
@@ -80,22 +93,50 @@ inline void System<T>::RegisterVoidUpdate( World & world ) {
 
 template<typename T>
 inline void System<T>::RegisterDTUpdate( World & world ) { 
-  world.AddSystem( static_cast< void( T::* )( float ) >( &T::Update ), instance, m_name );
+  world.AddSystem( std::function<void(float)>([ this ]( float dt ) { instance.Update( dt ); }), m_name );
 }
 
 template<typename T>
 inline void System<T>::RegisterFixedUpdate( World & world ) {
-  world.AddSystem( [ &, time = 0.f ]( float dt ){ 
+  world.AddSystem( std::function<void( float )>( [ &, time = 0.f ]( float dt ){
     time += dt; 
     //@@TODO: remove the hard-coded 1/60 and replace it with fixed update framerate
     if( time >= 1.f / 60.f ) {
       time -= dt;
-      instance.FixedUpdate( );
+      this->instance.FixedUpdate( );
     }
-  }, m_name );
+  }, m_name ) );
 }
 
 template<typename T>
 inline void System<T>::RegisterEditorUpdate( World & world ) { 
   world.On<EditorUpdateEvent>( [ & ]( const EditorUpdateEvent & ) { instance.EditorUpdate( ); }, m_name );
+}
+
+#include "EntitiesWith.hpp"
+
+template<typename T>
+inline void System<T>::RegisterParallelSystemProcess( World &world ) {
+  world.AddUpdater( m_name, std::move(
+    [ &, Entities = EntitiesToProcess( &T::Process ), registered = false ]( float dt ) mutable {
+    if( !registered ) {
+      registered = true;
+      world.RegisterEntitiesWith( Entities );
+    }
+    if constexpr( SystemTraits<T>::HasPreProcess ) {
+      this->instance.PreProcess( );
+    }
+    for( auto entity : Entities ) { 
+      entity.Invoke( [ & ]( auto&&... args ) {
+        instance.Process( std::forward<decltype( args )>( args )... ); 
+      });
+    }
+  } ) );
+}
+
+template<typename T>
+inline void System<T>::RegisterDtMember( World & world ) { 
+  world.On<UpdateEvent>( [ & ]( const UpdateEvent &ue ) { 
+    instance.Dt = ue.Dt; 
+  } );
 }

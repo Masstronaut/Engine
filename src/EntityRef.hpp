@@ -96,6 +96,11 @@ public:
 
   template<typename Component, typename = std::enable_if_t<std::is_const_v<Component>>>
   const Component& Get( ) const { return this->GetImmutable<Component, Args...>( ); }
+
+  template<typename Predicate>
+  void Invoke( Predicate&& p ) {  p( Get<Args>()... ); }
+  template<typename ReturnType, typename Class>
+  void Invoke( ReturnType(Class::*Fn)(Args...) const, const Class& c ) { (c.*Fn)( Get<Args>( )... ); }
 private:
   EntityRef m_Self;
 

@@ -253,7 +253,8 @@ int SaturnDemo( ) {
 
 struct vec3 {
   float x, y, z;
-  vec3 operator*( float f ) { return { x*f, y*f, z*f }; }
+  vec3 operator*( float f ) const { return { x*f, y*f, z*f }; }
+  vec3& operator+=( const vec3& rhs ) { x += rhs.x; y += rhs.y; z += rhs.z; return *this; }
 };
 struct Transform {
   vec3 pos{ 0.f,0.f,0.f }, rot{ 0.f,0.f,0.f }, scale{ 1.f, 1.f, 1.f };
@@ -316,35 +317,70 @@ public:
   void Update( float dt ) {
     for( auto & e : Entities ) {
       auto &rb = e.Get<RigidBody>( );
-      rb.velocity.x += rb.acceleration.x * dt;
-      rb.velocity.y += rb.acceleration.y * dt;
-      rb.velocity.z += rb.acceleration.z * dt;
+      rb.velocity += rb.acceleration * dt;
     }
   }
 };
-void Foo(float dt, const RigidBody&, const Transform& ){ 
-  std::cout << "foo invoked.\n";
-}
+
+struct ParallelVelocitySystem {
+  void PreProcess( ) { }
+  void Process( Transform &tf, const RigidBody &rb ) const {
+    tf.pos += rb.velocity * Dt;
+  }
+  float Dt = 1.f / 60.f;
+};
+
+struct ParallelAccelerationSystem {
+  void PreProcess( ) { }
+  void Process( RigidBody &rb ) const {
+    rb.velocity += rb.acceleration * Dt;
+  }
+  float Dt = 1.f / 60.f;
+};
+
+struct ParallelGravity {
+  void PreProcess( ) { }
+  void Process( RigidBody&rb ) const {
+    rb.acceleration += m_gravity * Dt;
+  }
+  vec3 m_gravity{ 0.f,-9.81f,0.f };
+  float Dt{ 0.f };
+};
+
 #include "Simulation.hpp"
 #include "World.hpp"
 void ECSDemo( ) {
   // tests that constraint checking is working correctly
+
   static_assert( SystemTraits<TransformPrinterSystem>::HasEntities );
   static_assert( SystemTraits<TransformPrinterSystem>::HasVoidUpdate );
+  static_assert( SystemTraits<ParallelGravity>::HasPreProcess );
+  static_assert( SystemTraits<ParallelGravity>::HasProcess );
+  static_assert( SystemTraits<ParallelVelocitySystem>::IsParallelSystem );
+  static_assert( HasProcessMemFn_v<ParallelVelocitySystem> );
+  static_assert( HasPreProcessMemFn_v<ParallelVelocitySystem> );
+  /*static_assert( SystemTraits<ParallelGravity>::IsParallelSystem );
+  static_assert( SystemTraits<ParallelGravity>::HasPreProcess );
+  static_assert( SystemTraits<ParallelGravity>::HasProcess );*/
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
-  TestWorld.AddSystem<Gravity>( "Gravity" );
-  TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
-  TestWorld.AddSystem<VelocitySystem>( "Velocity" );
+  //TestWorld.AddSystem<Gravity>( "Gravity" );
+  //TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
+  //TestWorld.AddSystem<VelocitySystem>( "Velocity" );
   TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
-  TestWorld.AddSystem( Foo, "Foo" );
+
+  TestWorld.AddSystem<ParallelGravity>( "Parallelized Gravity System" );
+  TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
+  TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
+
+
   ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
-  enemy.Add<Transform>( ).scale = { 1,2,1 };
+  enemy.Add<Transform>( ).scale = { 1.f,2.f,1.f };
   enemy.Add<RigidBody>( );
-  enemy.Get<Transform>( ).pos.y = 1000.f;
+  enemy.Get<Transform>( ).pos.y = 100.f;
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   EntityRef EnemyB{ EnemyA.Clone( ) };
-  while( EnemyB.Get<Transform>( ).pos.y > 0.f ) {
+  while( EnemyB.Get<Transform>().pos.y >= 0.f ) {
     Sim.Run( 1.f / 60.f, TestWorld.Name() );
   }
 }
@@ -352,5 +388,5 @@ void ECSDemo( ) {
 
 int main( ) {
   ECSDemo( );
-  return NanosuitDemo( );
+  return SaturnDemo( );
 }
