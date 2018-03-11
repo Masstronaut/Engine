@@ -301,13 +301,7 @@ public:
     for( auto &e : Entities ) {
       const auto &rb = e.Get<const RigidBody>( );
       auto &tf = e.Get<Transform>( );
-      if( tf.pos.y <= 0.f ) {
-        tf.pos.y = 0.f;
-      } else {
-        tf.pos.x += rb.velocity.x * dt;
-        tf.pos.y += rb.velocity.y * dt;
-        tf.pos.z += rb.velocity.z * dt;
-      }
+      tf.pos += rb.velocity * dt;
     }
   }
 };
@@ -388,5 +382,5 @@ void ECSDemo( ) {
 
 int main( ) {
   ECSDemo( );
-  return SaturnDemo( );
+  return NanosuitDemo( );
 }

@@ -149,7 +149,7 @@ inline ComponentPool<Component>::ComponentPool( World &world ) {
       for( auto &comp : components ) comp.Update( );
     }, typeid( Component ).name( ) + "::Update()"s );
   }
-  if constexpr( ComponentTraits<Component>::HasDTUpdate ) {
+  if constexpr( ComponentTraits<Component>::HasDtUpdate ) {
     world.AddSystem( [ & ]( float dt ) {
       for( auto &comp : components ) comp.Update( dt );
     }, typeid( Component ).name( ) + "::Update(dt)"s );
