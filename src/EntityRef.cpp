@@ -39,6 +39,8 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
     Entity& entity{ m_World->GetEntity( m_ID ) };
     return entity.Clone( );
   }
-  
 
+  bool EntityRef::operator==( const EntityRef &rhs ) const {
+    return ( m_ID == rhs.m_ID ) && ( m_World == rhs.m_World );
+  }
 

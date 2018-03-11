@@ -31,9 +31,7 @@ public:
   const std::string& Name( ) const;
   EntityRef& Name( const std::string &name );
   
-  bool operator==( const EntityRef &rhs ) {
-    return ( m_ID == rhs.m_ID ) && ( m_World == rhs.m_World );
-  }
+  bool operator==( const EntityRef &rhs ) const;
 
   EntityRef Clone( ) const;
   // World needs access in order to implement cloning

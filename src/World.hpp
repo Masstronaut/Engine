@@ -30,9 +30,7 @@ public:
   ComponentPool( ) = default;
   ComponentPool( World &world);
   ~ComponentPool( ) = default;
-  virtual void* Get( EntityID ID ) final {
-    return &components[ ID ];
-  }
+  virtual void* Get( EntityID ID ) final;
   // @@TODO: On Clone() all ComponentAggregates holding
   // this type of component need to re-fetch pointers if reallocation occurred.
   // The easiest way to do this is probably an event triggering the re-fetch.
@@ -98,6 +96,9 @@ public:
   }
 
   template<typename... Args>
+  ComponentAggregate& GetAggregate( );
+
+  template<typename... Args>
   void RegisterEntitiesWith( EntitiesWith<Args...>& );
 
 
@@ -131,8 +132,6 @@ protected:
   ComponentPool<T>& GetComponentPool( );
   ComponentPoolBase* GetComponentPool( std::type_index Component );
   template<typename... Args>
-  ComponentAggregate& GetAggregate( );
-  template<typename... Args>
   ComponentAggregate& GetAggregate( type_list<Args...> );
 private:
   std::string m_Name;
@@ -165,6 +164,11 @@ inline ComponentPool<Component>::ComponentPool( World &world ) {
       }
     }, typeid( Component ).name( ) + "::Update()"s );
   }
+}
+
+template<typename Component>
+inline void * ComponentPool<Component>::Get( EntityID ID ) {
+  return &components[ ID ];
 }
 
 #include "System.hpp"
@@ -221,7 +225,7 @@ inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & nam
   m_Updaters.emplace_back( std::move( name ),
                            [ fn ]( float ) {
                              fn( );
-                           } );
+                           });
 }
 
 

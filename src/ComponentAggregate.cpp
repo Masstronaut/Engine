@@ -27,7 +27,11 @@ void ComponentAggregate::OnEntityDestroyed( const EntityRef &entity ) {
 }
 
 
-bool ComponentAggregate::Matches( const std::vector<std::type_index> &types ) {
+bool ComponentAggregate::Matches( const std::vector<std::type_index> &types ) const {
   if( types.size( ) != m_Components.size( ) ) return false;
-  return std::equal( std::begin( types ), std::end( types ), std::begin( m_Components ) );
+  return std::equal( std::cbegin( types ), std::cend( types ), std::cbegin( m_Components ) );
 }
+
+std::vector<EntityRef>& ComponentAggregate::GetEntities( ) { return m_Entities; }
+
+const std::vector<EntityRef>& ComponentAggregate::GetEntities( ) const { return m_Entities; }

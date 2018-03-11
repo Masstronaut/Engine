@@ -27,12 +27,8 @@ private:
   class EventDispatcher : public EventDispatcherBase {
   public:
     using Callback = typename EventArena::Callback<T>;
-    void Emit( const T &event ) {
-      for( auto &cb : m_callbacks ) cb( event );
-    }
-    void On( Callback cb ) {
-      m_callbacks.emplace_back( cb );
-    }
+    void Emit( const T &event );
+    void On( Callback cb );
   private:
     std::vector<Callback> m_callbacks;
   };
@@ -63,4 +59,14 @@ void EventArena::On( const T &value, std::function<void( void )> cb ) {
 template<typename T>
 void EventArena::Emit( const T &event ) {
   Dispatcher<T>( ).Emit( event );
+}
+
+template<typename T>
+inline void EventArena::EventDispatcher<T>::Emit( const T & event ) {
+  for( auto &cb : m_callbacks ) cb( event );
+}
+
+template<typename T>
+inline void EventArena::EventDispatcher<T>::On( Callback cb ) {
+  m_callbacks.emplace_back( cb );
 }
