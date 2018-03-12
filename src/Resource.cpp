@@ -10,6 +10,13 @@
 Resource::Resource( const std::string &name )
   : m_name( name.substr( 0, name.find_last_of( "." ) ) )
   , m_extension( name.substr( name.find_last_of( "." ) + 1, ( name.length( ) - m_name.length( ) ) + 1 ) ) { }
+Resource::Resource( Resource && resource ) 
+: m_loaded(resource.m_loaded)
+, m_name(std::move(resource.m_name ) )
+, m_extension(std::move(resource.m_extension))
+, m_data(std::move(resource.m_data)) { 
+  resource.m_loaded = false;
+}
 Resource::~Resource( ) { }
 
 std::string Resource::Path( ) const {

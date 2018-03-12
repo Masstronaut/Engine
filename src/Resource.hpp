@@ -4,6 +4,7 @@ class Resource {
 public:
   enum class IOType{ text, binary };
   Resource( const std::string &name );
+  Resource( Resource &&resource );
   virtual ~Resource( );
     
   std::string Path( ) const;
