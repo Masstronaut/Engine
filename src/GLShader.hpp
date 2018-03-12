@@ -10,6 +10,7 @@ std::string ShaderPath( );
 class GLShader : public Resource {
 public:
   GLShader( const std::string &name );
+  GLShader( GLShader &&shader );
   ~GLShader( );
 
   virtual bool Reloadable( ) const override;

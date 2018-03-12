@@ -4,9 +4,8 @@
 #include <string>
 #include "ThreadPool.hpp"
 #include "EventArena.hpp"
-class World;
-class ArchetypeRef;
-class EntityRef;
+#include "Entity/ArchetypeRef.hpp"
+#include "World.hpp"
 class Simulation : public EventArena, public ThreadPool<> {
 public:
   void Run( double timestep, const std::string &world );

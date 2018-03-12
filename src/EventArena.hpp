@@ -7,6 +7,9 @@
 #include <typeinfo>
 class EventArena {
 public:
+  EventArena( ) = default;
+  EventArena( const EventArena& ) = delete;
+  EventArena( EventArena&& ) = default;
   template<typename T>
   using Callback = std::function<void( const T& )>;
   template<typename T>
@@ -33,14 +36,7 @@ private:
     std::vector<Callback> m_callbacks;
   };
   template<typename T>
-  EventDispatcher<T>& Dispatcher( ) { 
-    auto it{ m_Dispatchers.find( std::type_index( typeid( T ) ) )};
-    if( it == m_Dispatchers.end( ) ) {
-      auto res{ m_Dispatchers.try_emplace( std::type_index( typeid( T )), new EventDispatcher<T>{} ) };
-      if( res.second ) it = res.first;
-    }
-    return *(reinterpret_cast< EventDispatcher<T> * >( it->second.get( ) ));
-  }
+  EventDispatcher<T>& Dispatcher( );
   std::unordered_map<KeyType, std::unique_ptr<EventDispatcherBase>> m_Dispatchers;
 };
 template<typename T>
@@ -69,4 +65,15 @@ inline void EventArena::EventDispatcher<T>::Emit( const T & event ) {
 template<typename T>
 inline void EventArena::EventDispatcher<T>::On( Callback cb ) {
   m_callbacks.emplace_back( cb );
+}
+
+
+template<typename T>
+EventArena::EventDispatcher<T>& EventArena::Dispatcher( ) {
+  auto it{ m_Dispatchers.find( std::type_index( typeid( T ) ) ) };
+  if( it == m_Dispatchers.end( ) ) {
+    auto res{ m_Dispatchers.try_emplace( std::type_index( typeid( T ) ), new EventDispatcher<T>{ } ) };
+    if( res.second ) it = res.first;
+  }
+  return *( reinterpret_cast< EventDispatcher<T> * >( it->second.get( ) ) );
 }

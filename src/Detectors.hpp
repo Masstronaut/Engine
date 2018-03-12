@@ -144,11 +144,18 @@ constexpr bool HasEntities_v = HasEntities<T>::value;
 
 // detect if a component wants to know its owner
 template<typename T>
-using DetectOwnerMember = decltype( T::Owner );
+using DetectHasOwnerMember = decltype( T::Owner );
 template<typename T>
-using HasOwner = is_detected<DetectOwnerMember, T>;
+using HasOwnerMember = is_detected<DetectHasOwnerMember, T>;
+template<typename T, typename Enable = void>
+struct HasOwner : std::false_type { };
+
 template<typename T>
-constexpr bool HasOwner_v = HasOwner<T>::value && std::is_same_v<decltype(T::Owner), EntityRef>;
+struct HasOwner<T, typename std::enable_if_t<HasOwnerMember<T>::value>> {
+  static constexpr bool value = std::is_same_v<decltype( T::Owner ), EntityRef>;
+};
+template<typename T>
+constexpr bool HasOwner_v = HasOwner<T>::value;
 
 template<typename T, typename = void>
 struct HasProcessMemFn : std::false_type { };

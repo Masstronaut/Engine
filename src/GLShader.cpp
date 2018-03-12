@@ -13,6 +13,13 @@ GLShader::GLShader( const std::string &name )
   }
   this->Load( );
 }
+GLShader::GLShader( GLShader && shader )
+: Resource(std::move(shader))
+, m_ShaderID( std::move( shader.m_ShaderID ) ) 
+, m_ShaderType( std::move( shader.m_ShaderType ) ) { 
+  shader.m_ShaderID = 0;
+  shader.m_ShaderType = 0;
+}
 GLShader::~GLShader( ) {
   this->Unload( );
 }

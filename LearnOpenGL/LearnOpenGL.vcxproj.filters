@@ -22,6 +22,21 @@
     <Filter Include="Resources\Shaders">
       <UniqueIdentifier>{5b2d1b4f-71b4-49c1-8deb-c19e79896611}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Entity">
+      <UniqueIdentifier>{d14c822a-e7a3-4dce-9125-ef410a43800b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Entity">
+      <UniqueIdentifier>{59d6bf5c-8b59-4a29-ab8a-4bad179fc309}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Component">
+      <UniqueIdentifier>{34cd545f-1853-4a31-aef9-bd4f378ed59d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Component">
+      <UniqueIdentifier>{4d4c02bc-7639-4e03-9967-196884fe3655}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\System">
+      <UniqueIdentifier>{cafc3d9f-8cc4-4b66-91ef-0ad9466b9ffa}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\src\glad.c">
@@ -60,20 +75,26 @@
     <ClCompile Include="..\src\Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Simulation.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\ComponentAggregate.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\src\EntityRef.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="..\src\World.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\ArchetypeRef.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\EntityRef.cpp">
+      <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Component\ComponentAggregate.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Entity\Entity.cpp">
+      <Filter>Source Files\Entity</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -85,6 +106,33 @@
     </None>
     <None Include="..\Resources\Shaders\Triangle.sprog">
       <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\src\Entity\EntityRef.inl">
+      <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="..\src\Entity\ArchetypeRef.inl">
+      <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="..\src\Component\ComponentPool.inl">
+      <Filter>Header Files\Component</Filter>
+    </None>
+    <None Include="..\src\Component\ComponentAggregate.inl">
+      <Filter>Header Files\Component</Filter>
+    </None>
+    <None Include="..\src\World.inl">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\src\Entity\EntitiesWith.inl">
+      <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="..\src\Entity\ConstrainedEntityRef.inl">
+      <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="..\src\Entity\Entity.inl">
+      <Filter>Header Files\Entity</Filter>
+    </None>
+    <None Include="..\src\System\System.inl">
+      <Filter>Header Files\System</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -127,44 +175,56 @@
     <ClInclude Include="..\src\Detectors.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Simulation.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\EntityRef.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\ComponentAggregate.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\EntityID.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\type_list.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\EntitiesWith.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\SystemTraits.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\src\System.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\src\WorldEvents.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\ComponentTraits.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\NoCopy.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RenderComponents.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EntityRef.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\EntityID.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\ArchetypeRef.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\ConstrainedEntityRef.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Component\ComponentPool.hpp">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Component\ComponentTraits.hpp">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Component\ComponentAggregate.hpp">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\EntitiesWith.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Entity\Entity.hpp">
+      <Filter>Header Files\Entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\System\System.hpp">
+      <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\System\SystemTraits.hpp">
+      <Filter>Header Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

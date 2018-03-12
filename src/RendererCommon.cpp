@@ -88,6 +88,6 @@ void VertexArray::Unbind( ) const {
 
 void VertexArray::BindAttribute( int location, int size, int type, bool normalized, unsigned offset ) {
   Bind( );
-  glVertexAttribPointer( location, size, type, normalized, m_VertexSize, (void*)offset );
+  glVertexAttribPointer( location, size, type, normalized, m_VertexSize, reinterpret_cast<void*>(offset) );
   Unbind( );
 }

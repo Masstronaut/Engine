@@ -1,7 +1,7 @@
 #pragma once
 #include "Simulation.hpp"
 #include "World.hpp"
-
+#include "Entity/ArchetypeRef.hpp"
 
 void Simulation::Run( double timestep, const std::string &world ) {
   this->GetWorld( world ).Update( (float)timestep );

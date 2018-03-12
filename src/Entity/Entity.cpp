@@ -1,8 +1,8 @@
 #include <typeinfo>
 #include <vector>
 #include "Entity.hpp"
-#include "World.hpp"
-#include "EntityRef.hpp"
+#include "../World.hpp"
+#include "../EntityRef.hpp"
 Entity::Entity(World &world, EntityID id  )
   : m_World( world ) 
   , m_ID( id )
