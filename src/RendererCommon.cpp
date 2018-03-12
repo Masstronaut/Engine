@@ -9,7 +9,7 @@ Mesh::Mesh( const std::vector<Vertex>& Vertices, const std::vector<unsigned>& In
   Load( );
 }
 
-void Mesh::Draw( GLProgram & shader ) { 
+void Mesh::Draw( GLProgram & shader ) const { 
   unsigned diffuse{ 1 }, specular{ 1 };
   for( unsigned i{ 0 }; i < textures.size( ); ++i ) {
     glActiveTexture( GL_TEXTURE0 + i );

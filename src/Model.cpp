@@ -12,9 +12,14 @@ Model::Model( const std::string & path )
   Load( IOType::binary );
 }
 
+Model::Model( const Model & model )
+: Resource( model ) { 
+  Load( );
+}
+
 Model::~Model( ) { }
 
-void Model::Draw( GLProgram & shader ) {
+void Model::Draw( GLProgram & shader ) const {
   for( auto &mesh : m_Meshes ) mesh.Draw( shader );
 }
 

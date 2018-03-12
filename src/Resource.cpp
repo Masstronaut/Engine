@@ -10,6 +10,12 @@
 Resource::Resource( const std::string &name )
   : m_name( name.substr( 0, name.find_last_of( "." ) ) )
   , m_extension( name.substr( name.find_last_of( "." ) + 1, ( name.length( ) - m_name.length( ) ) + 1 ) ) { }
+Resource::Resource( const Resource & resource ) 
+: m_loaded( false ) 
+, m_name( resource.m_name )
+, m_extension(resource.m_extension)
+, m_data(resource.m_data) {
+}
 Resource::Resource( Resource && resource ) 
 : m_loaded(resource.m_loaded)
 , m_name(std::move(resource.m_name ) )
@@ -46,7 +52,7 @@ bool Resource::Load( IOType iotype ) {
   if( this->Loaded( ) ) {
     return true;
   }
-  if( this->Read( iotype ) ) {
+  if( this->Data().size() || this->Read( iotype ) ) {
     if( this->LoadImpl( ) ) {
       m_loaded = true;
       return this->Loaded( );
@@ -57,6 +63,7 @@ bool Resource::Load( IOType iotype ) {
 void Resource::Unload( ) {
   if( this->Loaded( ) ) {
     this->UnloadImpl( );
+    m_data.clear( );
     m_loaded = false;
   }
 }

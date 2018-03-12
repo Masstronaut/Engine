@@ -179,30 +179,30 @@ int NanosuitDemo( ) {
     unsigned FPS{ static_cast< unsigned >( 1. / dt ) };
     lastFrame = currentFrame;
 
-    ProcessInput( window );
+    //ProcessInput( window );
     if( window.KeyPressed( GLFW_KEY_F5 ) == GLFW_PRESS ) {
       modelShader.Reload( );
       nanosuit.Reload( );
     }
     // Handle Rendering
-    glClearColor( .3f, 0.2f, .3f, 1.f );
-    glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    //glClearColor( .3f, 0.2f, .3f, 1.f );
+    //glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
     // Drawing code (belongs in render loop)
-    projection = glm::perspective( glm::radians( cam.fov ), 800.f / 600.f,cam.nearplane, cam.farplane );
-    modelShader.SetUniform( "projection", projection );
-    modelShader.SetUniform( "view", cam.View() );
+    //projection = glm::perspective( glm::radians( cam.fov ), 800.f / 600.f,cam.nearplane, cam.farplane );
+    //modelShader.SetUniform( "projection", projection );
+    //modelShader.SetUniform( "view", cam.View() );
     
-    glm::mat4 model;
-    model = glm::translate( model, glm::vec3( .0f, -1.75f, .0f ) );
-    model = glm::scale( model, { .2f, .2f, .2f } );
-    modelShader.SetUniform( "model", model );
-    nanosuit.Draw( modelShader );
+    //glm::mat4 model;
+    //model = glm::translate( model, glm::vec3( .0f, -1.75f, .0f ) );
+    //model = glm::scale( model, { .2f, .2f, .2f } );
+    //modelShader.SetUniform( "model", model );
+    //nanosuit.Draw( modelShader );
 
     gltr.Render("FPS: " + std::to_string( FPS ), { 0.f,0.f }, { .5f,.8f,.2f } );
 
     // check and call events and swap the buffers
-    glfwSwapBuffers( window );
-    glfwPollEvents( );
+    //glfwSwapBuffers( window );
+    //glfwPollEvents( );
   }
 
 
@@ -251,16 +251,9 @@ int SaturnDemo( ) {
 
 #include "Entity/EntitiesWith.hpp"
 
-struct vec3 {
-  float x, y, z;
-  vec3 operator*( float f ) const { return { x*f, y*f, z*f }; }
-  vec3& operator+=( const vec3& rhs ) { x += rhs.x; y += rhs.y; z += rhs.z; return *this; }
-};
-struct Transform {
-  vec3 pos{ 0.f,0.f,0.f }, rot{ 0.f,0.f,0.f }, scale{ 1.f, 1.f, 1.f };
-};
+#include "Components/Transform.h"
 struct RigidBody {
-  vec3 velocity{ 0.f,0.f,0.f }, acceleration{ 0.f,0.f,0.f };
+  glm::vec3 velocity{ 0.f,0.f,0.f }, acceleration{ 0.f,0.f,0.f };
   bool isStatic{ false }, isGhost{ false };
 };
 struct CircleCollider {
@@ -320,6 +313,9 @@ struct ParallelVelocitySystem {
   void PreProcess( ) { }
   void Process( Transform &tf, const RigidBody &rb ) const {
     tf.pos += rb.velocity * Dt;
+    if( tf.pos.y <= 0.f ) {
+      tf.pos.y = 0.f;
+    }
   }
   float Dt = 1.f / 60.f;
 };
@@ -337,12 +333,13 @@ struct ParallelGravity {
   void Process( RigidBody&rb ) const {
     rb.acceleration += m_gravity * Dt;
   }
-  vec3 m_gravity{ 0.f,-9.81f,0.f };
+  glm::vec3 m_gravity{ 0.f,-9.81f,0.f };
   float Dt{ 0.f };
 };
 
 #include "Simulation.hpp"
 #include "World.hpp"
+#include "RenderSystem.h"
 void ECSDemo( ) {
   // tests that constraint checking is working correctly
 
@@ -361,26 +358,33 @@ void ECSDemo( ) {
   //TestWorld.AddSystem<Gravity>( "Gravity" );
   //TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
   //TestWorld.AddSystem<VelocitySystem>( "Velocity" );
-  TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
-
+  TestWorld.AddSystem<WindowManager>( "Window Management System" );
   TestWorld.AddSystem<ParallelGravity>( "Parallelized Gravity System" );
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
+  TestWorld.AddSystem<ModelRenderSystem>( "Model Rendering System" );
+  TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
+  TestWorld.AddSystem<TextRenderSystem>( "Text Rendering System" );
+  TestWorld.AddSystem<FrameratePrinter>( "Framerate Printing System" );
 
-
-  ArchetypeRef enemy{ Sim.CreateArchetype( "Enemy" ) };
-  enemy.Add<Transform>( ).scale = { 1.f,2.f,1.f };
+  ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };
+  ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
+  lens.Add<Camera>( );
+  enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
+  enemy.Get<Transform>( ).pos = { 0.0f, -1.75f, 0.0f };
   enemy.Add<RigidBody>( );
-  enemy.Get<Transform>( ).pos.y = 100.f;
+  enemy.Add<Model>( "nanosuit.obj" );
+  TestWorld.Spawn( lens );
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   EntityRef EnemyB{ EnemyA.Clone( ) };
-  while( EnemyB.Get<Transform>().pos.y >= 0.f ) {
+  EnemyB.Get<Transform>( ).pos.z = 1.f;
+  while( true ) {
     Sim.Run( 1.f / 60.f, TestWorld.Name() );
   }
 }
 
 
 int main( ) {
-  //ECSDemo( );
+  ECSDemo( );
   return SaturnDemo( );
 }
