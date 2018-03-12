@@ -20,7 +20,7 @@ public:
 
   GLProgram( const std::string &name );
   ~GLProgram( );
-  void ErrorCheck( );
+  int ErrorCheck( );
   virtual bool Reloadable( ) const override;
   virtual std::string Directory( ) const override;
   unsigned ID( ) const;

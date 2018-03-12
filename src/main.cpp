@@ -28,7 +28,7 @@ void UnrecoverableError( const char* msg ) {
 
 void ProcessInput( GLFWWindow &window ) {
   if( glfwGetKey( window, GLFW_KEY_ESCAPE ) == GLFW_PRESS ) {
-    glfwSetWindowShouldClose( window, true );
+    window.State(WindowState::closed);
   }
   if( glfwGetKey( window, GLFW_KEY_1 ) == GLFW_PRESS ) {
     glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
@@ -249,7 +249,7 @@ int SaturnDemo( ) {
 
 #include "Detectors.hpp"
 
-#include "EntitiesWith.hpp"
+#include "Entity/EntitiesWith.hpp"
 
 struct vec3 {
   float x, y, z;
@@ -381,6 +381,6 @@ void ECSDemo( ) {
 
 
 int main( ) {
-  ECSDemo( );
-  return NanosuitDemo( );
+  //ECSDemo( );
+  return SaturnDemo( );
 }

@@ -7,6 +7,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <gl/GLU.h>
 
 #include "GLProgram.hpp"
 #include "GLShader.hpp"
@@ -16,18 +17,25 @@ GLProgram::GLProgram( const std::string &name )
   , m_ProgramID( 0 ) {
   this->Load( );
   // @@TODO: This is required to work. WTF?!? please fix. 
-  this->Reload( );
+  //this->Reload( );
 }
 GLProgram::~GLProgram( ) {
   this->Unload( );
 }
-void GLProgram::ErrorCheck( ) {
-  GLenum err = glGetError( );
-  if( err ) {
-    std::cout << "An error has occurred!" << std::endl;
-    //__debugbreak( );
-  }
+int GLProgram::ErrorCheck( ) {
 
+	GLenum errCode;
+	const GLubyte *errString;
+	if ((errCode = glGetError()) !=
+		GL_NO_ERROR)
+	{
+		errString = gluErrorString(errCode);
+		std::cout << "An error has occurred: " << errString;
+		std::cout << " -- With shader program: " << this->Name() << " -- Type: " << this->Extension() <<std::endl;
+		return -1;
+	}
+	return 0;
+    //__debugbreak( );
 }
 bool GLProgram::Reloadable( ) const {
   return true;

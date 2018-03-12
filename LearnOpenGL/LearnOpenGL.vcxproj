@@ -115,7 +115,8 @@
       <CppLanguageStandard>Default</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
       <Command>copy $(SolutionDir)/Dependencies/lib/$(Configuration)/assimp-vc140-mt.dll $(SolutionDir)/x64/$(Configuration)/assimp-vc140-mt.dll</Command>
@@ -155,7 +156,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy $(SolutionDir)/Dependencies/lib/$(Configuration)/assimp-vc140-mt.dll $(SolutionDir)/x64/$(Configuration)/assimp-vc140-mt.dll</Command>
@@ -176,7 +177,6 @@
     <ClCompile Include="..\src\Model.cpp" />
     <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\RendererCommon.cpp" />
-    <ClCompile Include="..\src\RenderSystem.cpp" />
     <ClCompile Include="..\src\Resource.cpp" />
     <ClCompile Include="..\src\Simulation.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />

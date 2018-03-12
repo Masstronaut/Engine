@@ -81,9 +81,6 @@
     <ClCompile Include="..\src\World.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\src\RenderSystem.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\src\Entity\ArchetypeRef.cpp">
       <Filter>Source Files\Entity</Filter>
     </ClCompile>
@@ -225,6 +222,9 @@
     </ClInclude>
     <ClInclude Include="..\src\System\SystemTraits.hpp">
       <Filter>Header Files\System</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\RenderSystem.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

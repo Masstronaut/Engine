@@ -18,6 +18,7 @@ private:
   void SetStateImpl( WindowState state ) final;
   GLFWwindow * m_WindowHandle{ nullptr };
 
+
   //@@TODO: solve this in a way that doesn't kill hotloading
   static std::unordered_map<GLFWwindow *, GLFWWindow *> m_CallbackHelpers;
   // Callbacks
