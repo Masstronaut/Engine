@@ -373,7 +373,7 @@ void ECSDemo( ) {
   enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
   enemy.Get<Transform>( ).pos = { 0.0f, -1.75f, 0.0f };
   enemy.Add<RigidBody>( );
-  enemy.Add<Model>( "nanosuit.obj" );
+  enemy.Add<CModel>( "nanosuit.obj" );
   TestWorld.Spawn( lens );
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   EntityRef EnemyB{ EnemyA.Clone( ) };

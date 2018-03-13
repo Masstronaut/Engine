@@ -44,13 +44,13 @@ struct ModelRenderSystem {
       program.SetUniform( "view", camera->View( ) );
     }
   }
-  void Process( const Model &model, const Transform &tf ) const {
+  void Process( const CModel &model, const Transform &tf ) const {
     if( !camera ) return;
     glm::mat4 modelMatrix;
     modelMatrix = glm::translate( modelMatrix, tf.pos );
     modelMatrix = glm::scale( modelMatrix, tf.scale );
     program.SetUniform( "model", modelMatrix );
-    model.Draw( program );
+    model.model->Draw( program );
   }
   glm::mat4 projection;
   const Camera *camera{ nullptr };
