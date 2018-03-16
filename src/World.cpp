@@ -60,8 +60,10 @@ ComponentPoolBase * World::GetComponentPool( std::type_index Component ) {
 }
 
 void World::Update( float dt ) {
+  this->Emit(FrameStartEvent{});
   this->Emit( UpdateEvent{ dt } );
   for( auto &updater : m_Updaters ) updater( dt );
+  this->Emit(FrameEndEvent{});
 }
 
 bool World::operator==( const World &rhs ) {

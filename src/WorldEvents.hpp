@@ -18,3 +18,8 @@ struct EntityDeathEvent {
 struct UpdateEvent {
   float Dt = 1.f / 60.f;
 };
+
+struct FrameStartEvent {
+};
+struct FrameEndEvent {
+};

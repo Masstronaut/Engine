@@ -185,6 +185,12 @@
     <ClCompile Include="..\src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Resources\Shaders\Model.frag" />
+    <None Include="..\Resources\Shaders\Model.sprog" />
+    <None Include="..\Resources\Shaders\Model.vert" />
+    <None Include="..\Resources\Shaders\Text.frag" />
+    <None Include="..\Resources\Shaders\Text.sprog" />
+    <None Include="..\Resources\Shaders\Text.vert" />
     <None Include="..\Resources\Shaders\Triangle.frag" />
     <None Include="..\Resources\Shaders\Triangle.sprog" />
     <None Include="..\Resources\Shaders\Triangle.vert" />

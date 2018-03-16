@@ -20,6 +20,8 @@ public:
   virtual bool IsParallelSystem( ) const = 0;
   virtual bool IsPureSystem( ) const = 0;
 
+  virtual void OnFrameStart() = 0;
+  virtual void OnFrameEnd() = 0;
   virtual void OnUpdate( float Dt ) = 0;
 };
 
@@ -51,7 +53,9 @@ public:
   virtual bool IsPureSystem( ) const final;
   virtual bool IsParallelSystem( ) const;
 
+  virtual void OnFrameStart() final;
   virtual void OnUpdate( float Dt ) final;
+  virtual void OnFrameEnd() final;
 private:
   template<typename U = T>
   void FrameStart( typename std::enable_if_t<SystemTraits<U>::HasFrameStart>* = nullptr );

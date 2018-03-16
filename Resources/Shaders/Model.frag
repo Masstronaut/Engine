@@ -11,5 +11,6 @@ void main()
 {   
     vec3 norm = normalize(Normal);
     float diffuse = max( dot( norm, vec3( 1.0, 1.0, 1.0 ) ), 0.0 );
+	FragColor = vec4((diffuse * texture(specular1, TexCoords)).xy,1.0,1.0);
     FragColor = vec4((diffuse * texture(diffuse1, TexCoords)).xyz, 1.0);
 }

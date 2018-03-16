@@ -371,13 +371,15 @@ void ECSDemo( ) {
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
   lens.Add<Camera>( );
   enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
-  enemy.Get<Transform>( ).pos = { 0.0f, -1.75f, 0.0f };
+  enemy.Get<Transform>( ).pos = { -1.0f, -3.0f, 3.0f };
   enemy.Add<RigidBody>( );
-  enemy.Add<CModel>( "nanosuit.obj" );
+  CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
+  cm.model->Load();
   TestWorld.Spawn( lens );
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   EntityRef EnemyB{ EnemyA.Clone( ) };
-  EnemyB.Get<Transform>( ).pos.z = 1.f;
+  EnemyB.Get<Transform>( ).pos.x = 1.f;
+  EnemyB.Get<Transform>().pos.z = 3.f;
   while( true ) {
     Sim.Run( 1.f / 60.f, TestWorld.Name() );
   }
@@ -386,5 +388,5 @@ void ECSDemo( ) {
 
 int main( ) {
   ECSDemo( );
-  return SaturnDemo( );
+  return NanosuitDemo( );
 }

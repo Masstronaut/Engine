@@ -9,6 +9,8 @@
 #include "Components/Transform.h"
 #include "Camera.hpp"
 struct WindowManager {
+  WindowManager();
+  EntitiesWith<Camera> Entities;
   void FrameStart( );
   void FrameEnd( );
   float Dt{ 0.f };
@@ -36,6 +38,9 @@ struct FrameratePrinter {
 };
 struct ModelRenderSystem {
   EntitiesWith<const Camera> Entities;
+  ModelRenderSystem() {
+    program.Load();
+  }
   void PreProcess( ) {
     if( Entities.cbegin( ) != Entities.cend( ) ) {
       camera = &Entities[ 0 ].Get<const Camera>( ); 

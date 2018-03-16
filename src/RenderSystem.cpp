@@ -2,19 +2,49 @@
 #include <GLFW/glfw3.h>
 #include "RenderSystem.h"
 
-void WindowManager::FrameStart( ) { 
-  glfwPollEvents( );
+Camera* cam;
+void MouseCallback2(const GLFWWindow::EMouseMoved &mme) {
+  float sensitivity{ .05f };
+  const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
+  const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
+  cam->yaw += xoff;
+  cam->pitch -= yoff;
+  if (cam->pitch > 89.9f) cam->pitch = 89.9f;
+  if (cam->pitch < -89.9f) cam->pitch = -89.9f;
+}
+
+void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
+  if (cam->fov >= 1.0f && cam->fov <= 70.0f)
+    cam->fov -= (float)mse.offset.y;
+  if (cam->fov <= 1.0f)
+    cam->fov = 1.0f;
+  if (cam->fov >= 70.0f)
+    cam->fov = 70.0f;
+}
+WindowManager::WindowManager()
+{
+  window.MouseMode(CursorMode::disabled);
+  window.Title("Engine v0.0");
+  window.On<GLWindow::EMouseMoved>( MouseCallback2 );
+  window.On<GLWindow::EMouseScrolled>( ScrollCallback2 );
+  glEnable(GL_DEPTH_TEST);
+}
+
+void WindowManager::FrameStart( ) {
+  cam = &Entities[0].Get<Camera>();
+  this->ProcessInput(*cam);
   glClearColor( .3f, 0.2f, .3f, 1.f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 
 void WindowManager::FrameEnd( ) { 
   glfwSwapBuffers( window );
+  glfwPollEvents();
 }
 
 inline void WindowManager::ProcessInput( Camera &cam ) {
   if( window.KeyPressed( GLFW_KEY_ESCAPE ) ) {
-    glfwSetWindowShouldClose( window, true );
+    window.State(WindowState::closed);
   }
   
   if( window.KeyPressed( GLFW_KEY_1 ) ) {

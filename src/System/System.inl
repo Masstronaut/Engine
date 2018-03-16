@@ -30,17 +30,22 @@
   bool System<T>::IsParallelSystem( ) const { return SystemTraits<T>::IsParallelSystem; }
 
   template<typename T>
+  void System<T>::OnFrameStart( ) {
+    if constexpr(SystemTraits<T>::HasFrameStart) this->FrameStart();
+  }
+  template<typename T>
   void System<T>::OnUpdate( float Dt ) {
     if constexpr( SystemTraits<T>::HasDtMember ) this->SetDt( Dt );
-    if constexpr( SystemTraits<T>::HasFrameStart ) this->FrameStart( );
     if constexpr( SystemTraits<T>::HasPreProcess ) this->PreProcess( );
     if constexpr( SystemTraits<T>::HasProcess ) this->Process( );
     if constexpr( SystemTraits<T>::HasVoidUpdate ) this->VoidUpdate( );
     if constexpr( SystemTraits<T>::HasDtUpdate ) this->DtUpdate( Dt );
     if constexpr( SystemTraits<T>::HasEditorUpdate ) this->EditorUpdate( Dt );
     if constexpr( SystemTraits<T>::HasFixedUpdate ) this->FixedUpdate( Dt );
-
-    if constexpr( SystemTraits<T>::HasFrameEnd ) this->FrameEnd( );
+  }
+  template<typename T>
+  void System<T>::OnFrameEnd() {
+    if constexpr(SystemTraits<T>::HasFrameEnd) this->FrameEnd();
   }
 
   template<typename T>
@@ -117,6 +122,8 @@ inline System<T>::System( World &world, const std::string & name )
   : m_name( name ) {
   AddSystem( world );
   world.On<UpdateEvent>( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
+  if constexpr( SystemTraits<T>::HasFrameStart ) world.On<FrameStartEvent>([&](const FrameStartEvent&) { OnFrameStart(); });
+  if constexpr(SystemTraits<T>::HasFrameStart) world.On<FrameEndEvent>([&](const FrameEndEvent&) { OnFrameEnd(); });
 }
 template<typename T>
 inline void System<T>::AddSystem( World & world ) { 
