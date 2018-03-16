@@ -153,11 +153,12 @@ void ScrollCallback( const GLFWWindow::EMouseScrolled &mse) {
     cam.fov = 70.0f;
 }
 
-void UpdateTime( ) {
+unsigned UpdateTime( ) {
   double currentFrame = glfwGetTime( );
   dt = currentFrame - lastFrame;
   unsigned FPS{ static_cast< unsigned >( 1. / dt ) };
   lastFrame = currentFrame;
+  return FPS;
 }
 
 int NanosuitDemo( ) {
@@ -380,8 +381,13 @@ void ECSDemo( ) {
   EntityRef EnemyB{ EnemyA.Clone( ) };
   EnemyB.Get<Transform>( ).pos.x = 1.f;
   EnemyB.Get<Transform>().pos.z = 3.f;
+  double currentTime;
   while( true ) {
-    Sim.Run( 1.f / 60.f, TestWorld.Name() );
+    double currentFrame = glfwGetTime();
+    dt = currentFrame - lastFrame;
+    unsigned FPS{ static_cast< unsigned >(1. / dt) };
+    lastFrame = currentFrame;
+    Sim.Run( dt, TestWorld.Name() );
   }
 }
 

@@ -131,7 +131,7 @@ inline System<T>::System( World &world, const std::string & name )
   AddSystem( world );
   world.On<UpdateEvent>( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
   if constexpr( SystemTraits<T>::HasFrameStart ) world.On<FrameStartEvent>([&](const FrameStartEvent&) { OnFrameStart(); });
-  if constexpr(SystemTraits<T>::HasFrameStart) world.On<FrameEndEvent>([&](const FrameEndEvent&) { OnFrameEnd(); });
+  if constexpr(SystemTraits<T>::HasFrameEnd ) world.On<FrameEndEvent>([&](const FrameEndEvent&) { OnFrameEnd(); });
 }
 template<typename T>
 inline void System<T>::AddSystem( World & world ) { 
