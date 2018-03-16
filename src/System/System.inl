@@ -38,6 +38,7 @@
     if constexpr( SystemTraits<T>::HasDtMember ) this->SetDt( Dt );
     if constexpr( SystemTraits<T>::HasPreProcess ) this->PreProcess( );
     if constexpr( SystemTraits<T>::HasProcess ) this->Process( );
+    if constexpr( SystemTraits<T>::HasPostProcess ) this->PostProcess();
     if constexpr( SystemTraits<T>::HasVoidUpdate ) this->VoidUpdate( );
     if constexpr( SystemTraits<T>::HasDtUpdate ) this->DtUpdate( Dt );
     if constexpr( SystemTraits<T>::HasEditorUpdate ) this->EditorUpdate( Dt );
@@ -75,6 +76,13 @@
   template<typename T>
   template<typename U>
   void System<T>::Process( typename std::enable_if_t<!SystemTraits<U>::HasProcess>* ) { }
+
+  template<typename T>
+  template<typename U>
+  void System<T>::PostProcess(typename std::enable_if_t<SystemTraits<U>::HasPostProcess>*) { instance.PostProcess(); }
+  template<typename T>
+  template<typename U >
+  void System<T>::PostProcess(typename std::enable_if_t<!SystemTraits<U>::HasPostProcess>*) { }
 
   template<typename T>
   template<typename U>

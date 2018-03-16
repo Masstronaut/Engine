@@ -71,6 +71,12 @@ private:
   void Process( typename std::enable_if_t<SystemTraits<U>::HasProcess>* = nullptr );
   template<typename U = T >
   void Process( typename std::enable_if_t<!SystemTraits<U>::HasProcess>* = nullptr );
+
+  template<typename U = T>
+  void PostProcess(typename std::enable_if_t<SystemTraits<U>::HasPostProcess>* = nullptr);
+  template<typename U = T >
+  void PostProcess(typename std::enable_if_t<!SystemTraits<U>::HasPostProcess>* = nullptr);
+
   template<typename U = T>
   void VoidUpdate( typename std::enable_if_t<SystemTraits<U>::HasVoidUpdate>* = nullptr );
   template<typename U = T >
