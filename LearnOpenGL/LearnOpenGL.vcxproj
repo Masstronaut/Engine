@@ -177,6 +177,7 @@
     <ClCompile Include="..\src\Model.cpp" />
     <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\RendererCommon.cpp" />
+    <ClCompile Include="..\src\RenderSystem.cpp" />
     <ClCompile Include="..\src\Resource.cpp" />
     <ClCompile Include="..\src\Simulation.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
@@ -199,6 +200,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Camera.hpp" />
+    <ClInclude Include="..\src\Components\Transform.h" />
     <ClInclude Include="..\src\Component\ComponentAggregate.hpp" />
     <ClInclude Include="..\src\Component\ComponentPool.hpp" />
     <ClInclude Include="..\src\Component\ComponentTraits.hpp" />

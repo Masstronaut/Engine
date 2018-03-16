@@ -13,8 +13,9 @@ enum aiTextureType;
 class Model : public Resource {
 public:
   Model( const std::string &path );
+  Model( const Model &model );
   ~Model( );
-  void Draw( GLProgram &shader );
+  void Draw( GLProgram &shader ) const;
 
 
 

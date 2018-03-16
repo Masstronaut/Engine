@@ -37,6 +37,9 @@
     <Filter Include="Header Files\System">
       <UniqueIdentifier>{cafc3d9f-8cc4-4b66-91ef-0ad9466b9ffa}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Components">
+      <UniqueIdentifier>{f8bb5689-52d1-4176-946b-ce2f7e414e92}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\System">
       <UniqueIdentifier>{e541b8af-0ab4-4b76-bb99-e2fafa6fc30f}</UniqueIdentifier>
     </Filter>
@@ -98,6 +101,9 @@
     </ClCompile>
     <ClCompile Include="..\src\Entity\Entity.cpp">
       <Filter>Source Files\Entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\RenderSystem.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -231,6 +237,9 @@
     </ClInclude>
     <ClInclude Include="..\src\RenderSystem.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\Transform.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Component\WeaponComponents.h">
       <Filter>Header Files\Component</Filter>

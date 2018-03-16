@@ -34,7 +34,7 @@ public:
   std::vector<std::shared_ptr<Texture>> textures;
 
   Mesh( const std::vector<Vertex>& verts, const std::vector<unsigned> &indices, std::vector<std::shared_ptr<Texture>> &textures );
-  void Draw( GLProgram &shader );
+  void Draw( GLProgram &shader ) const;
 private:
   unsigned VAO{ 0 }, VBO{ 0 }, EBO{ 0 };
   void Load( );
