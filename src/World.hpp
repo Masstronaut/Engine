@@ -28,7 +28,8 @@ public:
 
   Entity& GetEntity( EntityID ID );
   const Entity& GetEntity( EntityID ID ) const;
-  EntityRef Spawn( EntityRef archetype );
+  EntityRef Spawn( ArchetypeRef archetype );
+  EntityRef World::Spawn( EntityRef archetype );
   // System styles:
   // PURE systems (NO singleton data)
   // Systems of the form (dt, Args&...) which are called once per matching entity.
