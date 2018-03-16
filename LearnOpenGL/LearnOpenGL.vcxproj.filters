@@ -40,6 +40,12 @@
     <Filter Include="Header Files\Components">
       <UniqueIdentifier>{f8bb5689-52d1-4176-946b-ce2f7e414e92}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\System">
+      <UniqueIdentifier>{e541b8af-0ab4-4b76-bb99-e2fafa6fc30f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Systems">
+      <UniqueIdentifier>{906d65ca-db30-4205-af8e-7addedfa1ff5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\src\glad.c">
@@ -234,6 +240,12 @@
     </ClInclude>
     <ClInclude Include="..\src\Components\Transform.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Component\WeaponComponents.h">
+      <Filter>Header Files\Component</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Systems\WeaponSystems.h">
+      <Filter>Header Files\Systems</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

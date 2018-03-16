@@ -204,6 +204,7 @@
     <ClInclude Include="..\src\Component\ComponentAggregate.hpp" />
     <ClInclude Include="..\src\Component\ComponentPool.hpp" />
     <ClInclude Include="..\src\Component\ComponentTraits.hpp" />
+    <ClInclude Include="..\src\Component\WeaponComponents.h" />
     <ClInclude Include="..\src\Detectors.hpp" />
     <ClInclude Include="..\src\EntityID.hpp" />
     <ClInclude Include="..\src\EntityRef.hpp" />
@@ -223,6 +224,7 @@
     <ClInclude Include="..\src\RenderSystem.h" />
     <ClInclude Include="..\src\Resource.hpp" />
     <ClInclude Include="..\src\Simulation.hpp" />
+    <ClInclude Include="..\src\Systems\WeaponSystems.h" />
     <ClInclude Include="..\src\System\System.hpp" />
     <ClInclude Include="..\src\System\SystemTraits.hpp" />
     <ClInclude Include="..\src\Texture.hpp" />
