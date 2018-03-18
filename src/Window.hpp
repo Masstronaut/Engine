@@ -2,6 +2,8 @@
 #include <GLM/glm.hpp>
 #include <string>
 #include "EventArena.hpp"
+#include "Settings/WindowSettings.h"
+
 enum class WindowState { minimized, maximized, restored, closed };
 enum class CursorMode { normal, hidden, disabled };
 class GLWindow {
@@ -88,7 +90,7 @@ protected:
   void SetMouseWheel( const glm::dvec2 &pos );
 
   std::string m_Title;
-  glm::uvec2 m_Size{ 800,600 };
+  glm::uvec2 m_Size{ g_InitialWindowWidth, g_InitialWindowHeight }; 
   glm::ivec2 m_Version{ 4,2 };
   WindowState m_State{ WindowState::restored };
   EventArena m_Events;
