@@ -67,7 +67,7 @@ GLFWWindow::~GLFWWindow( ) {
 }
 
 bool GLFWWindow::KeyPressed( int key ) const {
-  return glfwGetKey( m_WindowHandle, GLFW_KEY_ESCAPE ) == GLFW_PRESS;
+  return glfwGetKey( m_WindowHandle, key) == GLFW_PRESS;
 }
 
 void GLFWWindow::SetSizeImpl( const glm::uvec2 & size ) {
