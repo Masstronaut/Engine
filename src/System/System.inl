@@ -119,10 +119,17 @@
 
   template<typename T>
   template<typename U>
-  void System<T>::SetDt( float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtMember>* ) { instance.Dt = Dt; }
+  void System<T>::SetDt(float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtMember>*) { instance.Dt = Dt; }
   template<typename T>
   template<typename U>
-  void System<T>::SetDt( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtMember>* ) { }
+  void System<T>::SetDt(float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtMember>*) { }
+
+  template<typename T>
+  template<typename U>
+  void System<T>::InitWorld(World &world, typename std::enable_if_t<SystemTraits<U>::HasInitWorld>*) { instance.Init(world); }
+  template<typename T>
+  template<typename U>
+  void System<T>::InitWorld(World &world, typename std::enable_if_t<!SystemTraits<U>::HasInitWorld>*) { }
 
 
 template<typename T>
@@ -132,6 +139,7 @@ inline System<T>::System( World &world, const std::string & name )
   world.On<UpdateEvent>( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
   if constexpr( SystemTraits<T>::HasFrameStart ) world.On<FrameStartEvent>([&](const FrameStartEvent&) { OnFrameStart(); });
   if constexpr(SystemTraits<T>::HasFrameEnd ) world.On<FrameEndEvent>([&](const FrameEndEvent&) { OnFrameEnd(); });
+  if constexpr( SystemTraits<T>::HasInitWorld ) this->InitWorld( world );
 }
 template<typename T>
 inline void System<T>::AddSystem( World & world ) { 

@@ -24,10 +24,9 @@ private:
 
 struct RenderSystem {
 	
-
 	//register for type lists
-	
 	EntitiesWith<const Camera> camEntities;
+	EntitiesWith<const RenderText> textEntities;
 
 	RenderSystem()
 	{
@@ -37,6 +36,7 @@ struct RenderSystem {
 	void Init(World& world)
 	{
 		world.RegisterEntitiesWith(camEntities);
+		world.RegisterEntitiesWith(textEntities);
 	}
 
 	void PreProcess() {
@@ -58,10 +58,10 @@ struct RenderSystem {
 	}
 
 	void PostProcess() {
-//		for (const auto &entity : textEntities) {
-//			const RenderText &renderable{ entity.Get<const RenderText>() };
-//			gltr.Render(renderable.Text, renderable.Position, renderable.Color, renderable.Size);
-//		}
+		for (const auto &entity : textEntities) {
+			const RenderText &renderable{ entity.Get<const RenderText>() };
+			gltr.Render(renderable.Text, renderable.Position, renderable.Color, renderable.Size);
+		}
 	}
 
 	void Draw() {

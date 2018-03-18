@@ -93,6 +93,14 @@ using HasUpdateDTMemFn = is_detected<UpdateDTMemFn, T>;
 template<typename T>
 constexpr bool HasUpdateDTMemFn_v = HasUpdateDTMemFn<T>::value;
 
+class World;
+template<typename T>
+using InitWorldMemFn = decltype(std::declval<T&>().Init(std::declval<World&>()));
+template<typename T>
+using HasInitWorldMemFn = is_detected<InitWorldMemFn, T>;
+template<typename T>
+constexpr bool HasInitWorldMemFn_v = HasInitWorldMemFn<T>::value;
+
 template<typename T>
 using OperatorFnCall = decltype( T::operator() );
 template<typename T>
