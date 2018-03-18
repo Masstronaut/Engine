@@ -86,7 +86,6 @@ bool GLFWWindow::KeyPressed( int key ) const {
 
 void GLFWWindow::SetSizeImpl( const glm::uvec2 & size ) {
   glfwMakeContextCurrent( m_WindowHandle );
-  this->Size(size);
   glViewport( 0, 0, size.x, size.y );
 }
 

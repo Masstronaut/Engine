@@ -155,7 +155,7 @@ void ECSDemo( ) {
   TestWorld.AddSystem<ParallelGravity>( "Parallelized Gravity System" );
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
-  TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
+  //TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
   TestWorld.AddSystem<RenderSystem>("Rendering System");
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };

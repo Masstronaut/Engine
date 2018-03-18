@@ -4,13 +4,9 @@
 
 
   // Check if the entity has all the components of this aggregate.
-  // If it does
+  // If it does, add it to the aggregate.
 void ComponentAggregate::OnEntityCreated( const EntityRef &entity ) {
-  for( const auto& comp : m_Components ) {
-    if( !entity.Has( comp ) ) {
-      return;
-    }
-  }
+  if (!entity.Has(m_Components)) return;
   m_Entities.push_back( entity );
   for( auto entityList : m_EntityLists ) {
     entityList->PushEntity( entity );
@@ -18,6 +14,7 @@ void ComponentAggregate::OnEntityCreated( const EntityRef &entity ) {
 }
 void ComponentAggregate::OnEntityDestroyed( const EntityRef &entity ) {
   auto it{ std::find( std::begin( m_Entities ), std::end( m_Entities ), entity ) };
+  if (it == m_Entities.end()) return;
   auto index{ std::distance( std::begin( m_Entities ), it ) };
   *it = m_Entities.back( );
   m_Entities.pop_back( );

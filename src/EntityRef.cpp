@@ -21,6 +21,14 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
     return m_World->GetEntity( m_ID ).Has( component_type );
   }
 
+  bool EntityRef::Has(const std::vector<std::type_index> &components) const {
+    const Entity &entity{ m_World->GetEntity(m_ID) };
+    for (const auto &component : components) {
+      if (!entity.Has(component)) return false;
+    }
+    return true;
+  }
+
 
   EntityID EntityRef::ID( ) const {
     return m_ID;

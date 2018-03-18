@@ -20,7 +20,7 @@ Entity::~Entity( ) {
 }
 
 
-bool Entity::Has( std::type_index component_type ) {
+bool Entity::Has( std::type_index component_type ) const {
   return m_Components.count( component_type ) > 0;
 }
 

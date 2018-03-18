@@ -19,7 +19,7 @@ public:
   bool Has( ) const;
   template<typename Component, typename Component2, typename... Components>
   bool Has( ) const;
-  bool Has( std::type_index component_type );
+  bool Has( std::type_index component_type ) const;
   template<typename Component>
   Component& Get( );
   template<typename Component>
