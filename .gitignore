@@ -67,3 +67,9 @@ LearnOpenGL/x64/Debug/Entity.obj
 LearnOpenGL/x64/Debug/ComponentAggregate.obj
 LearnOpenGL/x64/Debug/ArchetypeRef.obj
 .vs/Engine/v15/.suo
+LearnOpenGL/x64/Debug/main.obj
+LearnOpenGL/x64/Debug/GLFWWindow.obj
+LearnOpenGL/x64/Debug/main.obj
+LearnOpenGL/x64/Debug/RenderSystem.obj
+LearnOpenGL/x64/Debug/Window.obj
+.vs/Engine/v15/.suo

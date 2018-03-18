@@ -24,19 +24,13 @@ private:
 
 struct RenderSystem {
 	
-	//register for type lists
-	EntitiesWith<const Camera> camEntities;
-	EntitiesWith<const RenderText> textEntities;
-
-	RenderSystem()
-	{
-		program.Load();
-	}
-	
 	void Init(World& world)
 	{
+		//Register for Type Lists
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
+
+		program.Load();
 	}
 
 	void PreProcess() {
@@ -58,10 +52,14 @@ struct RenderSystem {
 	}
 
 	void PostProcess() {
+
+		//Render Text
 		for (const auto &entity : textEntities) {
 			const RenderText &renderable{ entity.Get<const RenderText>() };
 			gltr.Render(renderable.Text, renderable.Position, renderable.Color, renderable.Size);
 		}
+
+		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f,0.f }, { .5f,.8f,.2f });
 	}
 
 	void Draw() {
@@ -73,18 +71,16 @@ struct RenderSystem {
 		Draw();
 	}
 
+
+	//Type Lists
+	EntitiesWith<const Camera> camEntities;
+	EntitiesWith<const RenderText> textEntities;
+
+	//GL Impl 
 	GLTextRenderer gltr{ "Text.sprog" };
 	mutable GLProgram program{ "Model.sprog" };
 
+	float Dt{ 0.f };
 	glm::mat4 projection;
 	const Camera *camera{ nullptr };
-};
-
-
-struct FrameratePrinter {
-  void PostProcess( ) {
-    gltr.Render( "FPS: " + std::to_string( 1.f / Dt ), { 0.f,0.f }, { .5f,.8f,.2f } );
-  }
-  float Dt{ 0.f };
-  GLTextRenderer gltr{ "Text.sprog" };
 };
