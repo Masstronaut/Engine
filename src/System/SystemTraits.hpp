@@ -11,6 +11,7 @@ struct SystemTraits {
   static constexpr bool HasEditorUpdate = HasEditorUpdateMemFn_v<System>;
   static constexpr bool HasFrameStart = HasFrameStartMemFn_v<System>;
   static constexpr bool HasFrameEnd = HasFrameEndMemFn_v<System>;
+  static constexpr bool HasInitWorld = HasInitWorldMemFn_v<System>;
   static constexpr bool HasPreProcess = HasPreProcessMemFn_v<System>;
   static constexpr bool HasPostProcess = HasPostProcessMemFn_v<System>;
   static constexpr bool HasProcess = HasProcessMemFn_v<System>;

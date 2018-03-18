@@ -102,6 +102,13 @@ private:
   template<typename U = T >
   void SetDt( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtMember>* = nullptr );
 
+
+  template<typename U = T>
+  void InitWorld(World &world, typename std::enable_if_t<SystemTraits<U>::HasInitWorld>* = nullptr);
+  template<typename U = T >
+  void InitWorld(World &world, typename std::enable_if_t<!SystemTraits<U>::HasInitWorld>* = nullptr);
+
+
   virtual void AddSystem( World &world ) final;
   void RegisterEntities( World &world );
   void RegisterEditorUpdate( World & world );
