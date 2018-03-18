@@ -2,6 +2,7 @@
 #include <GLFW/glfw3.h>
 
 #include "GLFWWindow.hpp"
+#include "Settings/WindowSettings.h"
 
 std::unordered_map<GLFWwindow *, GLFWWindow *> GLFWWindow::m_CallbackHelpers{};
 
@@ -15,8 +16,18 @@ GLFWWindow::GLFWWindow()
     // required for MAC OSX support
     glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
   #endif
-    m_WindowHandle = glfwCreateWindow( this->Width( ), this->Height( ), this->Title( ).c_str( ), NULL, NULL );
-    if( !m_WindowHandle ) {
+
+	//Create the window and get a pointer to the handle
+	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+	const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
+
+	if(g_StartFullscreen)
+		m_WindowHandle = glfwCreateWindow(primaryMonMode->width, primaryMonMode->height, this->Title( ).c_str( ), primaryMonitor, NULL );
+	else
+		m_WindowHandle = glfwCreateWindow(this->Width(), this->Height(), this->Title().c_str(), NULL, NULL);
+
+	
+	if( !m_WindowHandle ) {
       // @@TODO: Change to real logging
       system( "pause" );
       exit( -1 );
@@ -30,6 +41,9 @@ GLFWWindow::GLFWWindow()
       system( "pause" );
       exit( -1 );
     }
+
+	GLsizei w = this->Width();
+	GLsizei h = this->Height();
     glViewport( 0, 0, this->Width( ), this->Height( ) );
     // @@TODO: put these somewhere else
     //glEnable( GL_CULL_FACE );
@@ -72,6 +86,7 @@ bool GLFWWindow::KeyPressed( int key ) const {
 
 void GLFWWindow::SetSizeImpl( const glm::uvec2 & size ) {
   glfwMakeContextCurrent( m_WindowHandle );
+  this->Size(size);
   glViewport( 0, 0, size.x, size.y );
 }
 

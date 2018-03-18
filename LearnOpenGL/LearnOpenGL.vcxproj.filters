@@ -46,6 +46,9 @@
     <Filter Include="Header Files\Systems">
       <UniqueIdentifier>{906d65ca-db30-4205-af8e-7addedfa1ff5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Settings">
+      <UniqueIdentifier>{55151cd5-762b-4a5b-bf42-f2b92145bdcf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\Dependencies\src\glad.c">
@@ -264,6 +267,9 @@
     </ClInclude>
     <ClInclude Include="..\src\Systems\WeaponSystems.h">
       <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Settings\WindowSettings.h">
+      <Filter>Header Files\Settings</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

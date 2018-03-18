@@ -155,10 +155,8 @@ void ECSDemo( ) {
   TestWorld.AddSystem<ParallelGravity>( "Parallelized Gravity System" );
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
-  TestWorld.AddSystem<ModelRenderSystem>( "Model Rendering System" );
   TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
-  TestWorld.AddSystem<TextRenderSystem>( "Text Rendering System" );
-  TestWorld.AddSystem<FrameratePrinter>( "Framerate Printing System" );
+  TestWorld.AddSystem<RenderSystem>("Rendering System");
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };

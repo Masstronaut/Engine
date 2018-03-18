@@ -22,7 +22,7 @@
     <VCProjectVersion>15.0</VCProjectVersion>
     <ProjectGuid>{FF8E7633-30BE-4894-B416-90CADCAB156D}</ProjectGuid>
     <RootNamespace>LearnOpenGL</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.15063.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
     <ProjectName>Engine</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -229,6 +229,7 @@
     <ClInclude Include="..\src\RendererCommon.hpp" />
     <ClInclude Include="..\src\RenderSystem.h" />
     <ClInclude Include="..\src\Resource.hpp" />
+    <ClInclude Include="..\src\Settings\WindowSettings.h" />
     <ClInclude Include="..\src\Simulation.hpp" />
     <ClInclude Include="..\src\Systems\WeaponSystems.h" />
     <ClInclude Include="..\src\System\System.hpp" />
