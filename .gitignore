@@ -23,7 +23,10 @@
 *.lai
 *.la
 *.a
-*.lib
+LearnOpenGL/x64/Debug/*.lib
+LearnOpenGL/x64/Release/*.lib
+LearnOpenGL/x64/Debug/*.obj
+LearnOpenGL/x64/Release/*.obj
 
 # Executables
 *.exe
