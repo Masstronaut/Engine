@@ -21,8 +21,16 @@ GLFWWindow::GLFWWindow()
 	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
 	const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
 
-	if(g_StartFullscreen)
-		m_WindowHandle = glfwCreateWindow(primaryMonMode->width, primaryMonMode->height, this->Title( ).c_str( ), primaryMonitor, NULL );
+	//store in a modifyable object
+	float tempWidth = primaryMonMode->width;
+	float tempHeight = primaryMonMode->height;
+
+	if (g_StartFullscreen)
+	{
+		m_Size = glm::uvec2(tempWidth, tempWidth);
+		m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, this->Title().c_str(), primaryMonitor, NULL);
+		Size(m_Size);
+	}
 	else
 		m_WindowHandle = glfwCreateWindow(this->Width(), this->Height(), this->Title().c_str(), NULL, NULL);
 
@@ -42,6 +50,7 @@ GLFWWindow::GLFWWindow()
       exit( -1 );
     }
 
+	//init opengl / device
 	GLsizei w = this->Width();
 	GLsizei h = this->Height();
     glViewport( 0, 0, this->Width( ), this->Height( ) );
@@ -86,7 +95,6 @@ bool GLFWWindow::KeyPressed( int key ) const {
 
 void GLFWWindow::SetSizeImpl( const glm::uvec2 & size ) {
   glfwMakeContextCurrent( m_WindowHandle );
-  this->Size(size);
   glViewport( 0, 0, size.x, size.y );
 }
 

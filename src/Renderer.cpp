@@ -9,7 +9,7 @@ std::string FontPath( ) {
 GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &font, int size )
   : m_Shader(shader )
   , m_Size(size) {
-  m_Shader.SetUniform( "projection", glm::ortho( 0.f, 800.f, 0.f, 600.f ) );
+  
   if( FT_Init_FreeType( &m_FT ) ) {
     std::cout << "ERROR: Failed to initialize FreeType Library." << std::endl;
   }
@@ -73,8 +73,10 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
   glBindVertexArray( 0 );
 }
 
-void GLTextRenderer::Render( const std::string & text, glm::vec2 position, glm::vec3 color, float scale ) {
+void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::mat4 proj, glm::vec3 color, float scale)
+{ 
   m_Shader.Use( );
+  m_Shader.SetUniform("projection", proj);
   m_Shader.SetUniform( "textColor", color );
   glActiveTexture( GL_TEXTURE0 );
   glBindVertexArray( VAO );

@@ -10,12 +10,16 @@ public:
   EventArena( ) = default;
   EventArena( const EventArena& ) = delete;
   EventArena( EventArena&& ) = default;
+
   template<typename T>
   using Callback = std::function<void( const T& )>;
+  
   template<typename T>
   void On( Callback<T> cb );
+  
   template<typename T>
   void On( const T &value, Callback<T> cb );
+  
   template<typename T>
   void On( const T &value, std::function<void(void)> cb );
 

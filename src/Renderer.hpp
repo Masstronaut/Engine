@@ -9,7 +9,7 @@
 class GLTextRenderer {
 public:
   GLTextRenderer( const std::string &shader = "Text.sprog", const std::string &font = "arial.ttf", int size = 22);
-  void Render( const std::string &text, glm::vec2 position, glm::vec3 color, float scale = 1.f );
+  void Render( const std::string &text, glm::vec2 position, glm::mat4 proj, glm::vec3 color, float scale = 1.f );
 
 private:
   struct Character {

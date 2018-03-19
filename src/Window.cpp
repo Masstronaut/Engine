@@ -1,5 +1,6 @@
 #include "Window.hpp"
 
+//Getters
 const std::string& GLWindow::Title( ) const { return m_Title; }
 const glm::uvec2& GLWindow::Size( ) const { return m_Size; }
 const GLWindow::Cursor& GLWindow::Mouse( ) const { return m_Mouse; }
@@ -8,7 +9,7 @@ unsigned GLWindow::Height( ) const { return m_Size.y; }
 unsigned GLWindow::Width( ) const { return m_Size.x; }
 WindowState GLWindow::State( ) const { return m_State; }
 
-// Builder pattern window
+//Setters
 GLWindow& GLWindow::Title( const std::string &title ) {
   if( this->Title( ) != title ) {
     std::string oldTitle{ this->Title( ) };
@@ -37,6 +38,9 @@ GLWindow& GLWindow::Height( unsigned value ) {
 GLWindow& GLWindow::Width( unsigned value ) {
   return this->Size( { value, this->Height( ) } );
 }
+
+
+//Mouse Stuff
 GLWindow& GLWindow::MouseMode( CursorMode mode ) {
   if( this->Mouse( ).mode != mode ) {
     CursorMode oldMode{ this->Mouse( ).mode };
@@ -63,7 +67,7 @@ int GLWindow::Cursor::Held( ) const {
 }
 bool GLWindow::Cursor::Released( ) const { return !pressed && was_pressed; }
 
-
+//State Machine
 GLWindow& GLWindow::State( WindowState mode ) {
   if( this->State( ) != mode ) {
     WindowState oldState{ this->State( ) };
