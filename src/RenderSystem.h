@@ -4,7 +4,7 @@
 #include "Camera.hpp"
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
-#include "Renderer.hpp"
+#include "GLTextRenderer.hpp"
 #include "GLProgram.hpp"
 #include "Model.hpp"
 #include "Components/Transform.h"
@@ -67,8 +67,20 @@ struct RenderSystem {
 		glm::mat4 modelMatrix;
 		modelMatrix = glm::translate(modelMatrix, tf.pos);
 		modelMatrix = glm::scale(modelMatrix, tf.scale);
+
+		modelMatrix = glm::rotate(modelMatrix, tf.rot.x, glm::vec3(1.f, 0.f, 0.f));
+		modelMatrix = glm::rotate(modelMatrix, tf.rot.y, glm::vec3(0.f, 1.f, 0.f));
+		modelMatrix = glm::rotate(modelMatrix, tf.rot.z, glm::vec3(0.f, 0.f, 1.f));
+		
 		program.SetUniform("model", modelMatrix);
 		model.model->Draw(program);
+	}
+
+
+	float NextTextPos(float prevPos)
+	{
+		int offset = g_DebugTextSize;
+		return prevPos - offset;
 	}
 
 	void PostProcess() {
@@ -79,7 +91,11 @@ struct RenderSystem {
 			gltr.Render(renderable.Text, renderable.Position, m_ortho_projection, renderable.Color, renderable.Size);
 		}
 
-		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f,0.f }, m_ortho_projection, { .5f,.8f,.2f });
+		float pos;
+		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, pos=NextTextPos(m_windowSize.y) }, m_ortho_projection, { .5f,.8f,.2f });
+		gltr.Render("Camera Pos X: " + std::to_string(camera->position.x), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Y: " + std::to_string(camera->position.y), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Z: " + std::to_string(camera->position.z), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
 	}
 
 	void Draw() {

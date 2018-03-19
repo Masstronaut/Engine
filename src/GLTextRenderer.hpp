@@ -5,10 +5,11 @@
 #include <ft2build.h>
 #include FT_FREETYPE_H
 #include "GLProgram.hpp"
+#include "Settings/UI_Settings.h"
 
 class GLTextRenderer {
 public:
-  GLTextRenderer( const std::string &shader = "Text.sprog", const std::string &font = "arial.ttf", int size = 22);
+  GLTextRenderer( const std::string &shader = "Text.sprog", const std::string &font = "arial.ttf", int size = g_DebugTextSize);
   void Render( const std::string &text, glm::vec2 position, glm::mat4 proj, glm::vec3 color, float scale = 1.f );
 
 private:
