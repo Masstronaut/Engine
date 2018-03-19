@@ -81,13 +81,13 @@
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
+    <IncludePath>$(SolutionDir)/Dependencies/include;$(IncludePath);$(SolutionDir)\src\Jellyfish_Renderer\Jellyfish_Renderer\Include\</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\;</LibraryPath>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
+    <IncludePath>$(SolutionDir)/Dependencies/include;$(IncludePath);$(SolutionDir)\src\Jellyfish_Renderer\Jellyfish_Renderer\Include\</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\;</LibraryPath>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -115,7 +115,7 @@
       <CppLanguageStandard>Default</CppLanguageStandard>
     </ClCompile>
     <Link>
-      <AdditionalDependencies>GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jellyfish.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <CustomBuildStep>
@@ -156,7 +156,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Jellyfish.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <CustomBuildStep>
       <Command>copy $(SolutionDir)/Dependencies/lib/$(Configuration)/assimp-vc140-mt.dll $(SolutionDir)/x64/$(Configuration)/assimp-vc140-mt.dll</Command>
@@ -225,7 +225,7 @@
     <ClInclude Include="..\src\Model.hpp" />
     <ClInclude Include="..\src\NoCopy.hpp" />
     <ClInclude Include="..\src\RenderComponents.h" />
-    <ClInclude Include="..\src\Renderer.hpp" />
+    <ClInclude Include="..\src\GLTextRenderer.hpp" />
     <ClInclude Include="..\src\RendererCommon.hpp" />
     <ClInclude Include="..\src\RenderSystem.h" />
     <ClInclude Include="..\src\Resource.hpp" />

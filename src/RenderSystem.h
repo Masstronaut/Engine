@@ -9,6 +9,8 @@
 #include "Model.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
+#include <Jellyfish.h>
+
 
 struct WindowManager {
   WindowManager();
@@ -47,6 +49,12 @@ struct RenderSystem {
 		});
 
 		program.Load();
+
+
+		//RENDERER LIB TEST
+		Derp test;
+		test.DoAThing();
+
 	}
 
 	void PreProcess() {
