@@ -18,6 +18,9 @@ struct WindowManager {
 	  window.On<GLWindow::EWindowResized>([&](const GLWindow::EWindowResized &event) {
 		  world.Emit(event);
 	  });
+    window.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
+      world.Emit(event);
+    });
   }
 
   EntitiesWith<Camera> Entities;

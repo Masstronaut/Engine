@@ -161,7 +161,12 @@ void ECSDemo( ) {
   EntityRef EnemyB{ EnemyA.Clone( ) };
   EnemyB.Get<Transform>( ).pos.x = 1.f;
   EnemyB.Get<Transform>().pos.z = 3.f;
-  while( true ) {
+
+  bool WindowOpen = true;
+  TestWorld.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
+    if(event.newState == WindowState::closed) WindowOpen = false;
+  });
+  while( WindowOpen ) {
     double currentFrame = glfwGetTime();
     dt = currentFrame - lastFrame;
     unsigned FPS{ static_cast< unsigned >(1. / dt) };
