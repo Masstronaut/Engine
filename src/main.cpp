@@ -122,6 +122,10 @@ struct ParallelAccelerationSystem {
 };
 
 struct ParallelGravity {
+  ParallelGravity() = default;
+  ParallelGravity(glm::vec3 gravity) : m_gravity(gravity) {}
+  ParallelGravity(const ParallelGravity &) = default;
+  ParallelGravity(ParallelGravity &&) = default;
   void PreProcess( ) { }
   void Process( RigidBody&rb ) const {
     rb.acceleration += m_gravity * Dt;
@@ -134,28 +138,14 @@ struct ParallelGravity {
 #include "World.hpp"
 #include "RenderSystem.h"
 void ECSDemo( ) {
-  // tests that constraint checking is working correctly
-
-  static_assert( SystemTraits<TransformPrinterSystem>::HasEntities );
-  static_assert( SystemTraits<TransformPrinterSystem>::HasVoidUpdate );
-  static_assert( SystemTraits<ParallelGravity>::HasPreProcess );
-  static_assert( SystemTraits<ParallelGravity>::HasProcess );
-  static_assert( SystemTraits<ParallelVelocitySystem>::IsParallelSystem );
-  static_assert( HasProcessMemFn_v<ParallelVelocitySystem> );
-  static_assert( HasPreProcessMemFn_v<ParallelVelocitySystem> );
-  /*static_assert( SystemTraits<ParallelGravity>::IsParallelSystem );
-  static_assert( SystemTraits<ParallelGravity>::HasPreProcess );
-  static_assert( SystemTraits<ParallelGravity>::HasProcess );*/
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
-  //TestWorld.AddSystem<Gravity>( "Gravity" );
-  //TestWorld.AddSystem<AccelerationSystem>( "Acceleration" );
-  //TestWorld.AddSystem<VelocitySystem>( "Velocity" );
+
   TestWorld.AddSystem<WindowManager>( "Window Management System" );
-  TestWorld.AddSystem<ParallelGravity>( "Parallelized Gravity System" );
+  TestWorld.AddSystem<Gravity>("Gravity System");
+  TestWorld.AddSystem<ParallelGravity>("Parallelized Gravity System", glm::vec3{ 0.f, -9.81f, 0.f });
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
-  //TestWorld.AddSystem<TransformPrinterSystem>( "Transform Printer" );
   TestWorld.AddSystem<RenderSystem>("Rendering System");
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };

@@ -22,6 +22,7 @@ public:
 
   // Expects the vector of type_index objects to be sorted. 
   bool Matches( const std::vector<std::type_index>& hashes ) const;
+  bool Matches(const EntityRef &entity) const;
   std::vector<EntityRef>& GetEntities( );
   const std::vector<EntityRef>& GetEntities( ) const;
   // Check if the entity has all the components of this aggregate.
@@ -35,6 +36,7 @@ private:
   void AddType( );
   template<typename T, typename T2, typename... Args>
   void AddType( );
+  void AddVerifiedEntity(const EntityRef &entity);
   std::vector<EntityRef> m_Entities;
   std::vector<std::type_index> m_Components;
   // These can be updated in constant time with events

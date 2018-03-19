@@ -18,6 +18,8 @@ public:
   void On( const T &value, Callback<T> cb );
   template<typename T>
   void On( const T &value, std::function<void(void)> cb );
+  template<typename T>
+  void OnNext(Callback<T> cb);
 
   template<typename T>
   void Emit( const T &event ); // may provide option to emit instantly or delayed at a later time
@@ -32,8 +34,10 @@ private:
     using Callback = typename EventArena::Callback<T>;
     void Emit( const T &event );
     void On( Callback cb );
+    void OnNext(Callback cb);
   private:
-    std::vector<Callback> m_callbacks;
+    std::vector<Callback> m_Callbacks;
+    std::vector<Callback> m_CallOnce;
   };
   template<typename T>
   EventDispatcher<T>& Dispatcher( );
@@ -53,18 +57,30 @@ void EventArena::On( const T &value, std::function<void( void )> cb ) {
 }
 
 template<typename T>
+inline void EventArena::OnNext(Callback<T> cb) {
+  Dispatcher<T>().OnNext(cb);
+}
+
+template<typename T>
 void EventArena::Emit( const T &event ) {
   Dispatcher<T>( ).Emit( event );
 }
 
 template<typename T>
 inline void EventArena::EventDispatcher<T>::Emit( const T & event ) {
-  for( auto &cb : m_callbacks ) cb( event );
+  for( auto &cb : m_Callbacks ) cb( event );
+  for (auto &cb : m_CallOnce) cb(event);
+  m_CallOnce.clear();
 }
 
 template<typename T>
 inline void EventArena::EventDispatcher<T>::On( Callback cb ) {
-  m_callbacks.emplace_back( cb );
+  m_Callbacks.emplace_back( cb );
+}
+
+template<typename T>
+inline void EventArena::EventDispatcher<T>::OnNext(Callback cb) {
+  m_CallOnce.emplace_back(cb);
 }
 
 

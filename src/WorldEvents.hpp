@@ -1,4 +1,5 @@
 #pragma once
+#include <typeindex>
 #include "EntityRef.hpp"
 struct EditorUpdateEvent {
 };
@@ -22,4 +23,14 @@ struct UpdateEvent {
 struct FrameStartEvent {
 };
 struct FrameEndEvent {
+};
+
+struct ComponentAddedEvent {
+  const EntityRef entity;
+  std::type_index ComponentType;
+};
+
+struct ComponentRemovedEvent {
+  const EntityRef entity;
+  std::type_index ComponentType;
 };

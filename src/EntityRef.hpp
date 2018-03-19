@@ -28,6 +28,11 @@ public:
   template<typename Component>
   const Component& Get( ) const;
 
+  template<typename Component, typename... Args>
+  Component& Add(Args&&... args);
+  template<typename Component>
+  void Remove();
+
   EntityID ID( ) const;
   
   const std::string& Name( ) const;
