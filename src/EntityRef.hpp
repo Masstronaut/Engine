@@ -2,6 +2,7 @@
 #include <tuple>
 #include <string>
 #include <typeindex>
+#include <vector>
 #include "EntityID.hpp"
 class World;
 class Entity;
@@ -20,11 +21,17 @@ public:
   bool Has( ) const;
 
   bool Has( std::type_index component_type ) const;
+  bool EntityRef::Has(const std::vector<std::type_index> &components) const;
 
   template<typename Component>
   Component& Get( );
   template<typename Component>
   const Component& Get( ) const;
+
+  template<typename Component, typename... Args>
+  Component& Add(Args&&... args);
+  template<typename Component>
+  void Remove();
 
   EntityID ID( ) const;
   

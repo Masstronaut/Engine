@@ -262,14 +262,14 @@
     <ClInclude Include="..\src\Components\Transform.h">
       <Filter>Header Files\Components</Filter>
     </ClInclude>
-    <ClInclude Include="..\src\Component\WeaponComponents.h">
-      <Filter>Header Files\Component</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Systems\WeaponSystems.h">
       <Filter>Header Files\Systems</Filter>
     </ClInclude>
     <ClInclude Include="..\src\Settings\WindowSettings.h">
       <Filter>Header Files\Settings</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Component\WeaponComponents.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

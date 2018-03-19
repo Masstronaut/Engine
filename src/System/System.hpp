@@ -36,10 +36,13 @@ auto EntitiesToProcess( const U&, typename std::enable_if_t<SystemTraits<U>::Has
 template<typename U>
 bool EntitiesToProcess( const U&, typename std::enable_if_t<!SystemTraits<U>::HasProcess>* = nullptr ) { }
 }
+
+
 template<typename T>
 class System : public SystemBase {
 public:
-  System( World &world, const std::string & name );
+  template<typename... Args>
+  System( World &world, const std::string & name, Args&&... args );
   virtual bool HasEntities( ) const final;
   virtual bool HasVoidUpdate( ) const final;
   virtual bool HasDtUpdate( ) const final;

@@ -133,8 +133,10 @@
 
 
 template<typename T>
-inline System<T>::System( World &world, const std::string & name )
-  : m_name( name ) {
+template<typename... Args>
+inline System<T>::System( World &world, const std::string & name, Args&&... args )
+  : instance(std::forward<Args>(args)...)
+  , m_name( name ) {
   AddSystem( world );
   world.On<UpdateEvent>( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
   if constexpr( SystemTraits<T>::HasFrameStart ) world.On<FrameStartEvent>([&](const FrameStartEvent&) { OnFrameStart(); });

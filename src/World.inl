@@ -37,72 +37,10 @@ template<typename... Args>
 ComponentAggregate& World::GetAggregate( type_list<Args...> ) {
   return this->GetAggregate<Args...>( );
 }
-template<typename ReturnType>
-void World::AddSystem( ReturnType( *fn )( float ), const std::string& name ) {
-  m_Updaters.emplace_back( std::move( name ),
-                          [ fn ]( float dt ) {
-                            fn( dt );
-                          } );
-}
-template<typename ReturnType>
-inline void World::AddSystem( ReturnType( *fn )( void ), const std::string & name ) {
-  m_Updaters.emplace_back( std::move( name ),
-                           [ fn ]( float ) {
-                             fn( );
-                           });
-}
 
-
-template<typename Predicate>
-inline std::enable_if_t<HasOperatorFnCall_v<Predicate>> 
-World::AddSystem( Predicate && pred, const std::string & name ) {
-  this->AddSystem( &Predicate::operator(), std::forward<Predicate>( pred ), name );
-}
-
-
-// Member functions that run once per update tick
-template<typename ReturnType, typename ClassName>
-void World::AddSystem( ReturnType( ClassName::*fn )( float ), ClassName& instance, const std::string& name ) {
-  m_Updaters.emplace_back( std::move( name ),
-                           [ fn, &instance ]( float dt ) {
-                             ( instance.*fn )( dt );
-                           } );
-}
-template<typename ReturnType, typename ClassName>
-inline void World::AddSystem( ReturnType( ClassName::* fn )( void ), ClassName & instance, const std::string & name ) { 
-  m_Updaters.emplace_back( std::move( name ), std::function<void(float)>(
-                           [ fn, &instance ]( float ) {
-                             ( instance.*fn )( );
-  } ) );
-}
-// const Member functions that run once per update tick
-template<typename ReturnType, typename ClassName>
-void World::AddSystem( ReturnType( ClassName::*fn )( float ) const, const ClassName& instance, const std::string& name ) {
-  m_Updaters.emplace_back( std::move( name ),
-                           [ fn, &instance ]( float dt ) {
-                             ( instance.*fn )( dt );
-                           } );
-}
-template<typename ReturnType, typename ClassName>
-void World::AddSystem( ReturnType( ClassName::*fn )( void ) const, const ClassName& instance, const std::string& name ) {
-  m_Updaters.emplace_back( std::move( name ),
-                           [ fn, &instance ]( float ) {
-                             ( instance.*fn )( );
-                           } );
-}
-template<typename T>
-void World::AddSystem( const std::string &name ) {
-  if constexpr ( SystemTraits<T>::IsParallelSystem ) {
-    AddParallelSystem<T>( name );
-  }
-  else if constexpr( SystemTraits<T>::IsPureSystem ) {
-    // PURE system
-    AddPureSystem<T>( name );
-  }
-  else if constexpr ( !SystemTraits<T>::IsPureSystem ) {
-    // STATEFUL system
-    AddStatefulSystem<T>( name );
-  }
+template<typename T, typename... Args>
+void World::AddSystem( const std::string &name, Args&&... args) {
+  m_Systems.push_back(std::move(std::unique_ptr<SystemBase>(new System<T>(*this, name, std::forward<Args>(args)...))));
 }
 
 
@@ -110,21 +48,6 @@ void World::AddSystem( const std::string &name ) {
 template<typename... Args>
 void World::RegisterEntitiesWith( EntitiesWith<Args...> &ew ) {
   this->GetAggregate<Args...>( ).AddEntityList( ew );
-}
-
-
-template<typename T>
-void World::AddPureSystem( const std::string &name ) {
-  static_assert( 0, "implementation of World::AddPureSystem does not yet exist." );
-}
-template<typename T>
-void World::AddStatefulSystem( const std::string &name ) {
-  m_Systems.push_back( std::move( std::unique_ptr<SystemBase>( new System<T>( *this, name ) ) ) );
-}
-
-template<typename T>
-void World::AddParallelSystem( const std::string &name) {
-  m_Systems.push_back( std::move( std::unique_ptr<SystemBase>( new System<T>( *this, name ) ) ) );
 }
 
 template<typename T>
