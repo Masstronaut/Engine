@@ -1,7 +1,7 @@
 #include <iostream>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include "Renderer.hpp"
+#include "GLTextRenderer.hpp"
 std::string FontPath( ) {
   return "../Resources/Fonts/";
 }

@@ -152,15 +152,16 @@ void ECSDemo( ) {
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
   lens.Add<Camera>( );
   enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
-  enemy.Get<Transform>( ).pos = { -1.0f, -3.0f, 3.0f };
+  enemy.Get<Transform>( ).pos = { 0.0f, 0.0f, -3.0f };
+  enemy.Get<Transform>().rot = { 0.f, 0.f, 0.f };
   enemy.Add<RigidBody>( );
   CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
   cm.model->Load();
   TestWorld.Spawn( lens );
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
-  EntityRef EnemyB{ EnemyA.Clone( ) };
-  EnemyB.Get<Transform>( ).pos.x = 1.f;
-  EnemyB.Get<Transform>().pos.z = 3.f;
+//  EntityRef EnemyB{ EnemyA.Clone( ) };
+//  EnemyB.Get<Transform>( ).pos.x = 1.f;
+//  EnemyB.Get<Transform>().pos.z = 3.f;
 
   bool WindowOpen = true;
   TestWorld.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
