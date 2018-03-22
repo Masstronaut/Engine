@@ -52,7 +52,7 @@ struct RenderSystem {
 
 
 		//RENDERER LIB TEST
-		Derp test;
+		Jellyfish::Derp test;
 		test.DoAThing();
 
 	}
