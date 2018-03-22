@@ -33,6 +33,8 @@ public:
   template<typename Component>
   void Remove();
 
+  void Kill();
+
   EntityID ID( ) const;
   
   const std::string& Name( ) const;

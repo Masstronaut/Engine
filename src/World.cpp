@@ -38,7 +38,8 @@ EntityRef World::Spawn(ArchetypeRef archetype) {
   return Spawn(EntityRef{ archetype.ID(), archetype.GetWorld() });
 }
 EntityRef World::Spawn(EntityRef archetype) {
-  EntityRef ent{ this->CreateEntity(archetype.Name()) };
+  std::string name{ archetype.Name() };
+  EntityRef ent{ this->CreateEntity(name) };
   archetype.m_World->m_Entities[archetype.ID()].Clone(*this, m_Entities[ent.ID()]);
   return ent;
 }
@@ -49,7 +50,9 @@ const std::string& World::Name() const {
 
 EntityRef World::CreateEntity(const std::string & name) {
   auto ID{ m_Entities.emplace(*this) };
-  m_Entities[ID].Name(name).m_ID = ID;
+  std::string newname = name;
+  m_Entities[ID].Name(newname);
+  m_Entities[ID].m_ID = ID;
   return EntityRef(ID, this);
 }
 
@@ -59,6 +62,10 @@ ComponentPoolBase * World::GetComponentPool(std::type_index Component) {
     return it->second.get();
   }
   return nullptr;
+}
+
+void World::Kill(EntityRef entity) {
+  m_Entities.erase(entity.ID());
 }
 
 void World::Update(float dt) {

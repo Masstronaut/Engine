@@ -150,19 +150,28 @@ void ECSDemo( ) {
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
-  lens.Add<Camera>( );
+  lens.Add<Camera>();
   enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
   enemy.Get<Transform>( ).pos = { 0.0f, 0.0f, -3.0f };
   enemy.Get<Transform>().rot = { 0.f, 0.f, 0.f };
   enemy.Add<RigidBody>( );
   CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
   cm.model->Load();
-  TestWorld.Spawn( lens );
+  EntityRef cam{ TestWorld.Spawn(lens) };
+  cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
+  cam.Get<Camera>().pitch = -11.f;
+  cam.Get<Camera>().yaw = -89.f;
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
-//  EntityRef EnemyB{ EnemyA.Clone( ) };
-//  EnemyB.Get<Transform>( ).pos.x = 1.f;
-//  EnemyB.Get<Transform>().pos.z = 3.f;
-
+  // set SpawnNanos to false if you want higher FPS and less nanosuits
+  if (bool SpawnNanos{ true }; SpawnNanos) {
+    std::vector<EntityRef> nanos;
+    for (int i{ 0 }; i < 10; ++i) {
+      for (int j{ 0 }; j < 10; ++j) {
+        nanos.emplace_back(EnemyA.Clone());
+        nanos.back().Get<Transform>().pos = glm::vec3{ i, 0, j };
+      }
+    }
+  }
   bool WindowOpen = true;
   TestWorld.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
     if(event.newState == WindowState::closed) WindowOpen = false;

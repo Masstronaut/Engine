@@ -30,6 +30,13 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
   }
 
 
+  void EntityRef::Kill() {
+    m_World->Emit(EntityDeathEvent{ *this });
+    m_World->OnNext<FrameEndEvent>([=](const FrameEndEvent&) {
+      m_World->Kill(*this);
+    });
+  }
+
   EntityID EntityRef::ID( ) const {
     return m_ID;
   }
