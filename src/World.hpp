@@ -28,9 +28,8 @@ public:
   Entity& GetEntity( EntityID ID );
   const Entity& GetEntity( EntityID ID ) const;
   EntityRef Spawn( ArchetypeRef archetype );
-  EntityRef World::Spawn( EntityRef archetype );
+  EntityRef Spawn( EntityRef archetype );
 
-  // whole class systems
   template<typename T, typename... Args>
   void AddSystem( const std::string &name = "Nameless System", Args&&... args );
 
@@ -59,6 +58,8 @@ protected:
   ComponentAggregate& GetAggregate( type_list<Args...> );
 
 private:
+  friend class EntityRef;
+  void Kill(EntityRef entity);
   std::string m_Name;
   std::unordered_map<std::type_index, std::unique_ptr<ComponentPoolBase>> m_Components;
   slot_map<Entity> m_Entities;

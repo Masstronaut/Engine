@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ComponentTraits.hpp"
+#include "ComponentPool.hpp"
 template<typename Component>
 inline ComponentPool<Component>::ComponentPool( World &world ) { 
   if constexpr( ComponentTraits<Component>::HasVoidUpdate ) {
@@ -45,4 +46,10 @@ template<typename Component>
 std::pair<std::type_index, EntityID> ComponentPool<Component>::Clone( EntityID ID, World &world ) {
   return std::make_pair( std::type_index( typeid( Component ) ),
                          world.GetComponentPool<Component>( ).components.insert( this->components[ ID ] ) );
+}
+
+template<typename Component>
+inline void ComponentPool<Component>::Erase(EntityID ID) {
+  components.erase(ID);
+  // @@OPTIMIZE: send out an event that the former .back() element has had its memory location changed.
 }

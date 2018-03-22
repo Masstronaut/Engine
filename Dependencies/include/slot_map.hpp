@@ -453,7 +453,7 @@ constexpr typename slot_map<T, Token, Container>::size_type slot_map<T, Token, C
   if( this->size( ) == this->capacity( ) )this->grow( );
   key_size_type next_free_head{ this->key_index( *( std::begin( m_slots ) + m_free_head ) ) };
   if( next_free_head == m_free_head ) { // last free slot 
-    assert( m_data.size( ) == m_data.capacity( ) );
+    //assert( m_data.size( ) == m_data.capacity( ) );
     return static_cast< size_type >( m_free_head );
   }
   else {
@@ -465,6 +465,8 @@ constexpr typename slot_map<T, Token, Container>::size_type slot_map<T, Token, C
 
 template<typename T, typename Token, template<typename...>typename Container>
 constexpr void slot_map<T, Token, Container>::push_tail( size_type tail_index ) {
+  //@@TODO: investigate if this is needed for erase on full capacity slot_map.
+  //if (m_free_head == m_free_tail) m_free_head = tail_index;
   this->key_index( *( std::begin( m_slots ) + m_free_tail ) ) = tail_index;
   this->key_index( *( std::begin( m_slots ) + tail_index ) ) = tail_index;
   m_free_tail = tail_index;
@@ -491,7 +493,8 @@ constexpr void slot_map<T, Token, Container>::grow( ) {
 
 template<typename T, typename Token, template<typename...>typename Container>
 constexpr void slot_map<T, Token, Container>::grow_slots( ) {
-  // @@TODO: make this function correctly interact with free list // possibly done - now adds the tail correctly
+  // @@TODO: make this function correctly interact with free list 
+  // possibly done - now adds the tail correctly
   // @@TODO: insert new slots at the front of the free list
   size_type initial_size{ static_cast<size_type>(m_slots.capacity()) };
   if( initial_size ) {

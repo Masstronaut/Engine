@@ -20,5 +20,6 @@ struct CModel : Renderable{
   CModel( const std::string &file ) : model( new Model( file ) ) { }
   CModel( const CModel& ) = default;
   CModel( CModel&& ) = default;
+  CModel& operator=(const CModel &) = default;
   std::shared_ptr<Model> model;
 };

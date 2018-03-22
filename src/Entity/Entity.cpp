@@ -15,13 +15,27 @@ Entity::Entity( Entity &&rhs )
   , m_Name( std::move( rhs.m_Name ) ) {
   
 }
+Entity& Entity::operator=(Entity &&rhs) {
+  this->SafelyDisposeComponents();
+  m_Components = std::move(rhs.m_Components);
+  m_ID = rhs.m_ID;
+  m_Name = std::move(rhs.m_Name);
+  return *this;
+}
 Entity::~Entity( ) {
-
+  this->SafelyDisposeComponents();
 }
 
 
 bool Entity::Has( std::type_index component_type ) const {
   return m_Components.count( component_type ) > 0;
+}
+
+void Entity::SafelyDisposeComponents(){
+  for (auto &component : m_Components) {
+    m_World.GetComponentPool(component.first)->Erase(component.second);
+  }
+  m_Components.clear();
 }
 
 EntityID Entity::Clone( World &world, Entity &entity ) const {

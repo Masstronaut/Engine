@@ -11,6 +11,9 @@ public:
   virtual EntityID Clone( EntityID ID ) = 0;
   virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World& world ) = 0;
   virtual ~ComponentPoolBase( ) { }
+private:
+  friend class Entity;
+  virtual void Erase(EntityID ID) = 0;
 };
 
 template<typename Component>
@@ -29,5 +32,7 @@ public:
   virtual EntityID Clone( EntityID ID ) final;
   virtual std::pair<std::type_index, EntityID> Clone( EntityID ID, World &world ) final;
   slot_map<Component> components;
+private:
+  virtual void Erase(EntityID ID) final;
 };
 #include "ComponentPool.inl"

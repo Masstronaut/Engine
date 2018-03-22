@@ -13,6 +13,7 @@ public:
   Entity::Entity( World &world, EntityID id = { 0,0 } );
   Entity( const Entity & ) = delete;
   Entity( Entity && );
+  Entity& operator=(Entity &&);
   ~Entity( );
 
   template<typename Component>
@@ -38,6 +39,7 @@ public:
   
   friend class World;
 private:
+  void SafelyDisposeComponents();
   EntityID Clone( World &world, Entity &entity ) const;
   void* Get( std::type_index component );
   World &m_World;
