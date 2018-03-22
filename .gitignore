@@ -53,3 +53,5 @@ LearnOpenGL/main.cpp.PVS-Studio.cmd
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
+.vs/Engine/v15/.suo
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj

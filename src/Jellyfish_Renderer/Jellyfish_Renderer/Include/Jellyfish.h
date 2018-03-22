@@ -14,13 +14,13 @@ namespace Jellyfish
 
 	class RenderableObject
 	{
-
+		int stub;
 	};
 
 
 	class Renderer
 	{
-		void Draw();
+		void Draw() {}
 	};
 }
 
