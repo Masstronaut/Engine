@@ -177,11 +177,6 @@ void ECSDemo( ) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
   while( WindowOpen ) {
-    for (int i{ 0 }; i < 100; ++i) {
-      nanos.emplace_back(nanos[i].Clone());
-      nanos[i].Kill();
-    }
-    nanos.erase(nanos.begin(), nanos.begin() + 100);
     double currentFrame = glfwGetTime();
     dt = currentFrame - lastFrame;
     unsigned FPS{ static_cast< unsigned >(1. / dt) };
