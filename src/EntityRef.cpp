@@ -32,8 +32,8 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
 
   void EntityRef::Kill() {
     m_World->Emit(EntityDeathEvent{ *this });
-    m_World->OnNext<FrameEndEvent>([=](const FrameEndEvent&) {
-      m_World->Kill(*this);
+    m_World->OnNext<FrameEndEvent>([=, self = *this](const FrameEndEvent&) {
+      m_World->Kill(self);
     });
   }
 

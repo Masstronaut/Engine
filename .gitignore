@@ -55,3 +55,8 @@ src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
 .vs/Engine/v15/.suo
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
+Dependencies/lib/Debug/Jellyfish.lib
+Dependencies/lib/Release/Jellyfish.lib
+.vs/Engine/v15/.suo

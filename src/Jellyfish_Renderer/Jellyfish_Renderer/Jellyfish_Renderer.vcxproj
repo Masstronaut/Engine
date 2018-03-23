@@ -77,13 +77,13 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.lib</TargetExt>
-    <OutDir>$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
     <TargetName>Jellyfish</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\</OutDir>
+    <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <TargetExt>.lib</TargetExt>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
