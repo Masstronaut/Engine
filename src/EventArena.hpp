@@ -5,6 +5,7 @@
 #include <memory>
 #include <typeindex>
 #include <typeinfo>
+
 class EventArena {
 public:
   EventArena( ) = default;
@@ -16,12 +17,29 @@ public:
   
   template<typename T>
   void On( Callback<T> cb );
+
+
+  // C-Style function support
+  template<typename T>
+  void On(void(*Fn)(const T&));
+
+  // Lambda support with deduction
+  template<typename Pred>
+  void On(Pred &&p);
+  template<typename Pred, typename T>
+  void On(void(Pred::*mf)(const T&), Pred p);
+  template<typename Pred, typename T>
+  void On(void(Pred::*mf)(const T&) const, Pred p);
   
+  // When the listener should only be called for a specific event value
+  // @@TODO: Add the same overloads for handling lambdas as the normal On()
   template<typename T>
   void On( const T &value, Callback<T> cb );
-  
   template<typename T>
   void On( const T &value, std::function<void(void)> cb );
+
+  // When the listener should only be called once
+  // @@TODO: Add the same overloads as On()
   template<typename T>
   void OnNext(Callback<T> cb);
 
@@ -49,25 +67,41 @@ private:
 };
 template<typename T>
 void EventArena::On( Callback<T> cb ) {
-  Dispatcher<T>().On( cb );
+  this->Dispatcher<T>().On( cb );
+}
+template<typename Pred>
+inline void EventArena::On(Pred && p) {
+  this->On(&Pred::operator(), p);
+}
+template<typename T>
+inline void EventArena::On(void(*Fn)(const T &)) {
+  this->On(std::function<void(const T&)>(Fn));
+}
+template<typename Pred, typename T>
+inline void EventArena::On(void(Pred::* mf)(const T &), Pred p) {
+  this->Dispatcher<T>().On(std::function<void(const T&)>(p));
+}
+template<typename Pred, typename T>
+inline void EventArena::On(void(Pred::* mf)(const T &) const, Pred p) {
+  this->Dispatcher<T>().On(std::function<void(const T&)>(p));
 }
 template<typename T>
 void EventArena::On( const T &value, Callback<T> cb ) {
-  On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( value ); } );
+  this->On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( value ); } );
 }
 template<typename T>
 void EventArena::On( const T &value, std::function<void( void )> cb ) {
-  On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( ); } );
+  this->On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( ); } );
 }
 
 template<typename T>
 inline void EventArena::OnNext(Callback<T> cb) {
-  Dispatcher<T>().OnNext(cb);
+  this->Dispatcher<T>().OnNext(cb);
 }
 
 template<typename T>
-void EventArena::Emit( const T &event ) {
-  Dispatcher<T>( ).Emit( event );
+inline void EventArena::Emit( const T &event ) {
+  this->Dispatcher<T>( ).Emit( event );
 }
 
 template<typename T>

@@ -173,7 +173,7 @@ void ECSDemo( ) {
     }
   }
   bool WindowOpen = true;
-  TestWorld.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
+  TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
   while( WindowOpen ) {

@@ -5,16 +5,16 @@
 
 World::World(const std::string &name)
   : m_Name(name) {
-  this->On<EntitySpawnedEvent>([&](const EntitySpawnedEvent &event) {
+  this->On([&](const EntitySpawnedEvent &event) {
     for (auto &agg : m_Aggregates) agg.OnEntityCreated(event.entity);
   });
-  this->On<EntityDeathEvent>([&](const EntityDeathEvent &event) {
+  this->On([&](const EntityDeathEvent &event) {
     for (auto &agg : m_Aggregates) agg.OnEntityDestroyed(event.entity);
   });
-  this->On<ComponentAddedEvent>([&](const ComponentAddedEvent &event) {
+  this->On([&](const ComponentAddedEvent &event) {
     for (auto &agg : m_Aggregates) agg.OnEntityCreated(event.entity);
   });
-  this->On<ComponentRemovedEvent>([&](const ComponentRemovedEvent &event) {
+  this->On([&](const ComponentRemovedEvent &event) {
     for (auto &agg : m_Aggregates) agg.OnEntityDestroyed(event.entity);
   });
 }

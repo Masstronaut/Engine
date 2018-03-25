@@ -17,7 +17,7 @@ GLWindow& GLWindow::Title( const std::string &title ) {
     ETitleChanged event;
     event.newTitle = this->Title( );
     event.oldTitle = oldTitle;
-    m_Events.Emit( event );
+    this->Emit( event );
   }
   return *this;
 }
@@ -28,7 +28,7 @@ GLWindow& GLWindow::Size( const glm::uvec2 &value ) {
     EWindowResized event;
     event.newSize = this->Size( );
     event.oldSize = oldSize;
-    m_Events.Emit( event );
+    this->Emit( event );
   }
   return *this;
 }
@@ -46,14 +46,14 @@ GLWindow& GLWindow::MouseMode( CursorMode mode ) {
     CursorMode oldMode{ this->Mouse( ).mode };
     SetMouseModeImpl( mode );
     EMouseModeChanged event{ this->Mouse( ).mode, oldMode };
-    m_Events.Emit( event );
+    Emit( event );
   }
   return *this;
 }
 void GLWindow::SetMousePos( const glm::dvec2 &pos ) {
   const glm::dvec2 oldPosition{ this->Mouse( ).position };
   m_Mouse.position = pos;
-  m_Events.Emit<EMouseMoved>( { pos, oldPosition } );
+  this->Emit(EMouseMoved{ pos, oldPosition } );
 }
 void GLWindow::SetMouseMode( CursorMode mode ) {
   m_Mouse.mode = mode;
@@ -73,7 +73,7 @@ GLWindow& GLWindow::State( WindowState mode ) {
     WindowState oldState{ this->State( ) };
     this->SetStateImpl( mode );
     EWindowStateChanged event{ this->State( ), mode };
-    m_Events.Emit( event );
+    this->Emit( event );
   }
   return *this;
 }

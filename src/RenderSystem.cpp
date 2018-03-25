@@ -27,8 +27,8 @@ WindowManager::WindowManager()
 {
   window.MouseMode(CursorMode::disabled);
   window.Title("Engine v0.0");
-  window.On<GLWindow::EMouseMoved>( MouseCallback2 );
-  window.On<GLWindow::EMouseScrolled>( ScrollCallback2 );
+  window.On( MouseCallback2 );
+  window.On( ScrollCallback2 );
   glEnable(GL_DEPTH_TEST);
 }
 void WindowManager::FrameStart( ) {

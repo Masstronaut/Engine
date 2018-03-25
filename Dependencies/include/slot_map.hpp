@@ -385,7 +385,7 @@ constexpr typename slot_map<T, Token, Container>::iterator slot_map<T, Token, Co
     const key_size_type update_slot{ m_erase_helper.back( ) };
     *( m_erase_helper.begin( ) + dist ) = m_erase_helper.back( );
     m_erase_helper.pop_back( );
-    this->key_index( *( std::begin( m_slots ) + update_slot ) ) = dist;
+    this->key_index( *( std::begin( m_slots ) + update_slot ) ) = static_cast<key_size_type>(dist);
     return pos;
   }
 }
