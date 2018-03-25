@@ -22,8 +22,8 @@ GLFWWindow::GLFWWindow()
 		const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
 
 		//store in a modifyable object
-		float tempWidth = primaryMonMode->width;
-		float tempHeight = primaryMonMode->height;
+		int tempWidth = primaryMonMode->width;
+		int tempHeight = primaryMonMode->height;
 
 		m_Size = glm::uvec2(tempWidth, tempHeight);
 		m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, this->Title().c_str(), primaryMonitor, NULL);
@@ -76,7 +76,7 @@ void GLFWWindow::OnCursorMove( GLFWwindow *w, double x, double y ) {
   m_CallbackHelpers[ w ]->SetMousePos( { x,y } );
 }
 void GLFWWindow::OnCursorScroll( GLFWwindow *w, double x, double y ) {
-  m_CallbackHelpers[ w ]->m_Events.Emit( EMouseScrolled{ {x,y } } );
+  m_CallbackHelpers[ w ]->Emit( EMouseScrolled{ {x,y } } );
 }
 void GLFWWindow::OnWindowClose( GLFWwindow *w ) {
   m_CallbackHelpers[ w ]->State( WindowState::closed );

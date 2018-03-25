@@ -180,17 +180,19 @@ void ECSDemo( ) {
   cam.Get<Camera>().yaw = -89.f;
   EntityRef EnemyA{ TestWorld.Spawn( enemy ) };
   // set SpawnNanos to false if you want higher FPS and less nanosuits
+  std::vector<EntityRef> nanos;
   if (bool SpawnNanos{ true }; SpawnNanos) {
     std::vector<EntityRef> nanos;
     for (int i{ 0 }; i < 2; ++i) {
       for (int j{ 0 }; j < 2; ++j) {
+
         nanos.emplace_back(EnemyA.Clone());
         nanos.back().Get<Transform>().pos = glm::vec3{ i, 0, j };
       }
     }
   }
   bool WindowOpen = true;
-  TestWorld.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
+  TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
   while( WindowOpen ) {

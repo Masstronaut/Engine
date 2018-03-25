@@ -17,10 +17,10 @@ struct WindowManager {
 
   void Init(World& world)
   {
-	  window.On<GLWindow::EWindowResized>([&](const GLWindow::EWindowResized &event) {
+	  window.On([&](const GLWindow::EWindowResized &event) {
 		  world.Emit(event);
 	  });
-    window.On<GLWindow::EWindowStateChanged>([&](const GLWindow::EWindowStateChanged &event) {
+    window.On([&](const GLWindow::EWindowStateChanged &event) {
       world.Emit(event);
     });
   }
@@ -44,7 +44,7 @@ struct RenderSystem {
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
-		world.On<GLWindow::EWindowResized>([&](const GLWindow::EWindowResized &event) {
+		world.On([&](const GLWindow::EWindowResized &event) {
 			m_windowSize = event.newSize;
 		});
 

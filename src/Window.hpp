@@ -6,7 +6,7 @@
 
 enum class WindowState { minimized, maximized, restored, closed };
 enum class CursorMode { normal, hidden, disabled };
-class GLWindow {
+class GLWindow : public EventArena {
 public:
   struct Cursor {
     bool Clicked( ) const;
@@ -67,19 +67,6 @@ public:
   GLWindow& MouseMode( CursorMode mode );
   GLWindow& State( WindowState mode );
 
-  template<typename T>
-  void On( std::function<void(const T&)> cb ) {
-    m_Events.On( cb );
-  }
-  template<typename T>
-  void On( const T &value, std::function<void( const T& )> cb ) {
-    m_Events.On( value, cb );
-  }
-  template<typename T>
-  void On( const T &value, std::function<void( void )> cb ) {
-    m_Events.On( value, cb );
-  }
-
 protected:
   virtual void SetSizeImpl( const glm::uvec2 &size ) = 0;
   virtual void SetTitleImpl( const std::string &title ) = 0;
@@ -93,7 +80,7 @@ protected:
   glm::uvec2 m_Size{ g_InitialWindowWidth, g_InitialWindowHeight }; 
   glm::ivec2 m_Version{ 4,2 };
   WindowState m_State{ WindowState::restored };
-  EventArena m_Events;
+  //EventArena m_Events;
 private:
   Cursor m_Mouse;
 

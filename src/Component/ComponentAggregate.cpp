@@ -42,6 +42,10 @@ bool ComponentAggregate::Matches(const EntityRef & entity) const {
   return true;
 }
 
-std::vector<EntityRef>& ComponentAggregate::GetEntities( ) { return m_Entities; }
+std::vector<EntityRef>& ComponentAggregate::GetEntities( ) { 
+  return m_Entities; 
+}
 
-const std::vector<EntityRef>& ComponentAggregate::GetEntities( ) const { return m_Entities; }
+const std::vector<EntityRef>& ComponentAggregate::GetEntities( ) const { 
+  return m_Entities; 
+}

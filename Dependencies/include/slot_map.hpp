@@ -385,7 +385,7 @@ constexpr typename slot_map<T, Token, Container>::iterator slot_map<T, Token, Co
     const key_size_type update_slot{ m_erase_helper.back( ) };
     *( m_erase_helper.begin( ) + dist ) = m_erase_helper.back( );
     m_erase_helper.pop_back( );
-    this->key_index( *( std::begin( m_slots ) + update_slot ) ) = dist;
+    this->key_index( *( std::begin( m_slots ) + update_slot ) ) = static_cast<key_size_type>(dist);
     return pos;
   }
 }
@@ -467,6 +467,9 @@ template<typename T, typename Token, template<typename...>typename Container>
 constexpr void slot_map<T, Token, Container>::push_tail( size_type tail_index ) {
   //@@TODO: investigate if this is needed for erase on full capacity slot_map.
   //if (m_free_head == m_free_tail) m_free_head = tail_index;
+
+  // This code sets the current tail to point to tail_index as the element after it,
+  // then sets tail_index to point to itself signifying the last element in the list.
   this->key_index( *( std::begin( m_slots ) + m_free_tail ) ) = tail_index;
   this->key_index( *( std::begin( m_slots ) + tail_index ) ) = tail_index;
   m_free_tail = tail_index;

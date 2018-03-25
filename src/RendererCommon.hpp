@@ -17,7 +17,7 @@ public:
   virtual ~VertexArray( );
   void Bind( ) const;
   void Unbind( ) const;
-  void BindAttribute( int location, int size, int type, bool normalized, unsigned offset );
+  void BindAttribute( int location, int size, int type, bool normalized, void* offset );
 protected:
 
 private:

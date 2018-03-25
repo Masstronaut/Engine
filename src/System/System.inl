@@ -138,9 +138,9 @@ inline System<T>::System( World &world, const std::string & name, Args&&... args
   : instance(std::forward<Args>(args)...)
   , m_name( name ) {
   AddSystem( world );
-  world.On<UpdateEvent>( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
-  if constexpr( SystemTraits<T>::HasFrameStart ) world.On<FrameStartEvent>([&](const FrameStartEvent&) { OnFrameStart(); });
-  if constexpr(SystemTraits<T>::HasFrameEnd ) world.On<FrameEndEvent>([&](const FrameEndEvent&) { OnFrameEnd(); });
+  world.On( [ & ]( const UpdateEvent& ue ) { OnUpdate( ue.Dt ); } );
+  if constexpr( SystemTraits<T>::HasFrameStart ) world.On([&](const FrameStartEvent&) { OnFrameStart(); });
+  if constexpr(SystemTraits<T>::HasFrameEnd ) world.On([&](const FrameEndEvent&) { OnFrameEnd(); });
   if constexpr( SystemTraits<T>::HasInitWorld ) this->InitWorld( world );
 }
 template<typename T>
@@ -163,7 +163,7 @@ inline void System<T>::RegisterEntities( World & world ) {
 
 template<typename T>
 inline void System<T>::RegisterEditorUpdate( World & world ) { 
-  world.On<EditorUpdateEvent>( [ & ]( const EditorUpdateEvent & ) { instance.EditorUpdate( ); }, m_name );
+  world.On( [ & ]( const EditorUpdateEvent & ) { instance.EditorUpdate( ); }, m_name );
 }
 
 template<typename T>
