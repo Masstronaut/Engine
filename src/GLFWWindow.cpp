@@ -1,8 +1,6 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
-
 #include "GLFWWindow.hpp"
-#include "Settings/WindowSettings.h"
 
 std::unordered_map<GLFWwindow *, GLFWWindow *> GLFWWindow::m_CallbackHelpers{};
 
@@ -18,16 +16,16 @@ GLFWWindow::GLFWWindow()
   #endif
 
 	//Create the window and get a pointer to the handle
-	GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-	const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
-
-	//store in a modifyable object
-	float tempWidth = primaryMonMode->width;
-	float tempHeight = primaryMonMode->height;
-
 	if (g_StartFullscreen)
 	{
-		m_Size = glm::uvec2(tempWidth, tempWidth);
+		GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+		const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
+
+		//store in a modifyable object
+		float tempWidth = primaryMonMode->width;
+		float tempHeight = primaryMonMode->height;
+
+		m_Size = glm::uvec2(tempWidth, tempHeight);
 		m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, this->Title().c_str(), primaryMonitor, NULL);
 		Size(m_Size);
 	}

@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\iWindow.h" />
     <ClInclude Include="Include\Jellyfish.h" />
+    <ClInclude Include="Include\Util.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RenderMain.cpp" />

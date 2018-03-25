@@ -134,12 +134,27 @@ struct ParallelGravity {
   float Dt{ 0.f };
 };
 
+// ---------------------------
+// *  Global Settings INIT  * 
+// ---------------------------
+float g_InitialWindowWidth = 100.0;
+float g_InitialWindowHeight = 100.0;
+bool g_StartFullscreen = false;
+// ---------------------------
+
 #include "Simulation.hpp"
 #include "World.hpp"
 #include "RenderSystem.h"
+#include "SettingsFileReader.hpp"
+
+
 void ECSDemo( ) {
   Simulation Sim;
   World &TestWorld{ Sim.CreateWorld( "Test World" ) };
+
+  //Load Global Game Settings - Always do this before adding systems!
+  SettingsFile settings{ "Settings.ini" };
+  settings.Load();
 
   TestWorld.AddSystem<WindowManager>( "Window Management System" );
   TestWorld.AddSystem<Gravity>("Gravity System");
@@ -147,6 +162,8 @@ void ECSDemo( ) {
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
   TestWorld.AddSystem<RenderSystem>("Rendering System");
+
+
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
@@ -165,8 +182,8 @@ void ECSDemo( ) {
   // set SpawnNanos to false if you want higher FPS and less nanosuits
   if (bool SpawnNanos{ true }; SpawnNanos) {
     std::vector<EntityRef> nanos;
-    for (int i{ 0 }; i < 10; ++i) {
-      for (int j{ 0 }; j < 10; ++j) {
+    for (int i{ 0 }; i < 2; ++i) {
+      for (int j{ 0 }; j < 2; ++j) {
         nanos.emplace_back(EnemyA.Clone());
         nanos.back().Get<Transform>().pos = glm::vec3{ i, 0, j };
       }

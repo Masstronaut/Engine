@@ -2,6 +2,7 @@
 
 #pragma once
 
-const float g_InitialWindowWidth = 640.0;
-const float g_InitialWindowHeight = 480.0;
-const bool g_StartFullscreen = false;
+//init in main
+extern float g_InitialWindowWidth;
+extern float g_InitialWindowHeight;
+extern bool g_StartFullscreen;

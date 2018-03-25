@@ -18,6 +18,12 @@
     <ClInclude Include="Include\Jellyfish.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\iWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Include\Util.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RenderMain.cpp">
