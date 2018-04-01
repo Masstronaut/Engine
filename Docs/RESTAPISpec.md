@@ -1,10 +1,10 @@
 #REST API v0.0
 ##Game Properties
-| Description | HTTP Verb | Path |
-| :---------- | :-------- | :--- |
-| List of all available component types | GET | /Components |
-| List of all available system types | GET | /Systems |
-| List of all loaded worlds | GET | /Worlds |
+ Description | HTTP Verb | Path 
+ :---------- | :-------- | :--- 
+ List of all available component types | GET | /Components 
+ List of all available system types | GET | /Systems 
+ List of all loaded worlds | GET | /Worlds 
 
 ##Entity Properties
 | Description | HTTP Verb | Path |
