@@ -1,12 +1,15 @@
-#REST API v0.0
-##Game Properties
- Description | HTTP Verb | Path 
- :---------- | :-------- | :--- 
- List of all available component types | GET | /Components 
- List of all available system types | GET | /Systems 
- List of all loaded worlds | GET | /Worlds 
+# REST API v0.0
 
-##Entity Properties
+## Game Properties
+
+| Description | HTTP Verb | Path |
+| :---------- | :-------- | :--- |
+| List of all available component types | GET | /Components |
+| List of all available system types | GET | /Systems |
+| List of all loaded worlds | GET | /Worlds |
+
+## Entity Properties
+
 | Description | HTTP Verb | Path |
 | :---------- | :-------- | :--- |
 | List of all components on an entity | GET | /Worlds/\<**World**>/Entities/\<**ID**>/Components |
