@@ -204,7 +204,15 @@ void ECSDemo( ) {
   }
 }
 
+
+#include <RESTAPI.h>
+
 int main( ) {
+  
+  handler h(utility::string_t(U("http://*:42069/api/")));
+  auto server = h.open();
   ECSDemo( );
+
+  server.wait();
   return 0;
 }
