@@ -56,9 +56,9 @@ template<typename T>
 void ComponentPrinter( const T& comp ) { std::cout << comp << std::endl; }
 
 void TransformPrinter( const Transform& trans ) {
-  std::cout << "{\n  pos : { " << trans.pos.x << ", " << trans.pos.y << ", " << trans.pos.z << " },\n  "
-    << "{\n  rot : { " << trans.rot.x << ", " << trans.rot.y << ", " << trans.rot.z << " },\n  "
-    << "{\n  scale : { " << trans.scale.x << ", " << trans.scale.y << ", " << trans.scale.z << " }\n}\n";
+  std::cout << "{\n  Position : { " << trans.position.x << ", " << trans.position.y << ", " << trans.position.z << " },\n  "
+    << "{\n  Rotation : { " << trans.rotation.x << ", " << trans.rotation.y << ", " << trans.rotation.z << " },\n  "
+    << "{\n  Scale : { " << trans.scale.x << ", " << trans.scale.y << ", " << trans.scale.z << " }\n}\n";
 }
 
 class TransformPrinterSystem {
@@ -87,7 +87,7 @@ public:
     for( auto &e : Entities ) {
       const auto &rb = e.Get<const RigidBody>( );
       auto &tf = e.Get<Transform>( );
-      tf.pos += rb.velocity * dt;
+      tf.position += rb.velocity * dt;
     }
   }
 };
@@ -105,9 +105,9 @@ public:
 struct ParallelVelocitySystem {
   void PreProcess( ) { }
   void Process( Transform &tf, const RigidBody &rb ) const {
-    tf.pos += rb.velocity * Dt;
-    if( tf.pos.y <= 0.f ) {
-      tf.pos.y = 0.f;
+    tf.position += rb.velocity * Dt;
+    if( tf.position.y <= 0.f ) {
+      tf.position.y = 0.f;
     }
   }
   float Dt = 1.f / 60.f;
@@ -170,8 +170,8 @@ void ECSDemo( ) {
   ArchetypeRef lens{ Sim.CreateArchetype( "Camera Lens" ) };
   lens.Add<Camera>();
   enemy.Add<Transform>( ).scale = { 0.2f, 0.2f, 0.2f };
-  enemy.Get<Transform>( ).pos = { 0.0f, 0.0f, -3.0f };
-  enemy.Get<Transform>().rot = { 0.f, 0.f, 0.f };
+  enemy.Get<Transform>( ).position = { 0.0f, 0.0f, -3.0f };
+  enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
   enemy.Add<RigidBody>( );
   CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
   cm.model->Load();
@@ -188,7 +188,7 @@ void ECSDemo( ) {
       for (int j{ 0 }; j < 2; ++j) {
 
         nanos.emplace_back(EnemyA.Clone());
-        nanos.back().Get<Transform>().pos = glm::vec3{ i, 0, j };
+        nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
       }
     }
   }
