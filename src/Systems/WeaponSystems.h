@@ -2,15 +2,8 @@
 #include <glm/glm.hpp>
 
 #include "../Component/WeaponComponents.h"
+#include "../Components/Transform.h"
 
-
-/************************************************************************************/
-/*****************MOVE THESE TO A NEW HEADER INSTEAD OF INCLUDING THIS***************/
-/************************************************************************************/
-/************************************************************************************/
-struct Transform {
-  glm::vec3 Position{ 0.f,0.f,0.f }, Scale{ 1.f,1.f,1.f }, Rotation{ 0.f, 0.f, 0.f };
-};
 struct InputSource {
   bool KeyDown( Keys key ) const { return key == Key; }
   Keys Key{ Keys::R };
@@ -27,8 +20,8 @@ struct WeaponSystem {
     EntityRef bullet{ world.Spawn( weapon.BulletType ) };
     if( bullet.Has<Transform>( ) ) {
       Transform& btf{ bullet.Get<Transform>( ) };
-      btf.Position = tf.Position;
-      btf.Rotation = tf.Rotation;
+      btf.position = tf.position;
+      btf.rotation = tf.rotation;
     }
     if( parent && bullet.Has<ParentRef>( ) ) bullet.Get<ParentRef>( ).Parent = parent->Parent;
     return bullet;
