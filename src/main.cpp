@@ -205,7 +205,7 @@ void ECSDemo( ) {
     lastFrame = currentFrame;
     Sim.Run( dt, TestWorld.Name() );
   }
-  server.wait();
+  h.close();
 }
 
 
