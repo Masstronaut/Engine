@@ -142,6 +142,7 @@ float g_InitialWindowHeight = 100.0;
 bool g_StartFullscreen = false;
 // ---------------------------
 
+#include <RESTAPI.h>
 #include "Simulation.hpp"
 #include "World.hpp"
 #include "RenderSystem.h"
@@ -195,6 +196,8 @@ void ECSDemo( ) {
   TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
+  handler h(utility::string_t(U("http://*:42069/api/")));
+  auto server = h.open();
   while( WindowOpen ) {
     double currentFrame = glfwGetTime();
     dt = currentFrame - lastFrame;
@@ -202,17 +205,13 @@ void ECSDemo( ) {
     lastFrame = currentFrame;
     Sim.Run( dt, TestWorld.Name() );
   }
+  server.wait();
 }
 
 
-#include <RESTAPI.h>
 
 int main( ) {
-  
-  handler h(utility::string_t(U("http://*:42069/api/")));
-  auto server = h.open();
   ECSDemo( );
 
-  server.wait();
   return 0;
 }
