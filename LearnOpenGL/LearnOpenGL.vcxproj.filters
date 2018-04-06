@@ -105,6 +105,12 @@
     <ClCompile Include="..\src\RenderSystem.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="..\src\Components\PhysicsBody.cpp">
+      <Filter>Source Files\Component</Filter>
+    </ClCompile>
+    <ClCompile Include="..\src\Systems\PhysicsSystems.cpp">
+      <Filter>Source Files\System</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\Shaders\Triangle.vert">
@@ -273,6 +279,12 @@
     </ClInclude>
     <ClInclude Include="..\src\SettingsFileReader.hpp">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsSystems.h">
+      <Filter>Header Files\Systems</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Components\PhysicsBody.h">
+      <Filter>Header Files\Components</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

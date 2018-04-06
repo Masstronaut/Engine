@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClCompile Include="..\Dependencies\src\glad.c" />
     <ClCompile Include="..\Dependencies\src\stb_image.cpp" />
+    <ClCompile Include="..\src\Components\PhysicsBody.cpp" />
     <ClCompile Include="..\src\Component\ComponentAggregate.cpp" />
     <ClCompile Include="..\src\EntityRef.cpp" />
     <ClCompile Include="..\src\Entity\ArchetypeRef.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="..\src\RenderSystem.cpp" />
     <ClCompile Include="..\src\Resource.cpp" />
     <ClCompile Include="..\src\Simulation.cpp" />
+    <ClCompile Include="..\src\Systems\PhysicsSystems.cpp" />
     <ClCompile Include="..\src\Texture.cpp" />
     <ClCompile Include="..\src\Window.cpp" />
     <ClCompile Include="..\src\World.cpp" />
@@ -207,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\src\Camera.hpp" />
+    <ClInclude Include="..\src\Components\PhysicsBody.h" />
     <ClInclude Include="..\src\Components\Transform.h" />
     <ClInclude Include="..\src\Component\ComponentAggregate.hpp" />
     <ClInclude Include="..\src\Component\ComponentPool.hpp" />
@@ -243,6 +246,7 @@
     <ClInclude Include="..\src\Window.hpp" />
     <ClInclude Include="..\src\World.hpp" />
     <ClInclude Include="..\src\WorldEvents.hpp" />
+    <ClInclude Include="PhysicsSystems.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -73,7 +73,7 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
   glBindVertexArray( 0 );
 }
 
-void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::mat4 proj, glm::vec3 color, float scale)
+void GLTextRenderer::Render(const std::string &text, glm::vec2 pos, glm::mat4 proj, glm::vec3 color, float scale)
 { 
   m_Shader.Use( );
   m_Shader.SetUniform("projection", proj);
@@ -83,16 +83,16 @@ void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::ma
 
   for( char c : text ) {
     const Character &ch{ this->Get( c ) };
-    glm::vec2 pos{ position.x + ch.Bearing.x * scale, position.y - (ch.Size.y - ch.Bearing.y) * scale };
+    glm::vec2 position{ pos.x + ch.Bearing.x * scale, pos.y - (ch.Size.y - ch.Bearing.y) * scale };
     glm::vec2 size{ ch.Size.x * scale, ch.Size.y * scale };
     GLfloat vertices[ 6 ][ 4 ] = {
-      { pos.x,     pos.y + size.y,   0.0, 0.0 },
-      { pos.x,     pos.y,       0.0, 1.0 },
-      { pos.x + size.x, pos.y,       1.0, 1.0 },
+      { position.x,     position.y + size.y,   0.0, 0.0 },
+      { position.x,     position.y,       0.0, 1.0 },
+      { position.x + size.x, position.y,       1.0, 1.0 },
 
-      { pos.x,     pos.y + size.y,   0.0, 0.0 },
-      { pos.x + size.x, pos.y,       1.0, 1.0 },
-      { pos.x + size.x, pos.y + size.y,   1.0, 0.0 }
+      { position.x,     position.y + size.y,   0.0, 0.0 },
+      { position.x + size.x, position.y,       1.0, 1.0 },
+      { position.x + size.x, position.y + size.y,   1.0, 0.0 }
     };
     glBindTexture( GL_TEXTURE_2D, ch.TextureID );
     glBindBuffer( GL_ARRAY_BUFFER, VBO );
