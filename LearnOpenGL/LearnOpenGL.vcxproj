@@ -40,13 +40,13 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
@@ -84,11 +84,13 @@
     <IncludePath>$(SolutionDir)/src/Jellyfish_Renderer/Jellyfish_Renderer/Include;$(SolutionDir)/Dependencies/include;$(SolutionDir)/REST API/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\;</LibraryPath>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+    <OutDir>$(SolutionDir)Dependencies\lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>$(SolutionDir)/src/Jellyfish_Renderer/Jellyfish_Renderer/Include;$(SolutionDir)/Dependencies/include;$(SolutionDir)/REST API/include;$(IncludePath)</IncludePath>
     <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(SolutionDir)\src\Jellyfish_Renderer\Build\$(Platform)\$(Configuration)\;</LibraryPath>
     <CustomBuildAfterTargets>Build</CustomBuildAfterTargets>
+    <OutDir>$(SolutionDir)Dependencies\lib\$(Configuration)\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -173,7 +175,6 @@
     <ClCompile Include="..\src\GLFWWindow.cpp" />
     <ClCompile Include="..\src\GLProgram.cpp" />
     <ClCompile Include="..\src\GLShader.cpp" />
-    <ClCompile Include="..\src\main.cpp" />
     <ClCompile Include="..\src\Model.cpp" />
     <ClCompile Include="..\src\Renderer.cpp" />
     <ClCompile Include="..\src\RendererCommon.cpp" />
