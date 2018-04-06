@@ -196,16 +196,22 @@ void ECSDemo( ) {
   TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
-  handler h(utility::string_t(U("http://*:42069/api/")));
-  auto server = h.open();
-  while( WindowOpen ) {
-    double currentFrame = glfwGetTime();
-    dt = currentFrame - lastFrame;
-    unsigned FPS{ static_cast< unsigned >(1. / dt) };
-    lastFrame = currentFrame;
-    Sim.Run( dt, TestWorld.Name() );
+  try {
+    handler h(utility::string_t(U("http://*:42069/api/")));
+    auto server = h.open();
+    while (WindowOpen) {
+      double currentFrame = glfwGetTime();
+      dt = currentFrame - lastFrame;
+      unsigned FPS{ static_cast<unsigned>(1. / dt) };
+      lastFrame = currentFrame;
+      Sim.Run(dt, TestWorld.Name());
+    }
+    h.close();
+    server.wait();
   }
-  server.wait();
+  catch (...) { 
+    /*the REST server throws when the app isn't run as admin because network connections*/
+  }
 }
 
 
