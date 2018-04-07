@@ -197,7 +197,7 @@ void ECSDemo( ) {
     if(event.newState == WindowState::closed) WindowOpen = false;
   });
   try {
-    handler h(utility::string_t(U("http://*:42069/api/")));
+    REST_VM h(Sim, utility::string_t(U("http://*:42069/api/")));
     auto server = h.open();
     while (WindowOpen) {
       double currentFrame = glfwGetTime();

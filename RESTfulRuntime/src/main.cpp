@@ -197,7 +197,7 @@ void ECSDemo() {
     if (event.newState == WindowState::closed) WindowOpen = false;
   });
 
-  handler h(utility::string_t(U("http://*:42069/api/")));
+  REST_VM h(utility::string_t(U("http://*:42069/api/")));
   auto server = h.open();
   system("echo %cd%");
   while (WindowOpen) {

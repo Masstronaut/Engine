@@ -73,13 +73,13 @@
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;</IncludePath>
+    <IncludePath>$(SolutionDir)src\;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;</IncludePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <LibraryPath>$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(LibraryPath)</LibraryPath>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;</IncludePath>
+    <IncludePath>$(SolutionDir)src\;$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

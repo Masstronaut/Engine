@@ -5,26 +5,29 @@
 #include <iostream>
 #include <fstream>
 #include <random>
+#include <locale> // convert to std::string
+#include <codecvt>// conver to std::string
+#include <sstream> // string parsing
+
+#include <cpprest/uri.h>
+#include <cpprest/json.h>
+
 #include "../include/RESTAPI.h"
+#include <Simulation.hpp>
 
-handler::handler()
-{
-  //ctor
-}
-handler::handler(utility::string_t url) :m_listener(url)
-{
-  m_listener.support(methods::GET, std::bind(&handler::handle_get, this, std::placeholders::_1));
-  m_listener.support(methods::PUT, std::bind(&handler::handle_put, this, std::placeholders::_1));
-  m_listener.support(methods::POST, std::bind(&handler::handle_post, this, std::placeholders::_1));
-  m_listener.support(methods::DEL, std::bind(&handler::handle_delete, this, std::placeholders::_1));
 
+
+REST_VM::REST_VM(Simulation &sim, utility::string_t url) 
+  : m_listener(url)
+  , m_simulation(sim) {
+  m_listener.support(std::bind(&REST_VM::handle_request, this, std::placeholders::_1));
 }
-handler::~handler()
+REST_VM::~REST_VM()
 {
   //dtor
 }
 
-void handler::handle_error(pplx::task<void>& t)
+void REST_VM::handle_error(pplx::task<void>& t)
 {
   try
   {
@@ -33,75 +36,52 @@ void handler::handle_error(pplx::task<void>& t)
   catch (...)
   {
     // Ignore the error, Log it if a logger is available
+    std::cout << "An error occurred.\n";
   }
 }
 
-void handler::handle_get(http_request message)
+void REST_VM::handle_request(web::http::http_request message)
 {
-  ucout << message.to_string() << endl;
+  using web::http::uri;
+  ucout << message.to_string() << std::endl;
 
-  auto paths = http::uri::split_path(http::uri::decode(message.relative_uri().path()));
+  auto paths = uri::split_path(uri::decode(message.relative_uri().path()));
 
-  auto path = message.relative_uri().path();
-
-  concurrency::streams::fstream::open_istream(U("static/index.html"), std::ios::in).then([=](concurrency::streams::istream is)
-  {
-    message.reply(status_codes::OK, is, U("text/html"))
-      .then([](pplx::task<void> t)
-    {
-      try {
-        t.get();
+  if (paths.empty()) message.reply(web::http::status_codes::BadRequest, "Empty Request.");
+  else if (paths[0] == U("Worlds")) {
+    std::string world_name;
+    utility::string_t str;
+    if (paths.size() > 1) {
+      // @@TODO: this conversion isn't safe and should be updated in the future.
+      world_name.assign(paths[1].begin(), paths[1].end());
+      World &world{ m_simulation.GetWorld(world_name) };
+      paths.erase(paths.begin(), paths.begin() + 2);
+      if (paths.empty()) {
+        // @@TODO: return contents of the world.
+        message.reply(web::http::status_codes::OK, "The world \"" + world_name + "\" was found successfully.");
       }
-      catch (...) {
-        //
+      else if (paths[0] == U("Entities")) {
+        if (paths.size() == 1) {
+          //@@TODO: return list of all entities
+          
+          message.reply(web::http::status_codes::OK, "Retrieving all entities of of the world \"" + world_name + "\".");
+        }
+        else if (paths.size() > 1) {
+          utility::istringstream_t iss(paths[1]);
+          EntityID ID;
+          iss >> ID.first;
+          iss.get(); // pull out the comma
+          iss >> ID.second;
+          Entity *entity{ world.GetEntity(ID) };
+          if (entity) {
+            message.reply(web::http::status_codes::OK, U("The Entity with ID {") + paths[1] + U("} is named \"") + utility::string_t(entity->Name().begin(), entity->Name().end()) + U("\""));
+          }
+          else message.reply(web::http::status_codes::NotFound, "Entity requested does not exist.");
+        }
       }
-    });
-  }).then([=](pplx::task<void>t)
-  {
-    try {
-      t.get();
     }
-    catch (...) {
-      message.reply(status_codes::InternalError, U("INTERNAL ERROR "));
-    }
-  });
+  }
+  else message.reply(web::http::status_codes::InternalError, "That operation is not yet supported by the REST API.");
 
-  return;
+}
 
-};
-
-//
-// A POST request
-//
-void handler::handle_post(http_request message)
-{
-  ucout << message.to_string() << endl;
-
-
-  message.reply(status_codes::OK, message.to_string());
-  return;
-};
-
-//
-// A DELETE request
-//
-void handler::handle_delete(http_request message)
-{
-  ucout << message.to_string() << endl;
-
-  utf16string rep = U("WRITE YOUR OWN DELETE OPERATION");
-  message.reply(status_codes::OK, rep);
-  return;
-};
-
-
-//
-// A PUT request 
-//
-void handler::handle_put(http_request message)
-{
-  ucout << message.to_string() << endl;
-  utf16string rep = U("WRITE YOUR OWN PUT OPERATION");
-  message.reply(status_codes::OK, rep);
-  return;
-};
