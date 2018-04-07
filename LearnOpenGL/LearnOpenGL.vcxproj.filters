@@ -280,11 +280,11 @@
     <ClInclude Include="..\src\SettingsFileReader.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="PhysicsSystems.h">
-      <Filter>Header Files\Systems</Filter>
-    </ClInclude>
     <ClInclude Include="..\src\Components\PhysicsBody.h">
       <Filter>Header Files\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="..\src\Systems\PhysicsSystems.h">
+      <Filter>Source Files\System</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

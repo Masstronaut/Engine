@@ -237,6 +237,7 @@
     <ClInclude Include="..\src\Settings\UI_Settings.h" />
     <ClInclude Include="..\src\Settings\WindowSettings.h" />
     <ClInclude Include="..\src\Simulation.hpp" />
+    <ClInclude Include="..\src\Systems\PhysicsSystems.h" />
     <ClInclude Include="..\src\Systems\WeaponSystems.h" />
     <ClInclude Include="..\src\System\System.hpp" />
     <ClInclude Include="..\src\System\SystemTraits.hpp" />
@@ -246,7 +247,6 @@
     <ClInclude Include="..\src\Window.hpp" />
     <ClInclude Include="..\src\World.hpp" />
     <ClInclude Include="..\src\WorldEvents.hpp" />
-    <ClInclude Include="PhysicsSystems.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
