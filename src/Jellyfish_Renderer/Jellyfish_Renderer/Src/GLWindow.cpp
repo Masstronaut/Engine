@@ -49,7 +49,7 @@ namespace Jellyfish
 			else
 			{
 				//Create a restored resizable window at specified resolution
-				//glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+				glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 				m_Size = glm::uvec2(width, height);
 				m_WindowHandle = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 			}

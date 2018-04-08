@@ -70,3 +70,4 @@ REST API/x64/Debug/RESTAPI.obj
 RESTfulRuntime/x64/Debug/main.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/Debug/RenderMain.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/glwindow.obj.enc
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
