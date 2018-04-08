@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.hpp"
+#include <Utils/include/Resource.hpp>
 #include "Settings/WindowSettings.h"
 #include <fstream>
 #include <sstream>

@@ -13,53 +13,20 @@
 # Compiled Dynamic libraries
 *.so
 *.dylib
-*.dll
 
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-LearnOpenGL/x64/Debug/*.lib
-LearnOpenGL/x64/Release/*.lib
-LearnOpenGL/x64/Debug/*.obj
-LearnOpenGL/x64/Release/*.obj
 
 # Executables
 *.exe
 *.out
 *.app
-.vs/LearnOpenGL/v15/Browse.VC.db
-.vs/LearnOpenGL/v15/Browse.VC.opendb
+bin/artifacts/*
 *.tlog
 *.idb
-LearnOpenGL/main.cpp.PVS-Studio.cmd
 *.ipch
 *.pdb
 *.log
-.vs/LearnOpenGL/v15/.suo
+.vs/*
 *.iobj
 *.ilk
 *.ipdb
-.vs/Engine/v15/Browse.VC.db
-.vs/Engine/v15/Solution.VC.db
 *.opendb
-.vs/Engine/v15/.suo
-.vs/Engine/v15/Solution.VC.db-shm
-.vs/Engine/v15/Solution.VC.db-wal
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-.vs/Engine/v15/.suo
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-.vs/Engine/v15/.suo
-src/Jellyfish_Renderer/Build/x64/Debug/Jellyfish.lib
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
-.vs/Engine/v15/.suo
-.vs/Engine/v15/.suo
-Dependencies/lib/Debug/Jellyfish.lib
-Dependencies/lib/Debug/REST API.lib
-*.obj

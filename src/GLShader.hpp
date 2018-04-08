@@ -3,7 +3,7 @@
 
 #include <glad/glad.h>
 
-#include "Resource.hpp"
+#include <Utils/include/Resource.hpp>
 
 std::string ShaderPath( );
 

@@ -1,0 +1,3 @@
+[submodule "Modules/Utils"]
+	path = Modules/Utils
+	url = https://github.com/Masstronaut/Utils
