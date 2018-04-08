@@ -198,7 +198,7 @@ void ECSDemo( ) {
   });
   try {
     REST_VM h(Sim, utility::string_t(U("http://*:42069/api/")));
-    auto server = h.open();
+    auto server = h.Open();
     while (WindowOpen) {
       double currentFrame = glfwGetTime();
       dt = currentFrame - lastFrame;
@@ -206,7 +206,7 @@ void ECSDemo( ) {
       lastFrame = currentFrame;
       Sim.Run(dt, TestWorld.Name());
     }
-    h.close();
+    h.Close();
     server.wait();
   }
   catch (...) { 

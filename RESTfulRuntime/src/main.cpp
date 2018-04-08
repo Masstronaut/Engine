@@ -198,7 +198,7 @@ void ECSDemo() {
   });
 
   REST_VM h(utility::string_t(U("http://*:42069/api/")));
-  auto server = h.open();
+  auto server = h.Open();
   system("echo %cd%");
   while (WindowOpen) {
     double currentFrame = glfwGetTime();
