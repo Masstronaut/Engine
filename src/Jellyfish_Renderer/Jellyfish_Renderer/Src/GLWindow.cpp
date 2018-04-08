@@ -8,7 +8,7 @@
 
 //TODO: fix, put in settings or something
 const unsigned glmajor = 4;
-const unsigned glminor = 5;
+const unsigned glminor = 3;
 
 
 namespace Jellyfish
@@ -20,13 +20,14 @@ namespace Jellyfish
 		glfwTerminate();
 	}
 
-	void GLWindow::CreateGameWindow(unsigned width, unsigned height, bool fullscreen)
+	void GLWindow::CreateGameWindow(unsigned width, unsigned height, bool fullscreen, std::string title)
 	{
 		if (glfwInit()) 
 		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glmajor);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glminor);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+			glfwWindowHint(GLFW_FOCUSED, GL_TRUE);
 #if defined(__APPLE__)
 			// required for MAC OSX support
 			glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
@@ -43,14 +44,14 @@ namespace Jellyfish
 
 				//Create a borderless fullscreen window at current resolution
 				m_Size = glm::uvec2(tempWidth, tempHeight);
-				m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, this->GetWindowTitle().c_str(), primaryMonitor, NULL);
+				m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, title.c_str(), primaryMonitor, NULL);
 			}
 			else
 			{
 				//Create a restored resizable window at specified resolution
-				glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+				//glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
 				m_Size = glm::uvec2(width, height);
-				m_WindowHandle = glfwCreateWindow(width, height, this->GetWindowTitle().c_str(), NULL, NULL);
+				m_WindowHandle = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
 			}
 				
 
@@ -110,7 +111,7 @@ namespace Jellyfish
 	}
 	void GLWindow::DisplayGameWindow()
 	{
-
+		glfwSwapBuffers(m_WindowHandle);
 	}
 
 	bool GLWindow::IsOpen()
@@ -126,9 +127,16 @@ namespace Jellyfish
 
 	}
 
+	void GLWindow::ResizeWindow(unsigned width, unsigned height)
+	{
+		ResizeWindow(m_WindowHandle, width, height);
+	}
+
 	void GLWindow::ResizeWindow(GLFWwindow* windowhandle, int width, int height)
 	{
-
+		glfwMakeContextCurrent(windowhandle);
+		glViewport(0, 0, width, height);
+		return;
 	}
 
 	unsigned GLWindow::GetWindowWidth()
@@ -142,14 +150,15 @@ namespace Jellyfish
 
 	void GLWindow::PollEvents()
 	{
-
+		glfwPollEvents();
 	}
 	
-	void GLWindow::SetWindowSize(const glm::uvec2 &size)
+	void GLWindow::FrameEnd()
 	{
-		glfwMakeContextCurrent(m_WindowHandle);
-		glViewport(0, 0, size.x, size.y);
+		DisplayGameWindow();
+		PollEvents();
 	}
+
 	void GLWindow::SetWindowTitle(const std::string &title)
 	{
 		glfwSetWindowTitle(m_WindowHandle, title.c_str());

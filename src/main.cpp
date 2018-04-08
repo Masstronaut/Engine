@@ -1,5 +1,5 @@
 #include <glad/glad.h> // MUST be included BEFORE glfw3.h
-#include <GLFW/glfw3.h>
+#include <GLFW/glfw3.h> //GetTime
 #include <iostream>
 #include <string>
 #include <fstream>
@@ -145,8 +145,9 @@ bool g_StartFullscreen = false;
 #include <RESTAPI.h>
 #include "Simulation.hpp"
 #include "World.hpp"
-#include "RenderSystem.h"
 #include "SettingsFileReader.hpp"
+#include "RenderSystem.h"
+
 
 
 void ECSDemo( ) {
@@ -163,7 +164,6 @@ void ECSDemo( ) {
   TestWorld.AddSystem<ParallelVelocitySystem>( "Parallelized Velocity System" );
   TestWorld.AddSystem<ParallelAccelerationSystem>( "Parallelized Acceleration System" );
   TestWorld.AddSystem<RenderSystem>("Rendering System");
-
 
 
   ArchetypeRef enemy{ Sim.CreateArchetype( "Nanosuit Character" ) };
@@ -193,9 +193,9 @@ void ECSDemo( ) {
     }
   }
   bool WindowOpen = true;
-  TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
-    if(event.newState == WindowState::closed) WindowOpen = false;
-  });
+  //TestWorld.On([&](const GLWindow::EWindowStateChanged &event) {
+  //  if(event.newState == WindowState::closed) WindowOpen = false;
+  //});
   try {
     handler h(utility::string_t(U("http://*:42069/api/")));
     auto server = h.open();

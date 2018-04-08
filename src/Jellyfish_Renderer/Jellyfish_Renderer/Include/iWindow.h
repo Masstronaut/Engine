@@ -62,7 +62,7 @@ namespace Jellyfish
 
 		virtual ~iWindow() { }
 
-		virtual void CreateGameWindow(unsigned width, unsigned height, bool fullscreen) = 0;
+		virtual void CreateGameWindow(unsigned width, unsigned height, bool fullscreen, std::string title) = 0;
 		virtual void UpdateGameWindow() = 0;
 		virtual void DisplayGameWindow() = 0;
 
@@ -70,6 +70,7 @@ namespace Jellyfish
 		virtual bool IsActive() = 0; //active tied to focused for now, i.e. pause on lose focus
 
 		virtual void setActive(bool active) = 0;
+		virtual void SetWindowTitle(const std::string &title) = 0;
 
 		virtual void ResizeWindow(unsigned width, unsigned height) = 0;
 
@@ -78,11 +79,11 @@ namespace Jellyfish
 
 		virtual void PollEvents() = 0;
 
+		virtual void FrameEnd() = 0;
+
 
 	protected:
-
-		virtual void SetWindowSize(const glm::uvec2 &size) = 0;
-		virtual void SetWindowTitle(const std::string &title) = 0;
+		
 		virtual void SetWindowState(WindowState state) = 0;
 
 		const glm::uvec2& GetSize() const

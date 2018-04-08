@@ -63,3 +63,10 @@ src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/GLWindow.obj
 Dependencies/lib/Debug/Jellyfish.lib
 Dependencies/lib/Debug/REST API.lib
+Dependencies/lib/Debug/Engine.lib
+Dependencies/lib/Debug/Engine.lib
+Dependencies/lib/Debug/Jellyfish.lib
+REST API/x64/Debug/RESTAPI.obj
+RESTfulRuntime/x64/Debug/main.obj
+src/Jellyfish_Renderer/Jellyfish_Renderer/Debug/RenderMain.obj
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/glwindow.obj.enc

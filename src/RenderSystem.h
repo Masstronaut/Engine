@@ -1,6 +1,4 @@
 #pragma once
-#include "Window.hpp"
-#include "GLFWWindow.hpp"
 #include "Camera.hpp"
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
@@ -9,6 +7,8 @@
 #include "Model.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
+
+#include "SettingsFileReader.hpp"
 #include <Jellyfish.h>
 
 
@@ -17,12 +17,17 @@ struct WindowManager {
 
   void Init(World& world)
   {
-	  window.On([&](const GLWindow::EWindowResized &event) {
-		  world.Emit(event);
-	  });
-    window.On([&](const GLWindow::EWindowStateChanged &event) {
-      world.Emit(event);
-    });
+	//  window.On([&](const GLWindow::EWindowResized &event) {
+	//	  world.Emit(event);
+	//  });
+    //window.On([&](const GLWindow::EWindowStateChanged &event) {
+    //  world.Emit(event);
+    //});
+
+	  //TODO: DX and other Window options 
+	  Jellyfish::GLWindow* pSomeGLWindow = new Jellyfish::GLWindow;
+	  pWindow = pSomeGLWindow;
+	  pWindow->CreateGameWindow(m_windowSizeSetting.x, m_windowSizeSetting.y, m_windowFullscreenSetting, "Engine v0.0");
   }
 
   EntitiesWith<Camera> Entities;
@@ -32,8 +37,11 @@ struct WindowManager {
 
 private:
 	//render context
-  GLFWWindow window;
+  //GLFWWindow window;
+  Jellyfish::iWindow* pWindow;
   void ProcessInput( Camera &cam );
+  glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
+  bool m_windowFullscreenSetting{ g_StartFullscreen };
 };
 
 struct RenderSystem {
@@ -44,16 +52,17 @@ struct RenderSystem {
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
-		world.On([&](const GLWindow::EWindowResized &event) {
-			m_windowSize = event.newSize;
-		});
+		//world.On([&](const GLWindow::EWindowResized &event) {
+		//	m_windowSize = event.newSize;
+		//});
+		//
 
 		program.Load();
 
 
 		//RENDERER LIB TEST
 		Jellyfish::Derp test;
-		test.DoAThing();
+		test.DoAThing();  //prints a thing
 
 	}
 
@@ -128,5 +137,7 @@ struct RenderSystem {
 	glm::mat4 m_persp_projection;
 	glm::mat4 m_ortho_projection;
 	const Camera *camera{ nullptr };
-	glm::vec2 m_windowSize{g_InitialWindowWidth, g_InitialWindowHeight };
+
+	//TODO: Use events instead
+	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };
 };

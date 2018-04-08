@@ -1,6 +1,9 @@
 #pragma once
-#include <string>
+#include "GLWindow.h" //OpenGL Windowing
 
+
+
+#include <string>
 namespace Jellyfish
 {
 	//-------------------
@@ -9,23 +12,17 @@ namespace Jellyfish
 	//enum eRenderAPI {E_GL, E_DX11, E_DXR, E_VKN, E_DX12};
 	//eRenderAPI g_API = E_GL; ///TODO: data-driven API choice
 
-
 	
-
-
-
-
-
-
-
-
+	//-------------------
+	// * Testing Stub *
+	//-------------------
 	//basic linker test
 	class Derp
 	{
 	public:
 		void DoAThing();
 	private:
-		std::string str = "hello";
+		std::string str = "Oh look a jellyfish!";
 	};
 
 	class RenderableObject
