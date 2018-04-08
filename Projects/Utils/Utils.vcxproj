@@ -123,9 +123,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\Modules\Utils\include\EventArena.hpp" />
-    <ClInclude Include="..\Modules\Utils\include\Resource.hpp" />
-    <ClInclude Include="..\Modules\Utils\include\ThreadPool.hpp" />
-    <ClInclude Include="..\Modules\Utils\include\type_list.hpp" />
+    <ClInclude Include="..\..\Modules\Utils\include\Resource.hpp" />
+    <ClInclude Include="..\..\Modules\Utils\include\ThreadPool.hpp" />
+    <ClInclude Include="..\..\Modules\Utils\include\type_list.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Modules\Utils\src\Resource.cpp" />

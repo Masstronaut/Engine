@@ -1,6 +1,7 @@
 #pragma once
 #include <Utils/include/Resource.hpp>
 #include "Settings/WindowSettings.h"
+#include "Settings/ResourceSettings.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>

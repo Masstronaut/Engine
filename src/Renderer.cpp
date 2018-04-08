@@ -2,8 +2,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "GLTextRenderer.hpp"
+#include "Settings/ResourceSettings.h"
+
+std::string ResourcePath = g_ResourcePath;
 std::string FontPath( ) {
-  return "../Resources/Fonts/";
+  return ResourcePath + "Fonts/";
 }
 
 GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &font, int size )

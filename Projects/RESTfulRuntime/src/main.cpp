@@ -7,6 +7,7 @@
 #include <memory>
 
 #include "Camera.hpp"
+#include "Settings/ResourceSettings.h"
 Camera cam;
 double dt{ 0.f };
 double lastFrame{ 0.f };
@@ -32,11 +33,11 @@ std::string ReadFile(const std::string& path) {
 }
 
 std::string RelativePath() {
-  static std::string path{ "../" };
+  static std::string path{ g_ResourcePath };
   return path;
 }
 std::string ShaderPath() {
-  static std::string path{ RelativePath() + "Resources/Shaders/" };
+  static std::string path{ RelativePath() + "Shaders/" };
   return path;
 }
 
@@ -139,6 +140,7 @@ struct ParallelGravity {
 // ---------------------------
 float g_InitialWindowWidth = 100.0;
 float g_InitialWindowHeight = 100.0;
+const char* g_ResourcePath = "../Resources/";
 bool g_StartFullscreen = false;
 // ---------------------------
 
