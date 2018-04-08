@@ -73,12 +73,12 @@ struct RenderSystem {
 		
 		if (!camera) return;
 		glm::mat4 modelMatrix;
-		modelMatrix = glm::translate(modelMatrix, tf.pos);
+		modelMatrix = glm::translate(modelMatrix, tf.position);
 		modelMatrix = glm::scale(modelMatrix, tf.scale);
 
-		modelMatrix = glm::rotate(modelMatrix, tf.rot.x, glm::vec3(1.f, 0.f, 0.f));
-		modelMatrix = glm::rotate(modelMatrix, tf.rot.y, glm::vec3(0.f, 1.f, 0.f));
-		modelMatrix = glm::rotate(modelMatrix, tf.rot.z, glm::vec3(0.f, 0.f, 1.f));
+		modelMatrix = glm::rotate(modelMatrix, tf.rotation.x, glm::vec3(1.f, 0.f, 0.f));
+		modelMatrix = glm::rotate(modelMatrix, tf.rotation.y, glm::vec3(0.f, 1.f, 0.f));
+		modelMatrix = glm::rotate(modelMatrix, tf.rotation.z, glm::vec3(0.f, 0.f, 1.f));
 		
 		program.SetUniform("model", modelMatrix);
 		model.model->Draw(program);
@@ -99,11 +99,11 @@ struct RenderSystem {
 			gltr.Render(renderable.Text, renderable.Position, m_ortho_projection, renderable.Color, renderable.Size);
 		}
 
-		float pos;
-		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, pos=NextTextPos(m_windowSize.y) }, m_ortho_projection, { .5f,.8f,.2f });
-		gltr.Render("Camera Pos X: " + std::to_string(camera->position.x), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Y: " + std::to_string(camera->position.y), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Z: " + std::to_string(camera->position.z), { 0.f, pos = NextTextPos(pos) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		float position;
+		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, position=NextTextPos(m_windowSize.y) }, m_ortho_projection, { .5f,.8f,.2f });
+		gltr.Render("Camera Pos X: " + std::to_string(camera->position.x), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Y: " + std::to_string(camera->position.y), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Z: " + std::to_string(camera->position.z), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
 	}
 
 	void Draw() {

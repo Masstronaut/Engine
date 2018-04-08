@@ -10,7 +10,7 @@ class World;
 
 class Entity {
 public:
-  Entity::Entity( World &world, EntityID id = { 0,0 } );
+  Entity( World &world, EntityID id = { 0,0 } );
   Entity( const Entity & ) = delete;
   Entity( Entity && );
   Entity& operator=(Entity &&);

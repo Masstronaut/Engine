@@ -61,3 +61,5 @@ src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
 .vs/Engine/v15/.suo
 .vs/Engine/v15/.suo
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/GLWindow.obj
+Dependencies/lib/Debug/Jellyfish.lib
+Dependencies/lib/Debug/REST API.lib
