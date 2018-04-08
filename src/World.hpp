@@ -8,7 +8,7 @@
 #include <typeindex>
 #include <slot_map.hpp>
 
-#include "EventArena.hpp"
+#include <Utils/include/EventArena.hpp>
 #include "Component/ComponentAggregate.hpp"
 #include "Component/ComponentPool.hpp"
 class ArchetypeRef;
@@ -25,8 +25,8 @@ public:
   const T& GetComponent( EntityID entity ) const;
   void* GetComponent( EntityID entity, std::type_index ComponentType );
 
-  Entity& GetEntity( EntityID ID );
-  const Entity& GetEntity( EntityID ID ) const;
+  Entity* GetEntity( EntityID ID );
+  const Entity* GetEntity( EntityID ID ) const;
   EntityRef Spawn( ArchetypeRef archetype );
   EntityRef Spawn( EntityRef archetype );
 

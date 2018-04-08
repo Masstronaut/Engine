@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.hpp"
+#include <Utils/include/Resource.hpp>
 #include "GLShader.hpp"
 #include <glad/glad.h>
 #include <iostream>
