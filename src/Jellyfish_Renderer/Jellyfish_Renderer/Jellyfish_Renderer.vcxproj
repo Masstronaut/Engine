@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\GLWindow.h" />
     <ClInclude Include="Include\iWindow.h" />
     <ClInclude Include="Include\Jellyfish.h" />
     <ClInclude Include="Include\Util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Src\GLWindow.cpp" />
     <ClCompile Include="Src\RenderMain.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
@@ -81,14 +83,14 @@
     <TargetExt>.lib</TargetExt>
     <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;</LibraryPath>
     <TargetName>Jellyfish</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>$(SolutionDir)\Dependencies\lib\$(Configuration)\</OutDir>
     <TargetExt>.lib</TargetExt>
     <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)/Dependencies/include;$(IncludePath)</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;$(solutionDir)/Dependencies/lib/$(Configuration);$(SolutionDir)/Dependencies/lib/$(Configuration)/</LibraryPath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)/Dependencies/lib/$(Configuration)/;</LibraryPath>
     <TargetName>Jellyfish</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

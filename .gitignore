@@ -60,3 +60,4 @@ src/Jellyfish_Renderer/Build/x64/Debug/Jellyfish.lib
 src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
 .vs/Engine/v15/.suo
 .vs/Engine/v15/.suo
+src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/GLWindow.obj

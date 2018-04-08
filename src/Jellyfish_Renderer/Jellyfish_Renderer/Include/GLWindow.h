@@ -26,7 +26,7 @@ namespace Jellyfish
 
 
 	private:
-		static void ResizeWindow(GLWindow* windowhandle, int width, int height);
+		static void ResizeWindow(GLFWwindow* windowhandle, int width, int height);
 
 		void SetWindowSize(const glm::uvec2 &size);
 		void SetWindowTitle(const std::string &title);

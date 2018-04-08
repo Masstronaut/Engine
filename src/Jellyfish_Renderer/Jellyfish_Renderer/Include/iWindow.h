@@ -101,6 +101,8 @@ namespace Jellyfish
 		std::string m_Title;
 		glm::uvec2 m_Size{ 100, 100 };
 		WindowState m_State{ WindowState::restored };
+		bool m_Active;
+		bool m_Open;
 
 	private:
 

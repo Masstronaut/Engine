@@ -1,7 +1,10 @@
 #pragma once
-#include "../Include/GLWindow.h"
 #include <glad/glad.h> //opengl
-#include <GLFW/glfw3.h> //opengl
+#include <GLFW/glfw3.h> //glfw window stuff
+//#define GLEW_STATIC
+//#include <GL/glew.h> //glew
+#include <iostream> //cout
+#include "../Include/GLWindow.h" 
 
 //TODO: fix, put in settings or something
 const unsigned glmajor = 4;
@@ -14,11 +17,13 @@ namespace Jellyfish
 	{
 		glfwDestroyWindow(m_WindowHandle);
 		m_WindowHandle = nullptr;
+		glfwTerminate();
 	}
 
 	void GLWindow::CreateGameWindow(unsigned width, unsigned height, bool fullscreen)
 	{
-		if (glfwInit()) {
+		if (glfwInit()) 
+		{
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glmajor);
 			glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glminor);
 			glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -30,54 +35,74 @@ namespace Jellyfish
 			//Create the window and get a pointer to the handle
 			if (fullscreen)
 			{
+				//Get Monitor Resolution
 				GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
 				const GLFWvidmode* primaryMonMode = glfwGetVideoMode(primaryMonitor);
-
-				//store in a modifyable object for debugging
-				//TODO: Improve
 				int tempWidth = primaryMonMode->width;
 				int tempHeight = primaryMonMode->height;
 
+				//Create a borderless fullscreen window at current resolution
 				m_Size = glm::uvec2(tempWidth, tempHeight);
 				m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, this->GetWindowTitle().c_str(), primaryMonitor, NULL);
-				SetWindowSize(m_Size);
 			}
 			else
+			{
+				//Create a restored resizable window at specified resolution
+				glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
+				m_Size = glm::uvec2(width, height);
 				m_WindowHandle = glfwCreateWindow(width, height, this->GetWindowTitle().c_str(), NULL, NULL);
-
+			}
+				
 
 			if (!m_WindowHandle) {
-				// @@TODO: Change to real logging
+				std::cout << "Failed to create window! Bad Handle." << std::endl;
 				system("pause");
-				exit(-1);
+				return;
 			}
-			//m_CallbackHelpers[m_WindowHandle] = this;
+			
+			//Set Context
 			glfwMakeContextCurrent(m_WindowHandle);
+
+			//Set Callback Functions
+			glfwSetFramebufferSizeCallback(m_WindowHandle, ResizeWindow);
+			//glfwSetKeyCallback(window, key_callback);
+			//glfwSetCursorPosCallback(window, mouse_callback);
+			//glfwSetScrollCallback(window, scroll_callback);
+
+			// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
+			//glewExperimental = GL_TRUE;
+			// Initialize GLEW to setup the OpenGL Function pointers
+			//if (glewInit() != GLEW_OK)
+			//{
+			//	std::cout << "Failed to initialize GLEW" << std::endl;
+			//	system("pause");
+			//	return;
+			//}
+
+
+			// Initialize GLAD to setup the OpenGL Function pointers
 			if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) 
 			{
-				//UnrecoverableError( "Failed to initialize OpenGL using GLAD." );
-
-				// @@TODO: Change to real logging
+				std::cout << "Failed to initialize GLAD Loader!" << std::endl;
 				system("pause");
-				exit(-1);
+				return;
 			}
 
-			//init opengl / device
+			// Define the viewport dimensions
 			GLsizei w = this->GetWindowWidth();
 			GLsizei h = this->GetWindowHeight();
+			glfwGetFramebufferSize(m_WindowHandle, &w, &h);
 			glViewport(0, 0, w, h);
-			// @@TODO: put these somewhere else
-			//glEnable( GL_CULL_FACE );
-			glEnable(GL_BLEND);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		}
-		//glfwSetFramebufferSizeCallback(m_WindowHandle, ResizeWindow);
-		
-		//TODO:
-		//glfwSetCursorPosCallback(m_WindowHandle, OnCursorMove);
-		//glfwSetScrollCallback(m_WindowHandle, OnCursorScroll);
-		//glfwSetWindowCloseCallback(m_WindowHandle, OnWindowClose);
 
+		}
+		else
+		{
+			std::cout << "Failed to initialize GLFW!" << std::endl;
+			system("pause");
+			return;
+		}
+		//ALL OK!
+		return;
 	}
 	void GLWindow::UpdateGameWindow()
 	{
@@ -90,29 +115,29 @@ namespace Jellyfish
 
 	bool GLWindow::IsOpen()
 	{
-
+		return m_Open;
 	}
 	bool GLWindow::IsActive()
 	{
-		
+		return m_Active;
 	}
 	void GLWindow::setActive(bool active)
 	{
 
 	}
 
-	void GLWindow::ResizeWindow(GLWindow* windowhandle, int width, int height)
+	void GLWindow::ResizeWindow(GLFWwindow* windowhandle, int width, int height)
 	{
 
 	}
 
 	unsigned GLWindow::GetWindowWidth()
 	{
-
+		return m_Size.x;
 	}
 	unsigned GLWindow::GetWindowHeight()
 	{
-
+		return m_Size.y;
 	}
 
 	void GLWindow::PollEvents()
