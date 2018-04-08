@@ -24,6 +24,9 @@
     <ClInclude Include="..\Modules\Utils\include\type_list.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Modules\Utils\include\EventArena.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\Modules\Utils\src\Resource.cpp">

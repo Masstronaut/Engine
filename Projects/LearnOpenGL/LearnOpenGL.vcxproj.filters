@@ -110,15 +110,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\..\Resources\Shaders\Model.frag" />
-    <None Include="..\..\Resources\Shaders\Model.sprog" />
-    <None Include="..\..\Resources\Shaders\Model.vert" />
-    <None Include="..\..\Resources\Shaders\Text.frag" />
-    <None Include="..\..\Resources\Shaders\Text.sprog" />
-    <None Include="..\..\Resources\Shaders\Text.vert" />
-    <None Include="..\..\Resources\Shaders\Triangle.frag" />
-    <None Include="..\..\Resources\Shaders\Triangle.sprog" />
-    <None Include="..\..\Resources\Shaders\Triangle.vert" />
     <None Include="..\..\src\Component\ComponentAggregate.inl">
       <Filter>Header Files</Filter>
     </None>
@@ -145,6 +136,33 @@
     </None>
     <None Include="..\..\src\World.inl">
       <Filter>Header Files</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Model.frag">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Model.sprog">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Model.vert">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Text.frag">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Text.sprog">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Text.vert">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Triangle.frag">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Triangle.sprog">
+      <Filter>Resources\Shaders</Filter>
+    </None>
+    <None Include="..\..\Resources\Shaders\Triangle.vert">
+      <Filter>Resources\Shaders</Filter>
     </None>
   </ItemGroup>
   <ItemGroup>
@@ -191,9 +209,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\Entity\Entity.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\src\EventArena.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="..\..\src\GLFWWindow.hpp">

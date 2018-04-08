@@ -8,7 +8,7 @@
 #include <typeindex>
 #include <slot_map.hpp>
 
-#include "EventArena.hpp"
+#include <Utils/include/EventArena.hpp>
 #include "Component/ComponentAggregate.hpp"
 #include "Component/ComponentPool.hpp"
 class ArchetypeRef;

@@ -231,7 +231,6 @@
     <ClInclude Include="..\..\src\Entity\ConstrainedEntityRef.hpp" />
     <ClInclude Include="..\..\src\Entity\EntitiesWith.hpp" />
     <ClInclude Include="..\..\src\Entity\Entity.hpp" />
-    <ClInclude Include="..\..\src\EventArena.hpp" />
     <ClInclude Include="..\..\src\GLFWWindow.hpp" />
     <ClInclude Include="..\..\src\GLProgram.hpp" />
     <ClInclude Include="..\..\src\GLShader.hpp" />
