@@ -19,12 +19,25 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\main.cpp" />
+    <ClInclude Include="Include\Components\Body.h" />
+    <ClInclude Include="Include\Components\Manifold.h" />
+    <ClInclude Include="Include\Mathematics.h" />
+    <ClInclude Include="Include\Systems\CollisionDetection.h" />
+    <ClInclude Include="Include\Systems\Integration.h" />
+    <ClInclude Include="Include\Systems\Resolution.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Components\Body.cpp" />
+    <ClCompile Include="Source\Components\Manifold.cpp" />
+    <ClCompile Include="Source\Mathematics.cpp" />
+    <ClCompile Include="Source\Systems\CollisionDetection.cpp" />
+    <ClCompile Include="Source\Systems\Integration.cpp" />
+    <ClCompile Include="Source\Systems\Resolution.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{DB798922-E669-4806-ADD6-3E493B4DE854}</ProjectGuid>
-    <RootNamespace>RESTfulRuntime</RootNamespace>
+    <ProjectGuid>{382E73FA-0206-4B29-8B05-64A521B245B5}</ProjectGuid>
+    <RootNamespace>Physics</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,7 +55,7 @@
     <CharacterSet>MultiByte</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v141</PlatformToolset>
     <CharacterSet>MultiByte</CharacterSet>
@@ -73,16 +86,14 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>$(SolutionDir)Modules\;$(SolutionDir)src\;$(SolutionDir)Projects/Jellyfish_Renderer/Include;$(SolutionDir)/Dependencies/include;$(SolutionDir)Projects/REST API/include;$(IncludePath);$(SolutionDir)Projects/Physics/Include;</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\lib\$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)Dependencies/lib/$(Configuration)/</LibraryPath>
-    <OutDir>$(SolutionDir)bin\exe\$(Configuration)\</OutDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Modules\;$(SolutionDir)src\;$(SolutionDir)/Dependencies/include;$(ProjectDir)/Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)bin\lib\$(Configuration);$(SolutionDir)Dependencies/lib/$(Configuration)/</LibraryPath>
+    <OutDir>$(SolutionDir)bin\lib\$(Configuration)\</OutDir>
     <IntDir>$(SolutionDir)bin\artifacts\$(ProjectName)-$(Configuration)\</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>$(SolutionDir)Modules\;$(SolutionDir)src\;$(SolutionDir)Projects/Jellyfish_Renderer/Include;$(SolutionDir)/Dependencies/include;$(SolutionDir)Projects/REST API/include;$(IncludePath);$(SolutionDir)Projects/Physics/Include;</IncludePath>
-    <LibraryPath>$(SolutionDir)bin\lib\$(Configuration);$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)Dependencies/lib/$(Configuration)/</LibraryPath>
-    <OutDir>$(SolutionDir)bin\exe\$(Configuration)\</OutDir>
-    <IntDir>$(SolutionDir)bin\artifacts\$(ProjectName)-$(Configuration)\</IntDir>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(SolutionDir)Modules\;$(SolutionDir)src\;$(SolutionDir)/Dependencies/include;$(ProjectDir)/Include</IncludePath>
+    <LibraryPath>$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64);$(NETFXKitsDir)Lib\um\x64;$(SolutionDir)bin\lib\$(Configuration);$(SolutionDir)Dependencies/lib/$(Configuration)/</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -90,14 +101,8 @@
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <TreatWarningAsError>false</TreatWarningAsError>
     </ClCompile>
-    <Link>
-      <AdditionalDependencies>Physics.lib;Utils.lib;Engine.lib;Jellyfish.lib;REST API.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
-    </Link>
-    <PostBuildEvent>
-      <Command>copy $(SolutionDir)Dependencies\lib\$(Configuration)\*.dll $(SolutionDir)bin\exe\$(Configuration)\</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -124,21 +129,16 @@
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
-      <Optimization>MaxSpeed</Optimization>
+      <Optimization>MinSpace</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <ConformanceMode>true</ConformanceMode>
-      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Utils.lib;Engine.lib;Jellyfish.lib;REST API.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
-    <PostBuildEvent>
-      <Command>copy $(SolutionDir)Dependencies\lib\$(Configuration)\*.dll $(SolutionDir)bin\exe\$(Configuration)\</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
