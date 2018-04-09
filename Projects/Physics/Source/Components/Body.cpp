@@ -1,4 +1,4 @@
-#include <Body.h>
+#include <Components/Body.h>
 
 void Body::SetMass(float m)
 {

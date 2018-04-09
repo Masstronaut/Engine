@@ -19,20 +19,20 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Include\Body.h" />
-    <ClInclude Include="Include\CollisionDetection.h" />
-    <ClInclude Include="Include\Integration.h" />
-    <ClInclude Include="Include\Manifold.h" />
+    <ClInclude Include="Include\Components\Body.h" />
+    <ClInclude Include="Include\Components\Manifold.h" />
     <ClInclude Include="Include\Mathematics.h" />
-    <ClInclude Include="Include\Resolution.h" />
+    <ClInclude Include="Include\Systems\CollisionDetection.h" />
+    <ClInclude Include="Include\Systems\Integration.h" />
+    <ClInclude Include="Include\Systems\Resolution.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Source\Body.cpp" />
-    <ClCompile Include="Source\CollisionDetection.cpp" />
-    <ClCompile Include="Source\Integration.cpp" />
-    <ClCompile Include="Source\Manifold.cpp" />
+    <ClCompile Include="Source\Components\Body.cpp" />
+    <ClCompile Include="Source\Components\Manifold.cpp" />
     <ClCompile Include="Source\Mathematics.cpp" />
-    <ClCompile Include="Source\Resolution.cpp" />
+    <ClCompile Include="Source\Systems\CollisionDetection.cpp" />
+    <ClCompile Include="Source\Systems\Integration.cpp" />
+    <ClCompile Include="Source\Systems\Resolution.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
