@@ -2,8 +2,8 @@
 
 #include <unordered_map>
 #include <string>
-#include "ThreadPool.hpp"
-#include "EventArena.hpp"
+#include <Utils/include/ThreadPool.hpp>
+#include <Utils/include/EventArena.hpp>
 #include "Entity/ArchetypeRef.hpp"
 #include "World.hpp"
 class Simulation : public EventArena, public ThreadPool<> {

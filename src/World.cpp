@@ -28,11 +28,15 @@ void * World::GetComponent(EntityID component, std::type_index ComponentType) {
   return nullptr;
 }
 
-Entity& World::GetEntity(EntityID ID) {
-  return m_Entities[ID];
+Entity* World::GetEntity(EntityID ID) {
+  auto it{ m_Entities.find(ID) };
+  if(it != m_Entities.end()) return &(*it);
+  else return nullptr;
 }
-const Entity& World::GetEntity(EntityID ID) const {
-  return m_Entities[ID];
+const Entity* World::GetEntity(EntityID ID) const {
+  auto it{ m_Entities.find(ID) };
+  if (it != m_Entities.end()) return &(*it);
+  else return nullptr;
 }
 EntityRef World::Spawn(ArchetypeRef archetype) {
   return Spawn(EntityRef{ archetype.ID(), archetype.GetWorld() });

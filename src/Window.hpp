@@ -1,7 +1,7 @@
 #pragma once
 #include <GLM/glm.hpp>
 #include <string>
-#include "EventArena.hpp"
+#include <Utils/include/EventArena.hpp>
 #include "Settings/WindowSettings.h"
 
 enum class WindowState { minimized, maximized, restored, closed };

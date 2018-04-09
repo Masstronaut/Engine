@@ -212,10 +212,13 @@ void GLProgram::GetUniforms( ) {
 
 void GLProgram::WarnUniform( const std::string &uniformName ) const {
 
+  //turning off spam for now
+    /*
   std::cout << "Warning: Shader program \""
     << Filename( )
     << "\": failed to set uniform \""
     << uniformName
     << "\"."
     << std::endl;
+	*/
 }

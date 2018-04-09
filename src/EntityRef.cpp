@@ -18,13 +18,14 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
 }
 
   bool EntityRef::Has( std::type_index component_type ) const {
-    return m_World->GetEntity( m_ID ).Has( component_type );
+    return m_World->GetEntity( m_ID )->Has( component_type );
   }
 
   bool EntityRef::Has(const std::vector<std::type_index> &components) const {
-    const Entity &entity{ m_World->GetEntity(m_ID) };
+    const Entity *entity{ m_World->GetEntity(m_ID) };
+    if (!entity) return false;
     for (const auto &component : components) {
-      if (!entity.Has(component)) return false;
+      if (!entity->Has(component)) return false;
     }
     return true;
   }
@@ -42,17 +43,18 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
   }
   
   const std::string& EntityRef::Name( ) const {
-    return m_World->GetEntity( m_ID ).Name( );
+    return m_World->GetEntity( m_ID )->Name( );
   }
   
   EntityRef& EntityRef::Name( const std::string &name ) {
-    m_World->GetEntity( m_ID ).Name( name );
+    m_World->GetEntity( m_ID )->Name( name );
     return *this;
   }
 
   EntityRef EntityRef::Clone( ) const {
-    Entity& entity{ m_World->GetEntity( m_ID ) };
-    return entity.Clone( );
+    Entity* entity{ m_World->GetEntity( m_ID ) };
+    if(entity) return entity->Clone( );
+    else throw std::range_error("Tried to clone invalid EntityRef - Entity doesn't exist.");
   }
 
   bool EntityRef::operator==( const EntityRef &rhs ) const {

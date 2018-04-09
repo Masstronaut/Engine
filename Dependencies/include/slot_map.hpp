@@ -250,7 +250,7 @@ template<typename T, typename Token, template<typename...> typename Container>
 constexpr typename slot_map<T, Token, Container>::iterator slot_map<T, Token, Container>::find( const key_type &key ) {
   const auto &index{ this->key_index( key ) };
   const auto &generation{ this->key_generation( key ) };
-  if( generation != *( m_slots.begin( ) + index ) )
+  if (generation != this->key_generation(*(m_slots.begin() + index)))
     return this->end();
   return std::begin( m_data ) + element_index( key );
 }
@@ -259,7 +259,7 @@ template<typename T, typename Token, template<typename...> typename Container>
 constexpr typename slot_map<T, Token, Container>::const_iterator slot_map<T, Token, Container>::find( const key_type& key ) const {
   const auto &index{ this->key_index( key ) };
   const auto &generation{ this->key_generation( key ) };
-  if( generation != *( m_slots.begin( ) + index ) )
+  if( generation != this->key_generation(*(m_slots.begin() + index)))
     return this->end( );
   return this->cbegin( ) + this->element_index( key );
 }

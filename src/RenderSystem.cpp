@@ -33,42 +33,87 @@ WindowManager::WindowManager()
 	//TODO:Move
   //glEnable(GL_DEPTH_TEST);
 }
-void WindowManager::FrameStart( ) {
+
+void WindowManager::Init(World& world)
+{
+	//TODO: DX and other Window options 
+	Jellyfish::g_singleton_window = nullptr;
+	Jellyfish::g_singleton_window = new Jellyfish::GLWindow;
+	pWindow = Jellyfish::g_singleton_window;
+	Jellyfish::g_singleton_window->CreateGameWindow(m_windowSizeSetting.x, m_windowSizeSetting.y, m_windowFullscreenSetting, "Welcome to MassEngine v0.0 ft. Jellyfish Renderer! :)");
+	
+	
+	//rebroadcast window events out to the engine
+	pWindow->On([&](const Jellyfish::GLWindow::EWindowResized &event)
+	{
+	 world.Emit(event);
+	});
+
+	pWindow->On([&](const Jellyfish::GLWindow::EWindowStateChanged &event)
+	{
+	 world.Emit(event);
+	});
+
+	pWindow->On([&](const Jellyfish::GLWindow::EKeyPressed &event)
+	{
+	 world.Emit(event);
+	});
+  
+}
+
+
+void WindowManager::FrameStart( ) 
+{
   cam = &Entities[0].Get<Camera>();
   this->ProcessInput(*cam);
   glClearColor( 1.f, 1.f, 1.f, 1.f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
-void WindowManager::FrameEnd( ) { 
+void WindowManager::FrameEnd( ) 
+{ 
 	pWindow->FrameEnd();
 }
-inline void WindowManager::ProcessInput( Camera &cam ) {
-  //if( window.KeyPressed( GLFW_KEY_ESCAPE ) ) {
-  //  window.State(WindowState::closed);
-  //}
-  //
-  //if( window.KeyPressed( GLFW_KEY_1 ) ) {
-  //  glPolygonMode( GL_FRONT_AND_BACK, GL_FILL );
-  //}
-  //if( window.KeyPressed( GLFW_KEY_2 ) ) {
-  //  glPolygonMode( GL_FRONT_AND_BACK, GL_LINE );
-  //  glLineWidth( 1.5f );
-  //}
-  //
-  //if( window.KeyPressed( GLFW_KEY_3 ) ) {
-  //  glPolygonMode( GL_FRONT_AND_BACK, GL_POINT );
-  //}
-  //float camSpeed{ 5.f * ( float )Dt };
-  //if( window.KeyPressed( GLFW_KEY_W ) )
-  //  cam.position += camSpeed * cam.Front( );
-  //if( window.KeyPressed( GLFW_KEY_S ) )
-  //  cam.position -= camSpeed * cam.Front( );
-  //if( window.KeyPressed( GLFW_KEY_A ) )
-  //  cam.position -= cam.Right( ) * camSpeed;
-  //if( window.KeyPressed( GLFW_KEY_D ) )
-  //  cam.position += cam.Right( ) * camSpeed;
-  //if( window.KeyPressed( GLFW_KEY_SPACE ) ) {
-  //  cam.LookAt( { 0.f,0.f,0.f } );
-  //}
-  //
+
+inline void WindowManager::ProcessInput( Camera &cam ) 
+{
+	//TODO:fix camera
+	float camSpeed{ 5.f * (float)Dt };
+	
+	std::vector<int> keyarray;
+	pWindow->PollInput(keyarray);
+
+	for (int i = 0; i < keyarray.size(); ++i)
+	{
+		if (keyarray[i] == GLFW_KEY_ESCAPE) 
+		{
+			pWindow->SetWindowState(Jellyfish::WindowState::closed);
+		}
+		else if (keyarray[i] == GLFW_KEY_1)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+		}
+		else if (keyarray[i] == GLFW_KEY_2) 
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glLineWidth(1.5f);
+		}
+		else if (keyarray[i] == GLFW_KEY_3)
+		{
+			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+		}
+		else if (keyarray[i] == GLFW_KEY_W)
+			cam.position += camSpeed * cam.Front();
+		else if (keyarray[i] == GLFW_KEY_S)
+			cam.position -= camSpeed * cam.Front();
+		else if (keyarray[i] == GLFW_KEY_A)
+			cam.position -= cam.Right() * camSpeed;
+		else if (keyarray[i] == GLFW_KEY_D)
+			cam.position += cam.Right() * camSpeed;
+		else if (keyarray[i] == GLFW_KEY_SPACE)
+			cam.LookAt({ 0.f,0.f,0.f });
+	}//endfunc
+
+	
+
+  
 }

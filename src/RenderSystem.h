@@ -12,23 +12,11 @@
 #include <Jellyfish.h>
 
 
-struct WindowManager {
+struct WindowManager 
+{
   WindowManager();
 
-  void Init(World& world)
-  {
-	//  window.On([&](const GLWindow::EWindowResized &event) {
-	//	  world.Emit(event);
-	//  });
-    //window.On([&](const GLWindow::EWindowStateChanged &event) {
-    //  world.Emit(event);
-    //});
-
-	  //TODO: DX and other Window options 
-	  Jellyfish::GLWindow* pSomeGLWindow = new Jellyfish::GLWindow;
-	  pWindow = pSomeGLWindow;
-	  pWindow->CreateGameWindow(m_windowSizeSetting.x, m_windowSizeSetting.y, m_windowFullscreenSetting, "Engine v0.0");
-  }
+  void Init(World& world);
 
   EntitiesWith<Camera> Entities;
   void FrameStart( );
@@ -36,9 +24,9 @@ struct WindowManager {
   float Dt{ 0.f };
 
 private:
-	//render context
-  //GLFWWindow window;
-  Jellyfish::iWindow* pWindow;
+  //render context
+  Jellyfish::iWindow* pWindow{nullptr};
+  
   void ProcessInput( Camera &cam );
   glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
   bool m_windowFullscreenSetting{ g_StartFullscreen };
@@ -52,10 +40,10 @@ struct RenderSystem {
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
-		//world.On([&](const GLWindow::EWindowResized &event) {
-		//	m_windowSize = event.newSize;
-		//});
-		//
+		world.On([&](const Jellyfish::GLWindow::EWindowResized &event) {
+			m_windowSize = event.newSize;
+		});
+		
 
 		program.Load();
 

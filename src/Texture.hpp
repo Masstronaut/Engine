@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.hpp"
+#include <Utils/include/Resource.hpp>
 
 
 // @@TODO: Consider moving to a "Material" type
