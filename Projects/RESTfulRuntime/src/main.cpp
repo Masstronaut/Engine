@@ -150,6 +150,9 @@ bool g_StartFullscreen = false;
 #include "RenderSystem.h"
 #include "SettingsFileReader.hpp"
 
+#include <Systems\CollisionDetection.h>
+#include <Systems\Integration.h>
+#include <Systems\Resolution.h>
 
 void ECSDemo() {
   Simulation Sim;
@@ -160,12 +163,14 @@ void ECSDemo() {
   settings.Load();
 
   TestWorld.AddSystem<WindowManager>("Window Management System");
-  TestWorld.AddSystem<Gravity>("Gravity System");
-  TestWorld.AddSystem<ParallelGravity>("Parallelized Gravity System", glm::vec3{ 0.f, -9.81f, 0.f });
-  TestWorld.AddSystem<ParallelVelocitySystem>("Parallelized Velocity System");
-  TestWorld.AddSystem<ParallelAccelerationSystem>("Parallelized Acceleration System");
+  //TestWorld.AddSystem<Gravity>("Gravity System");
+  //TestWorld.AddSystem<ParallelGravity>("Parallelized Gravity System", glm::vec3{ 0.f, -9.81f, 0.f });
+  //TestWorld.AddSystem<ParallelVelocitySystem>("Parallelized Velocity System");
+  //TestWorld.AddSystem<ParallelAccelerationSystem>("Parallelized Acceleration System");
+  TestWorld.AddSystem<Integration>("Physics Integration");
+  TestWorld.AddSystem<CollisionDetection>("Physics Collision Detection");
+  TestWorld.AddSystem<Resolution>("Physics Resolution");
   TestWorld.AddSystem<RenderSystem>("Rendering System");
-
 
 
   ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
