@@ -2,31 +2,31 @@
 
 #include <glm/glm.hpp>
 
-typedef glm::vec2 Vec2;
-typedef glm::vec3 Vec3;
-typedef glm::vec4 Vec4;
+using Vec2 = glm::vec2;
+using Vec3 = glm::vec3;
+using Vec4 = glm::vec4;
 
-typedef glm::ivec2 Vec2i;
-typedef glm::ivec3 Vec3i;
+using Vec2i = glm::ivec2;
+using Vec3i = glm::ivec3;
 
-typedef glm::mat2 Mat2;
-typedef glm::mat3 Mat3;
-typedef glm::mat4 Mat4;
-typedef glm::quat Quat;
-typedef glm::mat4x3 Trans; // Affine Mat4
+using Mat2 = glm::mat2;
+using Mat3 = glm::mat3;
+using Mat4 = glm::mat4;
+using Quat = glm::quat;
+using Trans = glm::mat4x3; // Affine Mat4
 
-typedef const Vec2& Vec2Param;
-typedef const Vec3& Vec3Param;
-typedef const Vec4& Vec4Param;
+using Vec2Param = const Vec2&;
+using Vec3Param = const Vec3&;
+using Vec4Param = const Vec4&;
 
-typedef const Vec2i& Vec2iParam;
-typedef const Vec3i& Vec3iParam;
+using Vec2iParam = const Vec2i&;
+using Vec3iParam = const Vec3i&;
 
-typedef const Mat2& Mat2Param;
-typedef const Mat3& Mat3Param;
-typedef const Mat4& Mat4Param;
-typedef const Quat& QuatParam;
-typedef const Trans& TransParam;
+using Mat2Param = const Mat2&;
+using Mat3Param = const Mat3&;
+using Mat4Param = const Mat4&;
+using QuatParam = const Quat&;
+using TransParam = const Trans&;
 
-const int Epsilon = std::numeric_limits<float>::epsilon();
-const int Infinity = std::numeric_limits<float>::infinity();
+const float Epsilon = std::numeric_limits<float>::epsilon();
+const float Infinity = std::numeric_limits<float>::infinity();
