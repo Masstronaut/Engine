@@ -150,9 +150,9 @@ bool g_StartFullscreen = false;
 #include "RenderSystem.h"
 #include "SettingsFileReader.hpp"
 
-#include <Systems\CollisionDetection.h>
-#include <Systems\Integration.h>
-#include <Systems\Resolution.h>
+#include <Systems/CollisionDetection.h>
+#include <Systems/Integration.h>
+#include <Systems/Resolution.h>
 
 void ECSDemo() {
   Simulation Sim;

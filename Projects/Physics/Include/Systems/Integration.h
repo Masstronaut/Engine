@@ -2,8 +2,8 @@
 
 #include "Entity/EntitiesWith.hpp"
 
-#include <Components\Transform.h>
-#include <Components\Body.h>
+#include <Components/Transform.h>
+#include <Components/Body.h>
 
 class Integration
 {
