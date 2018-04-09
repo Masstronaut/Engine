@@ -214,11 +214,11 @@ void ECSDemo() {
   catch (...) {} // if run without admin perms the server throws on exit since it can't open a port.
 }
 
-
+#include <Mathematics.h>
 
 int main() {
 
   ECSDemo();
 
-  return 0;
+  return DoSomeMath();
 }
