@@ -43,7 +43,7 @@ class TankPlayerController : MonoBehaviour
 		}
 
 		float targetAngDelt = Vector3.Angle(transform.up, GroundNormal);
-		float angDelt = Mathf.Max(targetAngDelt, AngCorrectionSpeed * Time.deltaTime);
+		float angDelt = Mathf.Min(targetAngDelt, AngCorrectionSpeed * Time.deltaTime);
 
 		transform.Rotate(Vector3.forward, angDelt);
 
