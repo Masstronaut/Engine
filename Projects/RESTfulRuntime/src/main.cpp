@@ -220,5 +220,5 @@ int main() {
 
   ECSDemo();
 
-  return DoSomeMath();
+  return 0;
 }
