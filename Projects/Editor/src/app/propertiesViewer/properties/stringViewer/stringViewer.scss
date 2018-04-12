@@ -1,0 +1,18 @@
+.string { 
+    overflow: hidden; 
+    white-space: nowrap; 
+    margin-top: 2%;
+    text-align: right;
+}
+ 
+.string input { 
+    width: 76%; 
+} 
+    
+.name { 
+    float:left;
+    text-align: left;
+    font-size: 17px;
+    width: 20%;
+    min-width: 60px;
+}
