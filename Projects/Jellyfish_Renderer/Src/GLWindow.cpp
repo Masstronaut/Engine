@@ -268,5 +268,14 @@ namespace Jellyfish
 	{
 		//DEBUG:
 		std::cout << "Cursor position moved: " << xpos << ", " << ypos << std::endl;
+
+		//send event
+		EMouseMoved event;
+		event.newPosition = glm::dvec2{ xpos, ypos };
+		event.oldPosition = g_singleton_window->m_Cursor.position;
+		g_singleton_window->Emit(event);
+
+		//update pos
+		g_singleton_window->m_Cursor.position = glm::dvec2{ xpos, ypos };
 	}
 } //namespace Jellyfish

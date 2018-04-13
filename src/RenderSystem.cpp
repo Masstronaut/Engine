@@ -4,15 +4,15 @@
 
 Camera* cam;
 
-//void MouseCallback2(const GLFWWindow::EMouseMoved &mme) {
-//  float sensitivity{ .05f };
-//  const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
-//  const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
-//  cam->yaw += xoff;
-//  cam->pitch -= yoff;
-//  if (cam->pitch > 89.9f) cam->pitch = 89.9f;
-//  if (cam->pitch < -89.9f) cam->pitch = -89.9f;
-//}
+void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
+  float sensitivity{ .05f };
+  const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
+  const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
+  cam->yaw += xoff;
+  cam->pitch -= yoff;
+  if (cam->pitch > 89.9f) cam->pitch = 89.9f;
+  if (cam->pitch < -89.9f) cam->pitch = -89.9f;
+}
 //void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
 //  if (cam->fov >= 1.0f && cam->fov <= 70.0f)
 //    cam->fov -= (float)mse.offset.y;
@@ -26,8 +26,7 @@ Camera* cam;
 WindowManager::WindowManager()
 {
   //window.MouseMode(CursorMode::disabled);
-  
-  //window.On( MouseCallback2 );
+
   //window.On( ScrollCallback2 );
 
 	//TODO:Move
@@ -43,7 +42,7 @@ void WindowManager::Init(World& world)
 	Jellyfish::g_singleton_window->CreateGameWindow(m_windowSizeSetting.x, m_windowSizeSetting.y, m_windowFullscreenSetting, "Welcome to MassEngine v0.0 ft. Jellyfish Renderer! :)");
 	
 	
-	//rebroadcast window events out to the engine
+	//Rebroadcast window events out to the engine
 	pWindow->On([&](const Jellyfish::GLWindow::EWindowResized &event)
 	{
 	 world.Emit(event);
@@ -58,6 +57,9 @@ void WindowManager::Init(World& world)
 	{
 	 world.Emit(event);
 	});
+
+	//Set callback functions
+	pWindow->On(MouseCallback2);
   
 }
 

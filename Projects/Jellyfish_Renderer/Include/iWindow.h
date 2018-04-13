@@ -10,18 +10,17 @@ namespace Jellyfish
 	enum class WindowState { minimized, maximized, restored, closed };
 	enum class CursorMode { normal, hidden, disabled };
 
-	//INPUT STUFF
-	//struct Cursor {
-	//	bool Clicked() const;
-	//	int Held() const;
-	//	bool Released() const;
-	//	glm::dvec2 position;
-	//	glm::dvec2 wheel;
-	//	int pressed{ 0 };
-	//	bool was_pressed{ false };
-	//	CursorMode mode{ CursorMode::normal };
-	//};
-	//
+	struct Cursor {
+		//bool Clicked() const;
+		//int Held() const;
+		//bool Released() const;
+		glm::dvec2 position{ 0., 0.}; //this could be improved but not worth it probably
+		glm::dvec2 wheel{ 0., 0.};
+		int pressed{ 0 };
+		bool was_pressed{ false };
+		CursorMode mode{ CursorMode::normal };
+	};
+
 	
 	//struct EMouseScrolled {
 	//	glm::dvec2 offset{ 0.,0. };
@@ -59,8 +58,8 @@ namespace Jellyfish
 			int key{ 0 };
 		};
 		struct EMouseMoved{
-			glm::fvec2 newPosition{ 0.f,0.f };
-			glm::fvec2 oldPosition{ 0.f,0.f };
+			glm::fvec2 newPosition{ 0.,0. };
+			glm::fvec2 oldPosition{ 0.,0. };
 		};
 
 #pragma endregion
@@ -108,6 +107,8 @@ namespace Jellyfish
 		WindowState m_State{ WindowState::restored };
 		bool m_Active;
 		bool m_Open;
+		Cursor m_Cursor;
+		
 
 	private:
 
