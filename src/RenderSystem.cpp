@@ -61,7 +61,6 @@ void WindowManager::Init(World& world)
   
 }
 
-
 void WindowManager::FrameStart( ) 
 {
   cam = &Entities[0].Get<Camera>();

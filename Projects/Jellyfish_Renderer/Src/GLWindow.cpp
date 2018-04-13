@@ -75,9 +75,11 @@ namespace Jellyfish
 			glfwSetFramebufferSizeCallback(m_WindowHandle, Callback_ResizeWindow);
 			glfwSetWindowCloseCallback(m_WindowHandle, Callback_WindowClose);
 			glfwSetWindowPosCallback(m_WindowHandle, Callback_WindowMove);
-			//glfwSetKeyCallback(window, key_callback);
-			//glfwSetCursorPosCallback(window, mouse_callback);
+			glfwSetCursorPosCallback(m_WindowHandle, Callback_CursorPosition);
 			//glfwSetScrollCallback(window, scroll_callback);
+
+			//using glfwgetkey instead
+			//glfwSetKeyCallback(window, key_callback);
 
 			// Set this to true so GLEW knows to use a modern approach to retrieving function pointers and extensions
 			//glewExperimental = GL_TRUE;
@@ -164,11 +166,6 @@ namespace Jellyfish
 		return m_Size.y;
 	}
 
-	void GLWindow::PollEvents()
-	{
-		glfwPollEvents();
-	}
-	
 	void GLWindow::FrameEnd()
 	{
 		DisplayGameWindow();
@@ -184,7 +181,7 @@ namespace Jellyfish
 		if (m_State != state)
 		{
 			WindowState oldState{ m_State };
-			EWindowStateChanged event { m_State, state };
+			EWindowStateChanged event { state, m_State };
 			this->Emit(event);
 
 			//TODO: stringify events at compile time for friendly output
@@ -213,6 +210,11 @@ namespace Jellyfish
 		}//endif
 	}//endfunc
 
+
+	void GLWindow::PollEvents()
+	{
+		glfwPollEvents();
+	}
 	//Polls Input devices, returns current input in data passed as ref
 	void GLWindow::PollInput(std::vector<int>& keyarray) 
 	{
@@ -242,6 +244,10 @@ namespace Jellyfish
 
 			}//endif
 		}//endfor
+
+		//Mouse TODO
+
+
 	}//endfunc
 
 
@@ -254,13 +260,18 @@ namespace Jellyfish
 	{
 		glfwSetWindowShouldClose(windowhandle, true);
 		std::cout << "glfw window should close flag was set!" << std::endl;
+
+		g_singleton_window->SetWindowState(WindowState::closed);
 		return;
 	}
-
 	void GLWindow::Callback_WindowMove(GLFWwindow* windowhandle, int xpos, int ypos)
 	{
 		//DEBUG:
 		std::cout << "Window position was moved to: " << xpos << ", " << ypos << std::endl;
 	}
-
+	void GLWindow::Callback_CursorPosition(GLFWwindow* windowhandle, double xpos, double ypos)
+	{
+		//DEBUG:
+		std::cout << "Cursor position moved: " << xpos << ", " << ypos << std::endl;
+	}
 } //namespace Jellyfish

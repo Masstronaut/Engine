@@ -22,10 +22,7 @@ namespace Jellyfish
 	//	CursorMode mode{ CursorMode::normal };
 	//};
 	//
-	//struct EMouseMoved {
-	//	glm::dvec2 newPosition{ 0.,0. };
-	//	glm::dvec2 oldPosition{ 0.,0. };
-	//};
+	
 	//struct EMouseScrolled {
 	//	glm::dvec2 offset{ 0.,0. };
 	//};
@@ -38,7 +35,6 @@ namespace Jellyfish
 	//struct EMouseHeld { int frames{ 0 }; };
 	//
 	
-
 	//void SetMousePos(const glm::dvec2 &pos);
 	//void SetMouseMode(CursorMode mode);
 	//void SetMouseWheel(const glm::dvec2 &pos);
@@ -61,6 +57,10 @@ namespace Jellyfish
 		//WIndow Input Events
 		struct EKeyPressed {
 			int key{ 0 };
+		};
+		struct EMouseMoved{
+			glm::fvec2 newPosition{ 0.f,0.f };
+			glm::fvec2 oldPosition{ 0.f,0.f };
 		};
 
 #pragma endregion

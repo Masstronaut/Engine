@@ -33,9 +33,11 @@ namespace Jellyfish
 		void ResizeWindow(unsigned width, unsigned height);
 
 	private:
+		//glfw callback functions
 		static void Callback_ResizeWindow(GLFWwindow* windowhandle, int width, int height);
 		static void Callback_WindowClose(GLFWwindow* windowhandle);
 		static void Callback_WindowMove(GLFWwindow* windowhandle, int xpos, int ypos);
+		static void Callback_CursorPosition(GLFWwindow* windowhandle, double xpos, double ypos);
 
 		std::string m_Title{""};
 		glm::uvec2 m_Size{100, 100};
