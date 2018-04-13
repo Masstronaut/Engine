@@ -1,0 +1,197 @@
+{  
+   "Components":[  
+      {  
+         "typeName":"Transform",
+         "members":[  
+            {  
+               "name":"Position",
+               "typeName":"vec3",
+               "members":[  
+                  {  
+                     "typeName":"float",
+                     "name":"X"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Y"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Z"
+                  }
+               ]
+            },
+            {  
+               "name":"Rotation",
+               "typeName":"vec3",
+               "members":[  
+                  {  
+                     "typeName":"float",
+                     "name":"X"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Y"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Z"
+                  }
+               ]
+            },
+            {  
+               "name":"Scale",
+               "typeName":"vec3",
+               "members":[  
+                  {  
+                     "typeName":"float",
+                     "name":"X"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Y"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Z"
+                  }
+               ]
+            }
+         ]
+      },
+      {
+          "typeName": "All Test",
+          "members": [
+              {
+                "name" : "Vec3",
+                "typeName" : "vec3",
+                "members": [
+                  {  
+                     "typeName":"float",
+                     "name":"R"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"G"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"B"
+                  }
+                ]
+              },
+              
+              {
+                "name": "Vec2",
+                  "typeName": "vec2",
+                  "members": [
+                      {
+                          "typeName": "float",
+                          "name" : "X"
+                      },
+                      {
+                          "typeName": "float",
+                          "name": "Foobar"
+                      }
+                  ] 
+              },
+              {
+                  "name": "Boolean",
+                  "typeName": "bool"
+              },
+              {
+                  "name": "String",
+                  "typeName": "string"
+              },
+              {
+                  "name": "Slider",
+                  "typeName": "float"
+              }
+          ]
+      },
+      {
+          "typeName": "Bool Test",
+          "members": [
+              {
+                  "name": "Bool",
+                  "typeName": "bool"
+              }
+          ]
+      },
+      {
+          "typeName": "String Test",
+          "members": [
+              {
+                  "name": "String",
+                  "typeName": "string"
+              }
+          ]
+      },
+      {
+          "typeName": "Vec3 Test",
+          "members": [
+              {
+                  "name": "Vec3",
+                  "typeName": "vec3",
+                  "members":[  
+                  {  
+                     "typeName":"float",
+                     "name":"X"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Y"
+                  },
+                  {  
+                     "typeName":"float",
+                     "name":"Z"
+                  }
+               ]
+              }
+          ]
+      },
+      {
+          "typeName": "Vec2 Test",
+          "members": [
+              {
+                  "name": "Vec2",
+                  "typeName": "vec2",
+                  "members": [
+                      {
+                          "typeName": "float",
+                          "name" : "X"
+                      },
+                      {
+                          "typeName": "float",
+                          "name": "Foobar"
+                      }
+                  ]
+              }
+          ]
+      },
+      {
+          "typeName": "Slider Test",
+          "members": [
+              {
+                  "name": "Slider",
+                  "typeName": "float"
+              }
+          ]
+      },
+      {  
+         "typeName":"RigidBody"
+      },
+      {  
+         "typeName":"Sound Emitter"
+      },
+      {  
+         "typeName":"Texture"
+      },
+      {  
+         "typeName":"Sprite"
+      },
+      {  
+         "typeName":"Partical Emitter"
+      }
+   ]
+}
