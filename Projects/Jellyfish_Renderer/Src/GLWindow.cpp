@@ -231,16 +231,11 @@ namespace Jellyfish
 				keyarray.push_back(key);
 				
 				//DEBUG OUTPUT
-				if ( (key >= 32 && key <= 162) )
-				{
-					const char* key_name = glfwGetKeyName(key, 0);
+				const char* key_name = glfwGetKeyName(key, 0);
+				if (key_name)
 					std::cout << "Key Pressed: " << key_name << std::endl;
-				}
 				else
-				{
 					std::cout << "Key Pressed: " << key << "(int code)" << std::endl;
-				}
-				
 
 			}//endif
 		}//endfor
