@@ -138,10 +138,14 @@ struct ParallelGravity {
 // ---------------------------
 // *  Global Settings INIT  * 
 // ---------------------------
+//window
 float g_InitialWindowWidth = 100.0;
 float g_InitialWindowHeight = 100.0;
 bool g_StartFullscreen = false;
+//resources
 const char* g_ResourcePath = "../Resources/";
+//game
+bool g_SpawnNanos = false;
 // ---------------------------
 
 #include <RESTAPI.h>
@@ -184,11 +188,13 @@ void ECSDemo() {
   EntityRef EnemyA{ TestWorld.Spawn(enemy) };
   // set SpawnNanos to false if you want higher FPS and less nanosuits
   std::vector<EntityRef> nanos;
-  if (bool SpawnNanos{ true }; SpawnNanos) {
+  if (g_SpawnNanos) 
+  {
     std::vector<EntityRef> nanos;
-    for (int i{ 0 }; i < 2; ++i) {
-      for (int j{ 0 }; j < 2; ++j) {
-
+    for (int i{ 0 }; i < 10; ++i) 
+	{
+      for (int j{ 0 }; j < 10; ++j) 
+	  {
         nanos.emplace_back(EnemyA.Clone());
         nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
       }

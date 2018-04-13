@@ -9,6 +9,7 @@ namespace Jellyfish
 
 	enum class WindowState { minimized, maximized, restored, closed };
 	enum class CursorMode { normal, hidden, disabled };
+	enum class CursorClickedState { normal, held };
 
 	struct Cursor {
 		//bool Clicked() const;
@@ -19,6 +20,7 @@ namespace Jellyfish
 		int pressed{ 0 };
 		bool was_pressed{ false };
 		CursorMode mode{ CursorMode::normal };
+		CursorClickedState click_state{ CursorClickedState::normal };
 	};
 
 	
@@ -29,7 +31,7 @@ namespace Jellyfish
 	//	CursorMode newMode;
 	//	CursorMode oldMode;
 	//};
-	//struct EMouseClicked {  };
+	
 	//struct EMouseReleased { };
 	//struct EMouseHeld { int frames{ 0 }; };
 	//
@@ -60,6 +62,10 @@ namespace Jellyfish
 		struct EMouseMoved{
 			glm::fvec2 newPosition{ 0.,0. };
 			glm::fvec2 oldPosition{ 0.,0. };
+		};
+		struct EMouseClicked {
+			int pressed{ 0 };
+			bool was_pressed{ false };
 		};
 
 #pragma endregion

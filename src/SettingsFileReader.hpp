@@ -2,6 +2,7 @@
 #include <Utils/include/Resource.hpp>
 #include "Settings/WindowSettings.h"
 #include "Settings/ResourceSettings.h"
+#include "Settings/GameSettings.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -35,6 +36,10 @@ public:
 			// syntax: start_fullscreen <0 = no, 1 = yes>
 			g_StartFullscreen = bool(f[1]);
 		}
+		else if (c == "spawn_nanos") {
+			g_SpawnNanos = bool(f[1]);
+		}
+
 
 		//TODO:
 		else if (c == "camera") {

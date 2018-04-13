@@ -38,6 +38,7 @@ namespace Jellyfish
 		static void Callback_WindowClose(GLFWwindow* windowhandle);
 		static void Callback_WindowMove(GLFWwindow* windowhandle, int xpos, int ypos);
 		static void Callback_CursorPosition(GLFWwindow* windowhandle, double xpos, double ypos);
+		static void Callback_MouseButton(GLFWwindow* window, int button, int action, int mods);
 
 		std::string m_Title{""};
 		glm::uvec2 m_Size{100, 100};

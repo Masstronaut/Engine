@@ -76,7 +76,11 @@ namespace Jellyfish
 			glfwSetWindowCloseCallback(m_WindowHandle, Callback_WindowClose);
 			glfwSetWindowPosCallback(m_WindowHandle, Callback_WindowMove);
 			glfwSetCursorPosCallback(m_WindowHandle, Callback_CursorPosition);
+			glfwSetMouseButtonCallback(m_WindowHandle, Callback_MouseButton);
 			//glfwSetScrollCallback(window, scroll_callback);
+			
+			//saves last button state betwen polling to capture button press/release
+			glfwSetInputMode(m_WindowHandle, GLFW_STICKY_MOUSE_BUTTONS, 1);
 
 			//using glfwgetkey instead
 			//glfwSetKeyCallback(window, key_callback);
@@ -210,12 +214,14 @@ namespace Jellyfish
 		}//endif
 	}//endfunc
 
-
 	void GLWindow::PollEvents()
 	{
+		//Makes the glfw callbacks happen
 		glfwPollEvents();
 	}
+	
 	//Polls Input devices, returns current input in data passed as ref
+	//HIGHLY Likely to deprecate in favor of a key callback
 	void GLWindow::PollInput(std::vector<int>& keyarray) 
 	{
 		//Keyboard Press
@@ -277,5 +283,70 @@ namespace Jellyfish
 
 		//update pos
 		g_singleton_window->m_Cursor.position = glm::dvec2{ xpos, ypos };
+	}
+	void GLWindow::Callback_MouseButton(GLFWwindow* window, int button, int action, int mods)
+	{
+		/* possible glfw mouse action states
+		  #define GLFW_RELEASE   0
+		  The key or mouse button was released.
+		  
+		  #define GLFW_PRESS   1
+          The key or mouse button was pressed.
+          
+          #define GLFW_REPEAT   2
+		  The key was held down until it repeated
+        */
+
+		//DEBUG:
+		//get the proper name from the button action
+		std::string actionName;
+		switch (action)
+		{
+		  case  GLFW_RELEASE:
+		  {
+		  	actionName = "Released";
+			break;
+		  }
+		  case GLFW_PRESS:
+		  {
+		  	actionName = "Pressed";
+			break;
+		  }
+		  case GLFW_REPEAT:
+		  {
+		  	actionName = "Repeat";
+			break;
+		  }
+		}
+
+
+		//get the proper name from the button number, assumes 0 and 1 are left and right
+		std::string buttonName;
+		switch (button)  //glfw defines are set from 1 to 8, int vales 0 to 7, last, left, right, middle
+		{
+		  case GLFW_MOUSE_BUTTON_LEFT:
+		  {
+			  buttonName = "Left";
+			  break;
+		  }
+		  case GLFW_MOUSE_BUTTON_RIGHT:
+		  {
+			  buttonName = "Right";
+			  break;
+		  }
+		  case GLFW_MOUSE_BUTTON_MIDDLE:
+		  {
+			  buttonName = "Middle";
+			  break;
+		  }
+		  default:
+		  {
+			  buttonName = std::to_string(button);
+			  break;
+		  }
+		}
+
+		std::cout << "Mouse was Activated.  Button: " << buttonName	<< " Action: " << actionName << std::endl;
+			
 	}
 } //namespace Jellyfish
