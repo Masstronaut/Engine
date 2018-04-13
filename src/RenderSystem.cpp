@@ -5,13 +5,16 @@
 Camera* cam;
 
 void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
-  float sensitivity{ .05f };
-  const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
-  const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
-  cam->yaw += xoff;
-  cam->pitch -= yoff;
-  if (cam->pitch > 89.9f) cam->pitch = 89.9f;
-  if (cam->pitch < -89.9f) cam->pitch = -89.9f;
+	if (mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
+	{
+		float sensitivity{ .05f };
+		const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
+		const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
+		cam->yaw += xoff;
+		cam->pitch -= yoff;
+		if (cam->pitch > 89.9f) cam->pitch = 89.9f;
+		if (cam->pitch < -89.9f) cam->pitch = -89.9f;
+    }
 }
 //void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
 //  if (cam->fov >= 1.0f && cam->fov <= 70.0f)

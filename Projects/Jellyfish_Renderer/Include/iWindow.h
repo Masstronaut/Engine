@@ -17,10 +17,10 @@ namespace Jellyfish
 		//bool Released() const;
 		glm::dvec2 position{ 0., 0.}; //this could be improved but not worth it probably
 		glm::dvec2 wheel{ 0., 0.};
-		int pressed{ 0 };
-		bool was_pressed{ false };
+		int buttonStates[10]{0,0,0,0,0,0,0,0,0,0}; //glfw only supports 10 buttons
+		int buttonHeld[10]{ 0,0,0,0,0,0,0,0,0,0 }; //glfw only supports 10 buttons
 		CursorMode mode{ CursorMode::normal };
-		CursorClickedState click_state{ CursorClickedState::normal };
+		
 	};
 
 	
@@ -62,10 +62,11 @@ namespace Jellyfish
 		struct EMouseMoved{
 			glm::fvec2 newPosition{ 0.,0. };
 			glm::fvec2 oldPosition{ 0.,0. };
+			Cursor cursorData;
 		};
-		struct EMouseClicked {
-			int pressed{ 0 };
-			bool was_pressed{ false };
+		struct EMouseAction {
+			int button{ 0 };
+			int action[10]{ 0,0,0,0,0,0,0,0,0,0 };
 		};
 
 #pragma endregion

@@ -246,7 +246,22 @@ namespace Jellyfish
 			}//endif
 		}//endfor
 
-		//Mouse TODO
+		//Mouse
+		//determine if a button is held, TODO: cursorClickedState array, just doing for all buttons right now
+		for (int i = 0; i < 10; ++i)
+		{
+			if ((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_PRESS) && (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_PRESS))
+			{
+				g_singleton_window->m_Cursor.buttonHeld[i] = GLFW_PRESS;
+				std::cout << "Button state changed to held for button: " << i << std::endl;
+			}
+			else if ((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_RELEASE) && (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_RELEASE))
+			{
+				g_singleton_window->m_Cursor.buttonHeld[i] = GLFW_RELEASE;
+				std::cout << "Button state changed to normal for button: " << i << std::endl;
+			}
+		}
+		
 
 
 	}//endfunc
@@ -279,6 +294,7 @@ namespace Jellyfish
 		EMouseMoved event;
 		event.newPosition = glm::dvec2{ xpos, ypos };
 		event.oldPosition = g_singleton_window->m_Cursor.position;
+		event.cursorData = g_singleton_window->m_Cursor; //shallow copy?
 		g_singleton_window->Emit(event);
 
 		//update pos
@@ -286,7 +302,25 @@ namespace Jellyfish
 	}
 	void GLWindow::Callback_MouseButton(GLFWwindow* window, int button, int action, int mods)
 	{
-		/* possible glfw mouse action states
+		//mods is is all possible glfw modifier bit states as defined below
+		/*
+		#define 	GLFW_MOD_SHIFT   0x0001
+ 	    If this bit is set one or more Shift keys were held down. More...
+ 	    
+        #define 	GLFW_MOD_CONTROL   0x0002
+         	If this bit is set one or more Control keys were held down. More...
+         
+        #define 	GLFW_MOD_ALT   0x0004
+         	If this bit is set one or more Alt keys were held down. More...
+         
+        #define 	GLFW_MOD_SUPER   0x0008
+ 	    If this bit is set one or more Super keys were held down. More..
+		*/
+
+		  ///TODO: mod states
+
+		//action is all possible glfw mouse action states as defined below
+		/* 
 		  #define GLFW_RELEASE   0
 		  The key or mouse button was released.
 		  
@@ -298,7 +332,7 @@ namespace Jellyfish
         */
 
 		//DEBUG:
-		//get the proper name from the button action
+		//get the proper name from the action
 		std::string actionName;
 		switch (action)
 		{
@@ -347,6 +381,15 @@ namespace Jellyfish
 		}
 
 		std::cout << "Mouse was Activated.  Button: " << buttonName	<< " Action: " << actionName << std::endl;
-			
+		
+
+		//send event data
+		EMouseAction event;
+		event.button = button;
+		event.action[button] = action;
+		g_singleton_window->Emit(event);
+
+		//set window state data
+		g_singleton_window->m_Cursor.buttonStates[button] = action;
 	}
 } //namespace Jellyfish
