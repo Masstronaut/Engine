@@ -118,6 +118,10 @@ namespace Jellyfish
 			return;
 		}
 		//ALL OK!
+		
+		//TODO:Move
+		glEnable(GL_DEPTH_TEST);
+		
 		return;
 	}
 	void GLWindow::UpdateGameWindow()

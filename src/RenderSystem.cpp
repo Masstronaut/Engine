@@ -7,7 +7,7 @@ Camera* cam;
 void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
 	if (mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
 	{
-		float sensitivity{ .05f };
+		float sensitivity{ .07f };
 		const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
 		const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
 		cam->yaw += xoff;
@@ -31,9 +31,6 @@ WindowManager::WindowManager()
   //window.MouseMode(CursorMode::disabled);
 
   //window.On( ScrollCallback2 );
-
-	//TODO:Move
-  //glEnable(GL_DEPTH_TEST);
 }
 
 void WindowManager::Init(World& world)
@@ -81,7 +78,7 @@ void WindowManager::FrameEnd( )
 inline void WindowManager::ProcessInput( Camera &cam ) 
 {
 	//TODO:fix camera
-	float camSpeed{ 5.f * (float)Dt };
+	float camSpeed{ 2.f * (float)Dt };
 	
 	std::vector<int> keyarray;
 	pWindow->PollInput(keyarray);
