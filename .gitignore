@@ -77,3 +77,4 @@ Dependencies/lib/Debug/REST API.lib
 x64/Debug/assimp-vc140-mt.dll
 x64/Release/assimp-vc140-mt.dll
 x64/Release/cpprest141_2_10.dll
+bin/lib/Release/Physics.lib
