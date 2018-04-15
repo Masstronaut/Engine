@@ -182,7 +182,6 @@
     <ClCompile Include="..\..\src\EntityRef.cpp" />
     <ClCompile Include="..\..\src\Entity\ArchetypeRef.cpp" />
     <ClCompile Include="..\..\src\Entity\Entity.cpp" />
-    <ClCompile Include="..\..\src\GLFWWindow.cpp" />
     <ClCompile Include="..\..\src\GLProgram.cpp" />
     <ClCompile Include="..\..\src\GLShader.cpp" />
     <ClCompile Include="..\..\src\Model.cpp" />
@@ -191,7 +190,6 @@
     <ClCompile Include="..\..\src\RenderSystem.cpp" />
     <ClCompile Include="..\..\src\Simulation.cpp" />
     <ClCompile Include="..\..\src\Texture.cpp" />
-    <ClCompile Include="..\..\src\Window.cpp" />
     <ClCompile Include="..\..\src\World.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -228,7 +226,6 @@
     <ClInclude Include="..\..\src\Entity\ConstrainedEntityRef.hpp" />
     <ClInclude Include="..\..\src\Entity\EntitiesWith.hpp" />
     <ClInclude Include="..\..\src\Entity\Entity.hpp" />
-    <ClInclude Include="..\..\src\GLFWWindow.hpp" />
     <ClInclude Include="..\..\src\GLProgram.hpp" />
     <ClInclude Include="..\..\src\GLShader.hpp" />
     <ClInclude Include="..\..\src\Model.hpp" />
@@ -249,7 +246,6 @@
     <ClInclude Include="..\..\src\Texture.hpp" />
     <ClInclude Include="..\..\src\type_list.hpp" />
     <ClInclude Include="..\..\src\VertexArray.hpp" />
-    <ClInclude Include="..\..\src\Window.hpp" />
     <ClInclude Include="..\..\src\World.hpp" />
     <ClInclude Include="..\..\src\WorldEvents.hpp" />
   </ItemGroup>
