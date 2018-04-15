@@ -19,7 +19,6 @@
 *.exe
 *.out
 *.app
-bin/artifacts/*
 *.tlog
 *.idb
 *.ipch
