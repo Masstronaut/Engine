@@ -30,51 +30,6 @@ bin/artifacts/*
 *.ilk
 *.ipdb
 *.opendb
-<<<<<<< HEAD
-.vs/Engine/v15/.suo
-.vs/Engine/v15/Solution.VC.db-shm
-.vs/Engine/v15/Solution.VC.db-wal
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-.vs/Engine/v15/.suo
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-.vs/Engine/v15/.suo
-src/Jellyfish_Renderer/Build/x64/Debug/Jellyfish.lib
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/RenderMain.obj
-.vs/Engine/v15/.suo
-.vs/Engine/v15/.suo
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/GLWindow.obj
-Dependencies/lib/Debug/Jellyfish.lib
-Dependencies/lib/Debug/REST API.lib
-Dependencies/lib/Debug/Engine.lib
-Dependencies/lib/Debug/Engine.lib
-Dependencies/lib/Debug/Jellyfish.lib
-REST API/x64/Debug/RESTAPI.obj
-RESTfulRuntime/x64/Debug/main.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/Debug/RenderMain.obj
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Debug/glwindow.obj.enc
-src/Jellyfish_Renderer/Jellyfish_Renderer/x64/Release/RenderMain.obj
-=======
-bin/exe/Debug/assimp-vc140-mt.dll
-bin/exe/Debug/cpprest141d_2_10.dll
-bin/exe/Release/assimp-vc140-mt.dll
-bin/exe/Release/cpprest141_2_10.dll
-bin/exe/Release/cpprest141d_2_10.dll
-bin/lib/Debug/Engine.lib
-bin/lib/Debug/Jellyfish.lib
-bin/lib/Debug/REST API.lib
-bin/lib/Debug/Utils.lib
-bin/lib/Release/Engine.lib
-REST API/x64/Debug/RESTAPI.obj
-RESTfulRuntime/x64/Debug/main.obj
->>>>>>> feature/REST-API
-bin/lib/Release/Jellyfish.lib
-bin/lib/Release/REST API.lib
-bin/lib/Release/Utils.lib
-Dependencies/lib/Debug/Engine.lib
-Dependencies/lib/Debug/REST API.lib
-x64/Debug/assimp-vc140-mt.dll
-x64/Release/assimp-vc140-mt.dll
-x64/Release/cpprest141_2_10.dll
-bin/lib/Release/Physics.lib
+
+bin/*
+Dependencies/lib/*
