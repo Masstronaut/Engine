@@ -238,6 +238,7 @@
     <ClInclude Include="..\..\src\RendererCommon.hpp" />
     <ClInclude Include="..\..\src\RenderSystem.h" />
     <ClInclude Include="..\..\src\SettingsFileReader.hpp" />
+    <ClInclude Include="..\..\src\Settings\GameSettings.h" />
     <ClInclude Include="..\..\src\Settings\ResourceSettings.h" />
     <ClInclude Include="..\..\src\Settings\UI_Settings.h" />
     <ClInclude Include="..\..\src\Settings\WindowSettings.h" />

@@ -2,6 +2,7 @@
 #include <Utils/include/Resource.hpp>
 #include "Settings/WindowSettings.h"
 #include "Settings/ResourceSettings.h"
+#include "Settings/GameSettings.h"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -26,15 +27,19 @@ public:
 		std::string c = strings[0];
 
 		if (c == "screen_size") {
-			// syntax: screen_size width height
+			// syntax: screen_size <width> <height>
 			g_InitialWindowWidth = f[1];
 			g_InitialWindowHeight = f[2];
 		}
 
 		else if (c == "start_fullscreen") {
-			// syntax: fullscreen <0 = no, 1 = yes>
+			// syntax: start_fullscreen <0 = no, 1 = yes>
 			g_StartFullscreen = bool(f[1]);
 		}
+		else if (c == "spawn_nanos") {
+			g_SpawnNanos = bool(f[1]);
+		}
+
 
 		//TODO:
 		else if (c == "camera") {
@@ -64,34 +69,38 @@ public:
 	bool LoadSettingsINI(void)
 	{
 		std::stringstream input(Data());
-		if (input.fail()) {
+		
+		if (input.fail()) 
+		{
 			std::cout << "ERROR in LoadSettingsINI: Bad input data. " << std::endl;
-			//fflush(stderr);
 			return false;
 		}
 
 		// For each line in file
-		for (std::string line; getline(input, line); ) {
+		for (std::string line; getline(input, line); ) 
+		{
+			// Parse as parallel lists of strings and floats
 			std::vector<std::string> strings;
 			std::vector<float> floats;
-
-			// Parse as parallel lists of strings and floats
+			
+			// Parses space-separated strings until EOL
 			std::stringstream lineStream(line);
-			for (std::string s; lineStream >> s; ) { // Parses space-separated strings until EOL
+			for (std::string s; lineStream >> s; ) 
+			{ 
 				float f;
 				double d;
-				//std::stringstream(s) >> f; // Parses an initial float into f, or zero if illegal
-				if (!(std::stringstream(s) >> d)) d = nan(""); // An alternate that produced NANs
+				
+				if (!(std::stringstream(s) >> d)) d = nan(""); //nans for bad input
 				f = (float)d;
 
 				floats.push_back(f);
 				strings.push_back(s);
 			}
 
-			if (strings.size() == 0) continue; // Skip blanks lines
+			if (strings.size() == 0) continue; // Skip blank lines
 			if (strings[0][0] == '#') continue; // Skip comment lines
 
-												// Pass the line's data to the apply function
+			// Pass the line's data to the apply function
 			ApplyParsedSettings(strings, floats);
 		}
 

@@ -1,6 +1,4 @@
 #pragma once
-#include "Window.hpp"
-#include "GLFWWindow.hpp"
 #include "Camera.hpp"
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
@@ -9,21 +7,16 @@
 #include "Model.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
+
+#include "SettingsFileReader.hpp"
 #include <Jellyfish.h>
 
 
-struct WindowManager {
+struct WindowManager 
+{
   WindowManager();
 
-  void Init(World& world)
-  {
-	  window.On([&](const GLWindow::EWindowResized &event) {
-		  world.Emit(event);
-	  });
-    window.On([&](const GLWindow::EWindowStateChanged &event) {
-      world.Emit(event);
-    });
-  }
+  void Init(World& world);
 
   EntitiesWith<Camera> Entities;
   void FrameStart( );
@@ -31,9 +24,12 @@ struct WindowManager {
   float Dt{ 0.f };
 
 private:
-	//render context
-  GLFWWindow window;
+  //render context
+  Jellyfish::iWindow* pWindow{nullptr};
+  
   void ProcessInput( Camera &cam );
+  glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
+  bool m_windowFullscreenSetting{ g_StartFullscreen };
 };
 
 struct RenderSystem {
@@ -44,16 +40,17 @@ struct RenderSystem {
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
-		world.On([&](const GLWindow::EWindowResized &event) {
+		world.On([&](const Jellyfish::GLWindow::EWindowResized &event) {
 			m_windowSize = event.newSize;
 		});
+		
 
 		program.Load();
 
 
 		//RENDERER LIB TEST
 		Jellyfish::Derp test;
-		test.DoAThing();
+		test.DoAThing();  //prints a thing
 
 	}
 
@@ -128,5 +125,7 @@ struct RenderSystem {
 	glm::mat4 m_persp_projection;
 	glm::mat4 m_ortho_projection;
 	const Camera *camera{ nullptr };
-	glm::vec2 m_windowSize{g_InitialWindowWidth, g_InitialWindowHeight };
+
+	//TODO: Use events instead
+	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };
 };

@@ -24,9 +24,15 @@
     <ClInclude Include="Include\Util.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\GLWindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RenderMain.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Src\GLWindow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

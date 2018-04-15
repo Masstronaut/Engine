@@ -134,7 +134,7 @@
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <AdditionalDependencies>Utils.lib;Engine.lib;Jellyfish.lib;REST API.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>Physics.lib;Utils.lib;Engine.lib;Jellyfish.lib;REST API.lib;GLU32.lib;opengl32.lib;glfw3.lib;freetype.lib;assimp-vc140-mt.lib;cpprest141_2_10.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
       <Command>copy $(SolutionDir)Dependencies\lib\$(Configuration)\*.dll $(SolutionDir)bin\exe\$(Configuration)\</Command>
