@@ -2,5 +2,8 @@
 
 namespace Jellyfish
 {
-  
+	class iTexture
+	{
+		//derp;
+    };
 }

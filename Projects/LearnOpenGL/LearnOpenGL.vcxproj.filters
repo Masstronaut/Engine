@@ -235,9 +235,6 @@
     <ClInclude Include="..\..\src\type_list.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\src\VertexArray.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\src\World.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
