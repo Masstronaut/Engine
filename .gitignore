@@ -19,7 +19,6 @@
 *.exe
 *.out
 *.app
-bin/artifacts/*
 *.tlog
 *.idb
 *.ipch
@@ -30,15 +29,7 @@ bin/artifacts/*
 *.ilk
 *.ipdb
 *.opendb
-bin/exe/Debug/assimp-vc140-mt.dll
-bin/exe/Debug/cpprest141d_2_10.dll
-bin/exe/Release/assimp-vc140-mt.dll
-bin/exe/Release/cpprest141_2_10.dll
-bin/exe/Release/cpprest141d_2_10.dll
-bin/lib/Debug/Engine.lib
-bin/lib/Debug/Jellyfish.lib
-bin/lib/Debug/REST API.lib
-bin/lib/Debug/Utils.lib
-bin/lib/Release/Engine.lib
-REST API/x64/Debug/RESTAPI.obj
-RESTfulRuntime/x64/Debug/main.obj
+
+build/*
+Editor/node_modules
+Dependencies/lib/*
