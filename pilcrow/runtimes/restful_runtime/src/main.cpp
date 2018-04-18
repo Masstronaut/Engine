@@ -143,7 +143,7 @@ float g_InitialWindowWidth = 100.0;
 float g_InitialWindowHeight = 100.0;
 bool g_StartFullscreen = false;
 //resources
-const char* g_ResourcePath = "../Resources/";
+const char* g_ResourcePath = "../../../../Resources/";
 //game
 bool g_SpawnNanos = false;
 // ---------------------------
@@ -184,7 +184,7 @@ void ECSDemo() {
 	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
 	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 	enemy.Add<RigidBody>();
-	CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
+	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
 	cm.model->Load();
 	EntityRef cam{ TestWorld.Spawn(lens) };
 	cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };

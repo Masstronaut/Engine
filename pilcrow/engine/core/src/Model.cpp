@@ -4,6 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+#include "../include/settings/ResourceSettings.h"
 #include "../include/Model.hpp"
 #include "../include/RendererCommon.hpp"
 
@@ -28,7 +29,11 @@ bool Model::Reloadable( ) const {
 }
 
 std::string Model::Directory( ) const {
-  return "../Resources/Models/";
+  std::string directory;
+  directory.reserve(32);
+  directory += g_ResourcePath;
+  directory += "Models/";
+  return directory;
 }
 
 bool Model::LoadImpl( ) {

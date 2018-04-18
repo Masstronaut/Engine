@@ -18,7 +18,7 @@ public:
 
 	virtual bool Reloadable() const override { return true; }
 
-	virtual std::string Directory() const override { return "../"; }
+	virtual std::string Directory() const override { return g_ResourcePath; }
 
 	void ApplyParsedSettings(const std::vector<std::string>& strings,
 		const std::vector<float>& f)

@@ -3,6 +3,7 @@
 #include <glad/include/glad.h>
 #include <iostream>
 #include <stb_image/stb_image.h>
+#include "../include/settings/ResourceSettings.h"
 
 Texture::Texture( const std::string &name )
   : Resource( name ) {
@@ -19,7 +20,7 @@ bool Texture::Reloadable( ) const {
   return true;
 }
 std::string Texture::Directory( ) const {
-  return "../Resources/Textures/";
+  return std::string(g_ResourcePath) + "Textures/";
 }
 void Texture::Use( int TextureUnit ) const {
   glActiveTexture( GL_TEXTURE0 + TextureUnit );
