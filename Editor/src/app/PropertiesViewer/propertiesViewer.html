@@ -1,0 +1,24 @@
+<div *ngFor="let property of currentGameObjectProperties">
+    <mat-expansion-panel [expanded]="true">
+        <mat-expansion-panel-header>
+            {{property.name}}
+        </mat-expansion-panel-header>
+
+        <div *ngFor="let data of property.propertiesData">
+            <ng-container *ngComponentOutlet="data.type; injector: data.injector">
+            </ng-container>
+        </div>
+    </mat-expansion-panel>
+</div>
+
+<div class="propertiesBtn">
+    <button mat-button [matMenuTriggerFor]="compMenu" id="addComp">Add Components</button>
+</div>
+<mat-menu #compMenu="matMenu" [overlapTrigger]="false">
+    <div *ngIf="componentsList">
+        <div *ngFor="let component of componentsList['Components']">
+            <button mat-menu-item (click)="addComponent(component.typeName)">{{component.typeName}}</button>
+        </div>
+    </div>
+</mat-menu>
+
