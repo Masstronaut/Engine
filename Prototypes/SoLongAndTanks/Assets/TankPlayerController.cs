@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(GravityOrbiter))]
 [RequireComponent(typeof(CircleCollider2D))]
 class TankPlayerController : MonoBehaviour 
 {
 
 	private CircleCollider2D Collider;
+	private GravityOrbiter Orbiter;
 
 	public float TreadSpeed;
-	public float AngCorrectionSpeed;
+	public float TreadGrip;
+	public float JumpForce;
 	public bool IsGrounded {get; private set;}
 	private Vector2 GroundNormal;
 
 	// Use this for initialization
 	void Start () {
 		Collider = GetComponent<CircleCollider2D>();
+		Orbiter = GetComponent<GravityOrbiter>();
 	}
 	
 	void OnCollisionEnter2D(Collision2D col)
@@ -36,29 +40,45 @@ class TankPlayerController : MonoBehaviour
 	void Update () 
 	{
 		Debug.DrawRay(transform.position, GroundNormal, Color.red, 0.1f);
-	
-		if(!IsGrounded)
-		{
-			return;
-		}
+		Debug.DrawRay(transform.position, Orbiter.RelativeUp, Color.green, 0.1f);
 
-		float targetAngDelt = Vector3.Angle(transform.up, GroundNormal);
-		float angDelt = Mathf.Min(targetAngDelt, AngCorrectionSpeed * Time.deltaTime);
 
-		transform.Rotate(Vector3.forward, angDelt);
+		if(IsGrounded)
+		{
+			transform.up = GroundNormal;
 
-		if(Input.GetAxis("Horizontal") > 0.1f)
-		{
-			Vector3 moveForce = TreadSpeed * transform.right;
-			GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Force);
+			Vector2 normalForce;
+			if(Input.GetButtonDown("Jump"))
+			{
+				normalForce = GroundNormal * JumpForce;
+				IsGrounded = false;
+			}
+			else
+			{
+				normalForce = -GroundNormal * TreadGrip;
+			}
+
+			GetComponent<Rigidbody2D>().AddForce(normalForce, ForceMode2D.Force);
+
+			// Apply relative horizontal movement
+			if(Input.GetAxis("Horizontal") > 0.1f)
+			{
+				Vector3 moveForce = TreadSpeed * transform.right;
+				GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Force);
+
+			}
+			else if(Input.GetAxis("Horizontal") < -0.1f)
+			{
+				Vector3 moveForce = -TreadSpeed * transform.right;
+				GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Force);
+			}
 		}
-		else if(Input.GetAxis("Horizontal") < -0.1f)
+		else
 		{
-			Vector3 moveForce = -TreadSpeed * transform.right;
-			GetComponent<Rigidbody2D>().AddForce(moveForce, ForceMode2D.Force);
+			transform.up = Orbiter.RelativeUp;
 		}
-	
 	}
+
 
 
 }

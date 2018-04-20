@@ -24,12 +24,26 @@ public class GravityCenter : MonoBehaviour
 
 	void OnTriggerStay2D(Collider2D other)
 	{
-		Vector3 grav = (other.transform.position - transform.position);
+		Vector3 grav = (transform.position - other.transform.position);
 		float dist = grav.magnitude / collider.radius; // should be [0..1]
 
 		grav = grav.normalized * falloff.Evaluate(dist) * magnitude;
 
 		other.GetComponent<Rigidbody2D>().AddForce(grav, ForceMode2D.Force);
+
+		other.SendMessage("OnGravityUpdate", new GravityUpdate(grav,this), 
+			SendMessageOptions.DontRequireReceiver);
 	}
 
+}
+
+public struct GravityUpdate
+{
+	public GravityUpdate(Vector3 grav, GravityCenter src)
+	{
+		acceleration = grav;
+		source = src;
+	}
+	public Vector2 acceleration;
+	public GravityCenter source;
 }
