@@ -1,0 +1,8 @@
+<div *ngIf="slideToggle=='true'; else notSlider" class="boolean">
+    <mat-slide-toggle labelPosition='before'>{{name}}</mat-slide-toggle>
+</div>
+<ng-template #notSlider>
+    <div *ngIf="true" class="boolean">
+        <mat-checkbox labelPosition='before'>{{name}}</mat-checkbox>
+    </div>
+</ng-template>

@@ -1,0 +1,46 @@
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.mat-toolbar {
+  background-color: rgb(42, 42, 42);
+  min-height: 10px;
+}
+
+#file {
+  height: inherit;
+  background-color: inherit;
+  font-size: 20px;
+}
+
+#edit {
+  height: inherit;  
+  background-color: inherit;
+  font-size: 20px;
+}
+
+//make (Add Component) button center
+#addComp{
+  margin: 15px;
+  font-size: 16px;
+  background-color: whitesmoke;
+}
+
+.mat-menu-item{
+  background-color: whitesmoke;
+}
+
+.mat-menu-content {
+  background-color: whitesmoke;
+}
+/*.mat-button {
+  background-color: rgb(63, 63, 63);
+  height: inherit;
+  font-size: 18px;
+}*/
