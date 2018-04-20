@@ -7,35 +7,28 @@ import { catchError, map, tap } from 'rxjs/operators';
 @Injectable()
 export class PropertiesViewerService {
     private engineUrl = '../../assets';
+    private realEngineURL = 'http://localhost:42069/api'
 
-    constructor(
-        private http: HttpClient) {}
+    constructor(private http: HttpClient) {}
+
+    getComponentsList() {
+        const url = `${this.realEngineURL}/ComponentsList`;
+        return this.http.get(url);
+    }
+
+    getComponentsStructures() {
+        const url = `${this.realEngineURL}/Components`;
+        return this.http.get(url);
+    }
 
     getComponents() {
         const url = `${this.engineUrl}/components.json`;
-        return this.http.get(url).pipe(
-            tap(component => console.log('fetching all components')),
-            catchError(this.handleError('getComponents', []))
-        );
+        return this.http.get(url);
     }
 
     getGameObjectComponents() {
         const url = `${this.engineUrl}/propertiesData.json`;
 
-        return this.http.get(url).pipe(
-            tap(component => console.log('fetching gameobject components')),
-            catchError(this.handleError('getGameObjectComponents', []))
-        );
-    }
-
-    private handleError<T> (operation = 'operation', result?: T) {
-        return (error: any): Observable<T> => {
-            
-            //TODO: find a better way to display/log errors
-            console.error(error);
-
-            // Let the app keep running by returning an empty result.
-            return of(result as T);
-        };
+        return this.http.get(url);
     }
 }

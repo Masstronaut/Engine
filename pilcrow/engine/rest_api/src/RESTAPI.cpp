@@ -17,15 +17,19 @@
 
 
 
+
 REST_VM::REST_VM(Simulation &sim, utility::string_t url) 
   : m_listener(url)
   , m_simulation(sim) {
   m_listener.support(std::bind(&REST_VM::handle_request, this, std::placeholders::_1));
+  mRoutesMap[U("Components")] = std::bind(&REST_VM::GetComponentsList, this);
 }
+
 REST_VM::~REST_VM()
 {
   //dtor
 }
+
 
 void REST_VM::handle_error(pplx::task<void>& t)
 {
@@ -40,48 +44,116 @@ void REST_VM::handle_error(pplx::task<void>& t)
   }
 }
 
+web::json::value REST_VM::GetComponentsList() {
+  web::json::value componentsList = web::json::value::object(true);
+  web::json::value components = web::json::value::array(1);
+  web::json::value transformObject = web::json::value::object(true);
+
+  transformObject[U("typeName")] = web::json::value::string(U("Transform"));
+    // position, rotation, scale
+  web::json::value transformMembers = web::json::value::array(3);
+
+  // Position member
+  web::json::value position = web::json::value::object(true);
+  position[U("name")] = web::json::value::string(U("Position"));
+  position[U("typeName")] = web::json::value::string(U("vec3"));
+
+  web::json::value positionMembers = web::json::value::array(3);
+
+  web::json::value positionMemberX = web::json::value::object(true);
+  positionMemberX[U("typeName")] = web::json::value::string(U("float"));
+  positionMemberX[U("name")] = web::json::value::string(U("X"));
+
+  web::json::value positionMemberY = web::json::value::object(true);
+  positionMemberY[U("typeName")] = web::json::value::string(U("float"));
+  positionMemberY[U("name")] = web::json::value::string(U("Y"));
+
+  web::json::value positionMemberZ = web::json::value::object(true);
+  positionMemberZ[U("typeName")] = web::json::value::string(U("float"));
+  positionMemberZ[U("name")] = web::json::value::string(U("Z"));
+
+  positionMembers[0] = positionMemberX;
+  positionMembers[1] = positionMemberY;
+  positionMembers[2] = positionMemberZ;
+  position[U("members")] = positionMembers;
+
+  // Rotation member
+  web::json::value rotation = web::json::value::object(true);
+  rotation[U("name")] = web::json::value::string(U("Rotation"));
+  rotation[U("typeName")] = web::json::value::string(U("vec3"));
+
+  web::json::value rotationMembers = web::json::value::array(3);
+
+  web::json::value rotationMemberX = web::json::value::object(true);
+  rotationMemberX[U("typeName")] = web::json::value::string(U("float"));
+  rotationMemberX[U("name")] = web::json::value::string(U("X"));
+
+  web::json::value rotationMemberY = web::json::value::object(true);
+  rotationMemberY[U("typeName")] = web::json::value::string(U("float"));
+  rotationMemberY[U("name")] = web::json::value::string(U("Y"));
+
+  web::json::value rotationMemberZ = web::json::value::object(true);
+  rotationMemberZ[U("typeName")] = web::json::value::string(U("float"));
+  rotationMemberZ[U("name")] = web::json::value::string(U("Z"));
+
+  rotationMembers[0] = rotationMemberX;
+  rotationMembers[1] = rotationMemberY;
+  rotationMembers[2] = rotationMemberZ;
+  rotation[U("members")] = rotationMembers;
+
+  // Scale memver
+  web::json::value scale = web::json::value::object(true);
+  scale[U("name")] = web::json::value::string(U("Scale"));
+  scale[U("typeName")] = web::json::value::string(U("vec3"));
+
+  web::json::value scaleMembers = web::json::value::array(3);
+
+  web::json::value scaleMemberX = web::json::value::object(true);
+  scaleMemberX[U("typeName")] = web::json::value::string(U("float"));
+  scaleMemberX[U("name")] = web::json::value::string(U("X"));
+
+  web::json::value scaleMemberY = web::json::value::object(true);
+  scaleMemberY[U("typeName")] = web::json::value::string(U("float"));
+  scaleMemberY[U("name")] = web::json::value::string(U("Y"));
+
+  web::json::value scaleMemberZ = web::json::value::object(true);
+  scaleMemberZ[U("typeName")] = web::json::value::string(U("float"));
+  scaleMemberZ[U("name")] = web::json::value::string(U("Z"));
+
+  scaleMembers[0] = scaleMemberX;
+  scaleMembers[1] = scaleMemberY;
+  scaleMembers[2] = scaleMemberZ;
+  scale[U("members")] = scaleMembers;
+
+
+  transformMembers[0] = position;
+  transformMembers[1] = rotation;
+  transformMembers[2] = scale;
+
+  transformObject[U("members")] = transformMembers;
+  components[0] = transformObject;
+  componentsList[U("Components")] = components;
+  return componentsList;
+}
+
+
 void REST_VM::handle_request(web::http::http_request message)
 {
   using web::http::uri;
   ucout << message.to_string() << std::endl;
 
   auto paths = uri::split_path(uri::decode(message.relative_uri().path()));
-
-  if (paths.empty()) message.reply(web::http::status_codes::BadRequest, "Empty Request.");
-  else if (paths[0] == U("Worlds")) {
-    std::string world_name;
-    utility::string_t str;
-    if (paths.size() > 1) {
-      // @@TODO: this conversion isn't safe and should be updated in the future.
-      world_name.assign(paths[1].begin(), paths[1].end());
-      World &world{ m_simulation.GetWorld(world_name) };
-      paths.erase(paths.begin(), paths.begin() + 2);
-      if (paths.empty()) {
-        // @@TODO: return contents of the world.
-        message.reply(web::http::status_codes::OK, "The world \"" + world_name + "\" was found successfully.");
-      }
-      else if (paths[0] == U("Entities")) {
-        if (paths.size() == 1) {
-          //@@TODO: return list of all entities
-          
-          message.reply(web::http::status_codes::OK, "Retrieving all entities of of the world \"" + world_name + "\".");
-        }
-        else if (paths.size() > 1) {
-          utility::istringstream_t iss(paths[1]);
-          EntityID ID;
-          iss >> ID.first;
-          iss.get(); // pull out the comma
-          iss >> ID.second;
-          Entity *entity{ world.GetEntity(ID) };
-          if (entity) {
-            message.reply(web::http::status_codes::OK, U("The Entity with ID {") + paths[1] + U("} is named \"") + utility::string_t(entity->Name().begin(), entity->Name().end()) + U("\""));
-          }
-          else message.reply(web::http::status_codes::NotFound, "Entity requested does not exist.");
-        }
-      }
-    }
+  auto path = message.relative_uri().path();
+  if (this->mRoutesMap.find(message.relative_uri().path()) != this->mRoutesMap.end()) {
+    web::json::value responseMessage = this->mRoutesMap[path]();
+    web::http::http_response response(web::http::status_codes::OK);
+    response.headers().add(U("Access-Control-Allow-Origin"), U("*"));
+    response.set_body(responseMessage);
+    message.reply(response);
   }
-  else message.reply(web::http::status_codes::InternalError, "That operation is not yet supported by the REST API.");
-
+  else {
+    message.reply(web::http::status_codes::InternalError, "That operation is not yet supported by the REST API.");
+  }
+  return;
 }
 

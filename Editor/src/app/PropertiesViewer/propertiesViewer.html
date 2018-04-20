@@ -15,10 +15,8 @@
     <button mat-button [matMenuTriggerFor]="compMenu" id="addComp">Add Components</button>
 </div>
 <mat-menu #compMenu="matMenu" [overlapTrigger]="false">
-    <div *ngIf="componentsList">
-        <div *ngFor="let component of componentsList['Components']">
-            <button mat-menu-item (click)="addComponent(component.typeName)">{{component.typeName}}</button>
-        </div>
+    <div *ngFor="let component of getComponentsList()">
+        <button mat-menu-item (click)="addComponent(component)">{{component}}</button>
     </div>
 </mat-menu>
 

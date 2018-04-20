@@ -25,6 +25,7 @@ import { ProjectViewerComponent } from './ProjectViewer/projectViewer.component'
 import { HierachyViewerComponent } from './HierachyViewer/hierachyViewer.component';
 import { PropertiesViewerComponent } from  './PropertiesViewer/propertiesViewer.component';
 import { PropertiesViewerService } from './PropertiesViewer/propertiesViewer.service';
+import { PropertiesViewerVMService } from './PropertiesViewer/VMLayer/propertiesViewerVM.service';
 import { PropertyLabels } from './PropertiesViewer/Properties/propertyLabels';
 import { StringViewer } from './PropertiesViewer/Properties/stringViewer/stringViewer.component';
 import { SliderViewer } from './PropertiesViewer/Properties/sliderViewer/sliderViewer.component';
@@ -177,6 +178,7 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
   providers: [
     // DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER
     PropertiesViewerService,
+    PropertiesViewerVMService,
     PropertyLabels
   ],
   bootstrap: [AppComponent]

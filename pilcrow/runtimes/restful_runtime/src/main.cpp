@@ -162,49 +162,49 @@ void ECSDemo() {
 	Simulation Sim;
 	World &TestWorld{ Sim.CreateWorld("Test World") };
 
-	//Load Global Game Settings - Always do this before adding systems!
-	SettingsFile settings{ "Settings.ini" };
-	settings.Load();
+	////Load Global Game Settings - Always do this before adding systems!
+	//SettingsFile settings{ "Settings.ini" };
+	//settings.Load();
 
-	TestWorld.AddSystem<WindowManager>("Window Management System");
-	//TestWorld.AddSystem<Gravity>("Gravity System");
-	//TestWorld.AddSystem<ParallelGravity>("Parallelized Gravity System", glm::vec3{ 0.f, -9.81f, 0.f });
-	//TestWorld.AddSystem<ParallelVelocitySystem>("Parallelized Velocity System");
-	//TestWorld.AddSystem<ParallelAccelerationSystem>("Parallelized Acceleration System");
-	TestWorld.AddSystem<Integration>("Physics Integration");
-	TestWorld.AddSystem<CollisionDetection>("Physics Collision Detection");
-	TestWorld.AddSystem<Resolution>("Physics Resolution");
-	TestWorld.AddSystem<RenderSystem>("Rendering System");
+	//TestWorld.AddSystem<WindowManager>("Window Management System");
+	////TestWorld.AddSystem<Gravity>("Gravity System");
+	////TestWorld.AddSystem<ParallelGravity>("Parallelized Gravity System", glm::vec3{ 0.f, -9.81f, 0.f });
+	////TestWorld.AddSystem<ParallelVelocitySystem>("Parallelized Velocity System");
+	////TestWorld.AddSystem<ParallelAccelerationSystem>("Parallelized Acceleration System");
+	//TestWorld.AddSystem<Integration>("Physics Integration");
+	//TestWorld.AddSystem<CollisionDetection>("Physics Collision Detection");
+	//TestWorld.AddSystem<Resolution>("Physics Resolution");
+	//TestWorld.AddSystem<RenderSystem>("Rendering System");
 
 
-	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
-	ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
-	lens.Add<Camera>();
-	enemy.Add<Transform>().scale = { 0.2f, 0.2f, 0.2f };
-	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
-	enemy.Add<RigidBody>();
-	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
-	cm.model->Load();
-	EntityRef cam{ TestWorld.Spawn(lens) };
-	cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
-	cam.Get<Camera>().pitch = -11.f;
-	cam.Get<Camera>().yaw = -89.f;
-	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
-	// set SpawnNanos to false if you want higher FPS and less nanosuits
-	std::vector<EntityRef> nanos;
-	if (g_SpawnNanos)
-	{
-		std::vector<EntityRef> nanos;
-		for (int i{ 0 }; i < 10; ++i)
-		{
-			for (int j{ 0 }; j < 10; ++j)
-			{
-				nanos.emplace_back(EnemyA.Clone());
-				nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
-			}
-		}
-	}
+	//ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
+	//ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
+	//lens.Add<Camera>();
+	//enemy.Add<Transform>().scale = { 0.2f, 0.2f, 0.2f };
+	//enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
+	//enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
+	//enemy.Add<RigidBody>();
+	//CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
+	//cm.model->Load();
+	//EntityRef cam{ TestWorld.Spawn(lens) };
+	//cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
+	//cam.Get<Camera>().pitch = -11.f;
+	//cam.Get<Camera>().yaw = -89.f;
+	//EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+	//// set SpawnNanos to false if you want higher FPS and less nanosuits
+	//std::vector<EntityRef> nanos;
+	//if (g_SpawnNanos)
+	//{
+	//	std::vector<EntityRef> nanos;
+	//	for (int i{ 0 }; i < 10; ++i)
+	//	{
+	//		for (int j{ 0 }; j < 10; ++j)
+	//		{
+	//			nanos.emplace_back(EnemyA.Clone());
+	//			nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
+	//		}
+	//	}
+	//}
 
 	//Makes the Game exit on window close
 	bool WindowOpen = true;
@@ -217,7 +217,7 @@ void ECSDemo() {
 
 	try {
 
-		REST_VM h(Sim, utility::string_t(U("http://*:42069/api/")));
+		REST_VM h(Sim, utility::string_t(U("http://localhost:42069/api/")));
 		auto server = h.Open();
 		while (WindowOpen) {
 			double currentFrame = glfwGetTime();
