@@ -181,14 +181,21 @@ void ECSDemo() {
   enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
   enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
   enemy.Add<RigidBody>();
-  CModel& cm{ enemy.Add<CModel>("nanosuit.obj") };
-  cm.model->Load();
+  enemy.Add<CModel>("nanosuit.obj");
+ 
+  //How do we operate/change attributes on the Meshes??
+  //TODO: check with Jellyfish::Model
+  //std::shared_ptr<Model> pModel = enemy.Get<CModel>().model;
+  //std::vector<Mesh>* pMeshes{ &(pModel->m_Meshes) };
+ 
   EntityRef cam{ TestWorld.Spawn(lens) };
   cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
   cam.Get<Camera>().pitch = -11.f;
   cam.Get<Camera>().yaw = -89.f;
   EntityRef EnemyA{ TestWorld.Spawn(enemy) };
-  // set SpawnNanos to false if you want higher FPS and less nanosuits
+
+
+  // set SpawnNanos to false in the Settings.ini if you want higher FPS and less nanosuits
   std::vector<EntityRef> nanos;
   if (g_SpawnNanos) 
   {
@@ -202,6 +209,13 @@ void ECSDemo() {
       }
     }
   }
+
+  //Test -- change model of enemy
+  //TODO: Need a way to change the model without removing it from memory -- maybe Update()?
+  //EnemyA.Remove<CModel>();
+  enemy.Add<CModel>("bunny.ply");
+
+
   
   //Makes the Game exit on window close
   bool WindowOpen = true;

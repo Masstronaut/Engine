@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include "Model.hpp"
 
+//TODO: Discuss move into Jellyfish or not
+
 //base
 struct Renderable {
 
@@ -17,9 +19,11 @@ struct RenderText : Renderable{
 };
 
 struct CModel : Renderable{
+  //TODO: use Jellyfish::Model
   CModel( const std::string &file ) : model( new Model( file ) ) { }
   CModel( const CModel& ) = default;
   CModel( CModel&& ) = default;
   CModel& operator=(const CModel &) = default;
-  std::shared_ptr<Model> model;
+  //TODO: use Jellyfish::Model
+  std::shared_ptr<Model> model; 
 };

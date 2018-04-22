@@ -45,6 +45,9 @@
     <ClInclude Include="Include\GLMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Include\AssimpLoaders.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Src\RenderMain.cpp">

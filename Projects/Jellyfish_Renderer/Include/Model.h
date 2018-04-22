@@ -6,7 +6,6 @@ struct aiNode;
 struct aiMesh;
 struct aiScene;
 struct aiMaterial;
-enum aiTextureType;
 
 namespace Jellyfish
 {
@@ -25,8 +24,8 @@ namespace Jellyfish
 	private:
 		virtual bool Reloadable() const final;
 
-		virtual bool Load() final;
-		virtual void Unload() final;
+		virtual bool LoadImpl() final;
+		virtual void UnloadImpl() final;
 
 		//Todo: abstract assimp
 		void ProcessNode(aiNode *node, const aiScene *scene);

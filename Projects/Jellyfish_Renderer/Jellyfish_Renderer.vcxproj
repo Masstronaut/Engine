@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Include\AssimpLoaders.hpp" />
     <ClInclude Include="Include\GLMesh.h" />
     <ClInclude Include="Include\GLWindow.h" />
     <ClInclude Include="Include\iMesh.h" />

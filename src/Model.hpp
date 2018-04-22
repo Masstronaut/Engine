@@ -17,7 +17,7 @@ public:
   ~Model( );
   void Draw( GLProgram &shader ) const;
 
-
+  std::vector<Mesh> m_Meshes;
 
 private:
   virtual bool Reloadable( ) const final;
@@ -28,7 +28,7 @@ private:
   Mesh ProcessMesh( aiMesh *mesh, const aiScene *scene );
   std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );
 
-  std::vector<Mesh> m_Meshes;
+  
 
 
 

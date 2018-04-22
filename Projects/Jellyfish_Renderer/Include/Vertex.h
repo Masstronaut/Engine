@@ -5,9 +5,19 @@ namespace Jellyfish
 {
 	struct Vertex 
 	{
-		glm::vec3 position;
-		glm::vec3 normal;
-		glm::vec2 texCoords;
+		glm::vec3 m_Position;
+		glm::vec3 m_Normal;
+		glm::vec3 m_Tangent;
+		glm::vec3 m_Bitangent;
+		glm::vec4 m_Color;
+
+		union
+		{
+			//UVW support, 4D UV's are not supported by Assimp
+			glm::vec3 m_TexCoords;
+			glm::vec3 m_UVs;
+		};
+		
 	};
 
 	class VertexArray 

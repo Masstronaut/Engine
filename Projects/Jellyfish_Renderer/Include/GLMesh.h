@@ -12,8 +12,6 @@ namespace Jellyfish
 
 		void Draw() const;
 
-	protected:
-
 	private:
 	};
 }

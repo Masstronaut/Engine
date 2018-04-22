@@ -6,12 +6,9 @@
 #include <iostream> //cout
 #include "../Include/GLWindow.h" 
 
-
-
 //TODO: fix, put in settings or something
 const unsigned glmajor = 4;
 const unsigned glminor = 3;
-
 
 namespace Jellyfish
 {
