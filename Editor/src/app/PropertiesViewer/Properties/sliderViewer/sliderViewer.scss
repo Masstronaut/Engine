@@ -1,0 +1,24 @@
+
+.slider { 
+    overflow: hidden; 
+    white-space: nowrap; 
+    margin-top: 2%;
+    text-align: right;
+}
+
+.slider input{
+    width: 20%;
+}
+
+.slider mat-slider{
+    width: 40%;
+}
+
+.name { 
+    float:left;
+    text-align: left;
+    font-size: 17px;
+    width: 20%;
+    min-width: 60px;
+    flex: 10;
+}
