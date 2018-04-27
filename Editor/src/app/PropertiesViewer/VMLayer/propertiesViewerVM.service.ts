@@ -6,13 +6,14 @@ import { Vector2Viewer } from '../Properties/vec2Viewer/vec2Viewer.component';
 import { BoolViewer } from '../Properties/boolViewer/boolViewer.component';
 import { StringViewer } from '../Properties/stringViewer/stringViewer.component';
 import { SliderViewer } from '../Properties/sliderViewer/sliderViewer.component';
+import { UndoRedoManagerService, UndoRedoAction } from '../../../assets/Utils/UndoRedo/UndoRedoManager.service';
 
-class propertyData {
+export class propertyData {
     type: Object;
     injector: Injector;
 }
   
-class property {
+export class property {
     name: string;
     propertiesData: Array<propertyData>; 
     constructor() {
@@ -23,18 +24,53 @@ class property {
 
 @Injectable()
 export class PropertiesViewerVMService {
-    private componentTypes: Map<String, Object>;
-    public componentsList: Array<String>;
+    private componentTypes : Map<String, Object>;
+    private undoRedoService : UndoRedoManagerService; 
+    private componentsList : Array<String>;
+    private gameObjectProperties : Array<property>;
 
     constructor(private propertiesViewerService: PropertiesViewerService,
-                private injector: Injector) {
+                private injector: Injector,
+                private undoRedoManagerService: UndoRedoManagerService) {
 
-        this.componentsList = Array<String>();
         this.componentTypes = new Map<String, Object>();
+        this.undoRedoService = undoRedoManagerService;
+        this.componentsList = Array<String>();
+        this.gameObjectProperties = Array<property>();
         this.getGameComponentsStructures();
     }
 
-    public addComponentToPropertyViewer(componentName: string) : property {
+        // public methods:
+    public addComponent(componentName: string) {
+        var property = this.addComponentToPropertyViewer(componentName);
+        this.UndoRedoAddComponent(componentName);
+    }
+
+    public removeComponent(componentName: string) {
+        this.UndoRedoRemoveComponent(componentName);
+        this.removeComponentFromPropertyViewer(componentName);
+    }
+
+    public undoEventTrigger() {
+        this.undoRedoManagerService.Undo();
+    }
+
+    public redoEventTrigger() {
+        this.undoRedoManagerService.Redo();
+    }
+
+    
+    public getComponentsList() : Array<String> {
+        return this.componentsList;
+    }
+
+    public getGameObjectProperties() : Array<property> {
+        return this.gameObjectProperties;
+    }
+
+
+        // private methods:
+    private addComponentToPropertyViewer = (componentName: string) => {
         var componentStructure = this.componentTypes[componentName];
         var componentProperty = new property();
 
@@ -65,11 +101,16 @@ export class PropertiesViewerVMService {
                 }
             }
         }
-        return componentProperty;
+        this.gameObjectProperties.push(componentProperty);
     }
 
-    public getComponentsList() : Array<String> {
-        return this.componentsList;
+    public removeComponentFromPropertyViewer = (componentName : string) => {
+          // remove the component from the properties viewer
+          for(var i = 0; i < this.gameObjectProperties.length; ++i) {
+            if(this.gameObjectProperties[i].name == componentName) {
+                this.gameObjectProperties.splice(i, 1);
+            }
+        }
     }
 
 
@@ -178,4 +219,19 @@ export class PropertiesViewerVMService {
         sliderData.type = SliderViewer;
         sliderProperty.propertiesData.push(sliderData);
       }
+
+    // Undo // Redo features
+    private UndoRedoAddComponent (componentName : string) {
+        var addComponentActions = new UndoRedoAction();
+        addComponentActions.setExecuteFunc(this.addComponentToPropertyViewer, componentName);
+        addComponentActions.setUnexecuteFunc(this.removeComponentFromPropertyViewer, componentName);
+        this.undoRedoService.Add(addComponentActions);
+    }
+
+    private UndoRedoRemoveComponent(componentName : string) {
+        var removeComponentActions  = new UndoRedoAction();
+        removeComponentActions.setExecuteFunc(this.removeComponentFromPropertyViewer, componentName);
+        removeComponentActions.setUnexecuteFunc(this.addComponentToPropertyViewer, componentName);
+        this.undoRedoService.Add(removeComponentActions);
+    }
 };

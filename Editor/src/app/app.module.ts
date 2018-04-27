@@ -26,6 +26,7 @@ import { HierachyViewerComponent } from './HierachyViewer/hierachyViewer.compone
 import { PropertiesViewerComponent } from  './PropertiesViewer/propertiesViewer.component';
 import { PropertiesViewerService } from './PropertiesViewer/propertiesViewer.service';
 import { PropertiesViewerVMService } from './PropertiesViewer/VMLayer/propertiesViewerVM.service';
+import { UndoRedoManagerService } from '../assets/Utils/UndoRedo/UndoRedoManager.service';
 import { PropertyLabels } from './PropertiesViewer/Properties/propertyLabels';
 import { StringViewer } from './PropertiesViewer/Properties/stringViewer/stringViewer.component';
 import { SliderViewer } from './PropertiesViewer/Properties/sliderViewer/sliderViewer.component';
@@ -179,6 +180,7 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
     // DEFAULT_LOCAL_STORAGE_STATE_STORE_PROVIDER
     PropertiesViewerService,
     PropertiesViewerVMService,
+    UndoRedoManagerService,
     PropertyLabels
   ],
   bootstrap: [AppComponent]

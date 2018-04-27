@@ -1,22 +1,28 @@
-<div *ngFor="let property of currentGameObjectProperties">
-    <mat-expansion-panel [expanded]="true">
-        <mat-expansion-panel-header>
-            {{property.name}}
-        </mat-expansion-panel-header>
-
-        <div *ngFor="let data of property.propertiesData">
-            <ng-container *ngComponentOutlet="data.type; injector: data.injector">
-            </ng-container>
-        </div>
-    </mat-expansion-panel>
-</div>
-
-<div class="propertiesBtn">
-    <button mat-button [matMenuTriggerFor]="compMenu" id="addComp">Add Components</button>
-</div>
-<mat-menu #compMenu="matMenu" [overlapTrigger]="false">
-    <div *ngFor="let component of getComponentsList()">
-        <button mat-menu-item (click)="addComponent(component)">{{component}}</button>
+<div id="propertiesView">
+    <input  (keyup)="handleKeyEvents($event)">
+    <div *ngFor="let property of getGameObjectProperties()">
+        <mat-expansion-panel [expanded]="true" hideToggle="true">
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    {{property.name}}
+                </mat-panel-title>
+                <button mat-button (click)="removeComponent(property.name)"><mat-icon>delete</mat-icon></button>
+            </mat-expansion-panel-header>
+            
+            <div *ngFor="let data of property.propertiesData">
+                <ng-container *ngComponentOutlet="data.type; injector: data.injector">
+                </ng-container>
+            </div>
+        </mat-expansion-panel>
     </div>
-</mat-menu>
+    
+    <div class="propertiesBtn">
+        <button mat-button [matMenuTriggerFor]="compMenu" id="addComp">Add Components</button>
+    </div>
+    <mat-menu #compMenu="matMenu" [overlapTrigger]="false">
+        <div *ngFor="let component of getComponentsList()">
+            <button mat-menu-item (click)="addComponent(component)">{{component}}</button>
+        </div>
+    </mat-menu>
+</div>
 
