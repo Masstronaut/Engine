@@ -1,0 +1,7 @@
+<body (contextmenu)="onRightClick($event)" (click)="disableRightClickMenu()">
+        
+</body>
+
+<div *ngIf="rightClickMenu.show==true">
+        <context-menu [x]="rightClickMenu.x" [y]="rightClickMenu.y"></context-menu>
+</div>

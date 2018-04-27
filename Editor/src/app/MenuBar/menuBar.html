@@ -1,0 +1,20 @@
+<div class="mainMenuToolBar">
+    <mat-toolbar mat-toolbar-height="10px">
+        <button mat-button [matMenuTriggerFor]="FileOptions" id="file">File</button>
+        <button mat-button [matMenuTriggerFor]="EditOptions" id="edit">Edit</button>
+    </mat-toolbar>
+
+    <!-- Menu Bar File Options -->
+    <mat-menu #FileOptions="matMenu" [overlapTrigger]="false">
+        <div *ngFor="let fileOption of gFileOptions">
+            <button class="menuBarItem" on-click="fileOption.onclickTrigger()" mat-menu-item>{{fileOption.optionName}}</button> 
+        </div>
+    </mat-menu>
+
+    <!-- Menu Bar Edit Options -->
+    <mat-menu #EditOptions="matMenu" [overlapTrigger]="false">
+        <div *ngFor="let editOption of gEditOptions">
+            <button class="menuBarItem" on-click="editOption.onclickTrigger()" mat-menu-item>{{editOption.optionName}}</button> 
+        </div>
+    </mat-menu>
+</div>

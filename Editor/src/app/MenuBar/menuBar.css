@@ -1,0 +1,25 @@
+
+
+/* mainMenutToolBar class styling */
+.mainMenuToolBar .mat-toolbar.mat-toolbar-single-row {
+    height: 10%;
+    padding: 0px 0px 0px 0px;
+}
+.mainMenuToolBar button#file.mat-button {
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+    min-width: 15px;
+}
+
+.mainMenuToolBar button#edit.mat-button {
+    font-size: 15px;
+    padding: 0px 10px 0px 10px;
+    min-width: 15px;
+}
+
+/* Menu Bar dropdown button styling */
+.menuBarItem {
+    line-height: 18px;
+    height: 18px;
+    font-size: 12px;
+}
