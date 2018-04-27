@@ -3,7 +3,7 @@ find_path(
   GLM_INCLUDE_DIRS
   NAMES glm
   PATH_SUFFIXES include
-  PATHS glm-0.9.9.0
+  PATHS glm-0.9.8.5
 )
 
 #Creating glm header only library
