@@ -67,41 +67,57 @@ void Model::ProcessNode( aiNode * node, const aiScene * scene ) {
   }
 }
 
-Mesh Model::ProcessMesh( aiMesh * mesh, const aiScene * scene ) {
-  std::vector<Vertex> vertices;
-  std::vector<unsigned int> indices;
-  std::vector<std::shared_ptr<Texture>> textures;
+Mesh Model::ProcessMesh( aiMesh * mesh, const aiScene * scene ) 
+{
+	if (mesh)
+	{
+		std::vector<Vertex> vertices;
+		std::vector<unsigned int> indices;
+		std::vector<std::shared_ptr<Texture>> textures;
 
-  for( unsigned i{ 0 }; i < mesh->mNumVertices; ++i ) {
-    Vertex vert;
-    vert.position.x = mesh->mVertices[ i ].x;
-    vert.position.y = mesh->mVertices[ i ].y;
-    vert.position.z = mesh->mVertices[ i ].z;
-    vert.normal.x = mesh->mNormals[ i ].x;
-    vert.normal.y = mesh->mNormals[ i ].y;
-    vert.normal.z = mesh->mNormals[ i ].z;
-    if( mesh->mTextureCoords[ 0 ] ) { // check if it has a texture
-      vert.texCoords.x = mesh->mTextureCoords[ 0 ][ i ].x;
-      vert.texCoords.y = mesh->mTextureCoords[ 0 ][ i ].y;
-    } else {
-      vert.texCoords = { 0.f, 0.f };
-    }
-    vertices.push_back( vert );
-  }
-  for( unsigned i{ 0 }; i < mesh->mNumFaces; ++i ) {
-    aiFace face{ mesh->mFaces[ i ] };
-    for( unsigned j{ 0 }; j < face.mNumIndices; ++j ) {
-      indices.push_back( face.mIndices[ j ] );
-    }
-  }
+		for (unsigned i{ 0 }; i < mesh->mNumVertices; ++i) {
+			Vertex vert;
 
-  aiMaterial *material{ scene->mMaterials[ mesh->mMaterialIndex ] };
-  auto mats{ LoadMaterialTextures( material, aiTextureType_DIFFUSE ) };
-  textures.insert( textures.end( ), mats.begin( ), mats.end( ) );
-  mats = LoadMaterialTextures( material, aiTextureType_SPECULAR );
-  textures.insert( textures.end( ), mats.begin( ), mats.end( ) );
-  
-  return { vertices, indices, textures };
+			if (mesh->HasPositions())
+			{
+				vert.position.x = mesh->mVertices[i].x;
+				vert.position.y = mesh->mVertices[i].y;
+				vert.position.z = mesh->mVertices[i].z;
+			}
+			if (mesh->HasNormals())
+			{
+				vert.normal.x = mesh->mNormals[i].x;
+				vert.normal.y = mesh->mNormals[i].y;
+				vert.normal.z = mesh->mNormals[i].z;
+			}
+			if (mesh->mTextureCoords[0]) 
+			{ // check if it has a texture
+				vert.texCoords.x = mesh->mTextureCoords[0][i].x;
+				vert.texCoords.y = mesh->mTextureCoords[0][i].y;
+			}
+			else {
+				vert.texCoords = { 0.f, 0.f };
+			}
+			vertices.push_back(vert);
+		}
+		for (unsigned i{ 0 }; i < mesh->mNumFaces; ++i) 
+		{
+			aiFace face{ mesh->mFaces[i] };
+			for (unsigned j{ 0 }; j < face.mNumIndices; ++j) 
+			{
+				indices.push_back(face.mIndices[j]);
+			}
+		}
+
+		aiMaterial *material{ scene->mMaterials[mesh->mMaterialIndex] };
+		auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
+		textures.insert(textures.end(), mats.begin(), mats.end());
+		mats = LoadMaterialTextures(material, aiTextureType_SPECULAR);
+		textures.insert(textures.end(), mats.begin(), mats.end());
+
+		return { vertices, indices, textures };
+    }
+	else return Mesh();  //fallback mesh? probably shouldn't heit here.
 }
 
 
