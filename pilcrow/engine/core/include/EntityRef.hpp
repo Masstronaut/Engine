@@ -17,9 +17,8 @@ public:
 
   template<typename Component>
   bool Has( ) const;
-  template<typename Component, typename... Components>
-  bool Has( ) const;
-
+  template<typename Component, typename Component2, typename... Components>
+  bool Has() const;
   bool Has( std::type_index component_type ) const;
   bool EntityRef::Has(const std::vector<std::type_index> &components) const;
 
