@@ -3,7 +3,9 @@
 #include <string>
 #include <typeindex>
 #include <vector>
+
 #include "EntityID.hpp"
+
 class World;
 class Entity;
 
@@ -42,10 +44,12 @@ public:
   bool operator==( const EntityRef &rhs ) const;
 
   EntityRef Clone( ) const;
-  // World needs access in order to implement cloning
+  // World needs access to the m_World in order to implement spawning across worlds
+  // This is useful for tasks such as spawning an archetype or moving something to 
+  // a new World. Since the World is not exposed, it must be accessed as a friend.
   friend class World;
 protected:
   EntityID m_ID{ 0, 0 };
   World *m_World;
 };
-#include "../src/Entity/EntityRef.inl"
+#include "../../src/Entity/EntityRef.inl"

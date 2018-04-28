@@ -1,6 +1,6 @@
 #pragma once
 #include <typeindex>
-#include "EntityRef.hpp"
+#include "entity/EntityRef.hpp"
 struct EditorUpdateEvent {
 };
 

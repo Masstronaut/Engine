@@ -3,11 +3,11 @@
 #include <algorithm>
 
 #include "Detectors.hpp"
-
 #include "Entity/Entity.hpp"
 #include "System/SystemTraits.hpp"
 #include "Component/ComponentTraits.hpp"
 #include "System/System.hpp"
+
 template<typename T>
 T& World::GetComponent( EntityID entity ) {
   return GetComponentPool<std::decay_t<T>>( ).components[ entity ];

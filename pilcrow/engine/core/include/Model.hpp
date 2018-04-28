@@ -1,7 +1,9 @@
 #pragma once
 #include <vector>
 #include <memory>
+
 #include <Utils/include/Resource.hpp>
+
 class GLProgram;
 class Mesh;
 class Texture;

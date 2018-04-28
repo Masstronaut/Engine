@@ -1,8 +1,6 @@
 #pragma once
 #include <string>
-
 #include <glad/include/glad.h>
-
 #include <Utils/include/Resource.hpp>
 
 std::string ShaderPath( );
