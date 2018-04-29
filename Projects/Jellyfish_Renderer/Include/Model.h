@@ -23,18 +23,15 @@ namespace Jellyfish
 
 	private:
 		virtual bool Reloadable() const final;
+
 		virtual bool LoadImpl() final;
 		virtual void UnloadImpl() final;
 
-		std::vector<iMesh*> m_Meshes;
-		
-
-		//assimp laoders -- will probably move out of Model once we have a proper
-		//memory management system
-		void Assimp_ProcessNode(aiNode * node, const aiScene * scene);
-		iMesh* Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene);
-		bool Assimp_LoadModelFromFile(const std::string& path, const std::string& name);
+		//Todo: abstract assimp
+		void ProcessNode(aiNode *node, const aiScene *scene);
+		iMesh* ProcessMesh(aiMesh *mesh, const aiScene *scene);
 
 		//std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );
+		std::vector<iMesh*> m_Meshes;
 	};
 }

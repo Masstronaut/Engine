@@ -26,18 +26,13 @@ private:
 };
 
 class GLProgram;
-class Mesh 
-{
+class Mesh {
 
 public:
   std::vector<Vertex> vertices;
   std::vector<unsigned> indices;
   std::vector<std::shared_ptr<Texture>> textures;
 
-  Mesh(void) 
-  {
-	  //currently undefined behavior
-  } 
   Mesh( const std::vector<Vertex>& verts, const std::vector<unsigned> &indices, std::vector<std::shared_ptr<Texture>> &textures );
   void Draw( GLProgram &shader ) const;
 private:

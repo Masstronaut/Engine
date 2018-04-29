@@ -199,6 +199,7 @@ void ECSDemo() {
   std::vector<EntityRef> nanos;
   if (g_SpawnNanos) 
   {
+    std::vector<EntityRef> nanos;
     for (int i{ 0 }; i < 10; ++i) 
 	{
       for (int j{ 0 }; j < 10; ++j) 
@@ -209,11 +210,12 @@ void ECSDemo() {
     }
   }
 
-  //Test -- change model of enemy, to do correctly, must load model first
-  //TODO: Normalize Model Size
-	  CModel bunny{ "bunny.ply" };
-	  nanos.back().Get<CModel>() = bunny;
-	  nanos.front().Get<CModel>() = bunny;
+  //Test -- change model of enemy
+  //TODO: Need a way to change the model without removing it from memory -- maybe Update()?
+  //EnemyA.Remove<CModel>();
+  enemy.Add<CModel>("bunny.ply");
+
+
   
   //Makes the Game exit on window close
   bool WindowOpen = true;

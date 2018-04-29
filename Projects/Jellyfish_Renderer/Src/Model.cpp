@@ -30,11 +30,10 @@ namespace Jellyfish
 
 	void Model::Draw() const
 	{
-		//iMesh is abstract type, cannot use Draw() directly unless cast to real type
-		//for (auto& mesh : m_Meshes)
-		//{
-		//   mesh.Draw();
-		//}
+		for (auto& mesh : m_Meshes)
+		{
+			//mesh.Draw();
+		}
 	}
 
 	bool Model::Reloadable() const
@@ -44,8 +43,10 @@ namespace Jellyfish
 
 	bool Model::LoadImpl() 
 	{
-		//just use assimp loader functions for now
-		return Assimp_LoadModelFromFile(this->Path(), this->Name());
+		//use assimp loader
+		//Model* loadedModel = Assimp_LoadModel(this->Path(), this->Name());
+		//copy or something
+		return false;
 	}
 
 	void Model::UnloadImpl()
