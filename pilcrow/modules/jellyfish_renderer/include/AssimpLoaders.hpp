@@ -22,6 +22,7 @@ namespace Jellyfish
 		{
 			aiMesh *mesh{ scene->mMeshes[node->mMeshes[i]] };
 			m_Meshes.push_back(std::move(Assimp_ProcessMesh(mesh, scene)));
+			std::cout << "Assimp Node successfullly processed." << std::endl;
 		}
 		for (unsigned i{ 0 }; i < node->mNumChildren; ++i)
 		{
@@ -88,6 +89,8 @@ namespace Jellyfish
 
 			//TODO: Determine Renderer type, and create the VBO's / Constant Buffers Accordingly
 			//currently uses GLMesh as return type
+
+			std::cout << "Mesh Created with " << vertices.size() << " vertices." << std::endl;
 			return { vertices, indices, textures };
 		}
 		else return GLMesh();
@@ -101,6 +104,9 @@ namespace Jellyfish
 		//create importer object
 		Assimp::Importer importer;
 		importer.SetExtraVerbose(true);
+		std::cout << "Assimp Importer has been initialized." << std::endl;
+
+		std::cout << "Assimp is parsing the file..." << std::endl;
 		const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
 		
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
@@ -114,7 +120,10 @@ namespace Jellyfish
 			return false;
 		}
 		else //scene ok, process
+		{
+			std::cout << "File OK! Processing scene..." << std::endl;
 			Assimp_ProcessNode(scene->mRootNode, scene);
+		}
 		
 		return true;
     }

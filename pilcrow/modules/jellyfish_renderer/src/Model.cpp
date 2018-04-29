@@ -17,6 +17,9 @@ namespace Jellyfish
 {
 	Model::Model(const std::string & path) : Resource(path)
 	{
+		//spacer for console readability
+		std::cout << " " << std::endl;
+		std::cout << "Initializing new Model Resource" << std::endl;
 		Resource::Load(IOType::binary);
 	}
 
@@ -55,7 +58,17 @@ namespace Jellyfish
 	bool Model::LoadImpl() 
 	{
 		//just use assimp loader functions for now
-		return Assimp_LoadModelFromFile(this->Path(), this->Name());
+		std::cout << "Attempting to load Model: " << this->Path() << std::endl;
+		bool loadstatus = Assimp_LoadModelFromFile(this->Path(), this->Name());
+
+		if(loadstatus)
+			std::cout << "Model was successfully loaded." << std::endl;
+		else
+			std::cout << "ERROR! Model could not be loaded!  See Model::LoadImpl()" << std::endl;
+
+		//spacer for console readability
+		std::cout << " " << std::endl;
+		return loadstatus;
 	}
 
 	void Model::UnloadImpl()

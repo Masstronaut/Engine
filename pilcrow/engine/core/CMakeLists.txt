@@ -125,7 +125,6 @@ endforeach()
 set(include_files
   "include/Camera.hpp"
   "include/Detectors.hpp"
-  "include/GLFWWindow.hpp"
   "include/GLProgram.hpp"
   "include/GLShader.hpp"
   "include/GLTextRenderer.hpp"
