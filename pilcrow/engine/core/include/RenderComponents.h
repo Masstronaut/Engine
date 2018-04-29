@@ -2,7 +2,7 @@
 #include <string>
 #include <memory>
 #include <glm/glm.hpp>
-#include "Model.hpp"
+#include <Jellyfish.h>
 
 //TODO: Discuss move into Jellyfish or not
 
@@ -19,11 +19,13 @@ struct RenderText : Renderable{
 };
 
 struct CModel : Renderable{
-  //TODO: use Jellyfish::Model
-  CModel( const std::string &file ) : model( new Model( file ) ) { }
+  
+	//TESTING: use Jellyfish::Model
+  
+  CModel( const std::string &file ) : model( new Jellyfish::Model( file ) ) { }
   CModel( const CModel& ) = default;
   CModel( CModel&& ) = default;
   CModel& operator=(const CModel &) = default;
-  //TODO: use Jellyfish::Model
-  std::shared_ptr<Model> model; 
+  
+  std::shared_ptr<Jellyfish::Model> model; 
 };

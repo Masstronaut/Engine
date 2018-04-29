@@ -12,6 +12,7 @@ namespace Jellyfish
 	class iMesh;
 	class iShader;
 	class Texture;
+	class GLMesh;
 
 	class Model : public Resource
 	{
@@ -22,17 +23,21 @@ namespace Jellyfish
 		void Draw() const;
 
 	private:
+		std::string Model::Directory() const override;
 		virtual bool Reloadable() const final;
 		virtual bool LoadImpl() final;
 		virtual void UnloadImpl() final;
 
-		std::vector<iMesh*> m_Meshes;
+		//TODO: fix so not GL
+		std::vector<GLMesh> m_Meshes;
 		
 
 		//assimp laoders -- will probably move out of Model once we have a proper
 		//memory management system
 		void Assimp_ProcessNode(aiNode * node, const aiScene * scene);
-		iMesh* Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene);
+
+		//TODO: fix hardcoded glmesh here
+		GLMesh Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene);
 		bool Assimp_LoadModelFromFile(const std::string& path, const std::string& name);
 
 		//std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );

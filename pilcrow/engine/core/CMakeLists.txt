@@ -70,7 +70,6 @@ endforeach()
 
 #The files in the settings folder to compile
 set(Settings_include_files
-  "include/settings/ResourceSettings.h"
   "include/settings/UI_Settings.h"
   "include/settings/WindowSettings.h"
 )

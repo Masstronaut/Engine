@@ -43,6 +43,15 @@ namespace Jellyfish
 		}
 	
 	protected:
+		iMesh() {}
+		iMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<iTexture>>& Textures) :
+			m_Vertices(Vertices)
+			, m_Indices(Indices)
+			, m_Textures(Textures)
+		{
+			//called by derived classes only
+		}
+
 		std::vector<Vertex> m_Vertices; 
 		std::vector<unsigned int> m_Indices;
 		glm::mat4 m_Transform;

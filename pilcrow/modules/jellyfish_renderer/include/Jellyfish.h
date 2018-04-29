@@ -1,9 +1,14 @@
 #pragma once
+
+//-------------------------------------------------------------
+// *** MAIN ENTRY POINT FOR THE JELLYFISH RENDERER LIBRARY ***
+//-------------------------------------------------------------
+
 #include "GLWindow.h" //OpenGL Windowing
+#include "Model.h" //3D Model support
+#include "iTexture.h" //Texturing Support
+#include "iShader.h" //Material Support
 
-
-
-#include <string>
 namespace Jellyfish
 {
 	//-------------------
@@ -17,6 +22,7 @@ namespace Jellyfish
 	// * Testing Stub *
 	//-------------------
 	//basic linker test
+#include <string>
 	class Derp
 	{
 	public:
@@ -33,7 +39,7 @@ namespace Jellyfish
 
 	class Renderer
 	{
-		void Draw() {}
+		void Draw() {} //not used yet!!
 	};
 }
 

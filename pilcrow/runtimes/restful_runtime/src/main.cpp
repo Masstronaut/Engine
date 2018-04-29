@@ -6,8 +6,9 @@
 #include <array>
 #include <memory>
 
+//TODO: Remove
 #include "Camera.hpp"
-#include "Settings/ResourceSettings.h"
+
 Camera cam;
 double dt{ 0.f };
 double lastFrame{ 0.f };
@@ -32,6 +33,7 @@ std::string ReadFile(const std::string& path) {
 	return result;
 }
 
+#include "Utils/include/ResourceSettings.h"
 std::string RelativePath() {
 	static std::string path{ g_ResourcePath };
 	return path;
@@ -135,6 +137,7 @@ struct ParallelGravity {
 	float Dt{ 0.f };
 };
 
+
 // ---------------------------
 // *  Global Settings INIT  * 
 // ---------------------------
@@ -191,6 +194,7 @@ void ECSDemo() {
 	cam.Get<Camera>().pitch = -11.f;
 	cam.Get<Camera>().yaw = -89.f;
 	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+	
 	// set SpawnNanos to false if you want higher FPS and less nanosuits
 	std::vector<EntityRef> nanos;
 	if (g_SpawnNanos)

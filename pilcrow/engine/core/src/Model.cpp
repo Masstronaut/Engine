@@ -4,7 +4,7 @@
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
-#include "../include/settings/ResourceSettings.h"
+#include "Utils/include/ResourceSettings.h"
 #include "../include/Model.hpp"
 #include "../include/RendererCommon.hpp"
 

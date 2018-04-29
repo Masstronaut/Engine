@@ -78,7 +78,7 @@ struct RenderSystem {
 		modelMatrix = glm::rotate(modelMatrix, tf.rotation.z, glm::vec3(0.f, 0.f, 1.f));
 		
 		program.SetUniform("model", modelMatrix);
-		model.model->Draw(program);
+		model.model->Draw(); //program no longer neede as arg textures TODO
 	}
 
 

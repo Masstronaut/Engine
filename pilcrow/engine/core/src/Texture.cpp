@@ -3,7 +3,7 @@
 #include <glad/include/glad.h>
 #include <iostream>
 #include <stb_image/stb_image.h>
-#include "../include/settings/ResourceSettings.h"
+#include "Utils/include/ResourceSettings.h"
 
 Texture::Texture( const std::string &name )
   : Resource( name ) {

@@ -2,7 +2,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../include/GLTextRenderer.hpp"
-#include "../include/Settings/ResourceSettings.h"
+#include "Utils/include/ResourceSettings.h"
 
 std::string ResourcePath = g_ResourcePath;
 std::string FontPath( ) {

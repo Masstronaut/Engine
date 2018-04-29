@@ -1,7 +1,7 @@
 #pragma once
 
 #include <string>
-#include <../../Modules/Utils/include/Resource.hpp>
+#include <utils/include/Resource.hpp>
 
 namespace Jellyfish
 {

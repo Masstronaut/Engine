@@ -2,6 +2,7 @@
 #include <unordered_map>
 
 #include <utils/include/Resource.hpp>
+#include "utils/include/ResourceSettings.h" //g_resourcePath
 
 #include "../Include/Model.h"
 #include "../Include/iMesh.h"
@@ -31,10 +32,19 @@ namespace Jellyfish
 	void Model::Draw() const
 	{
 		//iMesh is abstract type, cannot use Draw() directly unless cast to real type
-		//for (auto& mesh : m_Meshes)
-		//{
-		//   mesh.Draw();
-		//}
+		for (auto &mesh : m_Meshes)
+		{
+		   mesh.Draw();
+		}
+	}
+
+	std::string Model::Directory() const 
+{
+		std::string directory;
+		directory.reserve(32);
+		directory += g_ResourcePath;
+		directory += "Models/";
+		return directory;
 	}
 
 	bool Model::Reloadable() const
