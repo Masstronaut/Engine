@@ -1,5 +1,6 @@
 #pragma once
-#include "../EntityRef.hpp"
+#include "EntityRef.hpp"
+
 template<typename... Args>
 class ConstrainedEntityRef {
 public:

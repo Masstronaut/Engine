@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "../../../tests/sample_test/src/unittest_sample.cpp"
+//#include <core/AllCoreTests.h>
 
 int main(int argc, char **argv)
 {

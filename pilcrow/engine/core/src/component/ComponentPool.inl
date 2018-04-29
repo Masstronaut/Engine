@@ -1,7 +1,7 @@
 #pragma once
-
 #include "../../include/component/ComponentTraits.hpp"
 #include "../../include/component/ComponentPool.hpp"
+
 template<typename Component>
 inline ComponentPool<Component>::ComponentPool( World &world ) { 
   if constexpr( ComponentTraits<Component>::HasVoidUpdate ) {

@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
 std::string ShaderPath( );
 class GLProgram : public Resource {
 public:

@@ -1,7 +1,8 @@
 #pragma once
-#include "../../include/EntityRef.hpp"
+#include "../../include/entity/EntityRef.hpp"
 #include "../../include/World.hpp"
 #include "../../include/WorldEvents.hpp"
+
 template<typename Component>
 bool EntityRef::Has( ) const {
   return this->Has( std::type_index( typeid( Component ) ) );
