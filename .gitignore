@@ -30,5 +30,6 @@
 *.ipdb
 *.opendb
 
-bin/*
+/build
+Editor/node_modules
 Dependencies/lib/*

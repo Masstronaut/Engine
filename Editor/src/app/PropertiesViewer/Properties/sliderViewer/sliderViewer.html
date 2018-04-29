@@ -1,0 +1,10 @@
+<div class="slider">
+    <label class="name">{{name}}</label>
+    <div *ngIf="isSlider=='true'; else number">
+        <mat-slider [(ngModel)]="value" [min]=min [max]=max></mat-slider>
+        <input type="number" [min]=min [max]=max [(ngModel)]="value">
+    </div>
+    <ng-template #number>
+        <input type="number" [min]=min [max]=max>
+    </ng-template>
+</div>
