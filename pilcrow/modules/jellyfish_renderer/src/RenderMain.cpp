@@ -1,5 +1,5 @@
 #include <iostream>
-#include "../include/Jellyfish.h"
+#include "../Include/Jellyfish.h"
 
 namespace Jellyfish
 {

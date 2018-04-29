@@ -195,7 +195,6 @@ void ECSDemo() {
 	std::vector<EntityRef> nanos;
 	if (g_SpawnNanos)
 	{
-		std::vector<EntityRef> nanos;
 		for (int i{ 0 }; i < 10; ++i)
 		{
 			for (int j{ 0 }; j < 10; ++j)
@@ -205,6 +204,15 @@ void ECSDemo() {
 			}
 		}
 	}
+	
+	//TODO: google test this
+	//Model remove testing
+	nanos.front().Remove<CModel>();
+
+	//TODO: google test this
+	//Model change testing
+	CModel bunny{ "bunny.ply" };
+	nanos.back().Get<CModel>() = bunny;
 
 	//Makes the Game exit on window close
 	bool WindowOpen = true;

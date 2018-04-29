@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include <../../Modules/Utils/include/Resource.hpp>
+#include <utils/include/Resource.hpp>
 
 struct aiNode;
 struct aiMesh;

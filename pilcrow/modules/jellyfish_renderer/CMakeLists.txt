@@ -3,11 +3,20 @@ set(jfr_includes
   "include/iWindow.h"
   "include/Jellyfish.h"
   "include/Util.h"
+  "include/AssimpLoaders.hpp"
+  "include/GLMesh.h"
+  "include/iMesh.h"
+  "include/iShader.h"
+  "include/iTexture.h"
+  "include/Model.h"
+  "include/Vertex.h"
 )
 
 set(jfr_srcs
   "src/GLWindow.cpp"
   "src/RenderMain.cpp"
+  "src/GLMesh.cpp"
+  "src/Model.cpp"
 )
 
 foreach(jfr_include IN ITEMS ${jfr_includes})
@@ -21,6 +30,8 @@ endforeach()
 
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${GLM_INCLUDE_DIRS})
+include_directories(${ASSIMP_INCLUDE_DIRS})
+include_directories(${FREETYPE_INCLUDE_DIRS})
 include_directories("${PROJECT_SOURCE_DIR}/pilcrow/dependencies")
 
 add_library(jellyfish_renderer

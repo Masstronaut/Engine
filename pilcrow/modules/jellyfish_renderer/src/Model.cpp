@@ -1,8 +1,8 @@
 #include <iostream>
 #include <unordered_map>
 
+#include <utils/include/Resource.hpp>
 
-#include "../../../Modules/Utils/include/Resource.hpp"
 #include "../Include/Model.h"
 #include "../Include/iMesh.h"
 #include "../Include/iTexture.h"

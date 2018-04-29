@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+#include <glad/include/glad.h>
 #include "../Include/GLMesh.h"
 
 namespace Jellyfish
