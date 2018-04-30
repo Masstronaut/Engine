@@ -10,8 +10,9 @@
 
 #include "../Include/AssimpLoaders.hpp"
 
+#include <glm/glm.hpp>
+
 //TODO: fix
-#include "../include/GLMesh.h"
 
 namespace Jellyfish
 {

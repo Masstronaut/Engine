@@ -1,6 +1,8 @@
 #pragma once
 #include <vector>
+#include <limits>
 #include <utils/include/Resource.hpp>
+#include <glm/glm.hpp>
 
 struct aiNode;
 struct aiMesh;
@@ -22,6 +24,11 @@ namespace Jellyfish
 		~Model();
 		void Draw() const;
 
+		float GetScale(void)
+		{
+			return m_scalefactor;
+		}
+
 	private:
 		std::string Model::Directory() const override;
 		virtual bool Reloadable() const final;
@@ -41,5 +48,10 @@ namespace Jellyfish
 		bool Assimp_LoadModelFromFile(const std::string& path, const std::string& name);
 
 		//std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );
+
+		//uniform scalor of 1/boundingbox.max
+		float m_scalefactor{ 0.f };
+		//model space bounding box;
+		glm::vec4 m_mn_vtx{ std::numeric_limits<float>::max() }, m_mx_vtx{ -std::numeric_limits<float>::max() };
 	};
 }

@@ -183,12 +183,15 @@ void ECSDemo() {
 	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
 	ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
 	lens.Add<Camera>();
-	enemy.Add<Transform>().scale = { 0.2f, 0.2f, 0.2f };
-	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 	enemy.Add<RigidBody>();
 	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
-	cm.model->Load();
+	
+	float s = 0.f;
+	s = cm.model->GetScale();
+	enemy.Add<Transform>().scale = { s, s, s};
+	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
+	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
+
 	EntityRef cam{ TestWorld.Spawn(lens) };
 	cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
 	cam.Get<Camera>().pitch = -11.f;
@@ -204,19 +207,21 @@ void ECSDemo() {
 			for (int j{ 0 }; j < 10; ++j)
 			{
 				nanos.emplace_back(EnemyA.Clone());
-				nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
+				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
 			}
 		}
 	}
 	
 	//TODO: google test this
 	//Model remove testing
-	nanos.front().Remove<CModel>();
+	nanos[0].Remove<CModel>();
 
 	//TODO: google test this
 	//Model change testing
 	CModel bunny{ "bunny.ply" };
-	nanos.back().Get<CModel>() = bunny;
+	s = bunny.model->GetScale();
+	nanos[1].Get<CModel>() = bunny;
+	nanos[1].Get<Transform>().scale = { s,s,s };
 
 	//Makes the Game exit on window close
 	bool WindowOpen = true;

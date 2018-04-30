@@ -28,6 +28,8 @@ namespace Jellyfish
 		{
 			Assimp_ProcessNode(node->mChildren[i], scene);
 		}
+
+		return;
 	}
 
 	GLMesh Model::Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene)
@@ -38,6 +40,7 @@ namespace Jellyfish
 			std::vector<unsigned int> indices;
 			std::vector<std::shared_ptr<iTexture>> textures;
 
+
 			for (unsigned i{ 0 }; i < mesh->mNumVertices; ++i)
 			{
 				Vertex vert;
@@ -47,6 +50,16 @@ namespace Jellyfish
 					vert.m_Position.x = mesh->mVertices[i].x;
 					vert.m_Position.y = mesh->mVertices[i].y;
 					vert.m_Position.z = mesh->mVertices[i].z;
+
+					//get min and max for model's bounding box
+					m_mn_vtx.x = glm::min(m_mn_vtx.x, mesh->mVertices[i].x);
+					m_mn_vtx.y = glm::min(m_mn_vtx.y, mesh->mVertices[i].y);
+					m_mn_vtx.z = glm::min(m_mn_vtx.z, mesh->mVertices[i].z);
+
+					m_mx_vtx.x = glm::max(m_mn_vtx.x, mesh->mVertices[i].x);
+					m_mx_vtx.y = glm::max(m_mn_vtx.y, mesh->mVertices[i].y);
+					m_mx_vtx.z = glm::max(m_mn_vtx.z, mesh->mVertices[i].z);
+
 				}
 				if (mesh->HasNormals())
 				{
@@ -107,7 +120,8 @@ namespace Jellyfish
 		std::cout << "Assimp Importer has been initialized." << std::endl;
 
 		std::cout << "Assimp is parsing the file..." << std::endl;
-		const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace);
+
+		const aiScene *scene = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs | aiProcess_CalcTangentSpace | aiProcess_GlobalScale);
 		
 		if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode)
 		{
@@ -123,6 +137,8 @@ namespace Jellyfish
 		{
 			std::cout << "File OK! Processing scene..." << std::endl;
 			Assimp_ProcessNode(scene->mRootNode, scene);
+			m_scalefactor = 1.0 / glm::max(m_mx_vtx.x - m_mn_vtx.x, glm::max(m_mx_vtx.y - m_mn_vtx.y, m_mx_vtx.z - m_mn_vtx.z));
+			std::cout << "SUCCESS - Model Loaded: " << name << "  with scalefactor: "  << m_scalefactor << std::endl;
 		}
 		
 		return true;
