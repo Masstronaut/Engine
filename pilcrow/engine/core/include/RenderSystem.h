@@ -4,7 +4,6 @@
 #include "RenderComponents.h"
 #include "GLTextRenderer.hpp"
 #include "GLProgram.hpp"
-#include "Model.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
 
