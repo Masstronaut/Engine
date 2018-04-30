@@ -8,10 +8,13 @@ source_group("src" FILES ${unit_test_runtime_srcs})
 #Specify all core_test includes files
 set(core_test_includes
   "include/core/AllCoreTests.h"
+  "include/core/AllEntityTests.h"
 )
 #Specify all core_test source files
 set(core_test_srcs
   "src/core/simulation_class_tests.cpp"
+  "src/core/EntityHierarchyTests.cpp"
+  
 )
 #Set the filters for all the core test src and include files
 foreach(core_test_include IN ITEMS ${core_test_includes})

@@ -65,7 +65,23 @@ EntityRef Entity::Clone( ) const {
   return clone;
 }
 
-void * Entity::Get( std::type_index component ) {
+EntityRef Entity::Ref() const
+{
+  return EntityRef{ m_ID, &m_World };
+}
+
+void Entity::Parent(Entity *parent) {
+  if (!parent) return;
+  assert(m_World == parent->m_World);
+  m_Parent = parent->Ref();
+  parent->m_Children.emplace_back(this->Ref());
+}
+
+bool Entity::Parent() const {
+  return m_Parent;
+}
+
+void* Entity::Get( std::type_index component ) {
   return m_World.GetComponent( m_Components[component] ,component );
   return nullptr;
 }

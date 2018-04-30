@@ -2,8 +2,8 @@
 #include <tuple>
 #include <string>
 #include "../include/entity/EntityRef.hpp"
-
 #include "../include/World.hpp"
+#include "../include/entity/Entity.hpp"
 
 
 EntityRef::EntityRef( EntityID ID, World* world ) 
@@ -11,10 +11,8 @@ EntityRef::EntityRef( EntityID ID, World* world )
   , m_World( world ) {
 }
 
-EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
-  m_ID = rhs.m_ID; 
-  m_World = rhs.m_World;
-  return *this;
+EntityRef::operator bool() const {
+  return !!m_World;
 }
 
   bool EntityRef::Has( std::type_index component_type ) const {
@@ -55,6 +53,29 @@ EntityRef & EntityRef::operator=( const EntityRef & rhs ) {
     Entity* entity{ m_World->GetEntity( m_ID ) };
     if(entity) return entity->Clone( );
     else throw std::range_error("Tried to clone invalid EntityRef - Entity doesn't exist.");
+  }
+
+  void EntityRef::SetParent(EntityRef parent) {
+    Entity *self{ this->Self() };
+    Entity *p{ parent.Self() };
+    if (!self) return;
+    if (!p) return;
+    self->Parent(p);
+  }
+
+  bool EntityRef::HasParent() const {
+    if (!*this) return false;
+    return Self()->Parent();
+  }
+
+  Entity * EntityRef::Self() {
+    if (!m_World) return nullptr;
+    return m_World->GetEntity(this->ID());
+  }
+
+  const Entity * EntityRef::Self() const {
+    if(!m_World) return nullptr;
+    return m_World->GetEntity(this->ID());
   }
 
   bool EntityRef::operator==( const EntityRef &rhs ) const {

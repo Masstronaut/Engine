@@ -2,6 +2,7 @@
 #include "../../include/entity/EntityRef.hpp"
 #include "../../include/World.hpp"
 #include "../../include/WorldEvents.hpp"
+#include "../../include/entity/Entity.hpp"
 
 template<typename Component>
 bool EntityRef::Has( ) const {
@@ -26,7 +27,7 @@ template<typename Component, typename... Args>
 Component& EntityRef::Add(Args&&... args) {
   if (this->Has<Component>()) return this->Get<Component>();
 
-  Component& component{ m_World->GetEntity(m_ID).Add(std::forward<Args>(args)...) };
+  Component& component{ this->Self()->Add<Component, Args...>(std::forward<Args>(args)...) };
   m_World->Emit(ComponentAddedEvent{ *this, std::type_index(typeid(Component)) });
   return component;
 }

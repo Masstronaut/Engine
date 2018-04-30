@@ -182,7 +182,6 @@ void ECSDemo() {
 	lens.Add<Camera>();
 	enemy.Add<Transform>().scale = { 0.2f, 0.2f, 0.2f };
 	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 	enemy.Add<RigidBody>();
 	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
 	cm.model->Load();

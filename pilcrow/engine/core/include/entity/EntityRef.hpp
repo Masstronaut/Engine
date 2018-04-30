@@ -15,7 +15,11 @@ public:
   EntityRef( const EntityRef& ) = default;
   EntityRef( EntityRef&& ) = default;
   ~EntityRef( ) = default;
-  EntityRef& operator=( const EntityRef &rhs );
+  EntityRef& operator=( const EntityRef &rhs ) = default;
+  EntityRef& operator=(EntityRef &&rhs) = default;
+
+  operator bool() const;
+
 
   template<typename Component>
   bool Has( ) const;
@@ -44,6 +48,10 @@ public:
   bool operator==( const EntityRef &rhs ) const;
 
   EntityRef Clone( ) const;
+
+  void SetParent(EntityRef);
+  bool HasParent() const;
+
   // World needs access to the m_World in order to implement spawning across worlds
   // This is useful for tasks such as spawning an archetype or moving something to 
   // a new World. Since the World is not exposed, it must be accessed as a friend.
@@ -51,5 +59,8 @@ public:
 protected:
   EntityID m_ID{ 0, 0 };
   World *m_World;
+
+  Entity* Self();
+  const Entity* Self() const;
 };
 #include "../../src/Entity/EntityRef.inl"

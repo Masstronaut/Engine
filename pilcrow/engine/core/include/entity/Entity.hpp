@@ -36,7 +36,11 @@ public:
   Entity& Name( const std::string &name );
   
   EntityRef Clone( ) const;
+  EntityRef Ref() const;
   
+  void Parent(Entity*);
+  bool Parent() const;
+
   friend class World;
 private:
   void SafelyDisposeComponents();
@@ -46,5 +50,7 @@ private:
   std::unordered_map<std::type_index, EntityID> m_Components;
   EntityID m_ID{ 0, 0 };
   std::string m_Name{"Nameless Entity"};
+  std::vector<EntityRef> m_Children;
+  EntityRef m_Parent{ {}, nullptr };
 };
 #include "../../src/Entity/Entity.inl"
