@@ -18,7 +18,7 @@ set(dependencies "${CMAKE_CURRENT_SOURCE_DIR}/pilcrow/dependencies")
 #Specify the root directory of the libraries 
 if(MSVC)
   set(GLFW_ROOT "${dependencies}/glfw/glfw-3.2.1")
-  set(ASSIMP_ROOT "${dependencies}/assimp/assimp-3.3.1")
+  set(ASSIMP_ROOT "${dependencies}/assimp/assimp-4.0.1")
   set(GTEST_ROOT "${dependencies}/googletest/googletest-1.8.0")
   set(GLM_ROOT "${dependencies}/glm/glm-0.9.9.0")
   set(FREETYPE_ROOT "${dependencies}/freetype/freetype-2.9")
