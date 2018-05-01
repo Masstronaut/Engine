@@ -11,27 +11,15 @@
 #include "Vertex.h"
 
 //Temporary
-#include "GLMesh.h"
+#include "GL/GLMesh.h"
 
 namespace Jellyfish
 {
 	
-	void Model::Assimp_ProcessNode(aiNode * node, const aiScene * scene)
-	{
-		for (unsigned i{ 0 }; i < node->mNumMeshes; ++i)
-		{
-			aiMesh *mesh{ scene->mMeshes[node->mMeshes[i]] };
-			m_Meshes.push_back(std::move(Assimp_ProcessMesh(mesh, scene)));
-			std::cout << "Assimp Node successfullly processed." << std::endl;
-		}
-		for (unsigned i{ 0 }; i < node->mNumChildren; ++i)
-		{
-			Assimp_ProcessNode(node->mChildren[i], scene);
-		}
 
-		return;
-	}
-
+	//Process an aiMesh, turning it into a generic mesh object which we can later 
+	//convert into an API-specific mesh type (BO's & CB's).  
+	//Currently just uses GL mesh, TODO: multi-platform this
 	GLMesh Model::Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene)
 	{
 		if (mesh)
@@ -40,11 +28,12 @@ namespace Jellyfish
 			std::vector<unsigned int> indices;
 			std::vector<std::shared_ptr<iTexture>> textures;
 
-
+			//Get Vertex Data
 			for (unsigned i{ 0 }; i < mesh->mNumVertices; ++i)
 			{
 				Vertex vert;
 
+				//Positions
 				if (mesh->HasPositions())
 				{
 					vert.m_Position.x = mesh->mVertices[i].x;
@@ -61,23 +50,42 @@ namespace Jellyfish
 					m_mx_vtx.z = glm::max(m_mn_vtx.z, mesh->mVertices[i].z);
 
 				}
+				//Normals
 				if (mesh->HasNormals())
 				{
 					vert.m_Normal.x = mesh->mNormals[i].x;
 					vert.m_Normal.y = mesh->mNormals[i].y;
 					vert.m_Normal.z = mesh->mNormals[i].z;
 				}
+
+				//Texture Coords
 				if (mesh->mTextureCoords[0])
 				{ // check if it has a texture
 					vert.m_TexCoords.x = mesh->mTextureCoords[0][i].x;
 					vert.m_TexCoords.y = mesh->mTextureCoords[0][i].y;
 				}
-				else {
+				else
+				{
 					vert.m_TexCoords = { 0.f, 0.f, 0.f };
 				}
+
+				//Tangents & Bitangents
+				if (mesh->HasTangentsAndBitangents())
+				{
+					vert.m_Tangent.x = mesh->mTangents[i].x;
+					vert.m_Tangent.y = mesh->mTangents[i].y;
+					vert.m_Tangent.z = mesh->mTangents[i].z;
+
+
+					vert.m_Bitangent.x = mesh->mBitangents[i].x;
+					vert.m_Bitangent.y = mesh->mBitangents[i].y;
+					vert.m_Bitangent.z = mesh->mBitangents[i].z;
+				}
+				
 				vertices.push_back(vert);
 			}
 
+			//Get Index Data
 			for (unsigned i{ 0 }; i < mesh->mNumFaces; ++i)
 			{
 				aiFace face{ mesh->mFaces[i] };
@@ -88,7 +96,13 @@ namespace Jellyfish
 				}
 			}
 
-			aiMaterial *material{ scene->mMaterials[mesh->mMaterialIndex] };
+			//Proces any materials
+			if (mesh->mMaterialIndex >= 0)
+			{
+				aiMaterial *material{ scene->mMaterials[mesh->mMaterialIndex] };
+			}
+
+
 
 			//TODO: textures
 			//auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
@@ -107,8 +121,25 @@ namespace Jellyfish
 			return { vertices, indices, textures };
 		}
 		else return GLMesh();
-		
-	}
+
+	}//endfunc
+
+	//Recursive down node tree to process all mesh nodes
+	void Model::Assimp_ProcessNode(aiNode * node, const aiScene * scene)
+	{
+		for (unsigned i{ 0 }; i < node->mNumMeshes; ++i)
+		{
+			aiMesh *mesh{ scene->mMeshes[node->mMeshes[i]] };
+			m_Meshes.push_back(std::move(Assimp_ProcessMesh(mesh, scene)));
+			std::cout << "Assimp Node successfullly processed." << std::endl;
+		}
+		for (unsigned i{ 0 }; i < node->mNumChildren; ++i)
+		{
+			Assimp_ProcessNode(node->mChildren[i], scene);
+		}
+
+		return;
+	}//endfunc
 
 	//Loads a model file into memory, which can then be accessed by string name 
 	//with a lookup in the Resource Manager
@@ -142,8 +173,7 @@ namespace Jellyfish
 		}
 		
 		return true;
-    }
+    }//endfunc
 
-
-}
+}//end namespace Jellyfish
 

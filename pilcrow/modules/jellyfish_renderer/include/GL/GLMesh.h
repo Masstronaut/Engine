@@ -1,6 +1,6 @@
 #pragma once
 
-#include "iMesh.h"
+#include "../iMesh.h"
 
 namespace Jellyfish
 {

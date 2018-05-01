@@ -4,7 +4,7 @@
 //#define GLEW_STATIC
 //#include <GL/glew.h> //glew
 #include <iostream> //cout
-#include "../Include/GLWindow.h" 
+#include "../../Include/GL/GLWindow.h" 
 
 //TODO: fix, put in settings or something
 const unsigned glmajor = 4;

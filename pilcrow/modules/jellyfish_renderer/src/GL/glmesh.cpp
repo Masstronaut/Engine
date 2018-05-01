@@ -1,5 +1,5 @@
 #include <glad/include/glad.h>
-#include "../Include/GLMesh.h"
+#include "../../include/GL/GLMesh.h"
 
 namespace Jellyfish
 {

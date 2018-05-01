@@ -28,6 +28,8 @@ namespace Jellyfish
 		
 	};
 
+	//TODO:
+	//Not being used yet
 	class VertexArray 
 	{
 	public:
@@ -40,7 +42,7 @@ namespace Jellyfish
 		void BindAttribute(int location, int size, int type, bool normalized, void* offset);
 	
 	protected:
-
+	
 	private:
 		unsigned m_VertexSize{ 0 };
 		unsigned m_VAO{ 0 }, m_VBO{ 0 }, m_EBO{ 0 };

@@ -1,10 +1,11 @@
 set(jfr_includes
-  "include/GLWindow.h"
+  "include/GL/GLWindow.h"
+  "include/GL/GLMesh.h"
+  "include/GL/GLTexture.h"
   "include/iWindow.h"
   "include/Jellyfish.h"
   "include/Util.h"
   "include/AssimpLoaders.hpp"
-  "include/GLMesh.h"
   "include/iMesh.h"
   "include/iShader.h"
   "include/iTexture.h"
@@ -13,9 +14,10 @@ set(jfr_includes
 )
 
 set(jfr_srcs
-  "src/GLWindow.cpp"
+  "src/GL/GLWindow.cpp"
+  "src/GL/GLMesh.cpp"
+  "src/GL/GLTexture.cpp"
   "src/RenderMain.cpp"
-  "src/GLMesh.cpp"
   "src/Model.cpp"
 )
 
