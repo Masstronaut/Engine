@@ -193,8 +193,8 @@ void ECSDemo() {
 	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 
 	EntityRef cam{ TestWorld.Spawn(lens) };
-	cam.Get<Camera>().position = glm::vec3{ 0.f, 0.6f, -2.f };
-	cam.Get<Camera>().pitch = -1.f;
+	cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
+	cam.Get<Camera>().pitch = -11.f;
 	cam.Get<Camera>().yaw = -89.f;
 	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
 	
@@ -210,19 +210,18 @@ void ECSDemo() {
 				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
 			}
 		}
-
-		//TODO: google test this
-		//Model remove testing
-		nanos[0].Remove<CModel>();
-
-		//TODO: google test this
-		//Model change testing
-		CModel bunny{ "bunny.ply" };
-		s = bunny.model->GetScale();
-		nanos[1].Get<CModel>() = bunny;
-		nanos[1].Get<Transform>().scale = { s,s,s };
 	}
 	
+	//TODO: google test this
+	//Model remove testing
+	nanos[0].Remove<CModel>();
+
+	//TODO: google test this
+	//Model change testing
+	CModel bunny{ "bunny.ply" };
+	s = bunny.model->GetScale();
+	nanos[1].Get<CModel>() = bunny;
+	nanos[1].Get<Transform>().scale = { s,s,s };
 
 	//Makes the Game exit on window close
 	bool WindowOpen = true;

@@ -1,36 +1,14 @@
 #pragma once
-#include <glad/include/glad.h>
-#include <utils/include/Resource.hpp>
 #include "../iTexture.h"
-
 
 namespace Jellyfish
 {
-	class GLTexture : public iTexture, public Resource
+	class GLTexture : public iTexture
 	{
 	public:
-		GLTexture(const std::string &name);
-		~GLTexture();
-
-		//Overriding iTexture:
-		void Use(int TextureUnit = 0) const override;
-
-		//Overriding Resource:
-		virtual bool Reloadable() const override;
-		virtual std::string Directory() const override;
-
-		GLTexture& Type(TextureType type);
+		
 
 	private:
-		//Overriding Resource:
-		bool LoadImpl();
-		void UnloadImpl();
-
-
-		GLint TextureFromData(unsigned char* imgData);
-
-		GLuint m_GLuID;
-		GLenum m_Format;
 		
 	}; // class GLTexture
 

@@ -8,9 +8,6 @@
 #include "../Include/iMesh.h"
 #include "../Include/iTexture.h"
 
-//fix for multiplatform
-#include "../include/GL/GLTexture.h"
-
 #include "../Include/AssimpLoaders.hpp"
 
 #include <glm/glm.hpp>
@@ -42,14 +39,6 @@ namespace Jellyfish
 		for (auto &mesh : m_Meshes)
 		{
 		   mesh.Draw();
-		}
-	}
-
-	void Model::AssignShaderToAllMeshes(GLProgram& shader)
-	{
-		for (auto& mesh : m_Meshes)
-		{
-			mesh.AssignShader(shader);
 		}
 	}
 
@@ -88,35 +77,39 @@ namespace Jellyfish
 
 	}
 
-	std::vector<std::shared_ptr<GLTexture>> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type)
+	/*
+	std::vector<std::shared_ptr<Texture>> Model::LoadMaterialTextures( aiMaterial *mat, aiTextureType type ) {
+	std::vector<std::shared_ptr<Texture>> textures;
+	static std::unordered_map<std::string, std::shared_ptr<Texture>> loaded;
+
+	for( unsigned int i = 0; i < mat->GetTextureCount( type ); ++i )
 	{
-		std::vector<std::shared_ptr<GLTexture>> textures;
-		static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
+	aiString str;
+	mat->GetTexture( type, i, &str );
 
-		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
-		{
-			aiString str;
-			mat->GetTexture(type, i, &str);
+	//Texture texture;
+	//texture.id = TextureFromFile( str.C_Str( ), directory );
+	//texture.type = typeName;
+	//texture.path = str;
 
-			auto it{ loaded.find(str.C_Str()) };
+	auto it{ loaded.find( str.C_Str( ) ) };
 
-			if (it != loaded.end())
-			{
-				textures.push_back(it->second);
-			}
-			else
-			{
-				auto res = loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
-				textures.push_back(res.first->second);
-				
-				if (type == aiTextureType_DIFFUSE)
-					textures.back()->Type(iTexture::TextureType::diffuse);
-				else if (type == aiTextureType_SPECULAR)
-					textures.back()->Type(iTexture::TextureType::specular);
-			}
-		}
-
-		return textures;
+	if( it != loaded.end( ) )
+	{
+	textures.push_back( it->second );
 	}
+	else
+	{
+	auto res = loaded.emplace( str.C_Str( ), std::make_shared<Texture>( str.C_Str( ) ) );
+	textures.push_back( res.first->second );
+	if( type == aiTextureType_DIFFUSE )
+	textures.back( )->Type( TextureType::diffuse );
+	else if( type == aiTextureType_SPECULAR )
+	textures.back( )->Type( TextureType::specular );
+	}
+	}
+	return textures;
+	}
+	*/
 
 }

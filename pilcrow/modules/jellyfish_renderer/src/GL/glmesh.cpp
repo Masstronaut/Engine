@@ -1,40 +1,40 @@
-#include <iostream>
 #include <glad/include/glad.h>
 #include "../../include/GL/GLMesh.h"
-#include "../../include/GL/GLTexture.h"
 
 namespace Jellyfish
 {
 	void GLMesh::Draw() const
 	{
-		unsigned diffuse{ 1 }, specular{ 1 };
+		//TODO: textures
+
+		//unsigned diffuse{ 1 }, specular{ 1 };
+		//
+		//for (unsigned i{ 0 }; i < textures.size(); ++i) 
+		//{
+		//	glActiveTexture(GL_TEXTURE0 + i);
+		//
+		//	std::string name;
+		//	switch (textures[i]->Type()) 
+		//	{
+		//	case TextureType::diffuse:
+		//		name = "diffuse";
+		//		name += std::to_string(diffuse++);
+		//		break;
+		//	case TextureType::specular:
+		//		name = "specular";
+		//		name += std::to_string(specular++);
+		//		break;
+		//	}
+		//	
+		//	if (!shader.SetUniform(name, (int)i)) 
+		//	{
+		//		//__debugbreak( );
+		//	}
+		//
+		//	glBindTexture(GL_TEXTURE_2D, textures[i]->ID());
+		//}
 		
-		for (unsigned i{ 0 }; i < m_Textures.size(); ++i) 
-		{
-			glActiveTexture(GL_TEXTURE0 + i);
-			std::string name;
-			
-			switch (m_Textures[i]->iTexture::Type())
-			{
-			case iTexture::TextureType::diffuse:
-				name = "diffuse";
-				name += std::to_string(diffuse++);
-				break;
-			case iTexture::TextureType::specular:
-				name = "specular";
-				name += std::to_string(specular++);
-				break;
-			}
-			
-			if (!m_shader->SetUniform(name, (int)i)) 
-			{
-				std::cout << "Error! Could not set shader uniform:" << name << std::endl;
-			}
-		
-			glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
-		}
-		glActiveTexture(GL_TEXTURE0);
-		
+		//glActiveTexture(GL_TEXTURE0);
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, (int)m_Indices.size(), GL_UNSIGNED_INT, 0);
 		glBindVertexArray(0);

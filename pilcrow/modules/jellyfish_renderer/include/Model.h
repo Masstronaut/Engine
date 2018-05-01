@@ -1,27 +1,19 @@
 #pragma once
 #include <vector>
 #include <limits>
-#include <memory> //sharedptr
 #include <utils/include/Resource.hpp>
 #include <glm/glm.hpp>
 
-//TEMP
-class GLProgram;
-
-//assimp stuff
 struct aiNode;
 struct aiMesh;
 struct aiScene;
 struct aiMaterial;
-enum aiTextureType;
 
 namespace Jellyfish
 {
 	class iMesh;
 	class iShader;
-	
-	//fix
-	class GLTexture;
+	class Texture;
 	class GLMesh;
 
 	class Model : public Resource
@@ -37,9 +29,6 @@ namespace Jellyfish
 			return m_scalefactor;
 		}
 
-		void AssignShaderToAllMeshes(GLProgram& shader);
-		
-
 	private:
 		std::string Model::Directory() const override;
 		virtual bool Reloadable() const final;
@@ -48,8 +37,8 @@ namespace Jellyfish
 
 		//TODO: fix so not GL
 		std::vector<GLMesh> m_Meshes;
-		std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
 		
+
 		//assimp laoders -- will probably move out of Model once we have a proper
 		//memory management system
 		void Assimp_ProcessNode(aiNode * node, const aiScene * scene);

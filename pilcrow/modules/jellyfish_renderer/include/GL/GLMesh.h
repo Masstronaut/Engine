@@ -1,7 +1,6 @@
 #pragma once
 
 #include "../iMesh.h"
-#include "GLTexture.h"
 
 namespace Jellyfish
 {
@@ -12,7 +11,7 @@ namespace Jellyfish
 		{
 			//undefined behavior .. really shouldn't get used
 		}
-		GLMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<GLTexture>>& Textures) :
+		GLMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<iTexture>>& Textures) :
 			iMesh (Vertices, Indices, Textures)
 		{
 			Load();
