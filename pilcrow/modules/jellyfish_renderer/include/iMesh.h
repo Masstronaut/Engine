@@ -4,6 +4,9 @@
 #include <glm/glm.hpp> //mat4
 #include "Vertex.h"
 
+//TEMP!
+#include "../../../engine/core/include/GLProgram.hpp"
+
 namespace Jellyfish
 {
 	//Allows for manipulation of individual mesh faces
@@ -18,6 +21,7 @@ namespace Jellyfish
 
 	class iShader;
 	class iTexture;
+	class GLTexture;
 	class iMesh
 	{
 	public:
@@ -37,14 +41,22 @@ namespace Jellyfish
 		{
 			m_Indices = indices;
 		}
-		void AssignTextures(std::vector<std::shared_ptr<iTexture>>& textures)
+		void AssignTextures(std::vector<std::shared_ptr<GLTexture>>& textures)
 		{
 			m_Textures = textures;
 		}
+		//TODO: fix for multiplatform
+		void AssignShader(GLProgram& shader)
+		{
+			m_shader = &shader;
+		}
 	
 	protected:
-		iMesh() {}
-		iMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<iTexture>>& Textures) :
+		iMesh() 
+		{
+			//shouldn't get called unless error --TODO:fix so we dont need this
+		}
+		iMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<GLTexture>>& Textures) :
 			m_Vertices(Vertices)
 			, m_Indices(Indices)
 			, m_Textures(Textures)
@@ -70,8 +82,11 @@ namespace Jellyfish
 		//Material properties for this mesh
 		iShader* m_Material;
 		
-		//TODO: move into material?
-		std::vector<std::shared_ptr<iTexture>> m_Textures;
+		//TODO: fix for multiplatform
+		std::vector<std::shared_ptr<GLTexture>> m_Textures;
+
+		//TEMP
+		GLProgram* m_shader;
 
 		//TODO: Add bone support
 		//unsigned int mNumBones;

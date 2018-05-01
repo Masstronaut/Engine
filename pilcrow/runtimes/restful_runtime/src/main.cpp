@@ -223,8 +223,6 @@ void ECSDemo() {
 		nanos[1].Get<Transform>().scale = { s,s,s };
 	}
 	
-	
-
 	//Makes the Game exit on window close
 	bool WindowOpen = true;
 	TestWorld.On([&](const Jellyfish::GLWindow::EWindowStateChanged &event)

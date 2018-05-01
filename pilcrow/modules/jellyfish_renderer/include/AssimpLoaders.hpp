@@ -26,7 +26,7 @@ namespace Jellyfish
 		{
 			std::vector<Vertex> vertices;
 			std::vector<unsigned int> indices;
-			std::vector<std::shared_ptr<iTexture>> textures;
+			std::vector<std::shared_ptr<GLTexture>> textures; //TODO: fix for multuiplatform
 
 			//Get Vertex Data
 			for (unsigned i{ 0 }; i < mesh->mNumVertices; ++i)
@@ -100,23 +100,16 @@ namespace Jellyfish
 			if (mesh->mMaterialIndex >= 0)
 			{
 				aiMaterial *material{ scene->mMaterials[mesh->mMaterialIndex] };
+
+				auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
+				textures.insert(textures.end(), mats.begin(), mats.end());
+
+				mats = LoadMaterialTextures(material, aiTextureType_SPECULAR);
+				textures.insert(textures.end(), mats.begin(), mats.end());
 			}
-
-
-
-			//TODO: textures
-			//auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
-			//textures.insert(textures.end(), mats.begin(), mats.end());
-
-			//mats = LoadMaterialTextures(material, aiTextureType_SPECULAR);
-			//textures.insert(textures.end(), mats.begin(), mats.end());
-
-			//return { vertices, indices, textures };
-
 
 			//TODO: Determine Renderer type, and create the VBO's / Constant Buffers Accordingly
 			//currently uses GLMesh as return type
-
 			std::cout << "Mesh Created with " << vertices.size() << " vertices." << std::endl;
 			return { vertices, indices, textures };
 		}
