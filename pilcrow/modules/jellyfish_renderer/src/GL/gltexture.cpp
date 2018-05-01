@@ -1,4 +1,5 @@
 #include <string>
+#include <iostream> //cout
 #include <glad/include/glad.h>
 #include <stb_image/stb_image.h>
 #include "../../include/GL/GLTexture.h"
@@ -6,29 +7,108 @@
 
 namespace Jellyfish
 {
-	///WIP
-	//GLint TextureFromFile(const char* path, std::string directory, bool gamma)
-	//{
-	//	//Generate texture ID and load texture data 
-	//	std::string filename = std::string(path);
-	//	filename = directory + '/' + filename;
-	//	GLuint textureID;
-	//	glGenTextures(1, &textureID);
-	//	int width, height;
-	//	unsigned char* image = SOIL_load_image(filename.c_str(), &width, &height, 0, SOIL_LOAD_RGB);
-	//	// Assign texture to ID
-	//	glBindTexture(GL_TEXTURE_2D, textureID);
-	//	glTexImage2D(GL_TEXTURE_2D, 0, gamma ? GL_SRGB : GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, image);
-	//	glGenerateMipmap(GL_TEXTURE_2D);
-	//
-	//	// Parameters
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-	//	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	//	glBindTexture(GL_TEXTURE_2D, 0);
-	//	SOIL_free_image_data(image);
-	//	return textureID;
-	//}
+	GLTexture::GLTexture(const std::string &name) : Resource(name)
+	{
+		this->Load(IOType::binary);
+	}
+
+	GLTexture::~GLTexture()
+	{
+		this->Unload();
+	}
+
+	void GLTexture::Use(int TextureUnit) const
+	{
+		glActiveTexture(GL_TEXTURE0 + TextureUnit);
+		glBindTexture(GL_TEXTURE_2D, this->ID());
+	}
+
+	bool GLTexture::Reloadable() const
+	{
+		return true;
+	}
+
+	std::string GLTexture::Directory() const
+	{
+		return std::string(g_ResourcePath) + "Textures/";
+	}
+
+	GLTexture& GLTexture::Type(iTexture::TextureType type)
+	{
+		m_Type = type;
+		return *this;
+	}
+
+	bool GLTexture::LoadImpl()
+	{
+		unsigned char* imgData = nullptr;
+		if (TextureFromData(imgData))
+		{
+			//Get a texture ID
+			//glGenTextures(1, &m_GLuID);
+
+			// Assign texture to ID
+			glBindTexture(GL_TEXTURE_2D, m_GLuID);
+			m_ID = m_GLuID;
+			glTexImage2D(GL_TEXTURE_2D, 0, m_Format, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			// Parameters
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+			glBindTexture(GL_TEXTURE_2D, 0);
+
+			stbi_image_free(imgData);
+
+			std::cout << "Texture was loaded successfully: " << Filename() << std::endl;
+			return true;
+		}
+		
+		return false;
+	}
+
+	void GLTexture::UnloadImpl()
+	{
+		glDeleteTextures(1, &m_ID);
+		m_Width = m_Height = m_NumChannels = m_ID = 0;
+	}
+
+	GLint GLTexture::TextureFromData(unsigned char* imgData)
+	{
+		stbi_set_flip_vertically_on_load(true);
+
+		imgData = stbi_load_from_memory((const unsigned char*)this->Data().c_str(),
+			static_cast<int>(this->Data().size()),
+			&m_Width,
+			&m_Height,
+			&m_NumChannels,
+			0
+		);
+
+		if (imgData)
+		{
+			std::cout << "Texture read: " << Filename() << std::endl;
+
+			if (m_NumChannels == 4)
+			{
+				m_Format = GL_RGBA;
+			}
+			else if (m_NumChannels == 3)
+			{
+				m_Format = GL_RGB;
+			}
+			else if (m_NumChannels == 1)
+			{
+				m_Format = GL_RED;
+			}
+
+			return true;
+		} //endif
+		
+		std::cout << "Failed to read texture data: " << this->Directory() << this->Filename() << std::endl;
+		return false;
+	}
 
 }//end namespace Jellyfish
