@@ -41,32 +41,7 @@ namespace Jellyfish
 
 	bool GLTexture::LoadImpl()
 	{
-		unsigned char* imgData = nullptr;
-		if (TextureFromData(imgData))
-		{
-			//Get a texture ID
-			//glGenTextures(1, &m_GLuID);
-
-			// Assign texture to ID
-			glBindTexture(GL_TEXTURE_2D, m_GLuID);
-			m_ID = m_GLuID;
-			glTexImage2D(GL_TEXTURE_2D, 0, m_Format, m_Width, m_Height, 0, GL_RGB, GL_UNSIGNED_BYTE, imgData);
-			glGenerateMipmap(GL_TEXTURE_2D);
-
-			// Parameters
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			glBindTexture(GL_TEXTURE_2D, 0);
-
-			stbi_image_free(imgData);
-
-			std::cout << "Texture was loaded successfully: " << Filename() << std::endl;
-			return true;
-		}
-		
-		return false;
+		return TextureFromData();
 	}
 
 	void GLTexture::UnloadImpl()
@@ -75,17 +50,17 @@ namespace Jellyfish
 		m_Width = m_Height = m_NumChannels = m_ID = 0;
 	}
 
-	GLint GLTexture::TextureFromData(unsigned char* imgData)
+	GLint GLTexture::TextureFromData()
 	{
 		stbi_set_flip_vertically_on_load(true);
 
-		imgData = stbi_load_from_memory((const unsigned char*)this->Data().c_str(),
+		unsigned char* imgData{ stbi_load_from_memory((const unsigned char*)this->Data().c_str(),
 			static_cast<int>(this->Data().size()),
 			&m_Width,
 			&m_Height,
 			&m_NumChannels,
 			0
-		);
+		) };//end imgData allocation
 
 		if (imgData)
 		{
@@ -103,6 +78,25 @@ namespace Jellyfish
 			{
 				m_Format = GL_RED;
 			}
+
+			//Get a texture ID
+			glGenTextures(1, &m_GLuID);
+
+			// Assign texture to ID
+			glBindTexture(GL_TEXTURE_2D, m_GLuID);
+			m_ID = m_GLuID;
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			// Parameters
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+			stbi_image_free(imgData);
+
+			std::cout << "Texture was loaded successfully: " << Filename() << std::endl;
 
 			return true;
 		} //endif

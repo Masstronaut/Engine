@@ -16,24 +16,30 @@ namespace Jellyfish
 			
 			switch (m_Textures[i]->iTexture::Type())
 			{
-			case iTexture::TextureType::diffuse:
-				name = "diffuse";
-				name += std::to_string(diffuse++);
-				break;
-			case iTexture::TextureType::specular:
-				name = "specular";
-				name += std::to_string(specular++);
-				break;
+				case iTexture::TextureType::diffuse:
+				{
+					name = "diffuse";
+					name += std::to_string(diffuse++);
+					
+					if (!m_shader->SetUniform(name, (int)i))
+					{
+						std::cout << "Error! Could not set shader uniform:" << name << std::endl;
+					}
+					else
+					{
+						glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
+						glActiveTexture(GL_TEXTURE0);
+					}
+
+					break;
+				}
+				
+			//case iTexture::TextureType::specular:
+			//	name = "specular";
+			//	name += std::to_string(specular++);
+			//	break;
 			}
-			
-			if (!m_shader->SetUniform(name, (int)i)) 
-			{
-				std::cout << "Error! Could not set shader uniform:" << name << std::endl;
-			}
-		
-			glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
 		}
-		glActiveTexture(GL_TEXTURE0);
 		
 		glBindVertexArray(VAO);
 		glDrawElements(GL_TRIANGLES, (int)m_Indices.size(), GL_UNSIGNED_INT, 0);

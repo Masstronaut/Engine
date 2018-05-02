@@ -27,7 +27,7 @@ namespace Jellyfish
 		void UnloadImpl();
 
 
-		GLint TextureFromData(unsigned char* imgData);
+		GLint TextureFromData();
 
 		GLuint m_GLuID;
 		GLenum m_Format;
