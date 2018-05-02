@@ -5,27 +5,21 @@ namespace Jellyfish
 {
 	struct Vertex 
 	{
-		Vertex() : 
-			m_Position  ({ 0.f, 0.f, 0.f }),
-			m_Normal    ({ 0.f, 0.f, 0.f }),
-			m_Tangent   ({ 0.f, 0.f, 0.f }),
-			m_Bitangent ({ 0.f, 0.f, 0.f }),
-			m_Color     ({ 0.f, 0.f, 0.f, 1.f }) //Black
+		Vertex() :
+			m_Position({ 0.f, 0.f, 0.f }),
+			m_Normal({ 0.f, 0.f, 0.f }),
+			m_Tangent({ 0.f, 0.f, 0.f }),
+			m_Bitangent({ 0.f, 0.f, 0.f }),
+			m_Color({ 1.f, 1.f, 1.f, 1.f }), //White
+			m_TexCoords({ 0.f, 0.f, 0.f })
 		{}
 
 		glm::vec3 m_Position;
+		glm::vec4 m_Color;
+		glm::vec3 m_TexCoords;
 		glm::vec3 m_Normal;
 		glm::vec3 m_Tangent;
 		glm::vec3 m_Bitangent;
-		glm::vec4 m_Color;
-
-		union
-		{
-			//3D UVW support, (4D UV's are not supported by Assimp)
-			glm::vec3 m_TexCoords;
-			glm::vec3 m_UVs;
-		};
-		
 	};
 
 	//TODO:

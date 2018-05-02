@@ -52,8 +52,6 @@ namespace Jellyfish
 
 	GLint GLTexture::TextureFromData()
 	{
-		stbi_set_flip_vertically_on_load(true);
-
 		unsigned char* imgData{ stbi_load_from_memory((const unsigned char*)this->Data().c_str(),
 			static_cast<int>(this->Data().size()),
 			&m_Width,
@@ -79,22 +77,25 @@ namespace Jellyfish
 				m_Format = GL_RED;
 			}
 
-			//Get a texture ID
+			//Get a texture ID and assign it
 			glGenTextures(1, &m_GLuID);
-
-			// Assign texture to ID
 			glBindTexture(GL_TEXTURE_2D, m_GLuID);
 			m_ID = m_GLuID;
-			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, GL_RGBA, GL_UNSIGNED_BYTE, imgData);
-			glGenerateMipmap(GL_TEXTURE_2D);
 
-			// Parameters
+			//Set parameters
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+			//Set filtering
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
+			//store it and generate mipmaps
+			glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, m_Width, m_Height, 0, m_Format, GL_UNSIGNED_BYTE, imgData);
+			glGenerateMipmap(GL_TEXTURE_2D);
+
+			//free memory and unbind
 			stbi_image_free(imgData);
+			glBindTexture(GL_TEXTURE_2D, 0);
 
 			std::cout << "Texture was loaded successfully: " << Filename() << std::endl;
 

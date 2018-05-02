@@ -202,9 +202,9 @@ void ECSDemo() {
 	std::vector<EntityRef> nanos;
 	if (g_SpawnNanos)
 	{
-		for (int i{ 0 }; i < 10; ++i)
+		for (int i{ 0 }; i < 4; ++i)
 		{
-			for (int j{ 0 }; j < 10; ++j)
+			for (int j{ 0 }; j < 4; ++j)
 			{
 				nanos.emplace_back(EnemyA.Clone());
 				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };

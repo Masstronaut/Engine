@@ -52,21 +52,26 @@ namespace Jellyfish
 		glGenBuffers(1, &VBO);
 		glGenBuffers(1, &EBO);
 		glBindVertexArray(VAO);
+		
 		glBindBuffer(GL_ARRAY_BUFFER, VBO);
-		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-
-		glEnableVertexAttribArray(0);
-		glVertexAttribPointer(0, 3, GL_FLOAT, false, sizeof(Vertex), nullptr);
-
-		glEnableVertexAttribArray(1);
-		glVertexAttribPointer(1, 3, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, m_Normal));
-		glEnableVertexAttribArray(2);
-		glVertexAttribPointer(2, 2, GL_FLOAT, false, sizeof(Vertex), (void*)offsetof(Vertex, m_TexCoords));
-
-
 		glBufferData(GL_ARRAY_BUFFER, m_Vertices.size() * sizeof(Vertex), m_Vertices.data(), GL_STATIC_DRAW);
+		
+		glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
 		glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_Indices.size() * sizeof(decltype(m_Indices)::value_type), m_Indices.data(), GL_STATIC_DRAW);
 
+		//Position attribute
+		glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)0);
+		glEnableVertexAttribArray(0);
+		
+		//Color Attribute
+		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, m_Normal));
+		glEnableVertexAttribArray(1);
+		
+		//Texcoord attribute
+		glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid*)offsetof(Vertex, m_TexCoords));
+		glEnableVertexAttribArray(2);
+
+		//Unbind VAO
 		glBindVertexArray(0);
 	}
 }
