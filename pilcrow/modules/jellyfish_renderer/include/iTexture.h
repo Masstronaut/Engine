@@ -17,12 +17,14 @@ namespace Jellyfish
 		}; //end enum TextureType
 
 		virtual ~iTexture() {}
-		unsigned ID() const { return m_ID; };
-
+		
 		virtual void Use(int TextureUnit = 0) const = 0;
 
 		TextureType Type() const 
 		{ return m_Type; }
+
+		unsigned ID() const 
+		{ return m_ID; };
 
 		//Loading functions are derived from the Resource class in the derived class
 

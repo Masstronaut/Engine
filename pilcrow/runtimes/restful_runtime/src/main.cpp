@@ -38,10 +38,6 @@ std::string RelativePath() {
 	static std::string path{ g_ResourcePath };
 	return path;
 }
-std::string ShaderPath() {
-	static std::string path{ RelativePath() + "Shaders/" };
-	return path;
-}
 
 #include "Detectors.hpp"
 
@@ -202,12 +198,27 @@ void ECSDemo() {
 	std::vector<EntityRef> nanos;
 	if (g_SpawnNanos)
 	{
+		float scalor = 1.f; //differentiating scale
+		float angle = 0.f;  //pi/6
+
 		for (int i{ 0 }; i < 4; ++i)
 		{
 			for (int j{ 0 }; j < 4; ++j)
 			{
 				nanos.emplace_back(EnemyA.Clone());
+				
+				//position
 				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
+				
+				//rotation -- NOT WORKING!
+				nanos.back().Get<Transform>().rotation.y *= angle;
+				angle += 30.f; //degrees or radians? lacking documentation.
+
+				//scale
+				nanos.back().Get<Transform>().scale.x *= scalor;
+				nanos.back().Get<Transform>().scale.y *= scalor;
+				nanos.back().Get<Transform>().scale.z *= scalor;
+				scalor = scalor + 0.1f;
 			}
 		}
 

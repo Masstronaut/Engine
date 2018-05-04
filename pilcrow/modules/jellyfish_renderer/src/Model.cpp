@@ -1,21 +1,18 @@
 #include <iostream>
 #include <unordered_map>
 
+#include <glm/glm.hpp>
+
 #include <utils/include/Resource.hpp>
 #include "utils/include/ResourceSettings.h" //g_resourcePath
 
 #include "../Include/Model.h"
+#include "../Include/AssimpLoaders.hpp"
 #include "../Include/iMesh.h"
 #include "../Include/iTexture.h"
 
 //fix for multiplatform
 #include "../include/GL/GLTexture.h"
-
-#include "../Include/AssimpLoaders.hpp"
-
-#include <glm/glm.hpp>
-
-//TODO: fix
 
 namespace Jellyfish
 {

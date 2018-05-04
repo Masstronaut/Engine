@@ -4,8 +4,7 @@
 #include <glm/glm.hpp> //mat4
 #include "Vertex.h"
 
-//TEMP!
-#include "../../../engine/core/include/GLProgram.hpp"
+#include "GL/GLProgram.h"
 
 namespace Jellyfish
 {

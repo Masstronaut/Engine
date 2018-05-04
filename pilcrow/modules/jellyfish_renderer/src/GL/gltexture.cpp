@@ -1,7 +1,7 @@
-#include <string>
+#include <string> //std::string
 #include <iostream> //cout
-#include <glad/include/glad.h>
-#include <stb_image/stb_image.h>
+#include <stb_image/stb_image.h> //image data loader
+
 #include "../../include/GL/GLTexture.h"
 #include "Utils/include/ResourceSettings.h"
 

@@ -125,8 +125,6 @@ endforeach()
 set(include_files
   "include/Camera.hpp"
   "include/Detectors.hpp"
-  "include/GLProgram.hpp"
-  "include/GLShader.hpp"
   "include/GLTextRenderer.hpp"
   "include/RenderComponents.h"
   "include/RenderSystem.h"
@@ -138,8 +136,6 @@ set(include_files
 
 set(src_files
   "src/EntityRef.cpp"
-  "src/GLProgram.cpp"
-  "src/GLShader.cpp"
   "src/Renderer.cpp"
   "src/RenderSystem.cpp"
   "src/Simulation.cpp"

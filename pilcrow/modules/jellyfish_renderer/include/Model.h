@@ -5,8 +5,7 @@
 #include <utils/include/Resource.hpp>
 #include <glm/glm.hpp>
 
-//TEMP
-class GLProgram;
+#include "GL/GLProgram.h"
 
 //assimp stuff
 struct aiNode;

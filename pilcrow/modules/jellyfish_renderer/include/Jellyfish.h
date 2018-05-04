@@ -4,10 +4,14 @@
 // *** MAIN ENTRY POINT FOR THE JELLYFISH RENDERER LIBRARY ***
 //-------------------------------------------------------------
 
-#include "GL/GLWindow.h" //OpenGL Windowing
+#include "iWindow.h" //Windowing
 #include "Model.h" //3D Model support
-#include "iTexture.h" //Texturing Support
-#include "iShader.h" //Material Support
+
+//GL Implementations
+#include "GL/GLMesh.h"
+#include "GL/GLProgram.h"
+#include "GL/GLTexture.h"
+#include "GL/GLWindow.h"
 
 namespace Jellyfish
 {

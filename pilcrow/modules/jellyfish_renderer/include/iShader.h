@@ -1,31 +1,37 @@
 #pragma once
 
 #include <string>
-#include <utils/include/Resource.hpp>
 
 namespace Jellyfish
 {
-	class iShader : public Resource {
+	class iShader
+	{
 	public:
+		//Not using this yet
+		//// Add others as needed
+		//enum class ShaderType
+		//{
+		//	vertex,
+		//	fragment,
+		//	tesselation,
+		//	geometry,
+		//	compute
+		//}; //end enum ShaderType
+
 		virtual ~iShader() {}
 
-		unsigned Type() const
-		{
-			return m_ShaderType;
-		}
+		virtual unsigned Type() const = 0;
+		virtual unsigned ID() const = 0;
+		virtual void Use() const = 0;
 
-		unsigned ID() const
-		{
-			return m_ShaderID;
-		}
-	
+		//planned functionality
+		//AddToEffect() const = 0;
+
+
 	protected:
-		virtual bool Load() =0;
-		virtual void Unload() =0;
 		virtual bool Check() const =0;
 
 	private:
-		unsigned m_ShaderID{ 0 };
-		unsigned m_ShaderType{ 0 };
+		
 	};
 }

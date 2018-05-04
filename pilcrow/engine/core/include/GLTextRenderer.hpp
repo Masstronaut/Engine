@@ -4,8 +4,10 @@
 #include <glm/glm.hpp>
 #include <ft2build.h>
 #include FT_FREETYPE_H
-#include "GLProgram.hpp"
 #include "Settings/UI_Settings.h"
+
+#include <Jellyfish.h>
+
 
 class GLTextRenderer {
 public:
@@ -22,7 +24,7 @@ private:
   const Character& Get( char c ) const {
     return m_Glyphs[ c - ' ' ];
   }
-  GLProgram m_Shader;
+  Jellyfish::GLProgram m_Shader;
   FT_Library m_FT;
   FT_Face m_Font;
   int m_Size;
