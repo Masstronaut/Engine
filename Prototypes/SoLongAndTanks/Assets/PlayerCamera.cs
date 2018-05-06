@@ -6,7 +6,7 @@ public class PlayerCamera : MonoBehaviour {
 
 	public GameObject player;
 
-
+	[Range(0f,1.0f)]
 	public float AngularSpeed;
 
 	public float MoveSpeed;
@@ -31,9 +31,7 @@ public class PlayerCamera : MonoBehaviour {
 			return;
 		}
 
-		float targetAngDelt = Vector3.Angle(transform.up, player.transform.up);
-		float angDelt = Mathf.Min(targetAngDelt, AngularSpeed * Time.deltaTime);
-		transform.Rotate(Vector3.forward, angDelt);
+		transform.up = Vector3.Slerp(transform.up, player.transform.up, AngularSpeed * Time.deltaTime);
 
 		Vector3 targetPos = player.transform.position + originalOffset;
 		transform.position = Vector3.SmoothDamp(transform.position, targetPos, ref cameraVelocity, SmoothTime, MoveSpeed );

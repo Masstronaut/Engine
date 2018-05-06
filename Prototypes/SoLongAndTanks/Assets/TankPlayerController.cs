@@ -13,6 +13,7 @@ class TankPlayerController : MonoBehaviour
 	public float TreadSpeed;
 	public float TreadGrip;
 	public float JumpForce;
+
 	public bool IsGrounded {get; private set;}
 	private Vector2 GroundNormal;
 
@@ -22,9 +23,13 @@ class TankPlayerController : MonoBehaviour
 		Orbiter = GetComponent<GravityOrbiter>();
 	}
 	
-	void OnCollisionEnter2D(Collision2D col)
+	void OnCollisionStay2D(Collision2D col)
 	{
-		IsGrounded = true;
+		if(!IsGrounded)
+		{
+			IsGrounded = true;
+			Debug.Log("Grounded");
+		}
 
 		// Ground normal is average of all contact normals I guess
 		GroundNormal *= 0.0f;
@@ -33,7 +38,6 @@ class TankPlayerController : MonoBehaviour
 			GroundNormal += contact.normal;
 		}
 		GroundNormal.Normalize();
-
 	}
 
 	// Update is called once per frame
@@ -42,16 +46,16 @@ class TankPlayerController : MonoBehaviour
 		Debug.DrawRay(transform.position, GroundNormal, Color.red, 0.1f);
 		Debug.DrawRay(transform.position, Orbiter.RelativeUp, Color.green, 0.1f);
 
-
 		if(IsGrounded)
 		{
-			transform.up = GroundNormal;
+			transform.up = Vector3.Slerp(transform.up, GroundNormal, 0.5f);
 
 			Vector2 normalForce;
 			if(Input.GetButtonDown("Jump"))
 			{
 				normalForce = GroundNormal * JumpForce;
 				IsGrounded = false;
+				Debug.Log("Jump");
 			}
 			else
 			{
@@ -75,7 +79,8 @@ class TankPlayerController : MonoBehaviour
 		}
 		else
 		{
-			transform.up = Orbiter.RelativeUp;
+			transform.up = Vector3.Slerp(transform.up, Orbiter.RelativeUp, 0.5f);
+			Debug.DrawLine(transform.position, Orbiter.transform.position, Color.magenta, 0.1f);
 		}
 	}
 
