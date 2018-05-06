@@ -20,8 +20,6 @@ public:
   void Unload( );
   bool Reload( );
 
-  void SetResourceDirectory(std::string path);
-
   virtual bool Reloadable( ) const = 0;
   virtual std::string Directory( ) const = 0;
 
@@ -36,5 +34,4 @@ private:
   std::string m_extension;
 protected:
   std::string m_data;
-  std::string m_resource_directory;
 };

@@ -3,6 +3,7 @@
 //-------------------------------------------------------------
 // *** MAIN ENTRY POINT FOR THE JELLYFISH RENDERER LIBRARY ***
 //-------------------------------------------------------------
+#include <string>
 
 #include "iWindow.h" //Windowing
 #include "Model.h" //3D Model support
@@ -25,7 +26,7 @@ namespace Jellyfish
 	// * Testing Stub *
 	//-------------------
 	//basic linker test
-#include <string>
+
 	class Derp
 	{
 	public:

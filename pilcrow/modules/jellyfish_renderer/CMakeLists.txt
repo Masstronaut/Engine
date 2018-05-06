@@ -23,6 +23,7 @@ set(jfr_srcs
   "src/GL/GLProgram.cpp"
   "src/RenderMain.cpp"
   "src/Model.cpp"
+   "src/Vertex.cpp"
 )
 
 foreach(jfr_include IN ITEMS ${jfr_includes})

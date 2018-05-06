@@ -94,8 +94,3 @@ bool Resource::Reload( ) {
     m_data = ss.str( );
     return true;
   }
-
-  void Resource::SetResourceDirectory(std::string path)
-  {
-	  m_resource_directory = path;
-  }

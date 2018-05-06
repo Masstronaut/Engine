@@ -23,6 +23,16 @@ namespace Jellyfish
 		glBindTexture(GL_TEXTURE_2D, this->ID());
 	}
 
+	iTexture::TextureType GLTexture::Type() const
+	{
+		return m_Type;
+	}
+
+	unsigned GLTexture::ID() const
+	{
+		return m_GLuID;
+	};
+
 	bool GLTexture::Reloadable() const
 	{
 		return true;
@@ -46,8 +56,8 @@ namespace Jellyfish
 
 	void GLTexture::UnloadImpl()
 	{
-		glDeleteTextures(1, &m_ID);
-		m_Width = m_Height = m_NumChannels = m_ID = 0;
+		glDeleteTextures(1, &m_GLuID);
+		m_Width = m_Height = m_NumChannels = m_GLuID = 0;
 	}
 
 	GLint GLTexture::TextureFromData()
@@ -80,7 +90,6 @@ namespace Jellyfish
 			//Get a texture ID and assign it
 			glGenTextures(1, &m_GLuID);
 			glBindTexture(GL_TEXTURE_2D, m_GLuID);
-			m_ID = m_GLuID;
 
 			//Set parameters
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);

@@ -5,6 +5,13 @@
 
 namespace Jellyfish
 {
+	GLMesh::GLMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, 
+		std::vector<std::shared_ptr<GLTexture>>& Textures) :
+		iMesh(Vertices, Indices, Textures)
+	{
+		Load();
+	}
+
 	void GLMesh::Draw() const
 	{
 		unsigned diffuse{ 1 }, specular{ 1 };
@@ -14,7 +21,7 @@ namespace Jellyfish
 			glActiveTexture(GL_TEXTURE0 + i);
 			std::string name;
 			
-			switch (m_Textures[i]->iTexture::Type())
+			switch (m_Textures[i]->Type())
 			{
 				case iTexture::TextureType::diffuse:
 				{
@@ -74,4 +81,10 @@ namespace Jellyfish
 		//Unbind VAO
 		glBindVertexArray(0);
 	}
+
+	void GLMesh::AssignShader(GLProgram& shader)
+	{
+		m_shader = &shader;
+	}
+
 }

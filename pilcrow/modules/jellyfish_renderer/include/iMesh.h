@@ -30,31 +30,11 @@ namespace Jellyfish
 
 		}
 
-		virtual void Draw() const =0;
-
-		void AssignVertices(std::vector<Vertex>& verts)
-		{
-			m_Vertices = verts;
-		}
-		void AssignIndices(std::vector<unsigned int>& indices)
-		{
-			m_Indices = indices;
-		}
-		void AssignTextures(std::vector<std::shared_ptr<GLTexture>>& textures)
-		{
-			m_Textures = textures;
-		}
-		//TODO: fix for multiplatform
-		void AssignShader(GLProgram& shader)
-		{
-			m_shader = &shader;
-		}
+		virtual void Draw() const = 0;
+		virtual void AssignShader(GLProgram& shader) = 0;
+	
 	
 	protected:
-		iMesh() 
-		{
-			//shouldn't get called unless error --TODO:fix so we dont need this
-		}
 		iMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<GLTexture>>& Textures) :
 			m_Vertices(Vertices)
 			, m_Indices(Indices)

@@ -14,6 +14,8 @@ namespace Jellyfish
 
 		//Overriding iTexture:
 		void Use(int TextureUnit = 0) const override;
+		TextureType Type() const override;
+		unsigned ID() const override;
 
 		//Overriding Resource:
 		virtual bool Reloadable() const override;

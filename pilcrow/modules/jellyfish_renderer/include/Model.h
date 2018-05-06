@@ -54,7 +54,7 @@ namespace Jellyfish
 		void Assimp_ProcessNode(aiNode * node, const aiScene * scene);
 
 		//TODO: fix hardcoded glmesh here
-		GLMesh Assimp_ProcessMesh(aiMesh * mesh, const aiScene * scene);
+		GLMesh Assimp_ProcessMesh(aiMesh& mesh, const aiScene& scene);
 		bool Assimp_LoadModelFromFile(const std::string& path, const std::string& name);
 
 		//std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );

@@ -4,8 +4,6 @@
 #include <glm/glm.hpp>
 #include <Jellyfish.h>
 
-//TODO: Discuss move into Jellyfish or not
-
 //base
 struct Renderable {
 
