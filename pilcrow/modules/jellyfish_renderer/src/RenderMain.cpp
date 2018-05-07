@@ -1,5 +1,10 @@
+#pragma once
+
+//std
 #include <iostream>
-#include "../include/Jellyfish.h"
+
+//ours
+#include "../Include/Jellyfish.h"
 
 namespace Jellyfish
 {

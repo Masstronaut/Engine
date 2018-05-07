@@ -3,8 +3,6 @@
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
 #include "GLTextRenderer.hpp"
-#include "GLProgram.hpp"
-#include "Model.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
 
@@ -78,7 +76,9 @@ struct RenderSystem {
 		modelMatrix = glm::rotate(modelMatrix, tf.rotation.z, glm::vec3(0.f, 0.f, 1.f));
 		
 		program.SetUniform("model", modelMatrix);
-		model.model->Draw(program);
+
+		model.model->AssignShaderToAllMeshes(program);
+		model.model->Draw(); //program no longer neede as arg textures TODO
 	}
 
 
@@ -119,7 +119,7 @@ struct RenderSystem {
 
 	//GL Impl 
 	GLTextRenderer gltr{ "Text.sprog" };
-	mutable GLProgram program{ "Model.sprog" };
+	mutable Jellyfish::GLProgram program{ "Model.sprog" };
 
 	float Dt{ 0.f };
 	glm::mat4 m_persp_projection;

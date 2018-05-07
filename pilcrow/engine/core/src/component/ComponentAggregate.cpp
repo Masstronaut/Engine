@@ -1,6 +1,6 @@
 #pragma once
 #include "../../include/component/ComponentAggregate.hpp"
-#include "../../include/EntityRef.hpp"
+#include "../../include/entity/EntityRef.hpp"
 
   // Check if the entity has all the components of this aggregate.
   // If it does, add it to the aggregate.

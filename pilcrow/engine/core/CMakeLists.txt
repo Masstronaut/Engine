@@ -4,7 +4,6 @@ set(Component_include_files
   "include/component/ComponentAggregate.hpp"
   "include/component/ComponentPool.hpp"
   "include/component/ComponentTraits.hpp"
-  "include/component/WeaponComponents.h"
 )
 
 set(Component_files
@@ -26,6 +25,7 @@ endforeach()
 #The files in the components folder to compile
 set(Components_include_files
   "include/components/Transform.h"
+  "include/components/WeaponComponents.h"
 )
 
 set(Components_src_files
@@ -45,6 +45,8 @@ set(Entity_include_files
   "include/entity/ArchetypeRef.hpp"
   "include/entity/ConstrainedEntityRef.hpp"
   "include/entity/EntitiesWith.hpp"
+  "include/entity/EntityRef.hpp"
+  "include/entity/EntityID.hpp"
   "include/entity/Entity.hpp"
 )
 
@@ -68,7 +70,6 @@ endforeach()
 
 #The files in the settings folder to compile
 set(Settings_include_files
-  "include/settings/ResourceSettings.h"
   "include/settings/UI_Settings.h"
   "include/settings/WindowSettings.h"
 )
@@ -124,38 +125,20 @@ endforeach()
 set(include_files
   "include/Camera.hpp"
   "include/Detectors.hpp"
-  "include/EntityID.hpp"
-  "include/EntityRef.hpp"
-  "include/GLFWWindow.hpp"
-  "include/GLProgram.hpp"
-  "include/GLShader.hpp"
   "include/GLTextRenderer.hpp"
-  "include/Model.hpp"
   "include/RenderComponents.h"
-  "include/RendererCommon.hpp"
   "include/RenderSystem.h"
   "include/SettingsFileReader.hpp"
   "include/Simulation.hpp"
-  "include/Texture.hpp"
-  "include/VertexArray.hpp"
-  "include/Window.hpp"
   "include/World.hpp"
   "include/WorldEvents.hpp"
 )
 
 set(src_files
   "src/EntityRef.cpp"
-  "src/GLFWWindow.cpp"
-  "src/GLProgram.cpp"
-  "src/GLShader.cpp"
-  "src/main.cpp"
-  "src/Model.cpp"
   "src/Renderer.cpp"
-  "src/RendererCommon.cpp"
   "src/RenderSystem.cpp"
   "src/Simulation.cpp"
-  "src/Texture.cpp"
-  "src/Window.cpp"
   "src/World.cpp"
   "src/World.inl"
 )

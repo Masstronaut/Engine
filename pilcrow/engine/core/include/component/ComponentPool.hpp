@@ -2,7 +2,9 @@
 #include <tuple>
 #include <typeindex>
 #include <slot_map.hpp>
-#include "../EntityID.hpp"
+
+#include "../entity/EntityID.hpp"
+
 class ComponentPoolBase {
 public:
   ComponentPoolBase( ) = default;

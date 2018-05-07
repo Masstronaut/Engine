@@ -1,7 +1,9 @@
 #pragma once
 #include <cassert>
+
 #include "../../include/entity/Entity.hpp"
 #include "../../include/World.hpp"
+
 template<typename Component>
 bool Entity::Has( ) const {
   return m_Components.count( std::type_index( typeid( std::decay_t<Component> ) ) ) > 0;

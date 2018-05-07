@@ -2,10 +2,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include "../include/GLTextRenderer.hpp"
-#include "../include/Settings/ResourceSettings.h"
+#include "Utils/include/ResourceSettings.h"
 
 std::string ResourcePath = g_ResourcePath;
-std::string FontPath( ) {
+std::string FontPath( ) 
+{
   return ResourcePath + "Fonts/";
 }
 
@@ -13,10 +14,13 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
   : m_Shader(shader )
   , m_Size(size) {
   
-  if( FT_Init_FreeType( &m_FT ) ) {
+  if( FT_Init_FreeType( &m_FT ) ) 
+  {
     std::cout << "ERROR: Failed to initialize FreeType Library." << std::endl;
   }
-  if( FT_New_Face( m_FT, ( FontPath( ) + font ).c_str( ), 0, &m_Font ) ) {
+  
+  if( FT_New_Face( m_FT, ( FontPath( ) + font ).c_str( ), 0, &m_Font ) ) 
+  {
     std::cout << "Error: Freetype failed to load the font \"" 
       << font 
       << "\" from the folder \"" 
@@ -24,12 +28,15 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
       << "\"." 
       << std::endl;
   }
+  
   FT_Set_Pixel_Sizes( m_Font, 0, m_Size );
 
   glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ); // disable byte-alignment restriction
 
-  for( GLubyte c{ ' ' }; c <= '~'; ++c ) {
-    if( FT_Load_Char( m_Font, c, FT_LOAD_RENDER ) ) {
+  for( GLubyte c{ ' ' }; c <= '~'; ++c ) 
+  {
+    if( FT_Load_Char( m_Font, c, FT_LOAD_RENDER ) ) 
+	{
       std::cout << "Warning: FreeType failed to load a glyph for '"
         << ( char )c
         << "' for font face \""
@@ -76,37 +83,39 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
   glBindVertexArray( 0 );
 }
 
-void GLTextRenderer::Render(const std::string &text, glm::vec2 pos, glm::mat4 proj, glm::vec3 color, float scale)
-{ 
-  m_Shader.Use( );
-  m_Shader.SetUniform("projection", proj);
-  m_Shader.SetUniform( "textColor", color );
-  glActiveTexture( GL_TEXTURE0 );
-  glBindVertexArray( VAO );
+void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::mat4 proj, glm::vec3 color, float scale)
+{
+	m_Shader.Use();
+	m_Shader.SetUniform("projection", proj);
+	m_Shader.SetUniform("textColor", color);
+	glActiveTexture(GL_TEXTURE0);
+	glBindVertexArray(VAO);
 
-  for( char c : text ) {
-    const Character &ch{ this->Get( c ) };
-    glm::vec2 position{ pos.x + ch.Bearing.x * scale, pos.y - (ch.Size.y - ch.Bearing.y) * scale };
-    glm::vec2 size{ ch.Size.x * scale, ch.Size.y * scale };
-    GLfloat vertices[ 6 ][ 4 ] = {
-      { position.x,     position.y + size.y,   0.0, 0.0 },
-      { position.x,     position.y,       0.0, 1.0 },
-      { position.x + size.x, position.y,       1.0, 1.0 },
+	for (char c : text) 
+	{
+		const Character &ch{ this->Get(c) };
+		glm::vec2 pos{ position.x + ch.Bearing.x * scale, position.y - (ch.Size.y - ch.Bearing.y) * scale };
+		glm::vec2 size{ ch.Size.x * scale, ch.Size.y * scale };
+		GLfloat vertices[6][4] = {
+			{ pos.x,          pos.y + size.y,   0.0, 0.0 },
+		{ pos.x,          pos.y,            0.0, 1.0 },
+		{ pos.x + size.x, pos.y,            1.0, 1.0 },
 
-      { position.x,     position.y + size.y,   0.0, 0.0 },
-      { position.x + size.x, position.y,       1.0, 1.0 },
-      { position.x + size.x, position.y + size.y,   1.0, 0.0 }
-    };
-    glBindTexture( GL_TEXTURE_2D, ch.TextureID );
-    glBindBuffer( GL_ARRAY_BUFFER, VBO );
-    glBufferSubData( GL_ARRAY_BUFFER, 0, sizeof( vertices ), vertices ); // Be sure to use glBufferSubData and not glBufferData
+		{ pos.x,          pos.y + size.y,   0.0, 0.0 },
+		{ pos.x + size.x, pos.y,            1.0, 1.0 },
+		{ pos.x + size.x, pos.y + size.y,   1.0, 0.0 }
+		};
+		glBindTexture(GL_TEXTURE_2D, ch.TextureID);
+		glBindBuffer(GL_ARRAY_BUFFER, VBO);
+		glBufferSubData(GL_ARRAY_BUFFER, 0, sizeof(vertices), vertices); // Be sure to use glBufferSubData and not glBufferData
 
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-    // Render quad
-    glDrawArrays( GL_TRIANGLES, 0, 6 );
-    // Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
-    position.x += ( ch.Advance >> 6 ) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
-  }
-  glBindVertexArray( 0 );
-  glBindTexture( GL_TEXTURE_2D, 0 );
+		glBindBuffer(GL_ARRAY_BUFFER, 0);
+		// Render quad
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
+		position.x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
+	}
+
+	glBindVertexArray(0);
+	glBindTexture(GL_TEXTURE_2D, 0);
 }

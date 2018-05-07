@@ -1,7 +1,12 @@
 #pragma once
-#include <GLM/glm.hpp>
+
+//std
 #include <string>
 
+//GLM
+#include <GLM/glm.hpp>
+
+//ours
 #include <utils/include/EventArena.hpp> //event messaging
 
 namespace Jellyfish
