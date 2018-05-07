@@ -2,7 +2,6 @@
 #include "Camera.hpp"
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
-#include "GLTextRenderer.hpp"
 #include "Components/Transform.h"
 #include "Camera.hpp"
 
@@ -84,7 +83,7 @@ struct RenderSystem {
 
 	float NextTextPos(float prevPos)
 	{
-		int offset = g_DebugTextSize;
+		int offset = DEBUG_TEXT_SIZE;
 		return prevPos - offset;
 	}
 
@@ -118,7 +117,7 @@ struct RenderSystem {
 	EntitiesWith<const RenderText> textEntities;
 
 	//GL Impl 
-	GLTextRenderer gltr{ "Text.sprog" };
+	Jellyfish::GLText gltr{ "Text.sprog" };
 	mutable Jellyfish::GLProgram program{ "Model.sprog" };
 
 	float Dt{ 0.f };

@@ -13,7 +13,8 @@
 
 //GL Implementations
 #include "GL/GLMesh.h"
-#include "GL/GLProgram.h"
+#include "GL/GLProgram.h" //includes GLShader.h
+#include "GL/GLText.h"
 #include "GL/GLTexture.h"
 #include "GL/GLWindow.h"
 
