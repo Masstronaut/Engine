@@ -25,6 +25,7 @@ private:
   Jellyfish::iWindow* pWindow{nullptr};
   
   void ProcessInput( Camera &cam );
+
   glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
   bool m_windowFullscreenSetting{ g_StartFullscreen };
 };
@@ -41,18 +42,12 @@ struct RenderSystem {
 			m_windowSize = event.newSize;
 		});
 		
-
+		//Load shader -- probably should move this
 		program.Load();
-
-
-		//RENDERER LIB TEST
-		Jellyfish::Derp test;
-		test.DoAThing();  //prints a thing
-
 	}
 
-	void PreProcess() {
-		
+	void PreProcess() 
+	{	
 		//set up projetion matrices
 		m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
 		if (camEntities.cbegin() != camEntities.cend()) {
@@ -63,8 +58,8 @@ struct RenderSystem {
 		}
 	}
 
-	void Process(const CModel &model, const Transform &tf) const {
-		
+	void Process(const CModel &model, const Transform &tf) const 
+	{	
 		if (!camera) return;
 		glm::mat4 modelMatrix;
 		modelMatrix = glm::translate(modelMatrix, tf.position);
@@ -87,10 +82,11 @@ struct RenderSystem {
 		return prevPos - offset;
 	}
 
-	void PostProcess() {
-
+	void PostProcess() 
+	{
 		//Render Text
-		for (const auto &entity : textEntities) {
+		for (const auto &entity : textEntities) 
+		{
 			const RenderText &renderable{ entity.Get<const RenderText>() };
 			gltr.Render(renderable.Text, renderable.Position, m_ortho_projection, renderable.Color, renderable.Size);
 		}
@@ -102,11 +98,13 @@ struct RenderSystem {
 		gltr.Render("Camera Pos Z: " + std::to_string(camera->position.z), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
 	}
 
-	void Draw() {
+	void Draw() 
+	{
 		//TODO
 	}
 
-	void FrameEnd() {
+	void FrameEnd() 
+	{
 		//send to Renderer
 		Draw();
 	}
