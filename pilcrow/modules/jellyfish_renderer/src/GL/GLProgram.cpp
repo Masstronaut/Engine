@@ -7,11 +7,11 @@
 #include <array>
 #include <unordered_map>
 
-//gl
+//GL
 #include <glad/include/glad.h>
 #include <gl/GLU.h>
 
-//glm
+//GLM
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 

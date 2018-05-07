@@ -70,7 +70,6 @@ endforeach()
 
 #The files in the settings folder to compile
 set(Settings_include_files
-  "include/settings/UI_Settings.h"
   "include/settings/WindowSettings.h"
 )
 
@@ -125,7 +124,6 @@ endforeach()
 set(include_files
   "include/Camera.hpp"
   "include/Detectors.hpp"
-  "include/GLTextRenderer.hpp"
   "include/RenderComponents.h"
   "include/RenderSystem.h"
   "include/SettingsFileReader.hpp"
@@ -136,7 +134,6 @@ set(include_files
 
 set(src_files
   "src/EntityRef.cpp"
-  "src/Renderer.cpp"
   "src/RenderSystem.cpp"
   "src/Simulation.cpp"
   "src/World.cpp"
