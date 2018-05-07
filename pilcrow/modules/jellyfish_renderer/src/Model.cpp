@@ -1,15 +1,20 @@
+#pragma once
+
+//std
 #include <iostream>
 #include <unordered_map>
 
+//glm
 #include <glm/glm.hpp>
 
+//ours
 #include <utils/include/Resource.hpp>
 #include "utils/include/ResourceSettings.h" //g_resourcePath
 
-#include "../Include/Model.h"
-#include "../Include/AssimpLoaders.hpp"
-#include "../Include/iMesh.h"
-#include "../Include/iTexture.h"
+#include "../include/Model.h"
+#include "../include/AssimpLoaders.hpp"
+#include "../include/iMesh.h"
+#include "../include/iTexture.h"
 
 //fix for multiplatform
 #include "../include/GL/GLTexture.h"

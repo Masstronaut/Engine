@@ -1,7 +1,13 @@
+#pragma once
+
+//std
 #include <string> //std::string
 #include <iostream> //cout
+
+//stb image
 #include <stb_image/stb_image.h> //image data loader
 
+//ours
 #include "../../include/GL/GLTexture.h"
 #include "Utils/include/ResourceSettings.h"
 

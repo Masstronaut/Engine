@@ -1,10 +1,14 @@
 #pragma once
+
+//std
 #include <string>
 
+//assimp
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
 
+//ours
 #include "Model.h"
 #include "iMesh.h"
 #include "iTexture.h"

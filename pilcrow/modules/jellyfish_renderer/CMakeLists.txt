@@ -5,14 +5,14 @@ set(jfr_includes
   "include/GL/GLShader.h"
   "include/GL/GLProgram.h"
   "include/iWindow.h"
-  "include/Jellyfish.h"
-  "include/Util.h"
-  "include/AssimpLoaders.hpp"
   "include/iMesh.h"
   "include/iShader.h"
   "include/iTexture.h"
+  "include/AssimpLoaders.hpp"
   "include/Model.h"
   "include/Vertex.h"
+  "include/Util.h"
+  "include/Jellyfish.h"
 )
 
 set(jfr_srcs
@@ -21,9 +21,9 @@ set(jfr_srcs
   "src/GL/GLTexture.cpp"
   "src/GL/GLShader.cpp"
   "src/GL/GLProgram.cpp"
-  "src/RenderMain.cpp"
   "src/Model.cpp"
-   "src/Vertex.cpp"
+  "src/Vertex.cpp"
+  "src/RenderMain.cpp"
 )
 
 foreach(jfr_include IN ITEMS ${jfr_includes})

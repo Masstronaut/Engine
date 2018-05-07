@@ -1,6 +1,11 @@
 #pragma once
+
+//GL
 #include <glad/include/glad.h>
+
+//ours
 #include <utils/include/Resource.hpp>
+
 #include "../iTexture.h"
 
 

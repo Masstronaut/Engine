@@ -1,5 +1,12 @@
+#pragma once
+
+//std
 #include <iostream>
+
+//GL
 #include <glad/include/glad.h>
+
+//ours
 #include "../../include/GL/GLMesh.h"
 #include "../../include/GL/GLTexture.h"
 

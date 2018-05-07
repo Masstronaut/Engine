@@ -15,6 +15,7 @@
 
 //ours
 #include <Utils/include/Resource.hpp>
+
 #include "../../include/GL/GLShader.h"
 
 namespace Jellyfish

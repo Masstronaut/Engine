@@ -5,7 +5,8 @@
 #include "Utils/include/ResourceSettings.h"
 
 std::string ResourcePath = g_ResourcePath;
-std::string FontPath( ) {
+std::string FontPath( ) 
+{
   return ResourcePath + "Fonts/";
 }
 
@@ -13,10 +14,13 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
   : m_Shader(shader )
   , m_Size(size) {
   
-  if( FT_Init_FreeType( &m_FT ) ) {
+  if( FT_Init_FreeType( &m_FT ) ) 
+  {
     std::cout << "ERROR: Failed to initialize FreeType Library." << std::endl;
   }
-  if( FT_New_Face( m_FT, ( FontPath( ) + font ).c_str( ), 0, &m_Font ) ) {
+  
+  if( FT_New_Face( m_FT, ( FontPath( ) + font ).c_str( ), 0, &m_Font ) ) 
+  {
     std::cout << "Error: Freetype failed to load the font \"" 
       << font 
       << "\" from the folder \"" 
@@ -24,12 +28,15 @@ GLTextRenderer::GLTextRenderer( const std::string &shader, const std::string &fo
       << "\"." 
       << std::endl;
   }
+  
   FT_Set_Pixel_Sizes( m_Font, 0, m_Size );
 
   glPixelStorei( GL_UNPACK_ALIGNMENT, 1 ); // disable byte-alignment restriction
 
-  for( GLubyte c{ ' ' }; c <= '~'; ++c ) {
-    if( FT_Load_Char( m_Font, c, FT_LOAD_RENDER ) ) {
+  for( GLubyte c{ ' ' }; c <= '~'; ++c ) 
+  {
+    if( FT_Load_Char( m_Font, c, FT_LOAD_RENDER ) ) 
+	{
       std::cout << "Warning: FreeType failed to load a glyph for '"
         << ( char )c
         << "' for font face \""
@@ -84,7 +91,8 @@ void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::ma
 	glActiveTexture(GL_TEXTURE0);
 	glBindVertexArray(VAO);
 
-	for (char c : text) {
+	for (char c : text) 
+	{
 		const Character &ch{ this->Get(c) };
 		glm::vec2 pos{ position.x + ch.Bearing.x * scale, position.y - (ch.Size.y - ch.Bearing.y) * scale };
 		glm::vec2 size{ ch.Size.x * scale, ch.Size.y * scale };
@@ -107,6 +115,7 @@ void GLTextRenderer::Render(const std::string &text, glm::vec2 position, glm::ma
 		// Now advance cursors for next glyph (note that advance is number of 1/64 pixels)
 		position.x += (ch.Advance >> 6) * scale; // Bitshift by 6 to get value in pixels (2^6 = 64 (divide amount of 1/64th pixels by 64 to get amount of pixels))
 	}
+
 	glBindVertexArray(0);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }

@@ -1,9 +1,15 @@
 #pragma once
+
+//std
 #include <vector>
 #include <limits>
 #include <memory> //sharedptr
-#include <utils/include/Resource.hpp>
+
+//GLM
 #include <glm/glm.hpp>
+
+//ours
+#include <utils/include/Resource.hpp>
 
 #include "GL/GLProgram.h"
 

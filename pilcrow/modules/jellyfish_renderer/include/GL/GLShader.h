@@ -1,6 +1,11 @@
 #pragma once
+
+//GL
 #include <glad/include/glad.h> //GLuint
+
+//ours
 #include <utils/include/Resource.hpp>
+
 #include "../iShader.h"
 
 namespace Jellyfish

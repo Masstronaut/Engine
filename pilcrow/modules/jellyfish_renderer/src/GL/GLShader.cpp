@@ -1,8 +1,10 @@
 #pragma once
 
+//std
 #include <iostream>
 #include <array>
 
+//ours
 #include "../../include/GL/GLShader.h"
 #include "../../include/Util.h" //ShaderPath()
 

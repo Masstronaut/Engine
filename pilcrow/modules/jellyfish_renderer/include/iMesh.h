@@ -1,9 +1,14 @@
 #pragma once
+
+//std
 #include <vector>
 #include <memory> //shared ptr
-#include <glm/glm.hpp> //mat4
-#include "Vertex.h"
 
+//GLM
+#include <glm/glm.hpp> //mat4
+
+//ours
+#include "Vertex.h"
 #include "GL/GLProgram.h"
 
 namespace Jellyfish

@@ -1,10 +1,14 @@
 #pragma once
+
+//std
+#include <iostream> //cout
+
+//GL
 #include <glad/include/glad.h> //opengl
 #include <GLFW/glfw3.h> //glfw window stuff
-//#define GLEW_STATIC
-//#include <GL/glew.h> //glew
-#include <iostream> //cout
-#include "../../Include/GL/GLWindow.h" 
+
+//ours
+#include "../../include/GL/GLWindow.h" 
 
 //TODO: fix, put in settings or something
 const unsigned glmajor = 4;
