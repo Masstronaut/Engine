@@ -1,14 +1,14 @@
 #pragma once
 
 template<typename... Args>
-template<typename Component, typename>
-Component& ConstrainedEntityRef<Args...>::Get( ) { 
+template<typename Component>
+typename std::enable_if_t<!std::is_const_v<Component>, Component&> ConstrainedEntityRef<Args...>::Get( ) {
   return this->GetMutable<Component, Args...>( ); 
 }
 
 template<typename... Args>
-template<typename Component, typename>
-const Component& ConstrainedEntityRef<Args...>::Get( ) const { 
+template<typename Component>
+typename std::enable_if_t<std::is_const_v<Component>, const Component&> ConstrainedEntityRef<Args...>::Get( ) const {
   return this->GetImmutable<Component, Args...>( ); 
 }
 

@@ -8,11 +8,11 @@ public:
   ConstrainedEntityRef( const ConstrainedEntityRef& ) = default;
   ~ConstrainedEntityRef( ) = default;
 
-  template<typename Component, typename = std::enable_if_t<!std::is_const_v<Component>>>
-  Component& Get( );
+  template<typename Component>
+  typename std::enable_if_t<!std::is_const_v<Component>, Component&> Get( );
 
-  template<typename Component, typename = std::enable_if_t<std::is_const_v<Component>>>
-  const Component& Get( ) const;
+  template<typename Component>
+  typename std::enable_if_t<std::is_const_v<Component>, const Component&> Get( ) const;
 
   template<typename Predicate>
   void Invoke( Predicate&& p );

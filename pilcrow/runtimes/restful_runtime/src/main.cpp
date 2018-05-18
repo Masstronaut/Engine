@@ -234,7 +234,9 @@ void ECSDemo() {
 #include <Mathematics.h>
 
 int main() {
-
+#if defined(_WIN32) && !defined(_DEBUG)
+  FreeConsole();
+#endif
 	ECSDemo();
 
 	return 0;
