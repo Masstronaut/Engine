@@ -3,8 +3,8 @@
 #include <unordered_map>
 #include <typeindex>
 #include <string>
-#include "../EntityID.hpp"
-#include "../EntityRef.hpp"
+#include "EntityID.hpp"
+#include "EntityRef.hpp"
 class World;
 
 

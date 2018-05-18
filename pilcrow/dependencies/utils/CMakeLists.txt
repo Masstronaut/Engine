@@ -3,6 +3,7 @@ set(utils_include_files
   "include/Resource.hpp"
   "include/ThreadPool.hpp"
   "include/type_list.hpp"
+  "include/ResourceSettings.h"
 )
 
 set(utils_src_files

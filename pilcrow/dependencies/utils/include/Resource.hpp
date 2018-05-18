@@ -22,6 +22,7 @@ public:
 
   virtual bool Reloadable( ) const = 0;
   virtual std::string Directory( ) const = 0;
+
 protected:
   virtual bool LoadImpl( ) = 0;
   virtual void UnloadImpl( ) = 0;

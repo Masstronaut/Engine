@@ -6,8 +6,9 @@
 #include <array>
 #include <memory>
 
+//TODO: Remove
 #include "Camera.hpp"
-#include "Settings/ResourceSettings.h"
+
 Camera cam;
 double dt{ 0.f };
 double lastFrame{ 0.f };
@@ -32,12 +33,9 @@ std::string ReadFile(const std::string& path) {
 	return result;
 }
 
+#include "Utils/include/ResourceSettings.h"
 std::string RelativePath() {
 	static std::string path{ g_ResourcePath };
-	return path;
-}
-std::string ShaderPath() {
-	static std::string path{ RelativePath() + "Shaders/" };
 	return path;
 }
 
@@ -135,6 +133,7 @@ struct ParallelGravity {
 	float Dt{ 0.f };
 };
 
+
 // ---------------------------
 // *  Global Settings INIT  * 
 // ---------------------------
@@ -180,32 +179,61 @@ void ECSDemo() {
 	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
 	ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
 	lens.Add<Camera>();
-	enemy.Add<Transform>().scale = { 0.2f, 0.2f, 0.2f };
-	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 	enemy.Add<RigidBody>();
 	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
-	cm.model->Load();
+	
+	float s = 0.f;
+	s = cm.model->GetScale();
+	enemy.Add<Transform>().scale = { s, s, s};
+	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
+	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
+
 	EntityRef cam{ TestWorld.Spawn(lens) };
-	cam.Get<Camera>().position = glm::vec3{ 4.5f, 3.4f, 14.26f };
-	cam.Get<Camera>().pitch = -11.f;
+	cam.Get<Camera>().position = glm::vec3{ 0.f, 0.6f, -2.f };
+	cam.Get<Camera>().pitch = -1.f;
 	cam.Get<Camera>().yaw = -89.f;
 	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+	
 	// set SpawnNanos to false if you want higher FPS and less nanosuits
 	std::vector<EntityRef> nanos;
 	if (g_SpawnNanos)
 	{
-		std::vector<EntityRef> nanos;
-		for (int i{ 0 }; i < 10; ++i)
+		float scalor = 1.f; //differentiating scale
+		float angle = 0.f;  //pi/6
+
+		for (int i{ 0 }; i < 4; ++i)
 		{
-			for (int j{ 0 }; j < 10; ++j)
+			for (int j{ 0 }; j < 4; ++j)
 			{
 				nanos.emplace_back(EnemyA.Clone());
-				nanos.back().Get<Transform>().position = glm::vec3{ i, 0, j };
+				
+				//position
+				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
+				
+				//rotation -- NOT WORKING!
+				nanos.back().Get<Transform>().rotation.y *= angle;
+				angle += 30.f; //degrees or radians? lacking documentation.
+
+				//scale
+				nanos.back().Get<Transform>().scale.x *= scalor;
+				nanos.back().Get<Transform>().scale.y *= scalor;
+				nanos.back().Get<Transform>().scale.z *= scalor;
+				scalor = scalor + 0.1f;
 			}
 		}
-	}
 
+		//TODO: google test this
+		//Model remove testing
+		nanos[0].Remove<CModel>();
+
+		//TODO: google test this
+		//Model change testing
+		CModel bunny{ "bunny.ply" };
+		s = bunny.model->GetScale();
+		nanos[1].Get<CModel>() = bunny;
+		nanos[1].Get<Transform>().scale = { s,s,s };
+	}
+	
 	//Makes the Game exit on window close
 	bool WindowOpen = true;
 	TestWorld.On([&](const Jellyfish::GLWindow::EWindowStateChanged &event)

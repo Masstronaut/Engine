@@ -1,9 +1,11 @@
 #pragma once
 #include <functional>
 #include <utility> // forward
+
 #include "SystemTraits.hpp"
 #include "../WorldEvents.hpp"
 #include "../Entity/EntitiesWith.hpp"
+
 class World;
 class SystemBase {
 public:
@@ -35,7 +37,8 @@ template<typename U>
 auto EntitiesToProcess( const U&, typename std::enable_if_t<SystemTraits<U>::HasProcess>* = nullptr ) { return EntitiesToProcessHelper( &U::Process ); }
 template<typename U>
 bool EntitiesToProcess( const U&, typename std::enable_if_t<!SystemTraits<U>::HasProcess>* = nullptr ) { }
-}
+
+} // namespace Detail
 
 
 template<typename T>
@@ -61,55 +64,55 @@ public:
   virtual void OnFrameEnd() final;
 private:
   template<typename U = T>
-  void FrameStart( typename std::enable_if_t<SystemTraits<U>::HasFrameStart>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasFrameStart> FrameStart( );
   template<typename U = T >
-  void FrameStart( typename std::enable_if_t<!SystemTraits<U>::HasFrameStart>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasFrameStart> FrameStart( );
 
   template<typename U = T>
-  void PreProcess( typename std::enable_if_t<SystemTraits<U>::HasPreProcess>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasPreProcess> PreProcess( );
   template<typename U = T >
-  void PreProcess( typename std::enable_if_t<!SystemTraits<U>::HasPreProcess>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasPreProcess> PreProcess(  );
 
   template<typename U = T>
-  void Process( typename std::enable_if_t<SystemTraits<U>::HasProcess>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasProcess> Process( );
   template<typename U = T >
-  void Process( typename std::enable_if_t<!SystemTraits<U>::HasProcess>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasProcess> Process( );
 
   template<typename U = T>
-  void PostProcess(typename std::enable_if_t<SystemTraits<U>::HasPostProcess>* = nullptr);
+  typename std::enable_if_t<SystemTraits<U>::HasPostProcess> PostProcess( );
   template<typename U = T >
-  void PostProcess(typename std::enable_if_t<!SystemTraits<U>::HasPostProcess>* = nullptr);
+  typename std::enable_if_t<!SystemTraits<U>::HasPostProcess> PostProcess( );
 
   template<typename U = T>
-  void VoidUpdate( typename std::enable_if_t<SystemTraits<U>::HasVoidUpdate>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasVoidUpdate> VoidUpdate( );
   template<typename U = T >
-  void VoidUpdate( typename std::enable_if_t<!SystemTraits<U>::HasVoidUpdate>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasVoidUpdate> VoidUpdate( );
 
   template<typename U = T>
-  void DtUpdate( float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtUpdate>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasDtUpdate> DtUpdate( float Dt );
   template<typename U = T >
-  void DtUpdate( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtUpdate>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasDtUpdate> DtUpdate( float Dt );
 
   template<typename U = T>
-  void FixedUpdate( float Dt, typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate> FixedUpdate( float Dt );
   template<typename U = T >
-  void FixedUpdate( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate> FixedUpdate( float Dt );
 
   template<typename U = T>
-  void FrameEnd( typename std::enable_if_t<SystemTraits<U>::HasFrameEnd>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasFrameEnd> FrameEnd( );
   template<typename U = T >
-  void FrameEnd( typename std::enable_if_t<!SystemTraits<U>::HasFrameEnd>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasFrameEnd> FrameEnd( );
 
   template<typename U = T>
-  void SetDt( float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtMember>* = nullptr );
+  typename std::enable_if_t<SystemTraits<U>::HasDtMember> SetDt( float Dt );
   template<typename U = T >
-  void SetDt( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtMember>* = nullptr );
+  typename std::enable_if_t<!SystemTraits<U>::HasDtMember> SetDt( float Dt );
 
 
   template<typename U = T>
-  void InitWorld(World &world, typename std::enable_if_t<SystemTraits<U>::HasInitWorld>* = nullptr);
+  typename std::enable_if_t<SystemTraits<U>::HasInitWorld> InitWorld( World &world );
   template<typename U = T >
-  void InitWorld(World &world, typename std::enable_if_t<!SystemTraits<U>::HasInitWorld>* = nullptr);
+  typename std::enable_if_t<!SystemTraits<U>::HasInitWorld> InitWorld( World &world );
 
 
   virtual void AddSystem( World &world ) final;

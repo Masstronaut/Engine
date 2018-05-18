@@ -1,7 +1,7 @@
 #pragma once
 #include <tuple>
 #include <string>
-#include "../include/EntityRef.hpp"
+#include "../include/entity/EntityRef.hpp"
 
 #include "../include/World.hpp"
 

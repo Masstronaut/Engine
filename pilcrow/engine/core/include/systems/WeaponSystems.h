@@ -1,7 +1,5 @@
 #pragma once
-#include <glm/glm.hpp>
-
-#include "../Component/WeaponComponents.h"
+#include "../Components/WeaponComponents.h"
 #include "../Components/Transform.h"
 
 struct InputSource {

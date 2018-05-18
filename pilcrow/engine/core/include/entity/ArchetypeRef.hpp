@@ -1,5 +1,6 @@
 #pragma once
-#include "../EntityRef.hpp"
+#include "EntityRef.hpp"
+
 class ArchetypeRef : private EntityRef {
 public:
   ArchetypeRef( const ArchetypeRef& ) = default;
@@ -17,6 +18,10 @@ public:
   Component& Add( Args&&... args );
   template<typename Component>
   void Remove( );
+
+  // These friend classes are needed for archetype spawning.
+  // They need to access the world this archetype is in
+  // to access the data needed to spawn an instance of it.
   friend class Simulation;
   friend class World;
 private:
