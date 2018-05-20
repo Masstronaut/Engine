@@ -138,6 +138,7 @@ set(src_files
   "src/Simulation.cpp"
   "src/World.cpp"
   "src/World.inl"
+  "src/SettingsFileReader.cpp"
 )
 
 foreach(include_file IN ITEMS ${include_files})

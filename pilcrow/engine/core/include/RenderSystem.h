@@ -3,7 +3,6 @@
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
 #include "Components/Transform.h"
-#include "Camera.hpp"
 
 #include "SettingsFileReader.hpp"
 #include <Jellyfish.h>
