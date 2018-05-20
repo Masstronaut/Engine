@@ -1,6 +1,9 @@
 #VS 2017 introduced in this version
 cmake_minimum_required(VERSION 3.7.2)
 
+#Specify build types
+SET(CMAKE_CONFIGURATION_TYPES "Debug;Release" CACHE STRING "Configurations" FORCE)
+
 #Name of the project
 project(Engine)
 

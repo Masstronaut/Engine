@@ -62,10 +62,12 @@ template<typename... Args>
     */
     if constexpr( std::is_same_v<Component, T1> ) {
       return m_Self.Get<Component>( );
+    } else if constexpr (std::is_same_v<Component, T2>) {
+      return this->GetMutable<Component, T2>();
     } else if constexpr( sizeof...( FnArgs ) ) {
-      return this->GetMutable<Component, T2, FnArgs...>( );
+      return this->GetMutable<Component, FnArgs...>( );
     } else {
-      return this->GetMutable<Component, T2>( );
+      static_assert(0, "Error: Trying to access a component on a constrained entity which does not have that component as a constraint.");
     }
   }
 
