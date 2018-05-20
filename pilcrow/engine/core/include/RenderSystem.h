@@ -38,7 +38,8 @@ struct RenderSystem {
 		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
-		world.On([&](const Jellyfish::GLWindow::EWindowResized &event) {
+		world.On([&](const Jellyfish::GLWindow::EWindowResized &event) 
+		{
 			m_windowSize = event.newSize;
 		});
 		
@@ -60,6 +61,63 @@ struct RenderSystem {
 
 	void Process(const CModel &model, const Transform &tf) const 
 	{	
+		//TODO: implement bucket-based rendering.
+		//Functionality will mustly be implemented in jellyfish, but the API calls related to entities will happen here.
+
+		//for each (entity e)
+		//{
+		//	submit_draw_call_to_bucket(shadow_map, e);
+		//	submit_draw_call_to_bucket(g_buffer, e);
+		//	...
+		//}
+
+		//TODO: Buckets will be filled in Jellyfish backend based on the states assigned to the object being drawn
+		//template <typename T>
+		//class CommandBucket
+		//{
+		//	typedef T Key;
+		//	...
+		//
+		//private:
+		//	Key * m_keys;
+		//	void** m_data;
+		//};
+		//example usage:
+		//CommandBucket<uint64_t> gBufferBucket(2048, rt1, rt2, rt3, rt4, dst, someCamera->viewMatrix, someCamera->projMatrix);
+
+		
+		//you HAVE to ask the renderQueue to hand a draw call to you :
+		//EXAMPLE:
+		//IndexedDrawCall* dc = renderQueue::CreateIndexedDrawCall();
+		//dc->SetVertexBuffer(mesh->vertexBuffer);
+		//dc->SetIndexBuffer(mesh->indexBuffer);
+		//dc->SetCullState(CULLSTATE_BACK);
+		//renderQueue::Submit(dc);
+
+		//using commands, --not yet implemented
+		//for (size_t i = 0; i < meshComponents.size(); ++i)
+		//{
+		//	MeshComponent* mesh = &meshComponents[i];
+		//
+		//	commands::DrawIndexed* dc = gBuffer.AddCommand<commands::DrawIndexed>(GenerateKey(mesh->aabb, mesh->material));
+		//	dc->vertexLayoutHandle = mesh->vertexLayout;
+		//	dc->vertexBuffer = mesh->vertexBuffer;
+		//	dc->indexBuffer = mesh->indexBuffer;
+		//	dc->indexCount = mesh->indexCount;
+		//	dc->startIndex = 0u;
+		//	dc->baseVertex = 0u;
+		//}
+
+		//Keep track of the currently set vertex buffer, index buffer, cull state, alpha state, texture samplers, etc.
+		//Whenever someone calls dc->Set<some>State(), simply change the IndexedDrawCall member for that state
+		
+		//For each Submit*() call, insert a new draw call into the queue.Our queue in this case would be raw memory, 
+	    //and we would simply store the type of the operation(an indexed draw call), the key(used for sorting), 
+	    //and all data that goes along with the draw call(in our case all the current states).After that, 
+	    //we reset all our internal state members to their default value.
+
+		
+
 		if (!camera) return;
 		glm::mat4 modelMatrix;
 		modelMatrix = glm::translate(modelMatrix, tf.position);
@@ -100,12 +158,22 @@ struct RenderSystem {
 
 	void Draw() 
 	{
-		//TODO
+		//TODO - tell renderer to draw everything in the renderqueues
+		//currently the model's draw call happens in Process
 	}
 
 	void FrameEnd() 
 	{
-		//send to Renderer
+		//TODO
+
+		//Upon a call to Sort(), we simply sort all the keys using e.g.a radix sort.
+		//renderQueue::Sort();
+		
+		//Upon a call to Flush(), we walk the sorted array of operations, fetch the type, fetch the data, 
+		//and call the respective render backend functions.It’s very similar to implementing a simple virtual machine.
+		//renderQueue::Flush();
+
+		
 		Draw();
 	}
 
