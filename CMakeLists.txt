@@ -49,3 +49,8 @@ if (MSVC_VERSION GREATER_EQUAL "1900")
 endif()
 
 add_subdirectory(pilcrow)
+
+# Including custom cmake rules
+#CMake rule for clangfmt
+include(cmake/clangfmt.cmake)
+
