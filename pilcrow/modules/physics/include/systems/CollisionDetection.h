@@ -2,14 +2,12 @@
 
 #include <entity/EntitiesWith.hpp>
 
-#include <components/Transform.h>
 #include "../../include/components/Body.h"
+#include <components/Transform.h>
 
-
-class CollisionDetection
-{
+class CollisionDetection {
 public:
-	EntitiesWith<Transform, Body> Entities;
+  EntitiesWith<Transform, Body> Entities;
 
-	void Update(float dt);
+  void Update(float dt);
 };

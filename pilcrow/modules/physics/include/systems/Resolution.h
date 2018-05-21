@@ -2,13 +2,12 @@
 
 #include <entity/EntitiesWith.hpp>
 
-#include <components/Transform.h>
 #include "../../include/Components/Body.h"
+#include <components/Transform.h>
 
-class Resolution
-{
+class Resolution {
 public:
-	EntitiesWith<Transform, Body> Entities;
+  EntitiesWith<Transform, Body> Entities;
 
-	void Update(float dt);
+  void Update(float dt);
 };

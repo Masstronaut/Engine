@@ -52,5 +52,5 @@ add_subdirectory(pilcrow)
 
 # Including custom cmake rules
 #CMake rule for clangfmt
-include(cmake/clangfmt.cmake)
+
 

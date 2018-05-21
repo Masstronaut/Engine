@@ -1,3 +1,17 @@
+
+file(GLOB_RECURSE files RELATIVE ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/*)
+set(fmtfiles "")
+foreach(formattedfile ${files})
+  get_filename_component(filepath ${formattedfile} DIRECTORY)
+  get_filename_component(filename ${formattedfile} NAME)
+  if(NOT ${filepath} MATCHES "^dependencies")
+    if(NOT ${filename} MATCHES "CMakeLists.txt")
+      list(APPEND fmtfiles ${formattedfile})
+    endif()
+  endif()
+endforeach()
+
+
 find_program(CLANG_FORMAT "clang-format")
 if(CLANG_FORMAT)
 add_custom_target(
@@ -11,3 +25,4 @@ add_custom_target(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )
 endif()
+MESSAGE(${fmtfiles})
