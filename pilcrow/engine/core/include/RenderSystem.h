@@ -49,10 +49,10 @@ struct RenderSystem {
     m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
     if(camEntities.cbegin() != camEntities.cend()) {
       camera = &camEntities[0].Get<const Camera>();
-      m_persp_projection =
-        glm::perspective(glm::radians(camera->fov),
-                         m_windowSize.x / m_windowSize.y, camera->nearplane,
-                         camera->farplane);
+      m_persp_projection
+        = glm::perspective(glm::radians(camera->fov),
+                           m_windowSize.x / m_windowSize.y, camera->nearplane,
+                           camera->farplane);
       program.SetUniform("projection", m_persp_projection);
       program.SetUniform("view", camera->View());
     }
@@ -64,12 +64,12 @@ struct RenderSystem {
     modelMatrix = glm::translate(modelMatrix, tf.position);
     modelMatrix = glm::scale(modelMatrix, tf.scale);
 
-    modelMatrix =
-      glm::rotate(modelMatrix, tf.rotation.x, glm::vec3(1.f, 0.f, 0.f));
-    modelMatrix =
-      glm::rotate(modelMatrix, tf.rotation.y, glm::vec3(0.f, 1.f, 0.f));
-    modelMatrix =
-      glm::rotate(modelMatrix, tf.rotation.z, glm::vec3(0.f, 0.f, 1.f));
+    modelMatrix
+      = glm::rotate(modelMatrix, tf.rotation.x, glm::vec3(1.f, 0.f, 0.f));
+    modelMatrix
+      = glm::rotate(modelMatrix, tf.rotation.y, glm::vec3(0.f, 1.f, 0.f));
+    modelMatrix
+      = glm::rotate(modelMatrix, tf.rotation.z, glm::vec3(0.f, 0.f, 1.f));
 
     program.SetUniform("model", modelMatrix);
 

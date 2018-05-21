@@ -14,8 +14,8 @@ World &Simulation::CreateWorld(const std::string &name) {
 World &Simulation::GetWorld(const std::string &name) {
   auto result{m_Worlds.find(name)};
   if(result != m_Worlds.end()) { return result->second; }
-  assert(0 &&
-         "The world you attempted to get doesn't exist. Try CreateWorld()");
+  assert(0
+         && "The world you attempted to get doesn't exist. Try CreateWorld()");
   return CreateWorld(name);
 }
 

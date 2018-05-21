@@ -122,8 +122,8 @@ bool GLProgram::SetUniform(const std::string &name, const glm::mat4 &mat) {
   return false;
 }
 
-const GLProgram::ShaderVariable *GLProgram::GetVariable(
-  const std::string &name) const {
+const GLProgram::ShaderVariable *
+GLProgram::GetVariable(const std::string &name) const {
   auto it{m_variables.find(name)};
   if(it != m_variables.end()) { return &(it->second); }
   return nullptr;

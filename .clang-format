@@ -32,7 +32,7 @@ BraceWrapping:
   BeforeCatch:     false
   BeforeElse:      false
   IndentBraces:    false
-BreakBeforeBinaryOperators: None
+BreakBeforeBinaryOperators: All
 BreakBeforeBraces: Attach
 BreakBeforeTernaryOperators: true
 BreakConstructorInitializersBeforeComma: true
@@ -52,7 +52,7 @@ IncludeCategories:
     Priority:        3
   - Regex:           '.*'
     Priority:        1
-IndentCaseLabels: false
+IndentCaseLabels: true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
@@ -61,11 +61,11 @@ MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
 NamespaceIndentation: None
 PenaltyBreakBeforeFirstCallParameter: 1000
-PenaltyBreakComment: 500
+PenaltyBreakComment: 50
 PenaltyBreakFirstLessLess: 500
 PenaltyBreakString: 1000
 PenaltyExcessCharacter: 1000000
-PenaltyReturnTypeOnItsOwnLine: 900
+PenaltyReturnTypeOnItsOwnLine: 50
 PointerAlignment: Right
 ReflowComments:  true
 SortIncludes:    true

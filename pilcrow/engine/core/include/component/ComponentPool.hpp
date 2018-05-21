@@ -11,8 +11,8 @@ public:
   ComponentPoolBase(const ComponentPoolBase &) = delete;
   virtual void *Get(EntityID ID)               = 0;
   virtual EntityID Clone(EntityID ID)          = 0;
-  virtual std::pair<std::type_index, EntityID> Clone(EntityID ID,
-                                                     World &world) = 0;
+  virtual std::pair<std::type_index, EntityID> Clone(EntityID ID, World &world)
+    = 0;
   virtual ~ComponentPoolBase() {}
 
 private:

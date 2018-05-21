@@ -30,8 +30,8 @@ public:
 namespace detail {
 
 template <typename ReturnType, typename Class, typename... Args>
-EntitiesWith<std::remove_reference_t<Args>...> EntitiesToProcessHelper(
-  ReturnType (Class::*Fn)(Args...) const) {
+EntitiesWith<std::remove_reference_t<Args>...>
+EntitiesToProcessHelper(ReturnType (Class::*Fn)(Args...) const) {
   return EntitiesWith<std::remove_reference_t<Args>...>{};
 }
 template <typename U>
@@ -101,11 +101,11 @@ private:
   typename std::enable_if_t<!SystemTraits<U>::HasDtUpdate> DtUpdate(float Dt);
 
   template <typename U = T>
-  typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate> FixedUpdate(
-    float Dt);
+  typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate>
+  FixedUpdate(float Dt);
   template <typename U = T>
-  typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate> FixedUpdate(
-    float Dt);
+  typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate>
+  FixedUpdate(float Dt);
 
   template <typename U = T>
   typename std::enable_if_t<SystemTraits<U>::HasFrameEnd> FrameEnd();
@@ -118,11 +118,11 @@ private:
   typename std::enable_if_t<!SystemTraits<U>::HasDtMember> SetDt(float Dt);
 
   template <typename U = T>
-  typename std::enable_if_t<SystemTraits<U>::HasInitWorld> InitWorld(
-    World &world);
+  typename std::enable_if_t<SystemTraits<U>::HasInitWorld>
+  InitWorld(World &world);
   template <typename U = T>
-  typename std::enable_if_t<!SystemTraits<U>::HasInitWorld> InitWorld(
-    World &world);
+  typename std::enable_if_t<!SystemTraits<U>::HasInitWorld>
+  InitWorld(World &world);
 
   virtual void AddSystem(World &world) final;
   void RegisterEntities(World &world);

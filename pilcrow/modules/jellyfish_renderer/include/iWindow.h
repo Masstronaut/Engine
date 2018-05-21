@@ -19,13 +19,12 @@ struct Cursor {
   // bool Clicked() const;
   // int Held() const;
   // bool Released() const;
-  glm::dvec2 position{0.,
-                      0.};  // this could be improved but not worth it probably
+  // this could be improved but not worth it probably
+  glm::dvec2 position{0., 0.};
   glm::dvec2 wheel{0., 0.};
-  int        buttonStates[10]{0, 0, 0, 0, 0,
-                       0, 0, 0, 0, 0};  // glfw only supports 10 buttons
-  int buttonHeld[10]{0, 0, 0, 0, 0,
-                     0, 0, 0, 0, 0};  // glfw only supports 10 buttons
+  // glfw only supports 10 buttons
+  int        buttonStates[10]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+  int        buttonHeld[10]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
   CursorMode mode{CursorMode::normal};
 };
 
@@ -77,7 +76,8 @@ public:
   virtual ~iWindow() {}
 
   virtual void CreateGameWindow(unsigned width, unsigned height,
-                                bool fullscreen, std::string title) = 0;
+                                bool fullscreen, std::string title)
+    = 0;
   virtual void UpdateGameWindow()  = 0;
   virtual void DisplayGameWindow() = 0;
 

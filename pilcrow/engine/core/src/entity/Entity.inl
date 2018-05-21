@@ -6,8 +6,8 @@
 
 template <typename Component>
 bool Entity::Has() const {
-  return m_Components.count(std::type_index(typeid(std::decay_t<Component>))) >
-         0;
+  return m_Components.count(std::type_index(typeid(std::decay_t<Component>)))
+         > 0;
 }
 
 template <typename Component, typename Component2, typename... Components>

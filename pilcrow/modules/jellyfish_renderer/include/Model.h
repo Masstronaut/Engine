@@ -46,9 +46,9 @@ private:
   virtual void UnloadImpl() final;
 
   // TODO: fix so not GL
-  std::vector<GLMesh>                     m_Meshes;
-  std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(
-    aiMaterial *mat, aiTextureType type);
+  std::vector<GLMesh> m_Meshes;
+  std::vector<std::shared_ptr<GLTexture>>
+  LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
 
   // assimp laoders -- will probably move out of Model once we have a proper
   // memory management system

@@ -66,8 +66,9 @@ struct ChargeWeaponSystem {
       if(!cw.LoseChargeOverTime)
         cw.CurrentCharge = 0.f;
       else
-        cw.CurrentCharge -= std::
-          min(Dt, cw.CurrentCharge);  // Assuming Currentcharge can't go below 0
+        cw.CurrentCharge -= std::min(Dt, cw.CurrentCharge);  // Assuming
+                                                             // Currentcharge
+                                                             // can't go below 0
     } else {
       cw.CurrentCharge += Dt;
       if(cw.CurrentCharge < cw.MinChargeTime) return;

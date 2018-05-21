@@ -23,10 +23,10 @@ namespace Jellyfish {
 // convert into an API-specific mesh type (BO's & CB's).
 // Currently just uses GL mesh, TODO: multi-platform this
 GLMesh Model::Assimp_ProcessMesh(aiMesh &mesh, const aiScene &scene) {
-  std::vector<Vertex>       vertices;
-  std::vector<unsigned int> indices;
-  std::vector<std::shared_ptr<GLTexture>>
-    textures;  // TODO: fix for multuiplatform
+  std::vector<Vertex>                     vertices;
+  std::vector<unsigned int>               indices;
+  std::vector<std::shared_ptr<GLTexture>> textures;  // TODO: fix for
+                                                     // multuiplatform
 
   // Get Vertex Data
   for(unsigned i{0}; i < mesh.mNumVertices; ++i) {
@@ -133,10 +133,10 @@ bool Model::Assimp_LoadModelFromFile(const std::string &path,
 
   std::cout << "Assimp is parsing the file..." << std::endl;
 
-  const aiScene *scene =
-    importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs |
-                              aiProcess_CalcTangentSpace |
-                              aiProcess_GlobalScale);
+  const aiScene *scene
+    = importer.ReadFile(path, aiProcess_Triangulate | aiProcess_FlipUVs
+                                | aiProcess_CalcTangentSpace
+                                | aiProcess_GlobalScale);
 
   if(!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
     // error out if file couldn't be read

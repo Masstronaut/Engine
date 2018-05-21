@@ -51,8 +51,8 @@ void GLWindow::CreateGameWindow(unsigned width, unsigned height,
       // Create a restored resizable window at specified resolution
       glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
       m_Size = glm::uvec2(width, height);
-      m_WindowHandle =
-        glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+      m_WindowHandle
+        = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
     }
 
     if(!m_WindowHandle) {
@@ -160,28 +160,28 @@ void GLWindow::SetWindowState(WindowState state) {
 
     // TODO: stringify events at compile time for friendly output
     switch(state) {
-    case WindowState::maximized:
-      glfwMaximizeWindow(m_WindowHandle);
-      std::cout << "Window state was changed to: "
-                << "maximized" << std::endl;
-      break;
-    case WindowState::minimized:
-      glfwIconifyWindow(m_WindowHandle);
-      std::cout << "Window state was changed to: "
-                << "minimized" << std::endl;
-      break;
-    case WindowState::restored:
-      glfwRestoreWindow(m_WindowHandle);
-      std::cout << "Window state was changed to: "
-                << "restored" << std::endl;
-      break;
-    case WindowState::closed:
-      glfwSetWindowShouldClose(m_WindowHandle, true);
-      std::cout << "Window state was changed to: "
-                << "closed" << std::endl;
-      break;
-    default:
-      return;
+      case WindowState::maximized:
+        glfwMaximizeWindow(m_WindowHandle);
+        std::cout << "Window state was changed to: "
+                  << "maximized" << std::endl;
+        break;
+      case WindowState::minimized:
+        glfwIconifyWindow(m_WindowHandle);
+        std::cout << "Window state was changed to: "
+                  << "minimized" << std::endl;
+        break;
+      case WindowState::restored:
+        glfwRestoreWindow(m_WindowHandle);
+        std::cout << "Window state was changed to: "
+                  << "restored" << std::endl;
+        break;
+      case WindowState::closed:
+        glfwSetWindowShouldClose(m_WindowHandle, true);
+        std::cout << "Window state was changed to: "
+                  << "closed" << std::endl;
+        break;
+      default:
+        return;
     }
     m_State = state;
   }  // endif
@@ -219,13 +219,13 @@ void GLWindow::PollInput(std::vector<int> &keyarray) {
   // determine if a button is held, TODO: cursorClickedState array, just doing
   // for all buttons right now
   for(int i = 0; i < 10; ++i) {
-    if((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_PRESS) &&
-       (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_PRESS)) {
+    if((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_PRESS)
+       && (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_PRESS)) {
       g_singleton_window->m_Cursor.buttonHeld[i] = GLFW_PRESS;
       std::cout << "Button state changed to held for button: " << i
                 << std::endl;
-    } else if((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_RELEASE) &&
-              (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_RELEASE)) {
+    } else if((g_singleton_window->m_Cursor.buttonStates[i] == GLFW_RELEASE)
+              && (g_singleton_window->m_Cursor.buttonHeld[i] != GLFW_RELEASE)) {
       g_singleton_window->m_Cursor.buttonHeld[i] = GLFW_RELEASE;
       std::cout << "Button state changed to normal for button: " << i
                 << std::endl;
@@ -261,7 +261,7 @@ void GLWindow::Callback_CursorPosition(GLFWwindow *windowhandle, double xpos,
   EMouseMoved event;
   event.newPosition = glm::dvec2{xpos, ypos};
   event.oldPosition = g_singleton_window->m_Cursor.position;
-  event.cursorData = g_singleton_window->m_Cursor;  // shallow copy?
+  event.cursorData  = g_singleton_window->m_Cursor;  // shallow copy?
   g_singleton_window->Emit(event);
 
   // update pos
@@ -302,18 +302,18 @@ void GLWindow::Callback_MouseButton(GLFWwindow *window, int button, int action,
   // get the proper name from the action
   std::string actionName;
   switch(action) {
-  case GLFW_RELEASE: {
-    actionName = "Released";
-    break;
-  }
-  case GLFW_PRESS: {
-    actionName = "Pressed";
-    break;
-  }
-  case GLFW_REPEAT: {
-    actionName = "Repeat";
-    break;
-  }
+    case GLFW_RELEASE: {
+      actionName = "Released";
+      break;
+    }
+    case GLFW_PRESS: {
+      actionName = "Pressed";
+      break;
+    }
+    case GLFW_REPEAT: {
+      actionName = "Repeat";
+      break;
+    }
   }
 
   // get the proper name from the button number, assumes 0 and 1 are left and
@@ -322,22 +322,22 @@ void GLWindow::Callback_MouseButton(GLFWwindow *window, int button, int action,
   switch(button)  // glfw defines are set from 1 to 8, int vales 0 to 7, last,
                   // left, right, middle
   {
-  case GLFW_MOUSE_BUTTON_LEFT: {
-    buttonName = "Left";
-    break;
-  }
-  case GLFW_MOUSE_BUTTON_RIGHT: {
-    buttonName = "Right";
-    break;
-  }
-  case GLFW_MOUSE_BUTTON_MIDDLE: {
-    buttonName = "Middle";
-    break;
-  }
-  default: {
-    buttonName = std::to_string(button);
-    break;
-  }
+    case GLFW_MOUSE_BUTTON_LEFT: {
+      buttonName = "Left";
+      break;
+    }
+    case GLFW_MOUSE_BUTTON_RIGHT: {
+      buttonName = "Right";
+      break;
+    }
+    case GLFW_MOUSE_BUTTON_MIDDLE: {
+      buttonName = "Middle";
+      break;
+    }
+    default: {
+      buttonName = std::to_string(button);
+      break;
+    }
   }
 
   std::cout << "Mouse was Activated.  Button: " << buttonName

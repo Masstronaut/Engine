@@ -27,7 +27,7 @@ inline ComponentPool<Component>::ComponentPool(World &world) {
       world.AddSystem([&, time = 0.f ](float dt) {
         time += dt;
         //@@TODO: change this to use whatever the fixed update frequency
-        //specified is
+        // specified is
         if(time >= 1.f / 60.f) {
           time -= 1.f / 60.f;
           for(auto &comp : components)
@@ -57,8 +57,8 @@ inline EntityID ComponentPool<Component>::Clone(EntityID ID) {
 }
 
 template <typename Component>
-std::pair<std::type_index, EntityID> ComponentPool<Component>::Clone(
-  EntityID ID, World &world) {
+std::pair<std::type_index, EntityID>
+ComponentPool<Component>::Clone(EntityID ID, World &world) {
   return std::make_pair(std::type_index(typeid(Component)),
                         world.GetComponentPool<Component>().components.insert(
                           this->components[ID]));

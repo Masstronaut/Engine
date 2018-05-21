@@ -6,7 +6,7 @@ struct Wildcard {
   template <typename T>
   operator T();
 };
-}
+}  // namespace detail
 
 namespace detail {
 // Implementation of is_pointer_to_const_member_function
@@ -37,7 +37,7 @@ struct is_pointer_to_const_member_function<R (T::*)(Args..., ...) const &>
 template <class R, class T, class... Args>
 struct is_pointer_to_const_member_function<R (T::*)(Args..., ...) const &&>
   : std::true_type {};
-};
+};  // namespace detail
 
 namespace detail {
 // code from Ubsan (Nicole Mazzuca) on cpplang.slack.com
@@ -50,28 +50,23 @@ struct is_member_function<R (C::*)(Ts...) const> : std::true_type {};
 
 template <typename T>
 constexpr bool is_member_function_v = is_member_function<T>::value;
-}
+}  // namespace detail
 
 #define GENERATE_DETECT_HAS_VEC_FIELD(FIELD)                                   \
-  \
-template<typename T>                                                           \
-    \
-using FIELD##_field =                                                          \
-      decltype(std::declval<T &>().FIELD.x + std::declval<T &>().FIELD.y);     \
-  \
-template<typename T>                                                           \
-    \
-using has_##FIELD##_field = is_detected<FIELD##_field, T>;                     \
-  \
-template<typename T>                                                           \
-    \
-constexpr bool has_##FIELD##_field_v = has_##FIELD##_field<T>::value;          \
-  \
-template<typename T>                                                           \
-    \
-constexpr size_t FIELD##_field_size = sizeof(                                  \
-      std::conditional_t<has_##FIELD##_field_v<T>,                             \
-                         decltype(std::declval<T &>().FIELD), void_t<T>>);
+  template <typename T>                                                        \
+  using FIELD##_field                                                          \
+    = decltype(std::declval<T &>().FIELD.x + std::declval<T &>().FIELD.y);     \
+                                                                               \
+  template <typename T>                                                        \
+  using has_##FIELD##_field = is_detected<FIELD##_field, T>;                   \
+                                                                               \
+  template <typename T>                                                        \
+  constexpr bool has_##FIELD##_field_v = has_##FIELD##_field<T>::value;        \
+                                                                               \
+  template <typename T>                                                        \
+  constexpr size_t FIELD##_field_size = sizeof(                                \
+    std::conditional_t<has_##FIELD##_field_v<T>,                               \
+                       decltype(std::declval<T &>().FIELD), void_t<T>>);
 
 GENERATE_DETECT_HAS_VEC_FIELD(position);
 GENERATE_DETECT_HAS_VEC_FIELD(normal);
@@ -80,18 +75,15 @@ GENERATE_DETECT_HAS_VEC_FIELD(tangent);
 GENERATE_DETECT_HAS_VEC_FIELD(bitangent);
 
 #define GENERATE_DETECT_HAS_VOID_MEMFN(FN)                                     \
-  \
-template<typename T>                                                           \
-    \
-using FN##MemFn = decltype(std::declval<T &>().FN());                          \
-  \
-template<typename T>                                                           \
-    \
-using Has##FN##MemFn = is_detected<FN##MemFn, T>;                              \
-  \
-template<typename T>                                                           \
-    \
-constexpr bool Has##FN##MemFn_v = Has##FN##MemFn<T>::value;
+                                                                               \
+  template <typename T>                                                        \
+  using FN##MemFn = decltype(std::declval<T &>().FN());                        \
+                                                                               \
+  template <typename T>                                                        \
+  using Has##FN##MemFn = is_detected<FN##MemFn, T>;                            \
+                                                                               \
+  template <typename T>                                                        \
+  constexpr bool Has##FN##MemFn_v = Has##FN##MemFn<T>::value;
 
 // MEMFN function detection
 GENERATE_DETECT_HAS_VOID_MEMFN(Update);
@@ -107,8 +99,8 @@ GENERATE_DETECT_HAS_VOID_MEMFN(PreProcess);
 GENERATE_DETECT_HAS_VOID_MEMFN(PostProcess);
 
 template <typename T>
-using UpdateDTMemFn =
-  decltype(std::declval<T &>().Update(std::declval<float>()));
+using UpdateDTMemFn
+  = decltype(std::declval<T &>().Update(std::declval<float>()));
 template <typename T>
 using HasUpdateDTMemFn = is_detected<UpdateDTMemFn, T>;
 template <typename T>
@@ -116,8 +108,8 @@ constexpr bool HasUpdateDTMemFn_v = HasUpdateDTMemFn<T>::value;
 
 class World;
 template <typename T>
-using InitWorldMemFn =
-  decltype(std::declval<T &>().Init(std::declval<World &>()));
+using InitWorldMemFn
+  = decltype(std::declval<T &>().Init(std::declval<World &>()));
 template <typename T>
 using HasInitWorldMemFn = is_detected<InitWorldMemFn, T>;
 template <typename T>
@@ -191,16 +183,18 @@ template <typename T, typename = void>
 struct HasProcessMemFn : std::false_type {};
 
 template <typename T>
-struct HasProcessMemFn<
-  T, std::enable_if_t<detail::is_member_function_v<decltype(&T::Process)>>>
-  : std::true_type {};
+struct HasProcessMemFn<T,
+                       std::enable_if_t<detail::is_member_function_v<decltype(
+                         &T::Process)>>> : std::true_type {};
 
 template <typename T>
 constexpr bool HasProcessMemFn_v = HasProcessMemFn<T>::value;
 
+// clang-format off
 template <typename T>
-constexpr bool              IsParallelSystem_v =
-  HasPreProcessMemFn_v<T> &&HasProcessMemFn_v<T>;
+constexpr bool IsParallelSystem_v = HasPreProcessMemFn_v<T> 
+                                 && HasProcessMemFn_v<T>;
+//clang-format on
 
 template <typename T>
 using DetectDtMember = decltype(std::declval<T &>().Dt = 1.f);
@@ -213,8 +207,15 @@ constexpr bool HasDtMember_v = HasDtMember<T>::value;
 template <typename T>
 constexpr bool IsComponent_v = std::is_copy_constructible_v<T>;
 
+// Clang-format gets it really wrong on chained boolean operators
+// clang-format off
 template <typename T>
-constexpr bool IsPureComponent_v =
-  std::is_pod_v<T> && !HasUpdateMemFn_v<T> && !HasUpdateDTMemFn_v<T> &&
-  !HasEditorUpdateMemFn_v<T> && !HasOwner_v<T> && !HasFrameStartMemFn_v<T> &&
-  !HasFrameEndMemFn_v<T>;
+constexpr bool IsPureComponent_v
+  = std::is_pod_v<T> 
+  && !HasUpdateMemFn_v<T> 
+  && !HasUpdateDTMemFn_v<T> 
+  && !HasEditorUpdateMemFn_v<T> 
+  && !HasOwner_v<T> 
+  && !HasFrameStartMemFn_v<T> 
+  && !HasFrameEndMemFn_v<T>;
+// clang-format on

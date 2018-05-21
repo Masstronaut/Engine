@@ -72,8 +72,8 @@ bool Model::LoadImpl() {
 
 void Model::UnloadImpl() {}
 
-std::vector<std::shared_ptr<GLTexture>> Model::LoadMaterialTextures(
-  aiMaterial *mat, aiTextureType type) {
+std::vector<std::shared_ptr<GLTexture>>
+Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type) {
   std::vector<std::shared_ptr<GLTexture>> textures;
   static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
 
@@ -86,8 +86,8 @@ std::vector<std::shared_ptr<GLTexture>> Model::LoadMaterialTextures(
     if(it != loaded.end()) {
       textures.push_back(it->second);
     } else {
-      auto res =
-        loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
+      auto res
+        = loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
       textures.push_back(res.first->second);
 
       if(type == aiTextureType_DIFFUSE)

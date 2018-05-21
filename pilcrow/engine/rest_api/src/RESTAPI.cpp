@@ -52,15 +52,15 @@ void REST_VM::handle_request(web::http::http_request message) {
       if(paths.empty()) {
         // @@TODO: return contents of the world.
         message.reply(web::http::status_codes::OK,
-                      "The world \"" + world_name +
-                        "\" was found successfully.");
+                      "The world \"" + world_name
+                        + "\" was found successfully.");
       } else if(paths[0] == U("Entities")) {
         if(paths.size() == 1) {
           //@@TODO: return list of all entities
 
           message.reply(web::http::status_codes::OK,
-                        "Retrieving all entities of of the world \"" +
-                          world_name + "\".");
+                        "Retrieving all entities of of the world \""
+                          + world_name + "\".");
         } else if(paths.size() > 1) {
           utility::istringstream_t iss(paths[1]);
           EntityID                 ID;
@@ -70,11 +70,11 @@ void REST_VM::handle_request(web::http::http_request message) {
           Entity *entity{world.GetEntity(ID)};
           if(entity) {
             message.reply(web::http::status_codes::OK,
-                          U("The Entity with ID {") + paths[1] +
-                            U("} is named \"") +
-                            utility::string_t(entity->Name().begin(),
-                                              entity->Name().end()) +
-                            U("\""));
+                          U("The Entity with ID {") + paths[1]
+                            + U("} is named \"")
+                            + utility::string_t(entity->Name().begin(),
+                                                entity->Name().end())
+                            + U("\""));
           } else
             message.reply(web::http::status_codes::NotFound,
                           "Entity requested does not exist.");

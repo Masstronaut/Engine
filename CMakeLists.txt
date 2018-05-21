@@ -51,6 +51,6 @@ endif()
 add_subdirectory(pilcrow)
 
 # Including custom cmake rules
-#CMake rule for clangfmt
-
+#generate the compile commands used by clang-tidy and other tools
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 

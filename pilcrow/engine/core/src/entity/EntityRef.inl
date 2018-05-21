@@ -9,8 +9,8 @@ bool EntityRef::Has() const {
 }
 template <typename Component, typename Component2, typename... Components>
 bool EntityRef::Has() const {
-  return this->Has<Component>() && this->Has<Component2>() &&
-         this->Has<Components...>();
+  return this->Has<Component>() && this->Has<Component2>()
+         && this->Has<Components...>();
 }
 
 template <typename Component>

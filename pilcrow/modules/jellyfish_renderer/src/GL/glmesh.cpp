@@ -26,25 +26,25 @@ void GLMesh::Draw() const {
     std::string name;
 
     switch(m_Textures[i]->Type()) {
-    case iTexture::TextureType::diffuse: {
-      name = "diffuse";
-      name += std::to_string(diffuse++);
+      case iTexture::TextureType::diffuse: {
+        name = "diffuse";
+        name += std::to_string(diffuse++);
 
-      if(!m_shader->SetUniform(name, (int)i)) {
-        std::cout << "Error! Could not set shader uniform:" << name
-                  << std::endl;
-      } else {
-        glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
-        glActiveTexture(GL_TEXTURE0);
+        if(!m_shader->SetUniform(name, (int)i)) {
+          std::cout << "Error! Could not set shader uniform:" << name
+                    << std::endl;
+        } else {
+          glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
+          glActiveTexture(GL_TEXTURE0);
+        }
+
+        break;
       }
 
-      break;
-    }
-
-      // case iTexture::TextureType::specular:
-      //	name = "specular";
-      //	name += std::to_string(specular++);
-      //	break;
+        // case iTexture::TextureType::specular:
+        //	name = "specular";
+        //	name += std::to_string(specular++);
+        //	break;
     }
   }
 

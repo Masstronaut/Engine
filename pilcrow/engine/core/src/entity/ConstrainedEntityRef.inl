@@ -56,22 +56,6 @@ Component &ConstrainedEntityRef<Args...>::GetMutable() {
 template <typename... Args>
 template <typename Component, typename T1, typename T2, typename... FnArgs>
 Component &ConstrainedEntityRef<Args...>::GetMutable() {
-  /*
-  static_assert( !std::is_const_v<Component>, "This shouldn't happen. Please
-  send a bug report to Allan." );
-  static_assert( !std::is_reference_v<Component>,
-                 "References cannot be components. Try removing the reference
-  from your component list." );
-  if constexpr( std::is_same_v<Component, std::remove_const_t<T1>> ) {
-    static_assert( !std::is_const_v<T1>,
-                   "Error: Trying to get a non-const reference to a required
-  component marked as const." );
-    static_assert( std::is_same_v<Component, T1>,
-                   "An unknown error has occurred. Please submit a bug report
-  with your system source code." );
-    return m_Self.Get<Component>( );
-  }
-  */
   if
     constexpr(std::is_same_v<Component, T1>) { return m_Self.Get<Component>(); }
   else if
@@ -86,21 +70,6 @@ Component &ConstrainedEntityRef<Args...>::GetMutable() {
 template <typename... Args>
 template <typename Component, typename T1>
 const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
-  /*
-  static_assert( std::is_const_v<Component>, "This shouldn't happen. Please send
-  a bug report to Allan." );
-  static_assert( !std::is_reference_v<Component>,
-                 "References cannot be components. Try removing the reference
-  from your component list." );
-  static_assert( std::is_same_v<std::decay_t<Component>, std::decay_t<T1>>,
-                 "Accessing components not listed as required is not allowed."
-  );
-  static_assert( std::is_const_v<T1>,
-                 "Error: Cannot get non-const access to a component required as
-  const." );
-  static_assert( !std::is_reference_v<T1>, "Error: Reference types may not be
-  used as components." );
-  */
   if
     constexpr(std::is_same_v<Component, T1>) {
       // at this point the component is the right type, and can be given to the
@@ -115,13 +84,6 @@ const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
 template <typename... Args>
 template <typename Component, typename T1, typename T2, typename... FnArgs>
 const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
-  /*
-  static_assert( std::is_const_v<Component>, "This shouldn't happen. Please send
-  a bug report to Allan." );
-  static_assert( !std::is_reference_v<Component>,
-                 "References cannot be components. Try removing the reference
-  from your component list." );
-  */
   if
     constexpr(std::is_same_v<Component, T1>) { return m_Self.Get<Component>(); }
   else if

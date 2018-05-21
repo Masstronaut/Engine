@@ -11,26 +11,26 @@ inline typename EntitiesWith<Args...>::iterator EntitiesWith<Args...>::end() {
 }
 
 template <typename... Args>
-inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<
-  Args...>::begin() const {
+inline typename EntitiesWith<Args...>::const_iterator
+EntitiesWith<Args...>::begin() const {
   return m_Entities.cbegin();
 }
 
 template <typename... Args>
-inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<
-  Args...>::end() const {
+inline typename EntitiesWith<Args...>::const_iterator
+EntitiesWith<Args...>::end() const {
   return m_Entities.cend();
 }
 
 template <typename... Args>
-inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<
-  Args...>::cbegin() const {
+inline typename EntitiesWith<Args...>::const_iterator
+EntitiesWith<Args...>::cbegin() const {
   return m_Entities.cbegin();
 }
 
 template <typename... Args>
-inline typename EntitiesWith<Args...>::const_iterator EntitiesWith<
-  Args...>::cend() const {
+inline typename EntitiesWith<Args...>::const_iterator
+EntitiesWith<Args...>::cend() const {
   return m_Entities.cend();
 }
 
@@ -52,13 +52,13 @@ void EntitiesWith<Args...>::PushEntity(const EntityRef &entity) {
 }
 
 template <typename... Args>
-ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::operator[](
-  std::size_t pos) {
+ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::
+operator[](std::size_t pos) {
   return m_Entities[pos];
 }
 
 template <typename... Args>
-const ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::operator[](
-  std::size_t pos) const {
+const ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::
+operator[](std::size_t pos) const {
   return m_Entities[pos];
 }
