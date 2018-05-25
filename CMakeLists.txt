@@ -16,7 +16,7 @@ set(CMAKE_MODULE_PATH
 set(dependencies "${CMAKE_CURRENT_SOURCE_DIR}/pilcrow/dependencies")
 
 #Specify the root directory of the libraries 
-if(MSVC)
+#if(MSVC)
   set(GLFW_ROOT "${dependencies}/glfw/glfw-3.2.1")
   set(ASSIMP_ROOT "${dependencies}/assimp/assimp-4.0.1")
   set(GTEST_ROOT "${dependencies}/googletest/googletest-1.8.0")
@@ -26,7 +26,7 @@ if(MSVC)
   set(DETECTION_IDIOM_ROOT "${dependencies}/detection_idiom")
   set(SLOT_MAP_ROOT "${dependencies}/slot_map")
   
-endif(MSVC)
+#endif(MSVC)
 
 #Finding the specified libraries to be included later
 find_package(GLFW)

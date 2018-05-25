@@ -33,3 +33,5 @@
 /build
 Editor/node_modules
 Dependencies/lib/*
+
+compile_commands\.json

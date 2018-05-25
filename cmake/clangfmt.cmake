@@ -25,4 +25,3 @@ add_custom_target(
   WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
   )
 endif()
-MESSAGE(${fmtfiles})
