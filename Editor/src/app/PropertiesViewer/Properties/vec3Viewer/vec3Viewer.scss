@@ -1,0 +1,18 @@
+.vector3 { 
+    overflow: hidden; 
+    white-space: nowrap; 
+    margin-top: 2%;
+    text-align: right;
+}
+ 
+.vector3 input { 
+    width: 20%;
+} 
+    
+.name { 
+    float:left;
+    text-align: left;
+    font-size: 17px;
+    width: 20%;
+    min-width: 60px;
+}
