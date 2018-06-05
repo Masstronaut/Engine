@@ -1,6 +1,6 @@
 #pragma once
-#include "../World.hpp"
-#include "System.hpp"
+#include "../../include/World.hpp"
+#include "../../include/system/System.hpp"
 
 template <typename T>
 bool System<T>::HasEntities() const {

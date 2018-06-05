@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Detectors.hpp"
+#include "../Detectors.hpp"
 
 template <typename Component>
 struct ComponentTraits {

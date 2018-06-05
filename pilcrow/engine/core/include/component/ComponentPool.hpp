@@ -43,4 +43,4 @@ public:
 private:
   virtual void Erase(EntityID ID) final;
 };
-#include "../../src/Component/ComponentPool.inl"
+#include "../../src/component/ComponentPool.inl"

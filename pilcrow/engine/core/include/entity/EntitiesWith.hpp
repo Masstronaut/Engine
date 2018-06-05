@@ -45,4 +45,4 @@ private:
   void SwapPopEntity(std::size_t index) final;
   void PushEntity(const EntityRef &) final;
 };
-#include "../../src/Entity/EntitiesWith.inl"
+#include "../../src/entity/EntitiesWith.inl"

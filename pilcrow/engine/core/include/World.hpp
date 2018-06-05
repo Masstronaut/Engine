@@ -8,9 +8,9 @@
 #include <typeinfo>
 #include <vector>
 
-#include "Component/ComponentAggregate.hpp"
-#include "Component/ComponentPool.hpp"
-#include <Utils/include/EventArena.hpp>
+#include "component/ComponentAggregate.hpp"
+#include "component/ComponentPool.hpp"
+#include <utils/include/EventArena.hpp>
 
 class ArchetypeRef;
 class SystemBase;

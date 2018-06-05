@@ -2,11 +2,11 @@
 #include <algorithm>
 #include <functional>
 
-#include "Component/ComponentTraits.hpp"
-#include "Detectors.hpp"
-#include "Entity/Entity.hpp"
-#include "System/System.hpp"
-#include "System/SystemTraits.hpp"
+#include "../include/component/ComponentTraits.hpp"
+#include "../include/Detectors.hpp"
+#include "../include/entity/Entity.hpp"
+#include "../include/system/System.hpp"
+#include "../include/system/SystemTraits.hpp"
 
 template <typename T>
 T &World::GetComponent(EntityID entity) {

@@ -28,7 +28,7 @@ Component &EntityRef::Add(Args &&... args) {
   if(this->Has<Component>()) return this->Get<Component>();
 
   Component &component{
-    m_World->GetEntity(m_ID).Add(std::forward<Args>(args)...)};
+    m_World->GetEntity(m_ID)->Add(std::forward<Args>(args)...)};
   m_World->Emit(ComponentAddedEvent{*this, std::type_index(typeid(Component))});
   return component;
 }

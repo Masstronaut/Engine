@@ -2,7 +2,7 @@
 #include <functional>
 #include <utility>  // forward
 
-#include "../Entity/EntitiesWith.hpp"
+#include "../entity/EntitiesWith.hpp"
 #include "../WorldEvents.hpp"
 #include "SystemTraits.hpp"
 
@@ -44,6 +44,23 @@ template <typename U>
 bool EntitiesToProcess(
   const U &,
   typename std::enable_if_t<!SystemTraits<U>::HasProcess> * = nullptr) {}
+
+  // Special storage types using SFINAE to determine what to store
+  // Additional data needs to be stored depending on traits of the System type.
+  // This specializes to have the right data.
+  template <typename T, bool Process = SystemTraits<T>::HasProcess,
+            bool Timed = SystemTraits<T>::HasFixedUpdate>
+  struct Storage {};
+  template <typename T>
+  struct Storage<T, true, false> {
+    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
+  };
+  template <typename T>
+  struct Storage<T, true, true> {
+    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
+    float                                                          Time{0.f};
+  };
+
 
 }  // namespace Detail
 
@@ -131,21 +148,7 @@ private:
   T           instance;
   std::string m_name;
 
-  // Special storage types using SFINAE to determine what to store
-  // Additional data needs to be stored depending on traits of the System type.
-  // This specializes to have the right data.
-  template <typename U = T, bool Process = SystemTraits<T>::HasProcess,
-            bool Timed = SystemTraits<T>::HasFixedUpdate>
-  struct Storage {};
-  template <>
-  struct Storage<T, true, false> {
-    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
-  };
-  template <>
-  struct Storage<T, true, true> {
-    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
-    float                                                          Time{0.f};
-  };
-  Storage<T> s;
+  detail::Storage<T> s;
 };
-#include "../../src/System/System.inl"
+
+#include "../../src/system/System.inl"

@@ -33,4 +33,4 @@ private:
   template <typename Component, typename T1, typename T2, typename... FnArgs>
   const Component &GetImmutable() const;
 };
-#include "../../src/Entity/ConstrainedEntityRef.inl"
+#include "../../src/entity/ConstrainedEntityRef.inl"

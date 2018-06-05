@@ -47,4 +47,4 @@ private:
   EntityID    m_ID{0, 0};
   std::string m_Name{"Nameless Entity"};
 };
-#include "../../src/Entity/Entity.inl"
+#include "../../src/entity/Entity.inl"

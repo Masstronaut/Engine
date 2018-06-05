@@ -99,7 +99,7 @@ inline void EventArena::On(void(Pred::* mf)(const T &) const, Pred p) {
 }
 template<typename T>
 void EventArena::On( const T &value, Callback<T> cb ) {
-  this->On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( value ); } );
+  this->On( [ cb, V = value ]( const T &Value ) { if( Value == V ) cb( Value ); } );
 }
 template<typename T>
 void EventArena::On( const T &value, std::function<void( void )> cb ) {

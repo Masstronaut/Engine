@@ -43,6 +43,6 @@ Component &Entity::Get() {
 }
 template <typename Component>
 const Component &Entity::Get() const {
-  return m_World->GetComponent<std::decay_t<Component>>(
+  return m_World.GetComponent<std::decay_t<Component>>(
     m_Components[std::type_index(typeid(std::decay_t<Component>))]);
 }
