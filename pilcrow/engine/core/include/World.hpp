@@ -9,12 +9,14 @@
 #include <vector>
 
 #include "component/ComponentAggregate.hpp"
-#include "component/ComponentPool.hpp"
 #include <utils/include/EventArena.hpp>
 
 class ArchetypeRef;
 class SystemBase;
 class EntityRef;
+class ComponentPoolBase;
+template <typename T>
+class ComponentPool;
 
 class World : public EventArena {
 public:

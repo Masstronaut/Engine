@@ -46,7 +46,7 @@ template <typename Component>
 const Component &Entity::Get() const {
   auto it{m_Components.find(std::type_index(typeid(Component)))};
   if(it != m_Components.end()) {
-    return m_World.GetComponent<std::decay_t<Component>>(it-second);
+    return m_World.GetComponent<std::decay_t<Component>>(it->second);
   } else{
     assert(it != m_Components.end() && "Tried to get a component from an entity which does not have that component.");
   }

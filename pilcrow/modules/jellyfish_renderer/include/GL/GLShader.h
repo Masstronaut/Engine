@@ -27,8 +27,8 @@ public:
 
 private:
   // Overriding Resource:
-  bool LoadImpl();
-  void UnloadImpl();
+  bool LoadImpl() final;
+  void UnloadImpl() final;
 
   GLuint   m_GLuID;
   unsigned m_GLShaderType;

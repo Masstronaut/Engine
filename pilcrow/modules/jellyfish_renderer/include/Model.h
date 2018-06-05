@@ -40,7 +40,7 @@ public:
   void AssignShaderToAllMeshes(GLProgram &shader);
 
 private:
-  std::string  Model::Directory() const override;
+  std::string  Directory() const override;
   virtual bool Reloadable() const final;
   virtual bool LoadImpl() final;
   virtual void UnloadImpl() final;

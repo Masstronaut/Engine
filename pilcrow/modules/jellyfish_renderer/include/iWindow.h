@@ -4,7 +4,7 @@
 #include <string>
 
 // GLM
-#include <GLM/glm.hpp>
+#include <glm/glm.hpp>
 
 // ours
 #include <utils/include/EventArena.hpp>  //event messaging

@@ -1,8 +1,8 @@
 #pragma once
-#include "Settings/GameSettings.h"
-#include "Settings/WindowSettings.h"
-#include "Utils/include/ResourceSettings.h"
-#include <Utils/include/Resource.hpp>
+#include "settings/GameSettings.h"
+#include "settings/WindowSettings.h"
+#include <utils/include/ResourceSettings.h>
+#include <utils/include/Resource.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>

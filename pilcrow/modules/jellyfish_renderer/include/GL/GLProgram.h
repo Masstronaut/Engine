@@ -14,7 +14,7 @@
 #include <glad/include/glad.h>
 
 // ours
-#include <Utils/include/Resource.hpp>
+#include <utils/include/Resource.hpp>
 
 #include "../../include/GL/GLShader.h"
 
@@ -48,8 +48,8 @@ public:
 
 protected:
   const ShaderVariable *GetVariable(const std::string &name) const;
-  virtual bool LoadImpl();
-  virtual void UnloadImpl();
+  virtual bool LoadImpl() final;
+  virtual void UnloadImpl() final;
   bool         Check() const;
 
   void GetAttributes();

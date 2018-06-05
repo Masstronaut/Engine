@@ -14,7 +14,7 @@ public:
   ~GLMesh() {}
 
   void Load();
-  void Draw() const;
+  void Draw() const override;
 
   void AssignShader(GLProgram &shader) override;
 

@@ -1,4 +1,3 @@
-#include "../../include/component/ComponentPool.hpp"
 #include "../../include/component/ComponentTraits.hpp"
 #include "../../include/World.hpp"
 

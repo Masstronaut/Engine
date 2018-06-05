@@ -1,8 +1,8 @@
 #pragma once
 #include "Camera.hpp"
 #include "Camera.hpp"
-#include "Components/Transform.h"
-#include "Entity/EntitiesWith.hpp"
+#include "components/Transform.h"
+#include "entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
 
 #include "SettingsFileReader.hpp"
