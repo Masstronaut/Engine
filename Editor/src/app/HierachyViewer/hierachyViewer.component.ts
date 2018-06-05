@@ -1,42 +1,47 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, AfterContentInit } from '@angular/core';
 import { GoldenLayoutComponentState, GlOnResize, GlOnHide, GlOnShow, GoldenLayoutContainer } from 'ng-golden-layout';
+import { UndoRedoManagerService, UndoRedoAction } from '../../assets/Utils/UndoRedo/UndoRedoManager.service';
 import * as GoldenLayout from 'golden-layout';
 
 @Component({
-  selector: 'hierachy-viewer',
-  template: `
-    <div>
-      This is for the Hierachy viewer
+    selector: 'hierachy-viewer',
+    template: `
+    <div id="hierarchyViewer">
+        This is for the Hierachy viewer
     </div>
   `
 })
-export class HierachyViewerComponent implements GlOnResize, GlOnHide, GlOnShow {
 
-  constructor(@Inject(GoldenLayoutComponentState) private state: any,
-              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
+@Inject(GoldenLayoutContainer)
+export class HierachyViewerComponent implements GlOnResize, GlOnHide, GlOnShow{
+    undoRedoManager : UndoRedoManagerService;
+    containerManager : GoldenLayout.Container;
 
-  public onInput(e: Event): void {
-    
-    this.container.extendState({
-      value: (<HTMLInputElement>e.target).value
-    });
+    constructor(@Inject(GoldenLayoutComponentState) private state: any,
+                @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {
+        this.undoRedoManager = UndoRedoManagerService.getInstance();
+        this.containerManager = container;
+    }
 
-    console.log('Hierachy state saved.');
-  }
+    public onInput(e: Event): void {
+        this.container.extendState({
+            value: (<HTMLInputElement>e.target).value
+        });
 
-  public glOnResize(): void {
-    console.log('Hierachy Resizing!');
-  }
+        console.log('Hierachy state saved.');
+    }
 
-  public glOnShow(): void {
-    console.log('Hierachy Showing!');
-  }
+    public glOnResize(): void {
+    }
 
-  public glOnHide(): void {
-    console.log('Hierachy Hiding!');
-  }
+    public glOnShow(): void {
+        console.log('Hierachy Showing!');
+    }
 
-  /*public glOnTab(): void {
-    console.log('Tab shown!');
-  }*/
+    public glOnHide(): void {
+        console.log('Hierachy Hiding!');
+    }
+
+    public ngOnInit() {
+    }
 }

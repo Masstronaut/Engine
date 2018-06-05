@@ -33,8 +33,9 @@ export class PropertiesViewerVMService {
                 private injector: Injector,
                 private undoRedoManagerService: UndoRedoManagerService) {
 
+        
+        this.undoRedoService = UndoRedoManagerService.getInstance();
         this.componentTypes = new Map<String, Object>();
-        this.undoRedoService = undoRedoManagerService;
         this.componentsList = Array<String>();
         this.gameObjectProperties = Array<property>();
         this.getGameComponentsStructures();
@@ -72,6 +73,12 @@ export class PropertiesViewerVMService {
         // private methods:
     private addComponentToPropertyViewer = (componentName: string) => {
         var componentStructure = this.componentTypes[componentName];
+        if(Array.isArray(componentName)) {
+            componentStructure = this.componentTypes[componentName['0']];
+        }
+        else {
+            componentStructure = this.componentTypes[componentName];
+        }
         var componentProperty = new property();
 
         componentProperty.name = componentName;
@@ -105,9 +112,17 @@ export class PropertiesViewerVMService {
     }
 
     public removeComponentFromPropertyViewer = (componentName : string) => {
+        var realComponentName;
+        if(Array.isArray(componentName)) {
+            realComponentName = componentName['0'];
+        }
+        else {
+            realComponentName = componentName;
+        }
+
           // remove the component from the properties viewer
           for(var i = 0; i < this.gameObjectProperties.length; ++i) {
-            if(this.gameObjectProperties[i].name == componentName) {
+            if(this.gameObjectProperties[i].name == realComponentName) {
                 this.gameObjectProperties.splice(i, 1);
             }
         }

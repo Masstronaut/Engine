@@ -45,6 +45,7 @@ import * as GoldenLayout from 'golden-layout';
 import * as Jquery from 'jquery';
 import { AppComponent } from './app.component';
 
+
 const goldenLayoutConfig: GoldenLayoutConfiguration = {
   components: [
     {

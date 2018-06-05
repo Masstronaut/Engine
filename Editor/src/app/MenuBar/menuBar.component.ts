@@ -4,12 +4,13 @@ import { MatMenuTrigger } from '@angular/material/menu';
 @Component({
   selector: 'menu-bar',
   templateUrl: './menuBar.html',
-  styleUrls: ['./menuBar.css'],
+  styleUrls: ['./menuBar.scss'],
 })
 export class MenuBarComponent {
     // File dropdown options:
   gFileOptions: Array<Object>;
   gEditOptions: Array<Object>;
+  gViewOptions: Array<Object>;
 
     // File Options for Menu Bar:
   MenuButton_NewProjectTrigger() {
@@ -43,6 +44,23 @@ export class MenuBarComponent {
 
   MenuButton_DeleteTrigger() {
     console.log("Delete Menu Button!");
+  }
+
+  // View Options for Menu Bar
+  MenuButton_ViewProperties() {
+    console.log("View Properties Menu Button!");
+  }
+
+  MenuButton_ViewHierarchy() {
+    console.log("View Hierarchy Menu Button!");
+  }
+
+  MenuButton_ViewScene() {
+    console.log("View Scene Menu Button!");
+  }
+
+  MenuButton_ViewConsole() {
+    console.log("View Console Menu Button!");
   }
 
 
@@ -83,6 +101,25 @@ export class MenuBarComponent {
       {
         optionName: "Delete",
         onclickTrigger: this.MenuButton_DeleteTrigger
+      }
+    ];
+
+    this.gViewOptions = [
+      {
+        optionName: "Properties",
+        onclickTrigger: this.MenuButton_ViewProperties
+      },
+      {
+        optionName: "Hierarchy",
+        onclickTrigger: this.MenuButton_ViewHierarchy
+      },
+      {
+        optionName: "Scene",
+        onclickTrigger: this.MenuButton_ViewScene
+      },
+      {
+        optionName: "Console",
+        onclickTrigger: this.MenuButton_ViewConsole
       }
     ];
    }

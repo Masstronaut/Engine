@@ -18,24 +18,17 @@ import * as GoldenLayout from 'golden-layout';
 })
 
 export class PropertiesViewerComponent implements GlOnResize, GlOnHide, GlOnShow {
-    //List of components queried from the engine
-    // componentsList: Array<String>;
     
-    //Array of properties currently to be viewed
-    currentGameObjectProperties: Array<property>;
-  
     constructor(@Inject(GoldenLayoutComponentState) private state: any,
                 @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container,
                 private propertiesViewerVMService: PropertiesViewerVMService,
                 private service: PropertiesViewerService,
                 private injector: Injector) {
 
-        this.currentGameObjectProperties = new Array<property>();
     }
 
     ngOnInit() {
     }
-
 
     getComponentsList() : Array<String> {
         return this.propertiesViewerVMService.getComponentsList();
@@ -53,19 +46,6 @@ export class PropertiesViewerComponent implements GlOnResize, GlOnHide, GlOnShow
         this.propertiesViewerVMService.removeComponent(componentName);
     }
  
-    handleKeyEvents(keyEvent: KeyboardEvent) {
-            // undo
-        if(keyEvent.ctrlKey && keyEvent.keyCode == 90) {
-            this.propertiesViewerVMService.undoEventTrigger();
-        }
-
-            // redo
-        if(keyEvent.ctrlKey && keyEvent.keyCode == 89) {
-            this.propertiesViewerVMService.redoEventTrigger();
-        }
-    }
-
-
     public onInput(e: Event): void {
         this.container.extendState({
             value: (<HTMLInputElement>e.target).value
