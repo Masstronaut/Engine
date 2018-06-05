@@ -22,7 +22,8 @@ Component &Entity::Add(Args &&... args) {
                                             "component type.");
   EntityID compHandle{m_World.GetComponentPool<Component>().components.emplace(
     std::forward<Args>(args)...)};
-  m_Components[std::type_index(typeid(Component))] = compHandle;
+  auto it{m_Components.find(std::type_index(typeid(Component)))};
+  if(it != m_Components.end()) it->second = compHandle;
   return this->Get<Component>();
 }
 
@@ -43,6 +44,10 @@ Component &Entity::Get() {
 }
 template <typename Component>
 const Component &Entity::Get() const {
-  return m_World.GetComponent<std::decay_t<Component>>(
-    m_Components[std::type_index(typeid(std::decay_t<Component>))]);
+  auto it{m_Components.find(std::type_index(typeid(Component)))};
+  if(it != m_Components.end()) {
+    return m_World.GetComponent<std::decay_t<Component>>(it-second);
+  } else{
+    assert(it != m_Components.end() && "Tried to get a component from an entity which does not have that component.");
+  }
 }

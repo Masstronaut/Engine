@@ -49,8 +49,8 @@ Component &ConstrainedEntityRef<Args...>::GetMutable() {
       return m_Self.Get<Component>();
     }
   else {
-    static_assert(0, "An error has occurred in accessing a component from an "
-                     "entity with it.");
+//    static_assert(0, "An error has occurred in accessing a component from an "
+//                     "entity with it.");
   }
 }
 template <typename... Args>
@@ -77,8 +77,8 @@ const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
       return m_Self.Get<Component>();
     }
   else {
-    static_assert(0, "An error has occurred in accessing a component from an "
-                     "entity with it.");
+//    static_assert(0, "An error has occurred in accessing a component from an "
+//                     "entity with it.");
   }
 }
 template <typename... Args>

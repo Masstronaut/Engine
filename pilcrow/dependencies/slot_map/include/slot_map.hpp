@@ -460,7 +460,7 @@ slot_map<T, Token, Container>::erase(iterator pos) {
 template <typename T, typename Token, template <typename...> class Container>
 constexpr typename slot_map<T, Token, Container>::iterator
 slot_map<T, Token, Container>::erase(iterator first, iterator last) {
-  static_assert(false, "erase() needs to be implemented.");
+//  static_assert(false, "erase() needs to be implemented.");
   const auto range_size{std::distance(first, last)};
   const auto dist_from_end{std::distance(last, this->end())};
   if(last == this->end()) {
