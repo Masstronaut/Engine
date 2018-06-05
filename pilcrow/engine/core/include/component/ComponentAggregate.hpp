@@ -38,11 +38,11 @@ private:
   template <typename T>
   void AddType();
   template <typename T, typename T2, typename... Args>
-  void AddType();
-  void AddVerifiedEntity(const EntityRef &entity);
+  void                         AddType();
+  void                         AddVerifiedEntity(const EntityRef &entity);
   std::vector<EntityRef>       m_Entities;
   std::vector<std::type_index> m_Components;
   // These can be updated in constant time with events
   std::vector<EntitiesWithBase *> m_EntityLists;
 };
-#include "../../src/Component/ComponentAggregate.inl"
+#include "../../src/component/ComponentAggregate.inl"

@@ -1,4 +1,3 @@
-#pragma once
 #include "../../include/component/ComponentAggregate.hpp"
 #include "../../include/entity/EntityRef.hpp"
 

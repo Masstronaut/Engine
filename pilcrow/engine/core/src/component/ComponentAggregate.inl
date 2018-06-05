@@ -2,9 +2,9 @@
 #include <algorithm>
 #include <functional>
 
-#include "ComponentAggregate.hpp"
+#include "../../include/component/ComponentAggregate.hpp"
 
-#include "../Entity/EntitiesWith.hpp"
+#include "../../include/entity/EntitiesWith.hpp"
 
 // Note: the type_list<Args...> parameter is required for the constructor to
 // deduce the template arguments.
@@ -27,9 +27,10 @@ bool ComponentAggregate::Matches() const {
 
 template <typename... Args>
 void ComponentAggregate::AddEntityList(EntitiesWith<Args...> &ew) {
-  assert(this->Matches<Args...>() && "Only call "
-                                     "ComponentAggregate::AddEntityList after "
-                                     "verifying it matches.");
+  assert(this->Matches<Args...>()
+         && "Only call "
+            "ComponentAggregate::AddEntityList after "
+            "verifying it matches.");
   m_EntityLists.push_back(&ew);
   m_EntityLists.back()->SetEntities(m_Entities);
 }

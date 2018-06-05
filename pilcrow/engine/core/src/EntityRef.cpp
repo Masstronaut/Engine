@@ -1,4 +1,3 @@
-#pragma once
 #include "../include/entity/EntityRef.hpp"
 #include <string>
 #include <tuple>
@@ -28,8 +27,10 @@ bool EntityRef::Has(const std::vector<std::type_index> &components) const {
 
 void EntityRef::Kill() {
   m_World->Emit(EntityDeathEvent{*this});
-  m_World->OnNext<FrameEndEvent>([ world = m_World, self = *this ](
-    const FrameEndEvent &) { world->Kill(self); });
+  m_World->OnNext<FrameEndEvent>(
+    [world = m_World, self = *this](const FrameEndEvent &) {
+      world->Kill(self);
+    });
 }
 
 EntityID EntityRef::ID() const { return m_ID; }

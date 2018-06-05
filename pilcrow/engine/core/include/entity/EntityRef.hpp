@@ -22,7 +22,7 @@ public:
   template <typename Component, typename Component2, typename... Components>
   bool Has() const;
   bool Has(std::type_index component_type) const;
-  bool EntityRef::Has(const std::vector<std::type_index> &components) const;
+  bool Has(const std::vector<std::type_index> &components) const;
 
   template <typename Component>
   Component &Get();
@@ -39,7 +39,7 @@ public:
   EntityID ID() const;
 
   const std::string &Name() const;
-  EntityRef &Name(const std::string &name);
+  EntityRef &        Name(const std::string &name);
 
   bool operator==(const EntityRef &rhs) const;
 

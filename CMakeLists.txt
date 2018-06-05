@@ -1,5 +1,5 @@
 #VS 2017 introduced in this version
-cmake_minimum_required(VERSION 3.7.2)
+cmake_minimum_required(VERSION 3.8.2)
 
 #Name of the project
 project(Engine)
@@ -28,6 +28,7 @@ set(dependencies "${CMAKE_CURRENT_SOURCE_DIR}/pilcrow/dependencies")
   
 #endif(MSVC)
 
+
 #Finding the specified libraries to be included later
 find_package(GLFW)
 find_package(ASSIMP)
@@ -38,14 +39,19 @@ find_package(OpenGL)
 
 #Set Visual Studio startup project to "restful_runtime"
 set_property( DIRECTORY PROPERTY VS_STARTUP_PROJECT "restful_runtime" )
-
 #Specify compiler flags for MSVC to use the latest c++ 
 if (MSVC_VERSION GREATER_EQUAL "1900")
-    include(CheckCXXCompilerFlag)
-    CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
-    if (_cpp_latest_flag_supported)
-        add_compile_options("/std:c++latest")
-    endif()
+  include(CheckCXXCompilerFlag)
+  CHECK_CXX_COMPILER_FLAG("/std:c++latest" _cpp_latest_flag_supported)
+  if (_cpp_latest_flag_supported)
+    add_compile_options("/std:c++latest")
+  endif()
+elseif("${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+  #add_compile_options("-stdlib=libc++")
+  message("C++17 support")
+  set(CMAKE_CXX_STANDARD 17)
+  set(CMAKE_CXX_STANDARD_REQUIRED ON)
+  set(CMAKE_CXX_EXTENSIONS OFF)
 endif()
 
 add_subdirectory(pilcrow)
