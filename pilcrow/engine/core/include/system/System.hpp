@@ -9,6 +9,7 @@
 class World;
 class SystemBase {
 public:
+  virtual ~SystemBase(){}
   virtual void AddSystem(World &world)  = 0;
   virtual bool HasEntities() const      = 0;
   virtual bool HasVoidUpdate() const    = 0;
