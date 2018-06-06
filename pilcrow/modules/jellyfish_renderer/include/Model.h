@@ -18,7 +18,6 @@ struct aiNode;
 struct aiMesh;
 struct aiScene;
 struct aiMaterial;
-enum aiTextureType;
 
 namespace Jellyfish {
 class iMesh;

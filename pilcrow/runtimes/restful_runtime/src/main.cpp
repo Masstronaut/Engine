@@ -1,10 +1,13 @@
-#include <GLFW/glfw3.h>
 #include <array>
 #include <fstream>
-#include <glad/include/glad.h>  // MUST be included BEFORE glfw3.h
 #include <iostream>
 #include <memory>
 #include <string>
+
+#include <glad/include/glad.h>  // MUST be included BEFORE glfw3.h
+
+#include <GLFW/glfw3.h>
+
 
 // TODO: Remove
 #include "Camera.hpp"

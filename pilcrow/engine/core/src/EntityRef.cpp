@@ -1,4 +1,3 @@
-#include "../include/entity/EntityRef.hpp"
 #include <string>
 #include <tuple>
 
@@ -46,8 +45,7 @@ EntityRef &EntityRef::Name(const std::string &name) {
 
 EntityRef EntityRef::Clone() const {
   Entity *entity{m_World->GetEntity(m_ID)};
-  if(entity)
-    return entity->Clone();
+  if(entity) return m_World->Spawn(*this);
   else
     throw std::range_error(
       "Tried to clone invalid EntityRef - Entity doesn't exist.");

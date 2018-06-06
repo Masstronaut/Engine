@@ -50,11 +50,6 @@ Entity &Entity::Name(const std::string &name) {
   return *this;
 }
 
-EntityRef Entity::Clone() const {
-  EntityRef clone{m_World.Spawn(EntityRef(this->ID(), &m_World))};
-  return clone;
-}
-
 void *Entity::Get(std::type_index component) {
   return m_World.GetComponent(m_Components[component], component);
   return nullptr;

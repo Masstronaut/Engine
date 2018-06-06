@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EntityID.hpp"
-#include "EntityRef.hpp"
 #include <string>
 #include <typeindex>
 #include <unordered_map>
@@ -33,8 +32,6 @@ public:
   EntityID           ID() const;
   const std::string &Name() const;
   Entity &Name(const std::string &name);
-
-  EntityRef Clone() const;
 
   friend class World;
 
