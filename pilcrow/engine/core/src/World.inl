@@ -4,9 +4,12 @@
 
 #include "../include/component/ComponentTraits.hpp"
 #include "../include/Detectors.hpp"
+#include "../include/entity/EntityRef.hpp"
 #include "../include/entity/Entity.hpp"
 #include "../include/system/System.hpp"
 #include "../include/system/SystemTraits.hpp"
+#include "../include/component/ComponentPool.hpp"
+#include "../include/component/ComponentAggregate.hpp"
 
 template <typename T>
 T &World::GetComponent(EntityID entity) {
@@ -14,7 +17,7 @@ T &World::GetComponent(EntityID entity) {
 }
 template <typename T>
 const T &World::GetComponent(EntityID entity) const {
-  return GetComponentPool<std::decay_t<T>>().components[entity];
+  return this->GetComponentPool<std::decay_t<T>>().components[entity];
 }
 
 template <typename... Args>
@@ -30,6 +33,14 @@ ComponentAggregate &World::GetAggregate() {
   }
   return m_Aggregates.back();
 }
+
+//@@TODO: re-implement this with a proper const implementation.
+// It needs to be changed to a pointer return.
+template <typename... Args>
+const ComponentAggregate &World::GetAggregate() const {
+    return const_cast<World*>(this)->GetAggregate<Args...>();
+}
+
 
 template <typename... Args>
 ComponentAggregate &World::GetAggregate(type_list<Args...>) {
@@ -58,4 +69,10 @@ ComponentPool<T> &World::GetComponentPool() {
     uptr.reset(new ComponentPool<T>(*this));
     return *reinterpret_cast<ComponentPool<T> *>(uptr.get());
   }
+}
+//@@TODO: re-implement this with a proper const implementation.
+// It needs to be changed to a pointer return.
+template <typename T>
+const ComponentPool<T> &World::GetComponentPool() const {
+  return const_cast<World*>(this)->GetComponentPool<T>();
 }

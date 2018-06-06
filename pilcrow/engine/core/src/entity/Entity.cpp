@@ -1,7 +1,7 @@
 #include <typeinfo>
 #include <vector>
 
-#include "../../include/Entity/Entity.hpp"
+#include "../../include/entity/Entity.hpp"
 #include "../../include/World.hpp"
 #include "../../include/entity/EntityRef.hpp"
 

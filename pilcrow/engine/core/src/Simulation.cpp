@@ -1,4 +1,3 @@
-#pragma once
 #include "../include/Simulation.hpp"
 #include "../include/World.hpp"
 #include "../include/entity/ArchetypeRef.hpp"

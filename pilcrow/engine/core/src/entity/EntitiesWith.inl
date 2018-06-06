@@ -1,4 +1,5 @@
 #pragma once
+#include "../../include/entity/ConstrainedEntityRef.hpp"
 
 template <typename... Args>
 inline typename EntitiesWith<Args...>::iterator EntitiesWith<Args...>::begin() {

@@ -28,4 +28,4 @@ private:
   World *GetWorld() { return m_World; }
   ArchetypeRef(EntityRef er);
 };
-#include "../../src/Entity/ArchetypeRef.inl"
+#include "../../src/entity/ArchetypeRef.inl"

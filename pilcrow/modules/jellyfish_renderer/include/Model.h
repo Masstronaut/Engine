@@ -7,10 +7,10 @@
 
 // GLM
 #include <glm/glm.hpp>
+#include <assimp/material.h>
 
 // ours
 #include <utils/include/Resource.hpp>
-
 #include "GL/GLProgram.h"
 
 // assimp stuff

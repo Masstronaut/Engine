@@ -2,7 +2,6 @@
 #include <cassert>
 
 #include "../../include/World.hpp"
-#include "../../include/entity/Entity.hpp"
 
 template <typename Component>
 bool Entity::Has() const {

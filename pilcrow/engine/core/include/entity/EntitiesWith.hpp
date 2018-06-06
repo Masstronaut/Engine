@@ -2,7 +2,9 @@
 #include <type_traits>
 #include <vector>
 
-#include "ConstrainedEntityRef.hpp"
+template <typename... Args>
+class ConstrainedEntityRef;
+class EntityRef;
 
 class EntitiesWithBase {
   friend class ComponentAggregate;

@@ -1,8 +1,12 @@
+#include <string>
+
 #include "../../include/component/ComponentTraits.hpp"
 #include "../../include/World.hpp"
 
+
 template <typename Component>
 inline ComponentPool<Component>::ComponentPool(World &world) {
+  using namespace std::literals;
   if
     constexpr(ComponentTraits<Component>::HasVoidUpdate) {
       world.AddSystem(
@@ -23,7 +27,7 @@ inline ComponentPool<Component>::ComponentPool(World &world) {
     }
   if
     constexpr(ComponentTraits<Component>::HasFixedUpdate) {
-      world.AddSystem([&, time = 0.f ](float dt) {
+      world.AddSystem([&, time = 0.f ] (float dt) mutable {
         time += dt;
         //@@TODO: change this to use whatever the fixed update frequency
         // specified is

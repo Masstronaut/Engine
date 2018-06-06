@@ -100,8 +100,8 @@ public:
   }
 
 protected:
-  virtual bool LoadImpl() { return LoadSettingsINI(); }
-  virtual void UnloadImpl() { return; }
+  virtual bool LoadImpl() final { return LoadSettingsINI(); }
+  virtual void UnloadImpl() final { return; }
 
 private:
   unsigned m_ID{0};

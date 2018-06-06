@@ -2,8 +2,6 @@
 #include <algorithm>
 #include <functional>
 
-#include "../../include/component/ComponentAggregate.hpp"
-
 #include "../../include/entity/EntitiesWith.hpp"
 
 // Note: the type_list<Args...> parameter is required for the constructor to

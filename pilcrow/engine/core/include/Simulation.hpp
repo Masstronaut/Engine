@@ -1,10 +1,10 @@
 #pragma once
-#include <Utils/include/EventArena.hpp>
-#include <Utils/include/ThreadPool.hpp>
+#include <utils/include/EventArena.hpp>
+#include <utils/include/ThreadPool.hpp>
 #include <string>
 #include <unordered_map>
 
-#include "Entity/ArchetypeRef.hpp"
+#include "entity/ArchetypeRef.hpp"
 #include "World.hpp"
 
 class Simulation : public EventArena, public ThreadPool<> {

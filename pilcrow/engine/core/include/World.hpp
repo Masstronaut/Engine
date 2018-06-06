@@ -8,15 +8,20 @@
 #include <typeinfo>
 #include <vector>
 
-#include "component/ComponentAggregate.hpp"
 #include <utils/include/EventArena.hpp>
+#include <utils/include/type_list.hpp>
+#include "entity/EntityID.hpp"
 
 class ArchetypeRef;
 class SystemBase;
+class Entity;
 class EntityRef;
 class ComponentPoolBase;
+template <typename... Args>
+class EntitiesWith;
 template <typename T>
 class ComponentPool;
+class ComponentAggregate;
 
 class World : public EventArena {
 public:
@@ -38,6 +43,8 @@ public:
 
   template <typename... Args>
   ComponentAggregate &GetAggregate();
+  template <typename... Args>
+  const ComponentAggregate &GetAggregate() const;
 
   template <typename... Args>
   void RegisterEntitiesWith(EntitiesWith<Args...> &ew);
@@ -56,6 +63,8 @@ protected:
   EntityRef CreateEntity(const std::string &name);
   template <typename T>
   ComponentPool<T> & GetComponentPool();
+  template <typename T>
+  const ComponentPool<T> & GetComponentPool() const;
   ComponentPoolBase *GetComponentPool(std::type_index Component);
   template <typename... Args>
   ComponentAggregate &GetAggregate(type_list<Args...>);

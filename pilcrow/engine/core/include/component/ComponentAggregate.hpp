@@ -3,7 +3,6 @@
 #include <typeindex>
 #include <vector>
 
-//#include "../Entity/EntitiesWith.hpp"
 template <typename... Args>
 class EntitiesWith;
 class EntitiesWithBase;
