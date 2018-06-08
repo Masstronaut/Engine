@@ -1,7 +1,5 @@
-#pragma once
-
 // ours
-#include "../Include/Vertex.h"
+#include "../include/Vertex.h"
 
 namespace Jellyfish {
 Vertex::Vertex()

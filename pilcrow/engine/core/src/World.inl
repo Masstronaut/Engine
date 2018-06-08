@@ -3,7 +3,6 @@
 #include <functional>
 
 #include "../include/component/ComponentTraits.hpp"
-#include "../include/Detectors.hpp"
 #include "../include/entity/EntityRef.hpp"
 #include "../include/entity/Entity.hpp"
 #include "../include/system/System.hpp"

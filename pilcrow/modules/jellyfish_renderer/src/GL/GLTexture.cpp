@@ -1,5 +1,3 @@
-#pragma once
-
 // std
 #include <iostream>  //cout
 #include <string>    //std::string
@@ -9,7 +7,7 @@
 
 // ours
 #include "../../include/GL/GLTexture.h"
-#include "Utils/include/ResourceSettings.h"
+#include "utils/include/ResourceSettings.h"
 
 namespace Jellyfish {
 GLTexture::GLTexture(const std::string &name) : Resource(name) {

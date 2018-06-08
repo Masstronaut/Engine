@@ -1,5 +1,3 @@
-#pragma once
-
 // std
 #include <iostream>  //cout
 
@@ -12,7 +10,7 @@
 
 // ours
 #include "../../include/GL/GLText.h"
-#include "Utils/include/ResourceSettings.h"
+#include "utils/include/ResourceSettings.h"
 
 namespace Jellyfish {
 std::string FontPath() { return std::string(g_ResourcePath) + "Fonts/"; }

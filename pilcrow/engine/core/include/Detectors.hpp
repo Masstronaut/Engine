@@ -1,6 +1,8 @@
 #pragma once
 #include <detection_idiom.hpp>
 
+class EntityRef;
+
 namespace detail {
 struct Wildcard {
   template <typename T>

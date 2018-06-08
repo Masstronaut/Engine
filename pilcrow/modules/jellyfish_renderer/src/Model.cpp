@@ -1,5 +1,3 @@
-#pragma once
-
 // std
 #include <iostream>
 #include <unordered_map>

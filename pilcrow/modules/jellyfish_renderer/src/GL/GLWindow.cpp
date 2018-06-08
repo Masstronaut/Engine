@@ -1,11 +1,9 @@
-#pragma once
-
 // std
 #include <iostream>  //cout
 
 // GL
+#include <glad/include/glad.h>  //opengl -- MUST BE INCLUDED BEFORE GLFW
 #include <GLFW/glfw3.h>         //glfw window stuff
-#include <glad/include/glad.h>  //opengl
 
 // ours
 #include "../../include/GL/GLWindow.h"

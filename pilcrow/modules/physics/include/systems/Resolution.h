@@ -2,7 +2,7 @@
 
 #include <entity/EntitiesWith.hpp>
 
-#include "../../include/Components/Body.h"
+#include "../../include/components/Body.h"
 #include <components/Transform.h>
 
 class Resolution {

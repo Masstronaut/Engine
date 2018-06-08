@@ -1,5 +1,3 @@
-#pragma once
-
 // std
 #include <array>
 #include <iostream>
@@ -7,9 +5,11 @@
 #include <unordered_map>
 #include <vector>
 
-// GL
-#include <gl/GLU.h>
+// glad MUST be included before other GL headers
 #include <glad/include/glad.h>
+
+// GL
+#include <GL/glu.h>
 
 // GLM
 #include <glm/glm.hpp>

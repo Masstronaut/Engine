@@ -12,7 +12,6 @@
 // TODO: Remove
 #include "Camera.hpp"
 
-Camera cam;
 double dt{0.f};
 double lastFrame{0.f};
 
@@ -36,7 +35,7 @@ std::string ReadFile(const std::string &path) {
   return result;
 }
 
-#include "Utils/include/ResourceSettings.h"
+#include "utils/include/ResourceSettings.h"
 std::string RelativePath() {
   static std::string path{g_ResourcePath};
   return path;
@@ -44,9 +43,9 @@ std::string RelativePath() {
 
 #include "Detectors.hpp"
 
-#include <Entity/EntitiesWith.hpp>
+#include <entity/EntitiesWith.hpp>
 
-#include <Components/Transform.h>
+#include <components/Transform.h>
 struct RigidBody {
   glm::vec3 velocity{0.f, 0.f, 0.f}, acceleration{0.f, 0.f, 0.f};
   bool      isStatic{false}, isGhost{false};
@@ -154,9 +153,9 @@ bool g_SpawnNanos = false;
 #include "World.hpp"
 #include <RESTAPI.h>
 
-#include <Systems/CollisionDetection.h>
-#include <Systems/Integration.h>
-#include <Systems/Resolution.h>
+#include <systems/CollisionDetection.h>
+#include <systems/Integration.h>
+#include <systems/Resolution.h>
 
 void ECSDemo() {
   Simulation Sim;
