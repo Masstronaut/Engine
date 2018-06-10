@@ -8,8 +8,8 @@ public:
   ArchetypeRef()                     = delete;
   using EntityRef::EntityRef;
   using EntityRef::operator==;
-  using EntityRef::Has;
   using EntityRef::Get;
+  using EntityRef::Has;
   using EntityRef::ID;
   using EntityRef::Name;
 

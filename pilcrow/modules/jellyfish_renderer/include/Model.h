@@ -6,12 +6,12 @@
 #include <vector>
 
 // GLM
-#include <glm/glm.hpp>
 #include <assimp/material.h>
+#include <glm/glm.hpp>
 
 // ours
-#include <utils/include/Resource.hpp>
 #include "GL/GLProgram.h"
+#include <utils/include/Resource.hpp>
 
 // assimp stuff
 struct aiNode;
@@ -55,8 +55,8 @@ private:
 
   // TODO: fix hardcoded glmesh here
   GLMesh Assimp_ProcessMesh(aiMesh &mesh, const aiScene &scene);
-  bool Assimp_LoadModelFromFile(const std::string &path,
-                                const std::string &name);
+  bool   Assimp_LoadModelFromFile(const std::string &path,
+                                  const std::string &name);
 
   // std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial
   // *mat, aiTextureType type );
@@ -67,4 +67,4 @@ private:
   glm::vec4 m_mn_vtx{std::numeric_limits<float>::max()},
     m_mx_vtx{-std::numeric_limits<float>::max()};
 };
-}
+}  // namespace Jellyfish

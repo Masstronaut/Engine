@@ -69,4 +69,4 @@ protected:
 
 private:
 };
-}
+}  // namespace Jellyfish

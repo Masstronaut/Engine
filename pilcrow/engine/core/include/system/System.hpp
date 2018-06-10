@@ -2,14 +2,14 @@
 #include <functional>
 #include <utility>  // forward
 
-#include "../entity/EntitiesWith.hpp"
 #include "../WorldEvents.hpp"
+#include "../entity/EntitiesWith.hpp"
 #include "SystemTraits.hpp"
 
 class World;
 class SystemBase {
 public:
-  virtual ~SystemBase(){}
+  virtual ~SystemBase() {}
   virtual void AddSystem(World &world)  = 0;
   virtual bool HasEntities() const      = 0;
   virtual bool HasVoidUpdate() const    = 0;
@@ -46,24 +46,23 @@ bool EntitiesToProcess(
   const U &,
   typename std::enable_if_t<!SystemTraits<U>::HasProcess> * = nullptr) {}
 
-  // Special storage types using SFINAE to determine what to store
-  // Additional data needs to be stored depending on traits of the System type.
-  // This specializes to have the right data.
-  template <typename T, bool Process = SystemTraits<T>::HasProcess,
-            bool Timed = SystemTraits<T>::HasFixedUpdate>
-  struct Storage {};
-  template <typename T>
-  struct Storage<T, true, false> {
-    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
-  };
-  template <typename T>
-  struct Storage<T, true, true> {
-    decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
-    float                                                          Time{0.f};
-  };
+// Special storage types using SFINAE to determine what to store
+// Additional data needs to be stored depending on traits of the System type.
+// This specializes to have the right data.
+template <typename T, bool Process = SystemTraits<T>::HasProcess,
+          bool Timed = SystemTraits<T>::HasFixedUpdate>
+struct Storage {};
+template <typename T>
+struct Storage<T, true, false> {
+  decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
+};
+template <typename T>
+struct Storage<T, true, true> {
+  decltype(detail::EntitiesToProcess(std::declval<const T &>())) Entities;
+  float                                                          Time{0.f};
+};
 
-
-}  // namespace Detail
+}  // namespace detail
 
 template <typename T>
 class System : public SystemBase {
@@ -143,11 +142,11 @@ private:
   InitWorld(World &world);
 
   virtual void AddSystem(World &world) final;
-  void RegisterEntities(World &world);
-  void RegisterEditorUpdate(World &world);
-  void RegisterParallelSystemProcess(World &world);
-  T           instance;
-  std::string m_name;
+  void         RegisterEntities(World &world);
+  void         RegisterEditorUpdate(World &world);
+  void         RegisterParallelSystemProcess(World &world);
+  T            instance;
+  std::string  m_name;
 
   detail::Storage<T> s;
 };

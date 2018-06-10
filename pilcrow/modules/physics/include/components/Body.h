@@ -14,6 +14,6 @@ struct Body {
   Vec3 impulse;
   Vec3 angularImpulse;
 
-  void SetMass(float m);
+  void  SetMass(float m);
   float GetMass() const;
 };

@@ -8,7 +8,6 @@
 
 #include <GLFW/glfw3.h>
 
-
 // TODO(unknown): Remove
 #include "Camera.hpp"
 
@@ -73,14 +72,14 @@ public:
   void                          Update() {
     for(const auto &e : Entities) {
       TransformPrinter(e.Get<const Transform>());
-}
+    }
   }
 };
 
 class Gravity {
 public:
   EntitiesWith<RigidBody> Entities;
-  void Update(float dt) {
+  void                    Update(float dt) {
     for(auto &e : Entities) {
       auto &rb = e.Get<RigidBody>();
       rb.acceleration.y -= dt * 9.81f;
@@ -90,7 +89,7 @@ public:
 class VelocitySystem {
 public:
   EntitiesWith<Transform, const RigidBody> Entities;
-  void Update(float dt) {
+  void                                     Update(float dt) {
     for(auto &e : Entities) {
       const auto &rb = e.Get<const RigidBody>();
       auto &      tf = e.Get<Transform>();
@@ -101,7 +100,7 @@ public:
 class AccelerationSystem {
 public:
   EntitiesWith<RigidBody> Entities;
-  void Update(float dt) {
+  void                    Update(float dt) {
     for(auto &e : Entities) {
       auto &rb = e.Get<RigidBody>();
       rb.velocity += rb.acceleration * dt;
@@ -119,9 +118,9 @@ struct ParallelVelocitySystem {
 };
 
 struct ParallelAccelerationSystem {
-  void PreProcess() {}
-  void Process(RigidBody &rb) const { rb.velocity += rb.acceleration * Dt; }
-  float                   Dt = 1.f / 60.f;
+  void  PreProcess() {}
+  void  Process(RigidBody &rb) const { rb.velocity += rb.acceleration * Dt; }
+  float Dt = 1.f / 60.f;
 };
 
 struct ParallelGravity {
@@ -129,10 +128,10 @@ struct ParallelGravity {
   explicit ParallelGravity(glm::vec3 gravity) : m_gravity(gravity) {}
   ParallelGravity(const ParallelGravity &) = default;
   ParallelGravity(ParallelGravity &&)      = default;
-  void PreProcess() {}
-  void Process(RigidBody &rb) const { rb.acceleration += m_gravity * Dt; }
-  glm::vec3               m_gravity{0.f, -9.81f, 0.f};
-  float                   Dt{0.f};
+  void      PreProcess() {}
+  void      Process(RigidBody &rb) const { rb.acceleration += m_gravity * Dt; }
+  glm::vec3 m_gravity{0.f, -9.81f, 0.f};
+  float     Dt{0.f};
 };
 
 // ---------------------------
@@ -237,8 +236,7 @@ void ECSDemo() {
   // Makes the Game exit on window close
   bool WindowOpen = true;
   TestWorld.On([&](const Jellyfish::GLWindow::EWindowStateChanged &event) {
-    if(event.newState == Jellyfish::WindowState::closed) { WindowOpen = false;
-}
+    if(event.newState == Jellyfish::WindowState::closed) { WindowOpen = false; }
   });
 
   try {

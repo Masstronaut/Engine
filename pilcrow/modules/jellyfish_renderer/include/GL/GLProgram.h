@@ -37,7 +37,7 @@ public:
   virtual std::string Directory() const override;
 
   unsigned ID() const;
-  void Use(bool use = true) const;
+  void     Use(bool use = true) const;
 
   bool SetUniform(const std::string &name, float x, float y, float z, float w);
   bool SetUniform(const std::string &name, const glm::vec3 &vec);
@@ -48,17 +48,17 @@ public:
 
 protected:
   const ShaderVariable *GetVariable(const std::string &name) const;
-  virtual bool LoadImpl() final;
-  virtual void UnloadImpl() final;
-  bool         Check() const;
+  virtual bool          LoadImpl() final;
+  virtual void          UnloadImpl() final;
+  bool                  Check() const;
 
   void GetAttributes();
   void GetUniforms();
   void WarnUniform(const std::string &uniformName) const;
 
 private:
-  unsigned              m_ProgramID;
-  std::vector<GLShader> m_shaders;
+  unsigned                                        m_ProgramID;
+  std::vector<GLShader>                           m_shaders;
   std::unordered_map<std::string, ShaderVariable> m_variables;
 };  // end class GLProgram
 

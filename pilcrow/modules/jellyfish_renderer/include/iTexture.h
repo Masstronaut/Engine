@@ -16,9 +16,9 @@ public:
 
   virtual ~iTexture() {}
 
-  virtual void Use(int TextureUnit = 0) const = 0;
-  virtual TextureType Type() const            = 0;
-  virtual unsigned    ID() const              = 0;
+  virtual void        Use(int TextureUnit = 0) const = 0;
+  virtual TextureType Type() const                   = 0;
+  virtual unsigned    ID() const                     = 0;
 
   // Loading functions are derived from the Resource class in the derived class
 

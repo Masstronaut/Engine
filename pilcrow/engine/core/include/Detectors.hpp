@@ -185,9 +185,9 @@ template <typename T, typename = void>
 struct HasProcessMemFn : std::false_type {};
 
 template <typename T>
-struct HasProcessMemFn<T,
-                       std::enable_if_t<detail::is_member_function_v<decltype(
-                         &T::Process)>>> : std::true_type {};
+struct HasProcessMemFn<
+  T, std::enable_if_t<detail::is_member_function_v<decltype(&T::Process)>>>
+  : std::true_type {};
 
 template <typename T>
 constexpr bool HasProcessMemFn_v = HasProcessMemFn<T>::value;

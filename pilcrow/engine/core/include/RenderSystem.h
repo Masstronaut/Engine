@@ -1,9 +1,8 @@
 #pragma once
 #include "Camera.hpp"
-#include "Camera.hpp"
+#include "RenderComponents.h"
 #include "components/Transform.h"
 #include "entity/EntitiesWith.hpp"
-#include "RenderComponents.h"
 
 #include "SettingsFileReader.hpp"
 #include <Jellyfish.h>
@@ -22,7 +21,7 @@ private:
   // render context
   Jellyfish::iWindow *pWindow{nullptr};
 
-  void ProcessInput(Camera &cam);
+  void      ProcessInput(Camera &cam);
   glm::vec2 m_windowSizeSetting{g_InitialWindowWidth, g_InitialWindowHeight};
   bool      m_windowFullscreenSetting{g_StartFullscreen};
 };

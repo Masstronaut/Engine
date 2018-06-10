@@ -1,33 +1,30 @@
 #include <string>
 
-#include "../../include/component/ComponentTraits.hpp"
 #include "../../include/World.hpp"
-
+#include "../../include/component/ComponentTraits.hpp"
 
 template <typename Component>
 inline ComponentPool<Component>::ComponentPool(World &world) {
   using namespace std::literals;
-  if
-    constexpr(ComponentTraits<Component>::HasVoidUpdate) {
-      world.AddSystem(
-        [&](float dt) {
-          for(auto &comp : components)
-            comp.Update();
-        },
-        typeid(Component).name() + "::Update()"s);
-    }
-  if
-    constexpr(ComponentTraits<Component>::HasDtUpdate) {
-      world.AddSystem(
-        [&](float dt) {
-          for(auto &comp : components)
-            comp.Update(dt);
-        },
-        typeid(Component).name() + "::Update(dt)"s);
-    }
-  if
-    constexpr(ComponentTraits<Component>::HasFixedUpdate) {
-      world.AddSystem([&, time = 0.f ] (float dt) mutable {
+  if constexpr(ComponentTraits<Component>::HasVoidUpdate) {
+    world.AddSystem(
+      [&](float dt) {
+        for(auto &comp : components)
+          comp.Update();
+      },
+      typeid(Component).name() + "::Update()"s);
+  }
+  if constexpr(ComponentTraits<Component>::HasDtUpdate) {
+    world.AddSystem(
+      [&](float dt) {
+        for(auto &comp : components)
+          comp.Update(dt);
+      },
+      typeid(Component).name() + "::Update(dt)"s);
+  }
+  if constexpr(ComponentTraits<Component>::HasFixedUpdate) {
+    world.AddSystem(
+      [&, time = 0.f](float dt) mutable {
         time += dt;
         //@@TODO: change this to use whatever the fixed update frequency
         // specified is
@@ -37,8 +34,8 @@ inline ComponentPool<Component>::ComponentPool(World &world) {
             comp.Update();
         }
       },
-                      typeid(Component).name() + "::Update()"s);
-    }
+      typeid(Component).name() + "::Update()"s);
+  }
 }
 
 template <typename Component>

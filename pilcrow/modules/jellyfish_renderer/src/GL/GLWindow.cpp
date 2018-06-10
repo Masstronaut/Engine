@@ -2,8 +2,8 @@
 #include <iostream>  //cout
 
 // GL
-#include <glad/include/glad.h>  //opengl -- MUST BE INCLUDED BEFORE GLFW
 #include <GLFW/glfw3.h>         //glfw window stuff
+#include <glad/include/glad.h>  //opengl -- MUST BE INCLUDED BEFORE GLFW
 
 // ours
 #include "../../include/GL/GLWindow.h"
@@ -88,7 +88,8 @@ void GLWindow::CreateGameWindow(unsigned width, unsigned height,
     //}
 
     // Initialize GLAD to setup the OpenGL Function pointers
-    if(gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
+    if(gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress))
+       == 0) {
       std::cout << "Failed to initialize GLAD Loader!" << std::endl;
       system("pause");
       return;
@@ -117,7 +118,7 @@ void GLWindow::DisplayGameWindow() { glfwSwapBuffers(m_WindowHandle); }
 
 bool GLWindow::IsOpen() { return m_Open; }
 bool GLWindow::IsActive() { return m_Active; }
-void GLWindow::setActive(bool  /*active*/) {}
+void GLWindow::setActive(bool /*active*/) {}
 
 void GLWindow::ResizeWindow(unsigned width, unsigned height) {
   if((width != this->m_Size.x) || (height != this->m_Size.y)) {
@@ -207,7 +208,7 @@ void GLWindow::PollInput(std::vector<int> &keyarray) {
         std::cout << "Key Pressed: " << key_name << std::endl;
       } else {
         std::cout << "Key Pressed: " << key << "(int code)" << std::endl;
-}
+      }
 
     }  // endif
   }    // endfor
@@ -247,8 +248,8 @@ void GLWindow::Callback_WindowMove(GLFWwindow * /*windowhandle*/, int xpos,
   std::cout << "Window position was moved to: " << xpos << ", " << ypos
             << std::endl;
 }
-void GLWindow::Callback_CursorPosition(GLFWwindow * /*windowhandle*/, double xpos,
-                                       double ypos) {
+void GLWindow::Callback_CursorPosition(GLFWwindow * /*windowhandle*/,
+                                       double xpos, double ypos) {
   // DEBUG:
   std::cout << "Cursor position moved: " << xpos << ", " << ypos << std::endl;
 
@@ -262,8 +263,8 @@ void GLWindow::Callback_CursorPosition(GLFWwindow * /*windowhandle*/, double xpo
   // update pos
   g_singleton_window->m_Cursor.position = glm::dvec2{xpos, ypos};
 }
-void GLWindow::Callback_MouseButton(GLFWwindow * /*window*/, int button, int action,
-                                    int  /*mods*/) {
+void GLWindow::Callback_MouseButton(GLFWwindow * /*window*/, int button,
+                                    int action, int /*mods*/) {
   // mods is is all possible glfw modifier bit states as defined below
   /*
   #define 	GLFW_MOD_SHIFT   0x0001

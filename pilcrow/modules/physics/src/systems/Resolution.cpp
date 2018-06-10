@@ -1,3 +1,3 @@
 #include "../../include/systems/Resolution.h"
 
-void Resolution::Update(float  /*dt*/) {}
+void Resolution::Update(float /*dt*/) {}

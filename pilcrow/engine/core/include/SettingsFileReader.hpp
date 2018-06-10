@@ -1,11 +1,11 @@
 #pragma once
 #include "settings/GameSettings.h"
 #include "settings/WindowSettings.h"
-#include <utils/include/ResourceSettings.h>
-#include <utils/include/Resource.hpp>
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <utils/include/Resource.hpp>
+#include <utils/include/ResourceSettings.h>
 #include <vector>
 
 class SettingsFile : public Resource {
@@ -83,7 +83,7 @@ public:
         double d;
 
         if(!(std::stringstream(s) >> d)) d = nan("");  // nans for bad input
-        f                                  = (float)d;
+        f = (float)d;
 
         floats.push_back(f);
         strings.push_back(s);

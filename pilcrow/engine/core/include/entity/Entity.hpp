@@ -31,17 +31,17 @@ public:
 
   EntityID           ID() const;
   const std::string &Name() const;
-  Entity &Name(const std::string &name);
+  Entity &           Name(const std::string &name);
 
   friend class World;
 
 private:
   void     SafelyDisposeComponents();
   EntityID Clone(World &world, Entity &entity) const;
-  void *Get(std::type_index component);
-  World &m_World;
+  void *   Get(std::type_index component);
+  World &  m_World;
   std::unordered_map<std::type_index, EntityID> m_Components;
-  EntityID    m_ID{0, 0};
-  std::string m_Name{"Nameless Entity"};
+  EntityID                                      m_ID{0, 0};
+  std::string                                   m_Name{"Nameless Entity"};
 };
 #include "../../src/entity/Entity.inl"

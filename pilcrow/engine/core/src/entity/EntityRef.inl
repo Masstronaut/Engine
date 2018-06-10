@@ -1,6 +1,6 @@
-#include "../../include/entity/Entity.hpp"
-#include "../../include/WorldEvents.hpp"
 #include "../../include/World.hpp"
+#include "../../include/WorldEvents.hpp"
+#include "../../include/entity/Entity.hpp"
 
 template <typename Component>
 bool EntityRef::Has() const {

@@ -39,15 +39,16 @@ unsigned GLShader::ID() const {
 
 void GLShader::Use() const {
   // TODO(unknown): , not necessary yet
-  }
+}
 
 bool GLShader::Check() const {
-  int success{0};
+  int                   success{0};
   std::array<char, 512> info{};
   glGetShaderiv(m_GLuID, GL_COMPILE_STATUS, &success);
 
   if(success == 0) {
-    glGetShaderInfoLog(m_GLuID, static_cast<GLsizei>(info.size()), nullptr, info.data());
+    glGetShaderInfoLog(m_GLuID, static_cast<GLsizei>(info.size()), nullptr,
+                       info.data());
     std::cout << "Error: Shader compilation has failed for file: "
               << this->Filename() << ".\n"
               << info.data() << std::endl;

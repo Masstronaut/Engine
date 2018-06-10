@@ -2,13 +2,13 @@
 #include <algorithm>
 #include <functional>
 
+#include "../include/component/ComponentAggregate.hpp"
+#include "../include/component/ComponentPool.hpp"
 #include "../include/component/ComponentTraits.hpp"
-#include "../include/entity/EntityRef.hpp"
 #include "../include/entity/Entity.hpp"
+#include "../include/entity/EntityRef.hpp"
 #include "../include/system/System.hpp"
 #include "../include/system/SystemTraits.hpp"
-#include "../include/component/ComponentPool.hpp"
-#include "../include/component/ComponentAggregate.hpp"
 
 template <typename T>
 T &World::GetComponent(EntityID entity) {
@@ -37,9 +37,8 @@ ComponentAggregate &World::GetAggregate() {
 // It needs to be changed to a pointer return.
 template <typename... Args>
 const ComponentAggregate &World::GetAggregate() const {
-    return const_cast<World*>(this)->GetAggregate<Args...>();
+  return const_cast<World *>(this)->GetAggregate<Args...>();
 }
-
 
 template <typename... Args>
 ComponentAggregate &World::GetAggregate(type_list<Args...>) {
@@ -73,5 +72,5 @@ ComponentPool<T> &World::GetComponentPool() {
 // It needs to be changed to a pointer return.
 template <typename T>
 const ComponentPool<T> &World::GetComponentPool() const {
-  return const_cast<World*>(this)->GetComponentPool<T>();
+  return const_cast<World *>(this)->GetComponentPool<T>();
 }

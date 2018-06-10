@@ -7,10 +7,10 @@
 
 class ComponentPoolBase {
 public:
-  ComponentPoolBase()                          = default;
-  ComponentPoolBase(const ComponentPoolBase &) = delete;
-  virtual void *Get(EntityID ID)               = 0;
-  virtual EntityID Clone(EntityID ID)          = 0;
+  ComponentPoolBase()                                             = default;
+  ComponentPoolBase(const ComponentPoolBase &)                    = delete;
+  virtual void *                               Get(EntityID ID)   = 0;
+  virtual EntityID                             Clone(EntityID ID) = 0;
   virtual std::pair<std::type_index, EntityID> Clone(EntityID ID, World &world)
     = 0;
   virtual ~ComponentPoolBase() {}
@@ -35,10 +35,10 @@ public:
   // "OnPointerInvalidation" event or something. Include the type index so they
   // can early out
   // if they don't care about that kind of component.
-  virtual EntityID Clone(EntityID ID) final;
+  virtual EntityID                             Clone(EntityID ID) final;
   virtual std::pair<std::type_index, EntityID> Clone(EntityID ID,
-                                                     World &world) final;
-  slot_map<Component> components;
+                                                     World &  world) final;
+  slot_map<Component>                          components;
 
 private:
   virtual void Erase(EntityID ID) final;

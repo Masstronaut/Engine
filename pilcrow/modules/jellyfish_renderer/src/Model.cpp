@@ -62,7 +62,7 @@ bool Model::LoadImpl() {
   } else {
     std::cout << "ERROR! Model could not be loaded!  See Model::LoadImpl()"
               << std::endl;
-}
+  }
 
   // spacer for console readability
   std::cout << " " << std::endl;
@@ -73,7 +73,7 @@ void Model::UnloadImpl() {}
 
 std::vector<std::shared_ptr<GLTexture>>
 Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type) {
-  std::vector<std::shared_ptr<GLTexture>> textures;
+  std::vector<std::shared_ptr<GLTexture>>                            textures;
   static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
 
   for(unsigned int i = 0; i < mat->GetTextureCount(type); ++i) {
@@ -93,10 +93,10 @@ Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type) {
         textures.back()->Type(iTexture::TextureType::diffuse);
       } else if(type == aiTextureType_SPECULAR) {
         textures.back()->Type(iTexture::TextureType::specular);
-}
+      }
     }
   }
 
   return textures;
 }
-} // namespace Jellyfish
+}  // namespace Jellyfish

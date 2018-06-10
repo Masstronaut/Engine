@@ -47,7 +47,8 @@ void GLMesh::Draw() const {
   }
 
   glBindVertexArray(VAO);
-  glDrawElements(GL_TRIANGLES, static_cast<int>(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
+  glDrawElements(GL_TRIANGLES, static_cast<int>(m_Indices.size()),
+                 GL_UNSIGNED_INT, nullptr);
   glBindVertexArray(0);
 }
 
@@ -67,7 +68,8 @@ void GLMesh::Load() {
                m_Indices.data(), GL_STATIC_DRAW);
 
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)nullptr);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex),
+                        (GLvoid *)nullptr);
   glEnableVertexAttribArray(0);
 
   // Color Attribute

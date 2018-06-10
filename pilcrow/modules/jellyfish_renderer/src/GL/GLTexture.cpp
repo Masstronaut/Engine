@@ -45,10 +45,11 @@ void GLTexture::UnloadImpl() {
 
 GLint GLTexture::TextureFromData() {
   unsigned char *imgData{
-    stbi_load_from_memory(reinterpret_cast<const unsigned char *>(this->Data().c_str()),
+    stbi_load_from_memory(reinterpret_cast<const unsigned char *>(
+                            this->Data().c_str()),
                           static_cast<int>(this->Data().size()), &m_Width,
-                          &m_Height, &m_NumChannels,
-                          0)};  // end imgData allocation
+                          &m_Height, &m_NumChannels, 0)};  // end imgData
+                                                           // allocation
 
   if(imgData != nullptr) {
     std::cout << "Texture read: " << Filename() << std::endl;

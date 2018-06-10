@@ -45,4 +45,4 @@ class RenderableObject {
 class Renderer {
   void Draw() {}  // not used yet!!
 };
-}
+}  // namespace Jellyfish

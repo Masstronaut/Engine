@@ -2,8 +2,8 @@
 #include <utility>
 #include <vector>
 
-#include "../../include/entity/Entity.hpp"
 #include "../../include/World.hpp"
+#include "../../include/entity/Entity.hpp"
 #include "../../include/entity/EntityRef.hpp"
 
 Entity::Entity(World &world, EntityID id)
@@ -46,7 +46,7 @@ EntityID Entity::Clone(World &world, Entity &entity) const {
 EntityID Entity::ID() const { return m_ID; }
 
 const std::string &Entity::Name() const { return m_Name; }
-Entity &Entity::Name(const std::string &name) {
+Entity &           Entity::Name(const std::string &name) {
   m_Name = name;
   return *this;
 }

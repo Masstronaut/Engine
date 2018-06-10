@@ -8,9 +8,9 @@
 #include <typeinfo>
 #include <vector>
 
+#include "entity/EntityID.hpp"
 #include <utils/include/EventArena.hpp>
 #include <utils/include/type_list.hpp>
-#include "entity/EntityID.hpp"
 
 class ArchetypeRef;
 class SystemBase;
@@ -31,12 +31,12 @@ public:
   T &GetComponent(EntityID entity);
   template <typename T>
   const T &GetComponent(EntityID entity) const;
-  void *GetComponent(EntityID component, std::type_index ComponentType);
+  void *   GetComponent(EntityID component, std::type_index ComponentType);
 
-  Entity *GetEntity(EntityID ID);
+  Entity *      GetEntity(EntityID ID);
   const Entity *GetEntity(EntityID ID) const;
-  EntityRef Spawn(ArchetypeRef archetype);
-  EntityRef Spawn(EntityRef archetype);
+  EntityRef     Spawn(ArchetypeRef archetype);
+  EntityRef     Spawn(EntityRef archetype);
 
   template <typename T, typename... Args>
   void AddSystem(const std::string &name = "Nameless System", Args &&... args);
@@ -51,7 +51,7 @@ public:
 
   void Update(float dt);
 
-  bool operator==(const World &rhs);
+  bool               operator==(const World &rhs);
   const std::string &Name() const;
 
 protected:
@@ -62,16 +62,16 @@ protected:
 
   EntityRef CreateEntity(const std::string &name);
   template <typename T>
-  ComponentPool<T> & GetComponentPool();
+  ComponentPool<T> &GetComponentPool();
   template <typename T>
-  const ComponentPool<T> & GetComponentPool() const;
-  ComponentPoolBase *GetComponentPool(std::type_index Component);
+  const ComponentPool<T> &GetComponentPool() const;
+  ComponentPoolBase *     GetComponentPool(std::type_index Component);
   template <typename... Args>
   ComponentAggregate &GetAggregate(type_list<Args...>);
 
 private:
   friend class EntityRef;
-  void Kill(EntityRef entity);
+  void        Kill(EntityRef entity);
   std::string m_Name;
   std::unordered_map<std::type_index, std::unique_ptr<ComponentPoolBase>>
                                            m_Components;

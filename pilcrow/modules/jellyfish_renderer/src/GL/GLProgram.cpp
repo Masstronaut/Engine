@@ -177,7 +177,7 @@ void GLProgram::UnloadImpl() {
 }
 
 bool GLProgram::Check() const {
-  int success{1};
+  int                   success{1};
   std::array<char, 512> info{};
   glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &success);
   if(success == 0) {
@@ -198,8 +198,8 @@ void GLProgram::GetAttributes() {
     ShaderVariable sv;
     GLsizei        namelength;
     sv.location = i;
-    glGetActiveAttrib(this->ID(), i, static_cast<GLsizei>(buffer.size()), &namelength,
-                      &sv.size, &sv.type, buffer.data());
+    glGetActiveAttrib(this->ID(), i, static_cast<GLsizei>(buffer.size()),
+                      &namelength, &sv.size, &sv.type, buffer.data());
     sv.name              = buffer.data();
     m_variables[sv.name] = sv;
   }
@@ -213,8 +213,8 @@ void GLProgram::GetUniforms() {
     ShaderVariable sv;
     GLsizei        namelength;
     sv.location = i;
-    glGetActiveUniform(this->ID(), i, static_cast<GLsizei>(buffer.size()), &namelength,
-                       &sv.size, &sv.type, buffer.data());
+    glGetActiveUniform(this->ID(), i, static_cast<GLsizei>(buffer.size()),
+                       &namelength, &sv.size, &sv.type, buffer.data());
     sv.name              = buffer.data();
     m_variables[sv.name] = sv;
   }

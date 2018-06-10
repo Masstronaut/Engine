@@ -1,29 +1,29 @@
 #include <utility>
 
-#include "../include/World.hpp"
 #include "../include/Simulation.hpp"
+#include "../include/World.hpp"
 #include "../include/WorldEvents.hpp"
 
 World::World(std::string name) : m_Name(std::move(name)) {
   this->On([&](const EntitySpawnedEvent &event) {
     for(auto &agg : m_Aggregates) {
       agg.OnEntityCreated(event.entity);
-}
+    }
   });
   this->On([&](const EntityDeathEvent &event) {
     for(auto &agg : m_Aggregates) {
       agg.OnEntityDestroyed(event.entity);
-}
+    }
   });
   this->On([&](const ComponentAddedEvent &event) {
     for(auto &agg : m_Aggregates) {
       agg.OnEntityCreated(event.entity);
-}
+    }
   });
   this->On([&](const ComponentRemovedEvent &event) {
     for(auto &agg : m_Aggregates) {
       agg.OnEntityDestroyed(event.entity);
-}
+    }
   });
 }
 
@@ -35,19 +35,13 @@ void *World::GetComponent(EntityID component, std::type_index ComponentType) {
 
 Entity *World::GetEntity(EntityID ID) {
   auto it{m_Entities.find(ID)};
-  if(it != m_Entities.end()) {
-    return &(*it);
-  }  {
-    return nullptr;
-}
+  if(it != m_Entities.end()) { return &(*it); }
+  { return nullptr; }
 }
 const Entity *World::GetEntity(EntityID ID) const {
   auto it{m_Entities.find(ID)};
-  if(it != m_Entities.end()) {
-    return &(*it);
-  }  {
-    return nullptr;
-}
+  if(it != m_Entities.end()) { return &(*it); }
+  { return nullptr; }
 }
 EntityRef World::Spawn(ArchetypeRef archetype) {
   return Spawn(EntityRef{archetype.ID(), archetype.GetWorld()});
@@ -63,8 +57,8 @@ EntityRef World::Spawn(EntityRef archetype) {
 const std::string &World::Name() const { return m_Name; }
 
 EntityRef World::CreateEntity(const std::string &name) {
-  auto        ID{m_Entities.emplace(*this)};
-  const std::string& newname = name;
+  auto               ID{m_Entities.emplace(*this)};
+  const std::string &newname = name;
   m_Entities[ID].Name(newname);
   m_Entities[ID].m_ID = ID;
   return EntityRef(ID, this);

@@ -7,16 +7,12 @@ Camera *cam;
 void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
   if(mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS) {
     float       sensitivity{.07f};
-    const float xoff{sensitivity
-                     * (mme.newPosition.x - mme.oldPosition.x)};
-    const float yoff{sensitivity
-                     * (mme.newPosition.y - mme.oldPosition.y)};
+    const float xoff{sensitivity * (mme.newPosition.x - mme.oldPosition.x)};
+    const float yoff{sensitivity * (mme.newPosition.y - mme.oldPosition.y)};
     cam->yaw += xoff;
     cam->pitch -= yoff;
-    if(cam->pitch > 89.9f) { cam->pitch  = 89.9f;
-}
-    if(cam->pitch < -89.9f) { cam->pitch = -89.9f;
-}
+    if(cam->pitch > 89.9f) { cam->pitch = 89.9f; }
+    if(cam->pitch < -89.9f) { cam->pitch = -89.9f; }
   }
 }
 // void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
@@ -40,8 +36,8 @@ void WindowManager::Init(World &world) {
   Jellyfish::g_singleton_window = new Jellyfish::GLWindow;
   pWindow                       = Jellyfish::g_singleton_window;
   Jellyfish::g_singleton_window->CreateGameWindow(
-    static_cast<unsigned>(m_windowSizeSetting.x), static_cast<unsigned>(m_windowSizeSetting.y),
-    m_windowFullscreenSetting,
+    static_cast<unsigned>(m_windowSizeSetting.x),
+    static_cast<unsigned>(m_windowSizeSetting.y), m_windowFullscreenSetting,
     "Welcome to Pilcrow Engine v0.0 ft. Jellyfish Renderer! :)");
 
   // Rebroadcast window events out to the engine
@@ -95,6 +91,6 @@ inline void WindowManager::ProcessInput(Camera &cam) {
       cam.position += cam.Right() * camSpeed;
     } else if(i == GLFW_KEY_SPACE) {
       cam.LookAt({0.f, 0.f, 0.f});
-}
+    }
   }  // endfunc
 }

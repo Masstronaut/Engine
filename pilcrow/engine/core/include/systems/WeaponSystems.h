@@ -4,7 +4,7 @@
 
 struct InputSource {
   bool KeyDown(Keys key) const { return key == Key; }
-  Keys              Key{Keys::R};
+  Keys Key{Keys::R};
 };
 struct ParentRef {
   EntityRef Parent;

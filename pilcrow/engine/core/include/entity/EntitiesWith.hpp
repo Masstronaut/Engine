@@ -28,8 +28,8 @@ public:
   const_iterator end() const;
   const_iterator cbegin() const;
 
-  const_iterator cend() const;
-  ConstrainedEntityRef<Args...> &operator[](std::size_t pos);
+  const_iterator                       cend() const;
+  ConstrainedEntityRef<Args...> &      operator[](std::size_t pos);
   const ConstrainedEntityRef<Args...> &operator[](std::size_t pos) const;
 
 private:

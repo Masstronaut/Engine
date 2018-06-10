@@ -148,9 +148,10 @@ bool Model::Assimp_LoadModelFromFile(const std::string &path,
   {
     std::cout << "File OK! Processing scene..." << std::endl;
     Assimp_ProcessNode(scene->mRootNode, scene);
-    m_scalefactor = 1.0f / glm::max(m_mx_vtx.x - m_mn_vtx.x,
-                                    glm::max(m_mx_vtx.y - m_mn_vtx.y,
-                                             m_mx_vtx.z - m_mn_vtx.z));
+    m_scalefactor
+      = 1.0f
+        / glm::max(m_mx_vtx.x - m_mn_vtx.x,
+                   glm::max(m_mx_vtx.y - m_mn_vtx.y, m_mx_vtx.z - m_mn_vtx.z));
     std::cout << "SUCCESS - Model Loaded: " << name
               << "  with scalefactor: " << m_scalefactor << std::endl;
   }

@@ -31,4 +31,4 @@ protected:
 
 private:
 };
-}
+}  // namespace Jellyfish

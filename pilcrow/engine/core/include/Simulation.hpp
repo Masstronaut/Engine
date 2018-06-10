@@ -1,17 +1,17 @@
 #pragma once
-#include <utils/include/EventArena.hpp>
-#include <utils/include/ThreadPool.hpp>
 #include <string>
 #include <unordered_map>
+#include <utils/include/EventArena.hpp>
+#include <utils/include/ThreadPool.hpp>
 
-#include "entity/ArchetypeRef.hpp"
 #include "World.hpp"
+#include "entity/ArchetypeRef.hpp"
 
 class Simulation : public EventArena, public ThreadPool<> {
 public:
-  void Run(double timestep, const std::string &world);
-  World &CreateWorld(const std::string &name);
-  World &GetWorld(const std::string &name);
+  void         Run(double timestep, const std::string &world);
+  World &      CreateWorld(const std::string &name);
+  World &      GetWorld(const std::string &name);
   ArchetypeRef CreateArchetype(const std::string &name = "Nameless Entity");
 
 private:

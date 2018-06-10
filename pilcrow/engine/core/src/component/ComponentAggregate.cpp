@@ -4,17 +4,14 @@
 // Check if the entity has all the components of this aggregate.
 // If it does, add it to the aggregate.
 void ComponentAggregate::OnEntityCreated(const EntityRef &entity) {
-  if(!entity.Has(m_Components)) { return;
-}
+  if(!entity.Has(m_Components)) { return; }
 
   AddVerifiedEntity(entity);
 }
 void ComponentAggregate::OnEntityDestroyed(const EntityRef &entity) {
-  if(!this->Matches(entity)) { return;
-}
+  if(!this->Matches(entity)) { return; }
   auto it{std::find(std::begin(m_Entities), std::end(m_Entities), entity)};
-  if(it == m_Entities.end()) { return;
-}
+  if(it == m_Entities.end()) { return; }
 
   auto index{std::distance(std::begin(m_Entities), it)};
   *it = m_Entities.back();
@@ -33,16 +30,14 @@ void ComponentAggregate::AddVerifiedEntity(const EntityRef &entity) {
 
 bool ComponentAggregate::Matches(
   const std::vector<std::type_index> &types) const {
-  if(types.size() != m_Components.size()) { return false;
-}
+  if(types.size() != m_Components.size()) { return false; }
   return std::equal(std::cbegin(types), std::cend(types),
                     std::cbegin(m_Components));
 }
 
 bool ComponentAggregate::Matches(const EntityRef &entity) const {
   for(const auto &component : m_Components) {
-    if(!entity.Has(component)) { return false;
-}
+    if(!entity.Has(component)) { return false; }
   }
   return true;
 }

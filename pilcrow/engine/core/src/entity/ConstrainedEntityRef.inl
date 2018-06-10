@@ -42,27 +42,24 @@ Component &ConstrainedEntityRef<Args...>::GetMutable() {
                 "Accessing components not listed as required is not allowed.");
   static_assert(!std::is_const_v<T1>, "Error: Cannot get non-const access to a "
                                       "component required as const.");
-  if
-    constexpr(std::is_same_v<Component, T1>) {
-      // at this point the component is the right type, and can be given to the
-      // user:
-      return m_Self.Get<Component>();
-    }
-  else {
-//    static_assert(0, "An error has occurred in accessing a component from an "
-//                     "entity with it.");
+  if constexpr(std::is_same_v<Component, T1>) {
+    // at this point the component is the right type, and can be given to the
+    // user:
+    return m_Self.Get<Component>();
+  } else {
+    //    static_assert(0, "An error has occurred in accessing a component from
+    //    an "
+    //                     "entity with it.");
   }
 }
 template <typename... Args>
 template <typename Component, typename T1, typename T2, typename... FnArgs>
 Component &ConstrainedEntityRef<Args...>::GetMutable() {
-  if
-    constexpr(std::is_same_v<Component, T1>) { return m_Self.Get<Component>(); }
-  else if
-    constexpr(sizeof...(FnArgs)) {
-      return this->GetMutable<Component, T2, FnArgs...>();
-    }
-  else {
+  if constexpr(std::is_same_v<Component, T1>) {
+    return m_Self.Get<Component>();
+  } else if constexpr(sizeof...(FnArgs)) {
+    return this->GetMutable<Component, T2, FnArgs...>();
+  } else {
     return this->GetMutable<Component, T2>();
   }
 }
@@ -70,27 +67,24 @@ Component &ConstrainedEntityRef<Args...>::GetMutable() {
 template <typename... Args>
 template <typename Component, typename T1>
 const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
-  if
-    constexpr(std::is_same_v<Component, T1>) {
-      // at this point the component is the right type, and can be given to the
-      // user:
-      return m_Self.Get<Component>();
-    }
-  else {
-//    static_assert(0, "An error has occurred in accessing a component from an "
-//                     "entity with it.");
+  if constexpr(std::is_same_v<Component, T1>) {
+    // at this point the component is the right type, and can be given to the
+    // user:
+    return m_Self.Get<Component>();
+  } else {
+    //    static_assert(0, "An error has occurred in accessing a component from
+    //    an "
+    //                     "entity with it.");
   }
 }
 template <typename... Args>
 template <typename Component, typename T1, typename T2, typename... FnArgs>
 const Component &ConstrainedEntityRef<Args...>::GetImmutable() const {
-  if
-    constexpr(std::is_same_v<Component, T1>) { return m_Self.Get<Component>(); }
-  else if
-    constexpr(sizeof...(FnArgs)) {
-      return this->GetImmutable<Component, T2, FnArgs...>();
-    }
-  else {
+  if constexpr(std::is_same_v<Component, T1>) {
+    return m_Self.Get<Component>();
+  } else if constexpr(sizeof...(FnArgs)) {
+    return this->GetImmutable<Component, T2, FnArgs...>();
+  } else {
     return this->GetImmutable<Component, T2>();
   }
 }

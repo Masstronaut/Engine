@@ -21,4 +21,4 @@ public:
 private:
   unsigned VAO{0}, VBO{0}, EBO{0};
 };
-}
+}  // namespace Jellyfish

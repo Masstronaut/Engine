@@ -54,12 +54,12 @@ void EntitiesWith<Args...>::PushEntity(const EntityRef &entity) {
 
 template <typename... Args>
 ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::
-operator[](std::size_t pos) {
+                               operator[](std::size_t pos) {
   return m_Entities[pos];
 }
 
 template <typename... Args>
 const ConstrainedEntityRef<Args...> &EntitiesWith<Args...>::
-operator[](std::size_t pos) const {
+                                     operator[](std::size_t pos) const {
   return m_Entities[pos];
 }

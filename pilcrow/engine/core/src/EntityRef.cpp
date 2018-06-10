@@ -4,7 +4,8 @@
 
 #include "../include/World.hpp"
 
-EntityRef::EntityRef(EntityID ID, World *world) : m_ID(std::move(ID)), m_World(world) {}
+EntityRef::EntityRef(EntityID ID, World *world)
+  : m_ID(std::move(ID)), m_World(world) {}
 
 EntityRef &EntityRef::operator=(const EntityRef &rhs) = default;
 
@@ -14,11 +15,9 @@ bool EntityRef::Has(std::type_index component_type) const {
 
 bool EntityRef::Has(const std::vector<std::type_index> &components) const {
   const Entity *entity{m_World->GetEntity(m_ID)};
-  if(entity == nullptr) { return false;
-}
+  if(entity == nullptr) { return false; }
   for(const auto &component : components) {
-    if(!entity->Has(component)) { return false;
-}
+    if(!entity->Has(component)) { return false; }
   }
   return true;
 }
@@ -44,11 +43,11 @@ EntityRef &EntityRef::Name(const std::string &name) {
 
 EntityRef EntityRef::Clone() const {
   Entity *entity{m_World->GetEntity(m_ID)};
-  if(entity != nullptr) { return m_World->Spawn(*this);
-  }  {
+  if(entity != nullptr) { return m_World->Spawn(*this); }
+  {
     throw std::range_error(
       "Tried to clone invalid EntityRef - Entity doesn't exist.");
-}
+  }
 }
 
 bool EntityRef::operator==(const EntityRef &rhs) const {
