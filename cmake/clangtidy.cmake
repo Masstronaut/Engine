@@ -14,15 +14,15 @@ endforeach()
 
 find_program(CLANG_TIDY "clang-tidy")
 if(CLANG_TIDY)
-add_custom_target(
-  Tidy-Code
-  COMMENT "Running clang-tidy to detect errors in source files"
-  COMMAND ${CLANG_TIDY}
-  #-help
-  -checks=*,-clang-analyzer-alpha.*,-llvm-include-order
-  ${tidyfiles}
-  -fix-errors
-  -p ${CMAKE_CURRENT_SOURCE_DIR}
-  WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-  )
+  add_custom_target(
+    Tidy-Code
+    COMMENT "Running clang-tidy to detect errors in source files"
+    COMMAND ${CLANG_TIDY}
+    #-help
+    -checks=*,-clang-analyzer-alpha.*,-llvm-include-order
+    ${tidyfiles}
+    -fix-errors
+    -p ${CMAKE_CURRENT_SOURCE_DIR}
+    WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
+    )
 endif()
