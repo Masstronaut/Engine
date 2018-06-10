@@ -2,8 +2,10 @@
 #include <iostream>  //cout
 
 // GL
-#include <GLFW/glfw3.h>         //glfw window stuff
 #include <glad/include/glad.h>  //opengl -- MUST BE INCLUDED BEFORE GLFW
+// empty line so clang-format alphabetizing doesn't put glad below glfw
+
+#include <GLFW/glfw3.h>         //glfw window stuff
 
 // ours
 #include "../../include/GL/GLWindow.h"
