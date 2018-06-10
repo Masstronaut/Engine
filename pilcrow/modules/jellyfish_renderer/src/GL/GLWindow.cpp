@@ -8,7 +8,7 @@
 // ours
 #include "../../include/GL/GLWindow.h"
 
-// TODO: fix, put in settings or something
+// TODO(unknown): fix, put in settings or something
 const unsigned glmajor = 4;
 const unsigned glminor = 3;
 
@@ -23,7 +23,7 @@ GLWindow::~GLWindow() {
 
 void GLWindow::CreateGameWindow(unsigned width, unsigned height,
                                 bool fullscreen, std::string title) {
-  if(glfwInit()) {
+  if(glfwInit() != 0) {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, glmajor);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, glminor);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
@@ -44,16 +44,16 @@ void GLWindow::CreateGameWindow(unsigned width, unsigned height,
       // Create a borderless fullscreen window at current resolution
       m_Size         = glm::uvec2(tempWidth, tempHeight);
       m_WindowHandle = glfwCreateWindow(tempWidth, tempHeight, title.c_str(),
-                                        primaryMonitor, NULL);
+                                        primaryMonitor, nullptr);
     } else {
       // Create a restored resizable window at specified resolution
       glfwWindowHint(GLFW_RESIZABLE, GL_TRUE);
       m_Size = glm::uvec2(width, height);
       m_WindowHandle
-        = glfwCreateWindow(width, height, title.c_str(), NULL, NULL);
+        = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr);
     }
 
-    if(!m_WindowHandle) {
+    if(m_WindowHandle == nullptr) {
       std::cout << "Failed to create window! Bad Handle." << std::endl;
       system("pause");
       return;
@@ -88,7 +88,7 @@ void GLWindow::CreateGameWindow(unsigned width, unsigned height,
     //}
 
     // Initialize GLAD to setup the OpenGL Function pointers
-    if(!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+    if(gladLoadGLLoader(reinterpret_cast<GLADloadproc>(glfwGetProcAddress)) == 0) {
       std::cout << "Failed to initialize GLAD Loader!" << std::endl;
       system("pause");
       return;
@@ -107,19 +107,17 @@ void GLWindow::CreateGameWindow(unsigned width, unsigned height,
   }
   // ALL OK!
 
-  // TODO:Move into renderer init after migration
+  // TODO(unknown): Move into renderer init after migration
   glEnable(GL_DEPTH_TEST);
   glEnable(GL_BLEND);
   glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-  return;
 }
 void GLWindow::UpdateGameWindow() {}
 void GLWindow::DisplayGameWindow() { glfwSwapBuffers(m_WindowHandle); }
 
 bool GLWindow::IsOpen() { return m_Open; }
 bool GLWindow::IsActive() { return m_Active; }
-void GLWindow::setActive(bool active) {}
+void GLWindow::setActive(bool  /*active*/) {}
 
 void GLWindow::ResizeWindow(unsigned width, unsigned height) {
   if((width != this->m_Size.x) || (height != this->m_Size.y)) {
@@ -156,7 +154,7 @@ void GLWindow::SetWindowState(WindowState state) {
     EWindowStateChanged event{state, m_State};
     this->Emit(event);
 
-    // TODO: stringify events at compile time for friendly output
+    // TODO(unknown): stringify events at compile time for friendly output
     switch(state) {
       case WindowState::maximized:
         glfwMaximizeWindow(m_WindowHandle);
@@ -174,7 +172,7 @@ void GLWindow::SetWindowState(WindowState state) {
                   << "restored" << std::endl;
         break;
       case WindowState::closed:
-        glfwSetWindowShouldClose(m_WindowHandle, true);
+        glfwSetWindowShouldClose(m_WindowHandle, 1);
         std::cout << "Window state was changed to: "
                   << "closed" << std::endl;
         break;
@@ -205,10 +203,11 @@ void GLWindow::PollInput(std::vector<int> &keyarray) {
 
       // DEBUG OUTPUT
       const char *key_name = glfwGetKeyName(key, 0);
-      if(key_name)
+      if(key_name != nullptr) {
         std::cout << "Key Pressed: " << key_name << std::endl;
-      else
+      } else {
         std::cout << "Key Pressed: " << key << "(int code)" << std::endl;
+}
 
     }  // endif
   }    // endfor
@@ -232,25 +231,23 @@ void GLWindow::PollInput(std::vector<int> &keyarray) {
 
 }  // endfunc
 
-void GLWindow::Callback_ResizeWindow(GLFWwindow *windowhandle, int width,
+void GLWindow::Callback_ResizeWindow(GLFWwindow * /*windowhandle*/, int width,
                                      int height) {
   g_singleton_window->ResizeWindow(width, height);
-  return;
 }
 void GLWindow::Callback_WindowClose(GLFWwindow *windowhandle) {
-  glfwSetWindowShouldClose(windowhandle, true);
+  glfwSetWindowShouldClose(windowhandle, 1);
   std::cout << "glfw window should close flag was set!" << std::endl;
 
   g_singleton_window->SetWindowState(WindowState::closed);
-  return;
 }
-void GLWindow::Callback_WindowMove(GLFWwindow *windowhandle, int xpos,
+void GLWindow::Callback_WindowMove(GLFWwindow * /*windowhandle*/, int xpos,
                                    int ypos) {
   // DEBUG:
   std::cout << "Window position was moved to: " << xpos << ", " << ypos
             << std::endl;
 }
-void GLWindow::Callback_CursorPosition(GLFWwindow *windowhandle, double xpos,
+void GLWindow::Callback_CursorPosition(GLFWwindow * /*windowhandle*/, double xpos,
                                        double ypos) {
   // DEBUG:
   std::cout << "Cursor position moved: " << xpos << ", " << ypos << std::endl;
@@ -265,8 +262,8 @@ void GLWindow::Callback_CursorPosition(GLFWwindow *windowhandle, double xpos,
   // update pos
   g_singleton_window->m_Cursor.position = glm::dvec2{xpos, ypos};
 }
-void GLWindow::Callback_MouseButton(GLFWwindow *window, int button, int action,
-                                    int mods) {
+void GLWindow::Callback_MouseButton(GLFWwindow * /*window*/, int button, int action,
+                                    int  /*mods*/) {
   // mods is is all possible glfw modifier bit states as defined below
   /*
   #define 	GLFW_MOD_SHIFT   0x0001

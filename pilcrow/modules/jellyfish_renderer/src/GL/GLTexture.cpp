@@ -36,7 +36,7 @@ GLTexture &GLTexture::Type(iTexture::TextureType type) {
   return *this;
 }
 
-bool GLTexture::LoadImpl() { return TextureFromData(); }
+bool GLTexture::LoadImpl() { return TextureFromData() != 0; }
 
 void GLTexture::UnloadImpl() {
   glDeleteTextures(1, &m_GLuID);
@@ -45,12 +45,12 @@ void GLTexture::UnloadImpl() {
 
 GLint GLTexture::TextureFromData() {
   unsigned char *imgData{
-    stbi_load_from_memory((const unsigned char *)this->Data().c_str(),
+    stbi_load_from_memory(reinterpret_cast<const unsigned char *>(this->Data().c_str()),
                           static_cast<int>(this->Data().size()), &m_Width,
                           &m_Height, &m_NumChannels,
                           0)};  // end imgData allocation
 
-  if(imgData) {
+  if(imgData != nullptr) {
     std::cout << "Texture read: " << Filename() << std::endl;
 
     if(m_NumChannels == 4) {
@@ -83,12 +83,12 @@ GLint GLTexture::TextureFromData() {
 
     std::cout << "Texture was loaded successfully: " << Filename() << std::endl;
 
-    return true;
+    return 1;
   }  // endif
 
   std::cout << "Failed to read texture data: " << this->Directory()
             << this->Filename() << std::endl;
-  return false;
+  return 0;
 }
 
 }  // end namespace Jellyfish

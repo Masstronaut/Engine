@@ -8,13 +8,15 @@ void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
   if(mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS) {
     float       sensitivity{.07f};
     const float xoff{sensitivity
-                     * (float)(mme.newPosition.x - mme.oldPosition.x)};
+                     * (mme.newPosition.x - mme.oldPosition.x)};
     const float yoff{sensitivity
-                     * (float)(mme.newPosition.y - mme.oldPosition.y)};
+                     * (mme.newPosition.y - mme.oldPosition.y)};
     cam->yaw += xoff;
     cam->pitch -= yoff;
-    if(cam->pitch > 89.9f) cam->pitch  = 89.9f;
-    if(cam->pitch < -89.9f) cam->pitch = -89.9f;
+    if(cam->pitch > 89.9f) { cam->pitch  = 89.9f;
+}
+    if(cam->pitch < -89.9f) { cam->pitch = -89.9f;
+}
   }
 }
 // void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
@@ -33,12 +35,12 @@ WindowManager::WindowManager() {
 }
 
 void WindowManager::Init(World &world) {
-  // TODO: DX and other Window options
+  // TODO(unknown): DX and other Window options
   Jellyfish::g_singleton_window = nullptr;
   Jellyfish::g_singleton_window = new Jellyfish::GLWindow;
   pWindow                       = Jellyfish::g_singleton_window;
   Jellyfish::g_singleton_window->CreateGameWindow(
-    (unsigned)m_windowSizeSetting.x, (unsigned)m_windowSizeSetting.y,
+    static_cast<unsigned>(m_windowSizeSetting.x), static_cast<unsigned>(m_windowSizeSetting.y),
     m_windowFullscreenSetting,
     "Welcome to Pilcrow Engine v0.0 ft. Jellyfish Renderer! :)");
 
@@ -67,31 +69,32 @@ void WindowManager::FrameStart() {
 void WindowManager::FrameEnd() { pWindow->FrameEnd(); }
 
 inline void WindowManager::ProcessInput(Camera &cam) {
-  // TODO:fix camera
-  float camSpeed{2.f * (float)Dt};
+  // TODO(unknown): fix camera
+  float camSpeed{2.f * Dt};
 
   std::vector<int> keyarray;
   pWindow->PollInput(keyarray);
 
-  for(int i = 0; i < keyarray.size(); ++i) {
-    if(keyarray[i] == GLFW_KEY_ESCAPE) {
+  for(int i : keyarray) {
+    if(i == GLFW_KEY_ESCAPE) {
       pWindow->SetWindowState(Jellyfish::WindowState::closed);
-    } else if(keyarray[i] == GLFW_KEY_1) {
+    } else if(i == GLFW_KEY_1) {
       glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-    } else if(keyarray[i] == GLFW_KEY_2) {
+    } else if(i == GLFW_KEY_2) {
       glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
       glLineWidth(1.5f);
-    } else if(keyarray[i] == GLFW_KEY_3) {
+    } else if(i == GLFW_KEY_3) {
       glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-    } else if(keyarray[i] == GLFW_KEY_W)
+    } else if(i == GLFW_KEY_W) {
       cam.position += camSpeed * cam.Front();
-    else if(keyarray[i] == GLFW_KEY_S)
+    } else if(i == GLFW_KEY_S) {
       cam.position -= camSpeed * cam.Front();
-    else if(keyarray[i] == GLFW_KEY_A)
+    } else if(i == GLFW_KEY_A) {
       cam.position -= cam.Right() * camSpeed;
-    else if(keyarray[i] == GLFW_KEY_D)
+    } else if(i == GLFW_KEY_D) {
       cam.position += cam.Right() * camSpeed;
-    else if(keyarray[i] == GLFW_KEY_SPACE)
+    } else if(i == GLFW_KEY_SPACE) {
       cam.LookAt({0.f, 0.f, 0.f});
+}
   }  // endfunc
 }

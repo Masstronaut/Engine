@@ -30,7 +30,7 @@ private:
   bool LoadImpl() final;
   void UnloadImpl() final;
 
-  GLuint   m_GLuID;
+  GLuint   m_GLuID{};
   unsigned m_GLShaderType;
 
 };  // class GLShader

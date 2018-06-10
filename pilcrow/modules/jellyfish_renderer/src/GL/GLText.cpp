@@ -19,11 +19,11 @@ const GLText::Character &GLText::Get(char c) const { return m_Glyphs[c - ' ']; }
 
 GLText::GLText(const std::string &shader, const std::string &font, int size)
   : m_Shader(shader), m_Size(size) {
-  if(FT_Init_FreeType(&m_FT)) {
+  if(FT_Init_FreeType(&m_FT) != 0) {
     std::cout << "ERROR: Failed to initialize FreeType Library." << std::endl;
   }
 
-  if(FT_New_Face(m_FT, (FontPath() + font).c_str(), 0, &m_Font)) {
+  if(FT_New_Face(m_FT, (FontPath() + font).c_str(), 0, &m_Font) != 0) {
     std::cout << "Error: Freetype failed to load the font \"" << font
               << "\" from the folder \"" << FontPath() << "\"." << std::endl;
   }
@@ -33,8 +33,8 @@ GLText::GLText(const std::string &shader, const std::string &font, int size)
   glPixelStorei(GL_UNPACK_ALIGNMENT, 1);  // disable byte-alignment restriction
 
   for(GLubyte c{' '}; c <= '~'; ++c) {
-    if(FT_Load_Char(m_Font, c, FT_LOAD_RENDER)) {
-      std::cout << "Warning: FreeType failed to load a glyph for '" << (char)c
+    if(FT_Load_Char(m_Font, c, FT_LOAD_RENDER) != 0) {
+      std::cout << "Warning: FreeType failed to load a glyph for '" << static_cast<char>(c)
                 << "' for font face \"" << font << "\"." << std::endl;
       continue;
     }
@@ -53,7 +53,7 @@ GLText::GLText(const std::string &shader, const std::string &font, int size)
       Character{texture,
                 {m_Font->glyph->bitmap.width, m_Font->glyph->bitmap.rows},
                 {m_Font->glyph->bitmap_left, m_Font->glyph->bitmap_top},
-                (GLuint)m_Font->glyph->advance.x});
+                static_cast<GLuint>(m_Font->glyph->advance.x)});
   }
 
   FT_Done_Face(m_Font);
@@ -63,9 +63,9 @@ GLText::GLText(const std::string &shader, const std::string &font, int size)
   glGenBuffers(1, &VBO);
   glBindVertexArray(VAO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, NULL, GL_DYNAMIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * 6 * 4, nullptr, GL_DYNAMIC_DRAW);
   glEnableVertexAttribArray(0);
-  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), 0);
+  glVertexAttribPointer(0, 4, GL_FLOAT, GL_FALSE, 4 * sizeof(GLfloat), nullptr);
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 }

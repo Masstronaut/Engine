@@ -27,7 +27,7 @@ Model::Model(const std::string &path) : Resource(path) {
 
 Model::Model(const Model &model) : Resource(model) { Load(); }
 
-Model::~Model() {}
+Model::~Model() = default;
 
 void Model::Draw() const {
   // iMesh is abstract type, cannot use Draw() directly unless cast to real type
@@ -57,11 +57,12 @@ bool Model::LoadImpl() {
   std::cout << "Attempting to load Model: " << this->Path() << std::endl;
   bool loadstatus = Assimp_LoadModelFromFile(this->Path(), this->Name());
 
-  if(loadstatus)
+  if(loadstatus) {
     std::cout << "Model was successfully loaded." << std::endl;
-  else
+  } else {
     std::cout << "ERROR! Model could not be loaded!  See Model::LoadImpl()"
               << std::endl;
+}
 
   // spacer for console readability
   std::cout << " " << std::endl;
@@ -88,13 +89,14 @@ Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type) {
         = loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
       textures.push_back(res.first->second);
 
-      if(type == aiTextureType_DIFFUSE)
+      if(type == aiTextureType_DIFFUSE) {
         textures.back()->Type(iTexture::TextureType::diffuse);
-      else if(type == aiTextureType_SPECULAR)
+      } else if(type == aiTextureType_SPECULAR) {
         textures.back()->Type(iTexture::TextureType::specular);
+}
     }
   }
 
   return textures;
 }
-}
+} // namespace Jellyfish

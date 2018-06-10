@@ -28,7 +28,7 @@ void GLMesh::Draw() const {
         name = "diffuse";
         name += std::to_string(diffuse++);
 
-        if(!m_shader->SetUniform(name, (int)i)) {
+        if(!m_shader->SetUniform(name, static_cast<int>(i))) {
           std::cout << "Error! Could not set shader uniform:" << name
                     << std::endl;
         } else {
@@ -47,7 +47,7 @@ void GLMesh::Draw() const {
   }
 
   glBindVertexArray(VAO);
-  glDrawElements(GL_TRIANGLES, (int)m_Indices.size(), GL_UNSIGNED_INT, 0);
+  glDrawElements(GL_TRIANGLES, static_cast<int>(m_Indices.size()), GL_UNSIGNED_INT, nullptr);
   glBindVertexArray(0);
 }
 
@@ -67,7 +67,7 @@ void GLMesh::Load() {
                m_Indices.data(), GL_STATIC_DRAW);
 
   // Position attribute
-  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)0);
+  glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (GLvoid *)nullptr);
   glEnableVertexAttribArray(0);
 
   // Color Attribute
@@ -85,4 +85,4 @@ void GLMesh::Load() {
 }
 
 void GLMesh::AssignShader(GLProgram &shader) { m_shader = &shader; }
-}
+}  // namespace Jellyfish

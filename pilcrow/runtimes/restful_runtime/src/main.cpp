@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 
 
-// TODO: Remove
+// TODO(unknown): Remove
 #include "Camera.hpp"
 
 double dt{0.f};
@@ -26,7 +26,7 @@ std::string ReadFile(const std::string &path) {
   std::ifstream infile(path);
   std::string   result;
   result.reserve(1024);
-  std::array<char, 256> line;
+  std::array<char, 256> line{};
   while(infile.good() && !infile.eof()) {
     infile.getline(line.data(), 256);
     result += line.data();
@@ -71,8 +71,9 @@ class TransformPrinterSystem {
 public:
   EntitiesWith<const Transform> Entities;
   void                          Update() {
-    for(const auto &e : Entities)
+    for(const auto &e : Entities) {
       TransformPrinter(e.Get<const Transform>());
+}
   }
 };
 
@@ -125,7 +126,7 @@ struct ParallelAccelerationSystem {
 
 struct ParallelGravity {
   ParallelGravity() = default;
-  ParallelGravity(glm::vec3 gravity) : m_gravity(gravity) {}
+  explicit ParallelGravity(glm::vec3 gravity) : m_gravity(gravity) {}
   ParallelGravity(const ParallelGravity &) = default;
   ParallelGravity(ParallelGravity &&)      = default;
   void PreProcess() {}
@@ -221,11 +222,11 @@ void ECSDemo() {
       }
     }
 
-    // TODO: google test this
+    // TODO(unknown): google test this
     // Model remove testing
     nanos[0].Remove<CModel>();
 
-    // TODO: google test this
+    // TODO(unknown): google test this
     // Model change testing
     CModel bunny{"bunny.ply"};
     s                               = bunny.model->GetScale();
@@ -236,7 +237,8 @@ void ECSDemo() {
   // Makes the Game exit on window close
   bool WindowOpen = true;
   TestWorld.On([&](const Jellyfish::GLWindow::EWindowStateChanged &event) {
-    if(event.newState == Jellyfish::WindowState::closed) WindowOpen = false;
+    if(event.newState == Jellyfish::WindowState::closed) { WindowOpen = false;
+}
   });
 
   try {

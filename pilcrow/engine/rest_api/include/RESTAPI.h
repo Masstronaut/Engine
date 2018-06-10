@@ -9,7 +9,7 @@ class World;
 
 class REST_VM {
 public:
-  REST_VM(Simulation &sim, utility::string_t url);
+  REST_VM(Simulation &sim, const utility::string_t& url);
   REST_VM(const REST_VM &) = delete;
   REST_VM(REST_VM &&)      = delete;
   REST_VM &operator=(const REST_VM &) = delete;
@@ -34,7 +34,7 @@ public:
   };
 
 private:
-  void handle_request(web::http::http_request message);
+  void handle_request(const web::http::http_request& message);
   void handle_error(pplx::task<void> &t);
   web::http::experimental::listener::http_listener m_listener;
   Simulation &                                     m_simulation;

@@ -38,8 +38,8 @@ private:
   const Character &Get(char c) const;
 
   GLProgram              m_Shader;
-  FT_Library             m_FT;
-  FT_Face                m_Font;
+  FT_Library             m_FT{};
+  FT_Face                m_Font{};
   int                    m_Size;
   std::vector<Character> m_Glyphs;
   GLuint                 VAO{0}, VBO{0};

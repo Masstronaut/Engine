@@ -25,13 +25,13 @@ class ComponentAggregate;
 
 class World : public EventArena {
 public:
-  World(const std::string &name = "Nameless World");
+  World(std::string name = "Nameless World");
 
   template <typename T>
   T &GetComponent(EntityID entity);
   template <typename T>
   const T &GetComponent(EntityID entity) const;
-  void *GetComponent(EntityID entity, std::type_index ComponentType);
+  void *GetComponent(EntityID component, std::type_index ComponentType);
 
   Entity *GetEntity(EntityID ID);
   const Entity *GetEntity(EntityID ID) const;

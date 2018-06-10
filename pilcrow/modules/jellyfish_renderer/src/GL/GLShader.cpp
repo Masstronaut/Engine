@@ -10,7 +10,7 @@ namespace Jellyfish {
 GLShader::GLShader(const std::string &name) : Resource(name) {
   auto ext{this->Extension()};
 
-  // TODO: better / automatic extension checking
+  // TODO(unknown): better / automatic extension checking
   if(ext == "vert") {
     m_GLShaderType = GL_VERTEX_SHADER;
   } else if(ext == "frag") {
@@ -22,8 +22,8 @@ GLShader::GLShader(const std::string &name) : Resource(name) {
 
 GLShader::GLShader(GLShader &&shader)
   : Resource(std::move(shader))
-  , m_GLuID(std::move(shader.m_GLuID))
-  , m_GLShaderType(std::move(shader.m_GLShaderType)) {
+  , m_GLuID(shader.m_GLuID)
+  , m_GLShaderType(shader.m_GLShaderType) {
   shader.m_GLuID        = 0;
   shader.m_GLShaderType = 0;
 }
@@ -38,22 +38,21 @@ unsigned GLShader::ID() const {
 }
 
 void GLShader::Use() const {
-  // TODO, not necessary yet
-  return;
-}
+  // TODO(unknown): , not necessary yet
+  }
 
 bool GLShader::Check() const {
   int success{0};
-  std::array<char, 512> info;
+  std::array<char, 512> info{};
   glGetShaderiv(m_GLuID, GL_COMPILE_STATUS, &success);
 
-  if(!success) {
-    glGetShaderInfoLog(m_GLuID, (GLsizei)info.size(), NULL, info.data());
+  if(success == 0) {
+    glGetShaderInfoLog(m_GLuID, static_cast<GLsizei>(info.size()), nullptr, info.data());
     std::cout << "Error: Shader compilation has failed for file: "
               << this->Filename() << ".\n"
               << info.data() << std::endl;
   }
-  return success;
+  return success != 0;
 }
 
 bool GLShader::Reloadable() const { return true; }

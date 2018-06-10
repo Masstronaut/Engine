@@ -32,8 +32,8 @@ private:
 
   GLint TextureFromData();
 
-  GLuint m_GLuID;
-  GLenum m_Format;
+  GLuint m_GLuID{};
+  GLenum m_Format{};
 
 };  // class GLTexture
 

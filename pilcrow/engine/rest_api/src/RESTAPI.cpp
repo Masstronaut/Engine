@@ -15,7 +15,7 @@
 #include "../include/RESTAPI.h"
 #include <Simulation.hpp>
 
-REST_VM::REST_VM(Simulation &sim, utility::string_t url)
+REST_VM::REST_VM(Simulation &sim, const utility::string_t& url)
   : m_listener(url), m_simulation(sim) {
   m_listener.support(
     std::bind(&REST_VM::handle_request, this, std::placeholders::_1));
@@ -33,15 +33,15 @@ void REST_VM::handle_error(pplx::task<void> &t) {
   }
 }
 
-void REST_VM::handle_request(web::http::http_request message) {
+void REST_VM::handle_request(const web::http::http_request& message) {
   using web::http::uri;
   ucout << message.to_string() << std::endl;
 
   auto paths = uri::split_path(uri::decode(message.relative_uri().path()));
 
-  if(paths.empty())
+  if(paths.empty()) {
     message.reply(web::http::status_codes::BadRequest, "Empty Request.");
-  else if(paths[0] == U("Worlds")) {
+  } else if(paths[0] == U("Worlds")) {
     std::string       world_name;
     utility::string_t str;
     if(paths.size() > 1) {
@@ -68,20 +68,22 @@ void REST_VM::handle_request(web::http::http_request message) {
           iss.get();  // pull out the comma
           iss >> ID.second;
           Entity *entity{world.GetEntity(ID)};
-          if(entity) {
+          if(entity != nullptr) {
             message.reply(web::http::status_codes::OK,
                           U("The Entity with ID {") + paths[1]
                             + U("} is named \"")
                             + utility::string_t(entity->Name().begin(),
                                                 entity->Name().end())
                             + U("\""));
-          } else
+          } else {
             message.reply(web::http::status_codes::NotFound,
                           "Entity requested does not exist.");
+}
         }
       }
     }
-  } else
+  } else {
     message.reply(web::http::status_codes::InternalError,
                   "That operation is not yet supported by the REST API.");
+}
 }

@@ -58,7 +58,7 @@ void GLProgram::Use(bool use) const {
 bool GLProgram::SetUniform(const std::string &name, float x, float y, float z,
                            float w) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var) {
+  if(var != nullptr) {
     // this->Use( );
     glUniform4f(var->location, x, y, z, w);
     return true;
@@ -69,7 +69,7 @@ bool GLProgram::SetUniform(const std::string &name, float x, float y, float z,
 
 bool GLProgram::SetUniform(const std::string &name, const glm::vec3 &vec) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var) {
+  if(var != nullptr) {
     this->Use();
     glUniform3f(var->location, vec.x, vec.y, vec.z);
     return true;
@@ -80,7 +80,7 @@ bool GLProgram::SetUniform(const std::string &name, const glm::vec3 &vec) {
 
 bool GLProgram::SetUniform(const std::string &name, const glm::vec4 &vec) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var) {
+  if(var != nullptr) {
     this->Use();
     glUniform4f(var->location, vec.x, vec.y, vec.z, vec.w);
     return true;
@@ -91,7 +91,7 @@ bool GLProgram::SetUniform(const std::string &name, const glm::vec4 &vec) {
 
 bool GLProgram::SetUniform(const std::string &name, float val) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var) {
+  if(var != nullptr) {
     this->Use();
     glUniform1f(var->location, val);
     return true;
@@ -102,7 +102,7 @@ bool GLProgram::SetUniform(const std::string &name, float val) {
 
 bool GLProgram::SetUniform(const std::string &name, int val) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var) {
+  if(var != nullptr) {
     this->Use();
     glUniform1i(var->location, val);
     return true;
@@ -113,7 +113,7 @@ bool GLProgram::SetUniform(const std::string &name, int val) {
 
 bool GLProgram::SetUniform(const std::string &name, const glm::mat4 &mat) {
   const ShaderVariable *var{this->GetVariable(name)};
-  if(var && var->type == GL_FLOAT_MAT4) {
+  if((var != nullptr) && var->type == GL_FLOAT_MAT4) {
     this->Use();
     glUniformMatrix4fv(var->location, 1, GL_FALSE, glm::value_ptr(mat));
     return true;
@@ -154,9 +154,9 @@ bool GLProgram::LoadImpl() {
     glLinkProgram(m_ProgramID);
     success = Check();
     this->ErrorCheck();
-    if(!success)
+    if(!success) {
       glDeleteProgram(m_ProgramID);
-    else {
+    } else {
       this->GetAttributes();
       this->ErrorCheck();
       this->GetUniforms();
@@ -177,28 +177,28 @@ void GLProgram::UnloadImpl() {
 }
 
 bool GLProgram::Check() const {
-  int success{true};
-  std::array<char, 512> info;
+  int success{1};
+  std::array<char, 512> info{};
   glGetProgramiv(m_ProgramID, GL_LINK_STATUS, &success);
-  if(!success) {
-    glGetProgramInfoLog(m_ProgramID, 512, NULL, info.data());
+  if(success == 0) {
+    glGetProgramInfoLog(m_ProgramID, 512, nullptr, info.data());
     std::cout << "An error has occurred on the program: " << Filename()
               << ".\nInfo:\n"
               << info.data() << std::endl;
   }
 
-  return success;
+  return success != 0;
 }
 
 void GLProgram::GetAttributes() {
   int count{0};
   glGetProgramiv(this->ID(), GL_ACTIVE_ATTRIBUTES, &count);
-  std::array<char, 64> buffer;
-  for(unsigned i{0}; (int)i < count; ++i) {
+  std::array<char, 64> buffer{};
+  for(unsigned i{0}; static_cast<int>(i) < count; ++i) {
     ShaderVariable sv;
     GLsizei        namelength;
     sv.location = i;
-    glGetActiveAttrib(this->ID(), i, (GLsizei)buffer.size(), &namelength,
+    glGetActiveAttrib(this->ID(), i, static_cast<GLsizei>(buffer.size()), &namelength,
                       &sv.size, &sv.type, buffer.data());
     sv.name              = buffer.data();
     m_variables[sv.name] = sv;
@@ -208,19 +208,19 @@ void GLProgram::GetAttributes() {
 void GLProgram::GetUniforms() {
   int count{0};
   glGetProgramiv(this->ID(), GL_ACTIVE_UNIFORMS, &count);
-  std::array<char, 64> buffer;
-  for(unsigned i{0}; (int)i < count; ++i) {
+  std::array<char, 64> buffer{};
+  for(unsigned i{0}; static_cast<int>(i) < count; ++i) {
     ShaderVariable sv;
     GLsizei        namelength;
     sv.location = i;
-    glGetActiveUniform(this->ID(), i, (GLsizei)buffer.size(), &namelength,
+    glGetActiveUniform(this->ID(), i, static_cast<GLsizei>(buffer.size()), &namelength,
                        &sv.size, &sv.type, buffer.data());
     sv.name              = buffer.data();
     m_variables[sv.name] = sv;
   }
 }
 
-void GLProgram::WarnUniform(const std::string &uniformName) const {
+void GLProgram::WarnUniform(const std::string & /*uniformName*/) const {
   // turning off spam for now
   /*
   std::cout << "Warning: Shader program \""

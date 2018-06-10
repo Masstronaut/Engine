@@ -11,7 +11,7 @@ void Body::SetMass(float m) {
 float Body::GetMass() const {
   if(massInverse == Infinity) {
     return 0.0f;
-  } else {
+  } 
     return 1.0f / massInverse;
-  }
+  
 }

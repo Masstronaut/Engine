@@ -22,7 +22,7 @@ public:
   bool Matches() const;
 
   // Expects the vector of type_index objects to be sorted.
-  bool Matches(const std::vector<std::type_index> &hashes) const;
+  bool Matches(const std::vector<std::type_index> &types) const;
   bool Matches(const EntityRef &entity) const;
   std::vector<EntityRef> &      GetEntities();
   const std::vector<EntityRef> &GetEntities() const;

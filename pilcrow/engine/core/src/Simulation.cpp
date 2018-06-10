@@ -3,7 +3,7 @@
 #include "../include/entity/ArchetypeRef.hpp"
 
 void Simulation::Run(double timestep, const std::string &world) {
-  this->GetWorld(world).Update((float)timestep);
+  this->GetWorld(world).Update(static_cast<float>(timestep));
 }
 World &Simulation::CreateWorld(const std::string &name) {
   auto result{m_Worlds.emplace(name, name)};

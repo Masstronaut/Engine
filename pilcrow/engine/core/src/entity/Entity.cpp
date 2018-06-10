@@ -1,4 +1,5 @@
 #include <typeinfo>
+#include <utility>
 #include <vector>
 
 #include "../../include/entity/Entity.hpp"
@@ -6,7 +7,7 @@
 #include "../../include/entity/EntityRef.hpp"
 
 Entity::Entity(World &world, EntityID id)
-  : m_World(world), m_ID(id), m_Name("Nameless Entity") {}
+  : m_World(world), m_ID(std::move(id)), m_Name("Nameless Entity") {}
 Entity::Entity(Entity &&rhs)
   : m_World(rhs.m_World)
   , m_Components(std::move(rhs.m_Components))

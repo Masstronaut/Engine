@@ -10,4 +10,4 @@ Vertex::Vertex()
   , m_Color({1.f, 1.f, 1.f, 1.f})
   ,  // White
   m_TexCoords({0.f, 0.f, 0.f}) {}
-}
+} // namespace Jellyfish
