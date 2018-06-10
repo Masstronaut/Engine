@@ -14,6 +14,8 @@ include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/physics/include)
 include_directories(${CPPREST_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${FREETYPE_INCLUDE_DIRS})
+include_directories(${ASSIMP_INCLUDE_DIRS})
+
 
 add_executable(restful_runtime ${restful_runtime_src})
 

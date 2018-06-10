@@ -2,7 +2,4 @@
 
 #include <iostream>
 
-void CollisionDetection::Update(float dt)
-{
-
-}
+void CollisionDetection::Update(float /*dt*/) {}

@@ -1,15 +1,13 @@
 #pragma once
 
-//std
+// std
 #include <string>
 
-//ours
-#include "Utils/include/ResourceSettings.h"
+// ours
+#include "utils/include/ResourceSettings.h"
 
-namespace Jellyfish
-{
-  static std::string ShaderPath()
-  {
-	  return std::string(g_ResourcePath) + "Shaders/";
-  }
+namespace Jellyfish {
+static std::string ShaderPath() {
+  return std::string(g_ResourcePath) + "Shaders/";
 }
+}  // namespace Jellyfish

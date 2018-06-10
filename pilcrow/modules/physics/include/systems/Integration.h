@@ -2,14 +2,12 @@
 
 #include <entity/EntitiesWith.hpp>
 
+#include "../components/Body.h"
 #include <components/Transform.h>
-#include "../Components/Body.h"
 
-class Integration
-{
+class Integration {
 public:
-	EntitiesWith<Transform, Body> Entities;
+  EntitiesWith<Transform, Body> Entities;
 
-	void Update(float dt);
-
+  void Update(float dt);
 };
