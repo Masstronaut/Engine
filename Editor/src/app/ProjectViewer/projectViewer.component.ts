@@ -12,8 +12,12 @@ import * as GoldenLayout from 'golden-layout';
 })
 export class ProjectViewerComponent implements GlOnResize, GlOnHide, GlOnShow {
 
+  public static containerManager : GoldenLayout.Container;
+
   constructor(@Inject(GoldenLayoutComponentState) private state: any,
-              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
+              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {
+              ProjectViewerComponent.containerManager = container;
+          }
 
   public onInput(e: Event): void {
     

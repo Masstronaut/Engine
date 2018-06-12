@@ -2,6 +2,7 @@
 
 #include <cpprest/http_listener.h>
 #include <cpprest/asyncrt_utils.h>
+#include <cpprest/json.h>
 
 class Simulation;
 class Entity;
@@ -37,8 +38,12 @@ public:
 private:
   void handle_request(web::http::http_request message);
   void handle_error(pplx::task<void>& t);
+  web::json::value GetComponentsList();
+
+
   web::http::experimental::listener::http_listener m_listener;
   Simulation &m_simulation;
+  std::map<utility::string_t, std::function<web::json::value(void)>> mRoutesMap;
 };
 
 

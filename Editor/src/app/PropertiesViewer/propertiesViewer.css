@@ -1,0 +1,10 @@
+.propertiesBtn {
+    text-align: center;
+}
+
+#propertiesView .mat-expansion-panel button.mat-button{
+    width: 16px;
+    padding: 0px;
+    min-width: 30px;
+    line-height: 15px;
+}

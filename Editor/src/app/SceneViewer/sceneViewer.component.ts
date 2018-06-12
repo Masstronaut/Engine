@@ -13,8 +13,12 @@ export class SceneViewerComponent implements GlOnResize {
 
   @ViewChild('editorView') editorView: ElementRef
 
+  public static containerManager : GoldenLayout.Container;
+
   constructor(@Inject(GoldenLayoutComponentState) private state: any,
-              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {}
+              @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {
+            SceneViewerComponent.containerManager = container;
+        }
 
   canvas : HTMLCanvasElement;
   gl: WebGL2RenderingContext;

@@ -245,7 +245,7 @@ void ECSDemo() {
 
 	try {
 
-		REST_VM h(Sim, utility::string_t(U("http://*:42069/api/")));
+		REST_VM h(Sim, utility::string_t(U("http://localhost:42069/api/")));
 		auto server = h.Open();
 		while (WindowOpen) {
 			double currentFrame = glfwGetTime();
