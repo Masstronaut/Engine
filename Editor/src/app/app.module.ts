@@ -33,6 +33,7 @@ import { SliderViewer } from './PropertiesViewer/Properties/sliderViewer/sliderV
 import { Vector3Viewer } from './PropertiesViewer/Properties/vec3Viewer/vec3Viewer.component';
 import { Vector2Viewer } from './PropertiesViewer/Properties/vec2Viewer/vec2Viewer.component';
 import { BoolViewer } from './PropertiesViewer/Properties/boolViewer/boolViewer.component';
+import { ConsoleViewerComponent } from './ConsoleViewer/consoleViewer.component';
 
 import 'hammerjs';
 
@@ -66,24 +67,29 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
     },
     {
       component: HierachyViewerComponent,
-      componentName: 'Hierachy'
+      componentName: 'Hierarchy'
+    },
+    {
+      component: ConsoleViewerComponent,
+      componentName: 'Console'
     }
   ],
-  
+
   defaultLayout: {
-    settings:{
-      // hasHeaders: true,
+    settings: {
+      // hasHeaders: false
     },
     dimensions: {
-      minItemHeight: 300,
-      minItemWidth: 300,
+      minItemHeight: 200,
+      minItemWidth: 200,
+      borderWidth: 3
     },
     content: [
     {
-      type: 'row',
+      type: 'column',
       content: [
       {
-        type: 'column',
+        type: 'row',
         content: [
         {
           type: 'row',
@@ -91,41 +97,53 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
           {//Hierarchy View
             type: 'component',
             width: 20,
-            componentName: 'Hierachy',
+            height: 20,
+            componentName: 'Hierarchy',
           },
           {//Editor/Game View
             type: 'stack',
             content: [
             { 
-              type: 'component', 
+              type: 'component',
+              width: 20,
+              height: 20,
               componentName: 'Scene', 
               componentState: { 
                 text: "Editor Window Here" 
               },
-              isClosable: false 
             }, 
             { 
               type: 'component', 
+              width: 20,
+              height: 20,
               componentName: 'test-panel', 
               componentState: {
                 text: 'Game Window Here'
               }, 
               isClosable: false
             }]
+          },
+          {//Game Component View
+            type: 'component',
+            width: 20,
+            height: 20,
+            componentName: 'Properties',
           }]
-        },
-        {//Project File View
-          type: 'component',
-          height: 20,
-          componentName: 'Project',
         }]
       },
-      {//Game Component View
+      {//Project File View
         type: 'component',
         width: 20,
-        componentName: 'Properties',
-        isClosable: false
-      }]
+        height: 20,
+        componentName: 'Project',
+      },      
+      {//Project File View
+        type: 'component',
+        width: 0,
+        height: 0,
+        componentName: 'Console',
+      },
+    ]
     }]
   }
 }
@@ -138,6 +156,7 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
     ProjectViewerComponent,
     HierachyViewerComponent,
     PropertiesViewerComponent,
+    ConsoleViewerComponent,
     MenuBarComponent,
     ContextMenuComponent,
     Vector3Viewer,
@@ -154,6 +173,7 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
     HierachyViewerComponent,
     MenuBarComponent,
     PropertiesViewerComponent,
+    ConsoleViewerComponent,
     Vector3Viewer,
     Vector2Viewer,
     SliderViewer,
@@ -186,4 +206,6 @@ const goldenLayoutConfig: GoldenLayoutConfiguration = {
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+
+export class AppModule { 
+}

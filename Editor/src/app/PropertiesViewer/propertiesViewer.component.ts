@@ -18,16 +18,13 @@ import * as GoldenLayout from 'golden-layout';
 })
 
 export class PropertiesViewerComponent implements GlOnResize, GlOnHide, GlOnShow {
-    
+    public static containerManager : GoldenLayout.Container;
+
     constructor(@Inject(GoldenLayoutComponentState) private state: any,
                 @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container,
-                private propertiesViewerVMService: PropertiesViewerVMService,
-                private service: PropertiesViewerService,
-                private injector: Injector) {
-
-    }
-
-    ngOnInit() {
+                private propertiesViewerVMService: PropertiesViewerVMService) {
+    
+        PropertiesViewerComponent.containerManager = container;
     }
 
     getComponentsList() : Array<String> {
@@ -64,5 +61,11 @@ export class PropertiesViewerComponent implements GlOnResize, GlOnHide, GlOnShow
 
     public glOnHide(): void {
         console.log('Game Object Properties Hiding!');
+    }
+
+    public ngOnInit() {
+    }
+
+    public ngOnDestroy() {
     }
 }

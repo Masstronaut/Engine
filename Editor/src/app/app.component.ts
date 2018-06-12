@@ -1,53 +1,54 @@
 import { Component, OnInit } from '@angular/core';
-import { MenuBarComponent } from './MenuBar/menuBar.component';
 import { UndoRedoManagerService } from '../assets/Utils/UndoRedo/UndoRedoManager.service';
+import { ConsoleViewerComponent } from './ConsoleViewer/consoleViewer.component';
+
 
 @Component({
-  selector: 'editor',
-  template: `
-  <div class="editorContainer">
-    <menu-bar></menu-bar>
-    <golden-layout-root></golden-layout-root>
-  </div>
-  `,
-  //templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'editor',
+    template: `
+    <div class="editorContainer">
+        <menu-bar></menu-bar>
+        <golden-layout-root></golden-layout-root>
+    </div>
+    `,
+    //templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 
 export class AppComponent {
-  undoRedoManager : UndoRedoManagerService;
-  constructor() {
-    this.undoRedoManager = UndoRedoManagerService.getInstance();
-  }
+    undoRedoManager : UndoRedoManagerService;
 
-  //title = 'app';
-  ngOnInit() {
-    this.LoadEventListeners();
-  }
+    constructor() {
+        this.undoRedoManager = UndoRedoManagerService.getInstance();
+    }
 
 
-  LoadEventListeners() {
-    document.addEventListener('keydown', (event) => {
+    ngOnInit() {
+        this.LoadEventListeners();
+    }
+
+
+    private LoadEventListeners() {
+        document.addEventListener('keydown', (event) => {
             const keyName = event.key;
             if(keyName === 'Control') {
                 return;
             }
 
             if(event.ctrlKey) {
-                  // undo, Ctrl+Z
+                // undo, Ctrl+Z
                 if(event.keyCode == 90) {
-                  this.undoRedoManager.Undo();
-                  return;
+                    this.undoRedoManager.Undo();
+                    return;
                 }
 
-                  // redo, Ctrl+Y
+                // redo, Ctrl+Y
                 if(event.keyCode == 89) {
-                  this.undoRedoManager.Redo();
-                  return;
+                    this.undoRedoManager.Redo();
+                    return;
                 }
             }
-        }
-    )
-}
+        })
+    }
 }
 

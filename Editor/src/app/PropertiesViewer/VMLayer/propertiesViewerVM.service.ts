@@ -112,6 +112,8 @@ export class PropertiesViewerVMService {
     }
 
     public removeComponentFromPropertyViewer = (componentName : string) => {
+          // this function is either going to get passed the components name as a string.
+          // or the undo/redo is going to pass it an array with 1 element in it.
         var realComponentName;
         if(Array.isArray(componentName)) {
             realComponentName = componentName['0'];

@@ -14,13 +14,11 @@ import * as GoldenLayout from 'golden-layout';
 
 @Inject(GoldenLayoutContainer)
 export class HierachyViewerComponent implements GlOnResize, GlOnHide, GlOnShow{
-    undoRedoManager : UndoRedoManagerService;
-    containerManager : GoldenLayout.Container;
+    public static containerManager : GoldenLayout.Container;
 
     constructor(@Inject(GoldenLayoutComponentState) private state: any,
                 @Inject(GoldenLayoutContainer) private container: GoldenLayout.Container) {
-        this.undoRedoManager = UndoRedoManagerService.getInstance();
-        this.containerManager = container;
+        HierachyViewerComponent.containerManager = container;
     }
 
     public onInput(e: Event): void {
@@ -43,5 +41,9 @@ export class HierachyViewerComponent implements GlOnResize, GlOnHide, GlOnShow{
     }
 
     public ngOnInit() {
+    }
+
+    public ngOnDestroy() {
+        var stop = 0;
     }
 }
