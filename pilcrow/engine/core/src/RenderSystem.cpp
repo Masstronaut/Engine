@@ -39,7 +39,7 @@ void WindowManager::Init(World& world)
 	Jellyfish::g_singleton_window = nullptr;
 	Jellyfish::g_singleton_window = new Jellyfish::GLWindow;
 	pWindow = Jellyfish::g_singleton_window;
-	Jellyfish::g_singleton_window->CreateGameWindow(m_windowSizeSetting.x, m_windowSizeSetting.y, m_windowFullscreenSetting, "Welcome to MassEngine v0.0 ft. Jellyfish Renderer! :)");
+	Jellyfish::g_singleton_window->CreateGameWindow((unsigned)m_windowSizeSetting.x, (unsigned)m_windowSizeSetting.y, m_windowFullscreenSetting, "Welcome to Pilcrow Engine v0.0 ft. Jellyfish Renderer! :)");
 	
 	
 	//Rebroadcast window events out to the engine
@@ -67,7 +67,7 @@ void WindowManager::FrameStart( )
 {
   cam = &Entities[0].Get<Camera>();
   this->ProcessInput(*cam);
-  glClearColor( 1.f, 1.f, 1.f, 1.f );
+  glClearColor( 0.f, 0.f, 0.f, 1.f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 }
 void WindowManager::FrameEnd( ) 

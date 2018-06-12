@@ -1,14 +1,15 @@
 #pragma once
-#include "../../include/EntityRef.hpp"
+#include "../../include/entity/EntityRef.hpp"
 #include "../../include/World.hpp"
 #include "../../include/WorldEvents.hpp"
+
 template<typename Component>
 bool EntityRef::Has( ) const {
-  return Has<Component>( std::type_index( typeid( Component ) ) );
+  return this->Has( std::type_index( typeid( Component ) ) );
 }
-template<typename Component, typename... Components>
+template<typename Component, typename Component2, typename... Components>
 bool EntityRef::Has( ) const {
-  return Has<Component>( ) && Has<Components...>( );
+  return this->Has<Component>( ) && this->Has<Component2>() && this->Has<Components...>( );
 }
 
 template<typename Component>
@@ -34,5 +35,5 @@ void EntityRef::Remove() {
   if (!this->Has<Component>()) return;
 
   m_World->Emit(ComponentRemovedEvent{ *this, std::type_index(typeid(Component)) });
-  m_World->OnNext([=](const FrameEndEvent &){ m_World->GetEntity(m_ID).Remove<Component>(); });
+  m_World->OnNext([=](const FrameEndEvent &event){ m_World->GetEntity(m_ID)->Remove<Component>(); });
 }

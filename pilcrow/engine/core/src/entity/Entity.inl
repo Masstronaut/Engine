@@ -1,7 +1,9 @@
 #pragma once
 #include <cassert>
+
 #include "../../include/entity/Entity.hpp"
 #include "../../include/World.hpp"
+
 template<typename Component>
 bool Entity::Has( ) const {
   return m_Components.count( std::type_index( typeid( std::decay_t<Component> ) ) ) > 0;
@@ -22,10 +24,9 @@ Component & Entity::Add( Args && ...args ) {
 
 template<typename Component>
 void Entity::Remove( ) {
-  // @@TODO: Set this up to happen after the end of frame event
   auto it{ m_Components.find( std::type_index( typeid( Component ) ) ) };
   if( it != m_Components.end( ) ) {
-    m_World->GetComponentPool<Component>( ).components.erase( it->second );
+    m_World.GetComponentPool<Component>( ).components.erase( it->second );
     m_Components.erase( it );
   }
 }

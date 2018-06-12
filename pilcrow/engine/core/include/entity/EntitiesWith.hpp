@@ -1,7 +1,9 @@
 #pragma once
 #include <type_traits>
 #include <vector>
+
 #include "ConstrainedEntityRef.hpp"
+
 class EntitiesWithBase {
   friend class ComponentAggregate;
 

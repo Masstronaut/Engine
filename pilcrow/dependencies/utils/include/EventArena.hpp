@@ -43,6 +43,18 @@ public:
   template<typename T>
   void OnNext(Callback<T> cb);
 
+  // C-Style function support
+  template<typename T>
+  void OnNext(void(*Fn)(const T&));
+
+  // Lambda support with deduction
+  template<typename Pred>
+  void OnNext(Pred &&p);
+  template<typename Pred, typename T>
+  void OnNext(void(Pred::*mf)(const T&), Pred p);
+  template<typename Pred, typename T>
+  void OnNext(void(Pred::*mf)(const T&) const, Pred p);
+
   template<typename T>
   void Emit( const T &event ); // may provide option to emit instantly or delayed at a later time
 
@@ -69,13 +81,13 @@ template<typename T>
 void EventArena::On( Callback<T> cb ) {
   this->Dispatcher<T>().On( cb );
 }
-template<typename Pred>
-inline void EventArena::On(Pred && p) {
-  this->On(&Pred::operator(), p);
-}
 template<typename T>
 inline void EventArena::On(void(*Fn)(const T &)) {
   this->On(std::function<void(const T&)>(Fn));
+}
+template<typename Pred>
+inline void EventArena::On(Pred && p) {
+  this->On(&Pred::operator(), p);
 }
 template<typename Pred, typename T>
 inline void EventArena::On(void(Pred::* mf)(const T &), Pred p) {
@@ -98,7 +110,23 @@ template<typename T>
 inline void EventArena::OnNext(Callback<T> cb) {
   this->Dispatcher<T>().OnNext(cb);
 }
+template<typename T>
+inline void EventArena::OnNext(void(*Fn)(const T &)) {
+  this->OnNext(std::function<void(const T&)>(Fn));
+}
 
+template<typename Pred>
+inline void EventArena::OnNext(Pred && p) {
+  this->OnNext(&Pred::operator(), p);
+}
+template<typename Pred, typename T>
+inline void EventArena::OnNext(void(Pred::* mf)(const T &), Pred p) {
+  this->Dispatcher<T>().OnNext(std::function<void(const T&)>(p));
+}
+template<typename Pred, typename T>
+inline void EventArena::OnNext(void(Pred::* mf)(const T &) const, Pred p) {
+  this->Dispatcher<T>().OnNext(std::function<void(const T&)>(p));
+}
 template<typename T>
 inline void EventArena::Emit( const T &event ) {
   this->Dispatcher<T>( ).Emit( event );

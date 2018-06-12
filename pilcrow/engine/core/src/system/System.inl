@@ -51,21 +51,21 @@
 
   template<typename T>
   template<typename U>
-  void System<T>::FrameStart( typename std::enable_if_t<SystemTraits<U>::HasFrameStart>* ) { instance.FrameStart( ); }
+  typename std::enable_if_t<SystemTraits<U>::HasFrameStart> System<T>::FrameStart( ) { instance.FrameStart( ); }
   template<typename T>
   template<typename U >
-  void System<T>::FrameStart( typename std::enable_if_t<!SystemTraits<U>::HasFrameStart>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasFrameStart> System<T>::FrameStart( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::PreProcess( typename std::enable_if_t<SystemTraits<U>::HasPreProcess>* ) { instance.PreProcess( ); }
+  typename std::enable_if_t<SystemTraits<U>::HasPreProcess> System<T>::PreProcess( ) { instance.PreProcess( ); }
   template<typename T>
   template<typename U >
-  void System<T>::PreProcess( typename std::enable_if_t<!SystemTraits<U>::HasPreProcess>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasPreProcess> System<T>::PreProcess( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::Process( typename std::enable_if_t<SystemTraits<U>::HasProcess>* ) {
+  typename std::enable_if_t<SystemTraits<U>::HasProcess> System<T>::Process( ) {
     for( auto entity : s.Entities ) {
       entity.Invoke( [ & ]( auto&&... args ) {
         instance.Process( std::forward<decltype( args )>( args )... );
@@ -75,32 +75,32 @@
 
   template<typename T>
   template<typename U>
-  void System<T>::Process( typename std::enable_if_t<!SystemTraits<U>::HasProcess>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasProcess> System<T>::Process( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::PostProcess(typename std::enable_if_t<SystemTraits<U>::HasPostProcess>*) { instance.PostProcess(); }
+  typename std::enable_if_t<SystemTraits<U>::HasPostProcess> System<T>::PostProcess( ) { instance.PostProcess(); }
   template<typename T>
   template<typename U >
-  void System<T>::PostProcess(typename std::enable_if_t<!SystemTraits<U>::HasPostProcess>*) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasPostProcess> System<T>::PostProcess( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::VoidUpdate( typename std::enable_if_t<SystemTraits<U>::HasVoidUpdate>* ) { instance.Update( ); }
+  typename std::enable_if_t<SystemTraits<U>::HasVoidUpdate> System<T>::VoidUpdate( ) { instance.Update( ); }
   template<typename T>
   template<typename U>
-  void System<T>::VoidUpdate( typename std::enable_if_t<!SystemTraits<U>::HasVoidUpdate>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasVoidUpdate> System<T>::VoidUpdate( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::DtUpdate( float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtUpdate>* ) { instance.Update( Dt ); }
+  typename std::enable_if_t<SystemTraits<U>::HasDtUpdate> System<T>::DtUpdate( float Dt ) { instance.Update( Dt ); }
   template<typename T>
   template<typename U>
-  void System<T>::DtUpdate( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtUpdate>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasDtUpdate> System<T>::DtUpdate( float Dt ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::FixedUpdate( float Dt, typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate>* ) {
+  typename std::enable_if_t<SystemTraits<U>::HasFixedUpdate> System<T>::FixedUpdate( float Dt ) {
     constexpr float FixedTimestep{ 1.f / 60.f };
     s.Time += Dt;
     if( Dt >= FixedTimestep ) Dt -= FixedTimestep;
@@ -108,28 +108,28 @@
   }
   template<typename T>
   template<typename U>
-  void System<T>::FixedUpdate( float Dt, typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasFixedUpdate> System<T>::FixedUpdate( float Dt ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::FrameEnd( typename std::enable_if_t<SystemTraits<U>::HasFrameEnd>* ) { instance.FrameEnd( ); }
+  typename std::enable_if_t<SystemTraits<U>::HasFrameEnd> System<T>::FrameEnd( ) { instance.FrameEnd( ); }
   template<typename T>
   template<typename U>
-  void System<T>::FrameEnd( typename std::enable_if_t<!SystemTraits<U>::HasFrameEnd>* ) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasFrameEnd> System<T>::FrameEnd( ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::SetDt(float Dt, typename std::enable_if_t<SystemTraits<U>::HasDtMember>*) { instance.Dt = Dt; }
+  typename std::enable_if_t<SystemTraits<U>::HasDtMember> System<T>::SetDt(float Dt ) { instance.Dt = Dt; }
   template<typename T>
   template<typename U>
-  void System<T>::SetDt(float Dt, typename std::enable_if_t<!SystemTraits<U>::HasDtMember>*) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasDtMember> System<T>::SetDt(float Dt ) { }
 
   template<typename T>
   template<typename U>
-  void System<T>::InitWorld(World &world, typename std::enable_if_t<SystemTraits<U>::HasInitWorld>*) { instance.Init(world); }
+  typename std::enable_if_t<SystemTraits<U>::HasInitWorld> System<T>::InitWorld(World &world ) { instance.Init(world); }
   template<typename T>
   template<typename U>
-  void System<T>::InitWorld(World &world, typename std::enable_if_t<!SystemTraits<U>::HasInitWorld>*) { }
+  typename std::enable_if_t<!SystemTraits<U>::HasInitWorld> System<T>::InitWorld(World &world ) { }
 
 
 template<typename T>

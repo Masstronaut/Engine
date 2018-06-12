@@ -1,9 +1,23 @@
 #pragma once
-#include "GLWindow.h" //OpenGL Windowing
 
+//-------------------------------------------------------------
+// *** MAIN ENTRY POINT FOR THE JELLYFISH RENDERER LIBRARY ***
+//-------------------------------------------------------------
 
-
+//std
 #include <string>
+
+//ours
+#include "iWindow.h" //Windowing
+#include "Model.h" //3D Model support
+
+//GL Implementations
+#include "GL/GLMesh.h"
+#include "GL/GLProgram.h" //includes GLShader.h
+#include "GL/GLText.h"
+#include "GL/GLTexture.h"
+#include "GL/GLWindow.h"
+
 namespace Jellyfish
 {
 	//-------------------
@@ -12,11 +26,11 @@ namespace Jellyfish
 	//enum eRenderAPI {E_GL, E_DX11, E_DXR, E_VKN, E_DX12};
 	//eRenderAPI g_API = E_GL; ///TODO: data-driven API choice
 
-	
 	//-------------------
 	// * Testing Stub *
 	//-------------------
 	//basic linker test
+
 	class Derp
 	{
 	public:
@@ -30,10 +44,8 @@ namespace Jellyfish
 		int stub;
 	};
 
-
 	class Renderer
 	{
-		void Draw() {}
+		void Draw() {} //not used yet!!
 	};
 }
-
