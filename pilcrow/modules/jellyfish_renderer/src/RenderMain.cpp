@@ -1,15 +1,9 @@
-#pragma once
-
-//std
+// std
 #include <iostream>
 
-//ours
-#include "../Include/Jellyfish.h"
+// ours
+#include "../include/Jellyfish.h"
 
-namespace Jellyfish
-{
-	void Derp::DoAThing()
-	{
-		std::cout << str << std::endl;
-	}
-}
+namespace Jellyfish {
+void Derp::DoAThing() { std::cout << str << std::endl; }
+}  // namespace Jellyfish

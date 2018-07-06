@@ -2,19 +2,18 @@
 
 #include "../Mathematics.h"
 
-struct Body
-{
-	float restitution;
-	
-	float massInverse;
-	Mat3 inertiaTensor;
+struct Body {
+  float restitution;
 
-	Vec3 velocity;
-	Vec3 angularVelocity;
+  float massInverse;
+  Mat3  inertiaTensor;
 
-	Vec3 impulse;
-	Vec3 angularImpulse;
+  Vec3 velocity;
+  Vec3 angularVelocity;
 
-	void SetMass(float m);
-	float GetMass() const;
+  Vec3 impulse;
+  Vec3 angularImpulse;
+
+  void  SetMass(float m);
+  float GetMass() const;
 };

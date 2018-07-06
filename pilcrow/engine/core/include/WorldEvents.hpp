@@ -1,18 +1,17 @@
 #pragma once
-#include <typeindex>
 #include "entity/EntityRef.hpp"
-struct EditorUpdateEvent {
-};
+#include <typeindex>
+struct EditorUpdateEvent {};
 
 struct EntitySpawnedEvent {
-  EntitySpawnedEvent( EntityRef er ) : entity( er ) { }
-  EntitySpawnedEvent( const EntitySpawnedEvent& ) = default;
+  EntitySpawnedEvent(EntityRef er) : entity(er) {}
+  EntitySpawnedEvent(const EntitySpawnedEvent &) = default;
   EntityRef entity;
 };
 
 struct EntityDeathEvent {
-  EntityDeathEvent( EntityRef er ) : entity( er ) { }
-  EntityDeathEvent( const EntityDeathEvent& ) = default;
+  EntityDeathEvent(EntityRef er) : entity(er) {}
+  EntityDeathEvent(const EntityDeathEvent &) = default;
   EntityRef entity;
 };
 
@@ -20,10 +19,8 @@ struct UpdateEvent {
   float Dt = 1.f / 60.f;
 };
 
-struct FrameStartEvent {
-};
-struct FrameEndEvent {
-};
+struct FrameStartEvent {};
+struct FrameEndEvent {};
 
 struct ComponentAddedEvent {
   const EntityRef entity;

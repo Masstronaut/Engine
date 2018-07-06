@@ -1,20 +1,19 @@
 #pragma once
 
-#include <cpprest/http_listener.h>
 #include <cpprest/asyncrt_utils.h>
+#include <cpprest/http_listener.h>
 
 class Simulation;
 class Entity;
 class World;
 
-class REST_VM
-{
+class REST_VM {
 public:
-  REST_VM(Simulation &sim, utility::string_t url);
-  REST_VM(const REST_VM&) = delete;
-  REST_VM(REST_VM&&) = delete;
-  REST_VM& operator=(const REST_VM&) = delete;
-  REST_VM& operator=(REST_VM&&) = delete;
+  REST_VM(Simulation &sim, const utility::string_t &url);
+  REST_VM(const REST_VM &) = delete;
+  REST_VM(REST_VM &&)      = delete;
+  REST_VM &operator=(const REST_VM &) = delete;
+  REST_VM &operator=(REST_VM &&) = delete;
 
   ~REST_VM();
 
@@ -25,20 +24,18 @@ public:
   public:
     RequestHandler(World &world, web::http::http_request request);
     void Handle();
+
   private:
-    Entity* GetEntity(const utility::string_t &name);
-    
+    Entity *GetEntity(const utility::string_t &name);
 
     std::vector<utility::string_t> m_RequestPath;
-    web::http::http_request m_Request;
-    World& m_Simulation;
+    web::http::http_request        m_Request;
+    World &                        m_Simulation;
   };
 
 private:
-  void handle_request(web::http::http_request message);
-  void handle_error(pplx::task<void>& t);
+  void handle_request(const web::http::http_request &message);
+  void handle_error(pplx::task<void> &t);
   web::http::experimental::listener::http_listener m_listener;
-  Simulation &m_simulation;
+  Simulation &                                     m_simulation;
 };
-
-
