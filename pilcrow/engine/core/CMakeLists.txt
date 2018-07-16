@@ -122,7 +122,6 @@ endforeach()
 
 #The files in the src directory to compile
 set(include_files
-  "include/Camera.hpp"
   "include/Detectors.hpp"
   "include/RenderComponents.h"
   "include/RenderSystem.h"

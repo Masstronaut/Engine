@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <Jellyfish.h>
 
+//Engine-side components for Renderable things from Jellyfish
+
 //base
 struct Renderable {
 
@@ -17,9 +19,6 @@ struct RenderText : Renderable{
 };
 
 struct CModel : Renderable{
-  
-	//TESTING: use Jellyfish::Model
-  
   CModel( const std::string &file ) : model( new Jellyfish::Model( file ) ) { }
   CModel( const CModel& ) = default;
   CModel( CModel&& ) = default;

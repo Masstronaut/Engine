@@ -1,9 +1,7 @@
 #pragma once
-#include "Camera.hpp"
 #include "Entity/EntitiesWith.hpp"
 #include "RenderComponents.h"
 #include "Components/Transform.h"
-#include "Camera.hpp"
 
 #include "SettingsFileReader.hpp"
 #include <Jellyfish.h>
@@ -15,7 +13,7 @@ struct WindowManager
 
   void Init(World& world);
 
-  EntitiesWith<Camera> Entities;
+  EntitiesWith<Jellyfish::Camera> camEntities;
   void FrameStart( );
   void FrameEnd( );
   float Dt{ 0.f };
@@ -24,7 +22,7 @@ private:
   //render context
   Jellyfish::iWindow* pWindow{nullptr};
   
-  void ProcessInput( Camera &cam );
+  void ProcessInput( Jellyfish::Camera &cam );
 
   glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
   bool m_windowFullscreenSetting{ g_StartFullscreen };
@@ -52,7 +50,7 @@ struct RenderSystem {
 		//set up projetion matrices
 		m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
 		if (camEntities.cbegin() != camEntities.cend()) {
-			camera = &camEntities[0].Get<const Camera>();
+			camera = &camEntities[0].Get<const Jellyfish::Camera>();
 			m_persp_projection = glm::perspective(glm::radians(camera->fov), m_windowSize.x / m_windowSize.y, camera->nearplane, camera->farplane);
 			program.SetUniform("projection", m_persp_projection);
 			program.SetUniform("view", camera->View());
@@ -179,7 +177,7 @@ struct RenderSystem {
 
 
 	//Type Lists
-	EntitiesWith<const Camera> camEntities;
+	EntitiesWith<const Jellyfish::Camera> camEntities;
 	EntitiesWith<const RenderText> textEntities;
 
 	//GL Impl 
@@ -189,7 +187,7 @@ struct RenderSystem {
 	float Dt{ 0.f };
 	glm::mat4 m_persp_projection;
 	glm::mat4 m_ortho_projection;
-	const Camera *camera{ nullptr };
+	const Jellyfish::Camera *camera{ nullptr };
 
 	//TODO: Use events instead
 	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };

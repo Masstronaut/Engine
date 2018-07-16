@@ -5,6 +5,11 @@ set(jfr_includes
   "include/GL/GLText.h"
   "include/GL/GLShader.h"
   "include/GL/GLProgram.h"
+  "include/GUID.h"
+  "include/ObjectAttribs.h"
+  "include/iRefCounter.h"
+  "include/iObject.h"
+  "include/iDeviceObject.h"
   "include/iWindow.h"
   "include/iMesh.h"
   "include/iShader.h"
@@ -13,6 +18,7 @@ set(jfr_includes
   "include/Model.h"
   "include/Vertex.h"
   "include/Util.h"
+  "include/Camera.h"
   "include/Jellyfish.h"
 )
 
@@ -26,6 +32,7 @@ set(jfr_srcs
   "src/Model.cpp"
   "src/Vertex.cpp"
   "src/RenderMain.cpp"
+  "src/Camera.cpp"
 )
 
 foreach(jfr_include IN ITEMS ${jfr_includes})

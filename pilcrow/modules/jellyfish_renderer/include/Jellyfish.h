@@ -7,9 +7,10 @@
 //std
 #include <string>
 
-//ours
+//Core
 #include "iWindow.h" //Windowing
 #include "Model.h" //3D Model support
+#include "Camera.h" //3D ortho/persp Camera support
 
 //GL Implementations
 #include "GL/GLMesh.h"

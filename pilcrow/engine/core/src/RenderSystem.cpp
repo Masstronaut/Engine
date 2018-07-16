@@ -2,8 +2,6 @@
 #include <GLFW/glfw3.h>
 #include "../include/RenderSystem.h"
 
-Camera* cam;
-
 void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
 	if (mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
 	{
@@ -65,7 +63,7 @@ void WindowManager::Init(World& world)
 
 void WindowManager::FrameStart( ) 
 {
-  cam = &Entities[0].Get<Camera>();
+  cam = &Entities[0].Get<Jellyfish::Camera>();
   this->ProcessInput(*cam);
   glClearColor( 0.f, 0.f, 0.f, 1.f );
   glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
@@ -76,7 +74,7 @@ void WindowManager::FrameEnd( )
 	pWindow->FrameEnd();
 }
 
-inline void WindowManager::ProcessInput( Camera &cam ) 
+inline void WindowManager::ProcessInput(Jellyfish::Camera &cam )
 {
 	//TODO:fix camera
 	float camSpeed{ 2.f * (float)Dt };
