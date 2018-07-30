@@ -4,6 +4,7 @@ set(utils_include_files
   "include/ThreadPool.hpp"
   "include/type_list.hpp"
   "include/ResourceSettings.h"
+  "include/FileWatcher.hpp"
 )
 
 set(utils_src_files

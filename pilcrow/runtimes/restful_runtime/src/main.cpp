@@ -256,8 +256,27 @@ void ECSDemo() {
 
 #include <Mathematics.h>
 
-int main() {
-  ECSDemo();
+#include <chrono>
+#include <utils/include/FileWatcher.hpp>
+void FileWatcherDemo() {
+  system("cd");
+  FolderObserver fw{"test/"};
+  int            i;
+  fw.On<FolderObserver::FileCreatedEvent>([i](const FolderObserver::FileCreatedEvent &e){
+      std::cout << "File Created: " << e.file.path() << std::endl;
+    });
+  fw.On<FolderObserver::FileModifiedEvent>(
+    [i](const FolderObserver::FileModifiedEvent &e) {
+      std::cout << "File Modified: " << e.file.path() << std::endl;
+  });
+  while(true) {
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+    fw.scan(true);
+  }
+}
 
+int main() {
+  // ECSDemo();
+  FileWatcherDemo();
   return 0;
 }

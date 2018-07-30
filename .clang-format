@@ -57,7 +57,7 @@ IndentCaseLabels: true
 IndentWidth:     2
 IndentWrappedFunctionNames: false
 KeepEmptyLinesAtTheStartOfBlocks: false
-LanguageKind: Cpp
+# LanguageKind: Cpp
 MacroBlockBegin: ''
 MacroBlockEnd:   ''
 MaxEmptyLinesToKeep: 1
