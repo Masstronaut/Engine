@@ -6,10 +6,6 @@
 #include <array>
 #include <memory>
 
-//TODO: Remove
-#include "Camera.hpp"
-
-Camera cam;
 double dt{ 0.f };
 double lastFrame{ 0.f };
 
@@ -176,9 +172,18 @@ void ECSDemo() {
 	TestWorld.AddSystem<RenderSystem>("Rendering System");
 
 
-	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
+	//TODO: should probably have a camera archetype, and make lens an attribute of that
 	ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
-	lens.Add<Camera>();
+	lens.Add<RenderCamera>();
+
+	EntityRef cam{ TestWorld.Spawn(lens) };
+	//TODO: Set interface functions in RenderCamera to clean this up
+	cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
+	cam.Get<RenderCamera>().m_iCamera->SetPitch(-1.f);
+	cam.Get<RenderCamera>().m_iCamera->SetYaw(-89.f);
+
+
+	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
 	enemy.Add<RigidBody>();
 	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
 	
@@ -188,10 +193,6 @@ void ECSDemo() {
 	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
 	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 
-	EntityRef cam{ TestWorld.Spawn(lens) };
-	cam.Get<Camera>().position = glm::vec3{ 0.f, 0.6f, -2.f };
-	cam.Get<Camera>().pitch = -1.f;
-	cam.Get<Camera>().yaw = -89.f;
 	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
 	
 	// set SpawnNanos to false if you want higher FPS and less nanosuits
@@ -234,6 +235,7 @@ void ECSDemo() {
 		nanos[1].Get<Transform>().scale = { s,s,s };
 	}
 	
+	//Event Listener
 	//Makes the Game exit on window close
 	bool WindowOpen = true;
 	TestWorld.On([&](const Jellyfish::GLWindow::EWindowStateChanged &event)

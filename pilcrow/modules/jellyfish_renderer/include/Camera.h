@@ -1,29 +1,83 @@
 #pragma once
 
+//std lib
+#include <unordered_map> //multiple cams are stored in a map with string names
+#include <string>
+
 //glm math
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-//multiple cams are stored in a map with string names
-#include <unordered_map> 
-#include <string>
+//ours
+#include <utils/include/EventArena.hpp> //event messaging
 
 namespace Jellyfish
 {
-	class iCamera
+	class iCamera : public EventArena
 	{
 	public:
-		virtual void Update(float dt) = 0;
 
-		glm::mat4 SetView()
+//not sure if I want this yet but trying it out
+#pragma region EventTypes
+		struct ECameraCreated 
 		{
-			m_view = glm::lookAt(m_position, m_position + Front(), m_up);
-		}
+			iCamera* pCamera = nullptr;
+		};
+
+		struct ECameraMoved
+		{
+			//z = front , y= up, x = right for all positive vals
+			glm::vec3 offset = { 0.f, 0.f, 0.f };
+		};
+
+		struct ECameraLook
+		{
+			glm::vec3 target = { 0.f, 0.f, 0.f };
+		};
+#pragma endregion
+
+		virtual ~iCamera() {}
+		virtual void Update(float dt) = 0;
 
 		glm::mat4 GetView() const
 		{
 			return m_view;
+		}
+
+		glm::mat4 GetProjection() const
+		{
+			return m_projection;
+		}
+
+		void SetPerspectiveProjection(float window_size_x, float window_size_y)
+		{
+			m_projection = glm::perspective(glm::radians(m_fov), window_size_x / window_size_y, m_nearplane, m_farplane);
+		}
+
+		void SetOrthoProjection(float window_size_x, float window_size_y)
+		{
+			m_projection = glm::ortho(0.f, window_size_x, 0.f, window_size_y);
+		}
+
+		void SetPosition(glm::vec3 pos)
+		{
+			m_position = pos;
+		}
+		
+		void SetPosition(glm::vec3 pos)
+		{
+			m_position = pos;
+		}
+		
+		void SetPitch(float pitch)
+		{
+			m_pitch = pitch;
+		}
+
+		void SetYaw(float yaw)
+		{
+			m_yaw = yaw;
 		}
 	
 	private:
@@ -61,8 +115,14 @@ namespace Jellyfish
 			return glm::normalize(m_position - Front());
 		}
 
+		glm::mat4 View() const
+		{
+			return glm::lookAt(m_position, m_position + Front(), m_up);
+		}
+
 		glm::mat4 m_view;
-		glm::vec3 m_position{ 0.f, 0.f, 0.f };
+		glm::mat4 m_projection;
+		glm::vec3 m_position{ 0.f, 2.f, 0.f };
 		glm::vec3 m_up{ 0.f, 1.f, 0.f };
 		glm::vec3 m_right{ 1.f, 0.f, 0.f };
 		
@@ -71,19 +131,45 @@ namespace Jellyfish
 		float m_farplane{ 100.f };
 		float m_yaw{ 0.f };
 		float m_pitch{ 0.f };
+
+		float m_speed{ 1.0f };
 	};
 	
-	class CameraManager
+	class CameraManager : public EventArena
 	{
 	public:
-		void RegisterCamera(std::string id, iCamera* camera) 
+
+		void Init()
+		{
+
+		}
+
+		void RegisterCamera(iCamera* camera, std::string id = "")
 		{ 
+			//if a string id was not supplied, we'll use a number
+			if (id == "")
+			{
+				id = std::to_string(this->idCounter++);
+			}
+
 			m_cameras[id] = camera; 
+
+			//if no camera has been set as current, set this one
+			if (currentCamera == nullptr)
+				currentCamera = camera;
+
+			return;
 		}
 		
-		void SetCamera(std::string id) 
+		void SetCameraByID(std::string id) 
 		{ 
 			currentCamera = m_cameras[id]; 
+		}
+
+		//TODO: const correctness
+		iCamera* GetCurrentCamera()
+		{
+			return currentCamera;
 		}
 
 		void Update(float dt) 
@@ -95,33 +181,36 @@ namespace Jellyfish
 		{ 
 			return currentCamera->GetView();
 		}
+
+		glm::mat4 Projection()
+		{
+			return currentCamera->GetProjection();
+		}
 	
 	private:
 		 std::unordered_map<std::string, iCamera*> m_cameras;
-		 iCamera* currentCamera;
+		 iCamera* currentCamera = nullptr;
+		 int idCounter = 0;
 	};
 
 	// ------------------------------------
 	// CAMERA TYPES AND IMPLEMENTATIONS
 	// ------------------------------------
 
-	class PlayerCamera3D : public iCamera //follows player
+	class Camera : public iCamera //follows player // TODO:behavior
 	{
 	public:
+		Camera();
 		void Update(float dt);
 	}; //end class Camera
 
-	class PlayerCamera2D : public iCamera //follows player on XY only
+	class DebugCamera : public iCamera //free flying camera //TODO:behavior
 	{
 	public:
+		DebugCamera();
 		void Update(float dt);
-	}; //end class Camera
+	}; //end class DebugCamera
 
-	class DebugCamera3D : public iCamera //free camera
-	{
-	public:
-		void Update(float dt);
-	}; //end class Camera
 
 } //end namespace
 

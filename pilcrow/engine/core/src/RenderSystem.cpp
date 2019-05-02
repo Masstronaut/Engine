@@ -33,12 +33,12 @@ WindowManager::WindowManager()
 
 void WindowManager::Init(World& world)
 {
-	//TODO: DX and other Window options 
+	//Create The Game Window and set the Window Title
+	//TODO: DX and other Window options , make the window title friendlier to set
 	Jellyfish::g_singleton_window = nullptr;
 	Jellyfish::g_singleton_window = new Jellyfish::GLWindow;
 	pWindow = Jellyfish::g_singleton_window;
 	Jellyfish::g_singleton_window->CreateGameWindow((unsigned)m_windowSizeSetting.x, (unsigned)m_windowSizeSetting.y, m_windowFullscreenSetting, "Welcome to Pilcrow Engine v0.0 ft. Jellyfish Renderer! :)");
-	
 	
 	//Rebroadcast window events out to the engine
 	pWindow->On([&](const Jellyfish::GLWindow::EWindowResized &event)
@@ -51,6 +51,8 @@ void WindowManager::Init(World& world)
 	 world.Emit(event);
 	});
 
+	//world emits a keypressed event..
+	//maybe use this or move camera manager into engine
 	pWindow->On([&](const Jellyfish::GLWindow::EKeyPressed &event)
 	{
 	 world.Emit(event);
@@ -63,10 +65,8 @@ void WindowManager::Init(World& world)
 
 void WindowManager::FrameStart( ) 
 {
-  cam = &Entities[0].Get<Jellyfish::Camera>();
-  this->ProcessInput(*cam);
-  glClearColor( 0.f, 0.f, 0.f, 1.f );
-  glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+    this->ProcessInput(); 
+    pWindow->FrameStart();
 }
 
 void WindowManager::FrameEnd( ) 
@@ -74,16 +74,18 @@ void WindowManager::FrameEnd( )
 	pWindow->FrameEnd();
 }
 
-inline void WindowManager::ProcessInput(Jellyfish::Camera &cam )
+inline void WindowManager::ProcessInput()
 {
-	//TODO:fix camera
-	float camSpeed{ 2.f * (float)Dt };
-	
 	std::vector<int> keyarray;
 	pWindow->PollInput(keyarray);
 
 	for (int i = 0; i < keyarray.size(); ++i)
 	{
+		//TODO: Move GL Code into Jellyfish as low-level interface to render modes
+
+		//TODO: Broadcast keys to input system to map keys to actions
+		  //TODO: Input System
+
 		if (keyarray[i] == GLFW_KEY_ESCAPE) 
 		{
 			pWindow->SetWindowState(Jellyfish::WindowState::closed);
@@ -102,15 +104,44 @@ inline void WindowManager::ProcessInput(Jellyfish::Camera &cam )
 			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		}
 		else if (keyarray[i] == GLFW_KEY_W)
-			cam.position += camSpeed * cam.Front();
+		{
+			//cam.position += camSpeed * cam.Front();
+			Jellyfish::iCamera::ECameraMoved event;
+			event.offset = { 0.f, 0.f, 1.f };
+			event.offset *= Dt;
+			this->Emit(event);  //see if I need the world to do this..
+		}
 		else if (keyarray[i] == GLFW_KEY_S)
-			cam.position -= camSpeed * cam.Front();
+		{
+			//cam.position -= camSpeed * cam.Front();
+			Jellyfish::iCamera::ECameraMoved event;
+			event.offset = { 0.f, 0.f, -1.f };
+			event.offset *= Dt;
+			this->Emit(event);  //see if I need the world to do this..
+		}
 		else if (keyarray[i] == GLFW_KEY_A)
-			cam.position -= cam.Right() * camSpeed;
+		{
+			//cam.position -= cam.Right() * camSpeed;
+			Jellyfish::iCamera::ECameraMoved event;
+			event.offset = { -1.f, 0.f, 0.f };
+			event.offset *= Dt;
+			this->Emit(event);  //see if I need the world to do this..
+		}
 		else if (keyarray[i] == GLFW_KEY_D)
-			cam.position += cam.Right() * camSpeed;
-		else if (keyarray[i] == GLFW_KEY_SPACE)
-			cam.LookAt({ 0.f,0.f,0.f });
+		{
+			//cam.position += cam.Right() * camSpeed;
+			Jellyfish::iCamera::ECameraMoved event;
+			event.offset = { 1.f, 0.f, 0.f };
+			event.offset *= Dt;
+			this->Emit(event);  //see if I need the world to do this..
+		}
+		else if (keyarray[i] == GLFW_KEY_SPACE) //center camera on origin
+		{
+			Jellyfish::iCamera::ECameraLook event;
+			event.target = { 0.f, 0.f, 0.f };
+			this->Emit(event);  //see if I need the world to do this..
+		}
+		
 	}//endfunc
 
 	

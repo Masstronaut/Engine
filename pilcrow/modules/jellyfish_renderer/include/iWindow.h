@@ -60,7 +60,7 @@ namespace Jellyfish
 			WindowState newState;
 			WindowState oldState;
 		};
-		//WIndow Input Events
+		//Window Input Events
 		struct EKeyPressed {
 			int key{ 0 };
 		};
@@ -97,6 +97,7 @@ namespace Jellyfish
 		virtual void PollEvents() = 0;
 		virtual void PollInput(std::vector<int>& keyarray) = 0;
 
+		virtual void FrameStart() = 0;
 		virtual void FrameEnd() = 0;
 
 		const glm::uvec2& GetSize() const

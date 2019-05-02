@@ -177,6 +177,12 @@ namespace Jellyfish
 		return m_Size.y;
 	}
 
+	void GLWindow::FrameStart()
+	{
+		glClearColor(0.f, 0.f, 0.f, 1.f);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	}
+
 	void GLWindow::FrameEnd()
 	{
 		DisplayGameWindow();
@@ -191,6 +197,7 @@ namespace Jellyfish
 	{
 		if (m_State != state)
 		{
+			//Broacast State Change Event
 			WindowState oldState{ m_State };
 			EWindowStateChanged event { state, m_State };
 			this->Emit(event);

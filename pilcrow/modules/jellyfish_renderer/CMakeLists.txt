@@ -18,6 +18,7 @@ set(jfr_includes
   "include/Model.h"
   "include/Vertex.h"
   "include/Util.h"
+  "include/Frustum.h"
   "include/Camera.h"
   "include/Jellyfish.h"
 )

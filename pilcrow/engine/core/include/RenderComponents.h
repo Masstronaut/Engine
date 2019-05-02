@@ -26,3 +26,17 @@ struct CModel : Renderable{
   
   std::shared_ptr<Jellyfish::Model> model; 
 };
+
+struct RenderCamera
+{
+	//use default camera type for now
+	RenderCamera() : m_iCamera(new Jellyfish::Camera() )
+	{
+
+	}
+	RenderCamera(const RenderCamera&) = default;
+	RenderCamera(RenderCamera&&) = default;
+	RenderCamera& operator=(const RenderCamera &) = default;
+
+	std::shared_ptr<Jellyfish::iCamera> m_iCamera;
+};

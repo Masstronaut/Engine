@@ -7,38 +7,45 @@
 #include <Jellyfish.h>
 
 
-struct WindowManager 
+struct WindowManager : public EventArena
 {
   WindowManager();
 
   void Init(World& world);
-
-  EntitiesWith<Jellyfish::Camera> camEntities;
   void FrameStart( );
   void FrameEnd( );
+  
   float Dt{ 0.f };
 
 private:
   //render context
   Jellyfish::iWindow* pWindow{nullptr};
   
-  void ProcessInput( Jellyfish::Camera &cam );
+  void ProcessInput();
 
   glm::vec2 m_windowSizeSetting{ g_InitialWindowWidth, g_InitialWindowHeight };
   bool m_windowFullscreenSetting{ g_StartFullscreen };
 };
 
-struct RenderSystem {
+struct RenderSystem 
+{
 	
 	void Init(World& world)
 	{
 		//Register for Type Lists
-		world.RegisterEntitiesWith(camEntities);
 		world.RegisterEntitiesWith(textEntities);
 
+		//Event Listeners
 		world.On([&](const Jellyfish::GLWindow::EWindowResized &event) 
 		{
 			m_windowSize = event.newSize;
+		});
+		
+		
+		//add a camera to the manager every time one is created
+		world.On([&](const Jellyfish::iCamera::ECameraCreated &event)
+		{
+			m_CameraManager.RegisterCamera(event.pCamera);
 		});
 		
 		//Load shader -- probably should move this
@@ -47,14 +54,15 @@ struct RenderSystem {
 
 	void PreProcess() 
 	{	
+		//set perspective on current camera
+		Jellyfish::iCamera* cam = m_CameraManager.GetCurrentCamera();
+		cam->SetPerspectiveProjection(m_windowSize.x, m_windowSize.y);
+
+
+
 		//set up projetion matrices
-		m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
-		if (camEntities.cbegin() != camEntities.cend()) {
-			camera = &camEntities[0].Get<const Jellyfish::Camera>();
-			m_persp_projection = glm::perspective(glm::radians(camera->fov), m_windowSize.x / m_windowSize.y, camera->nearplane, camera->farplane);
-			program.SetUniform("projection", m_persp_projection);
-			program.SetUniform("view", camera->View());
-		}
+		program.SetUniform("projection", m_CameraManager.Projection());
+		program.SetUniform("view", m_CameraManager.View());
 	}
 
 	void Process(const CModel &model, const Transform &tf) const 
@@ -115,8 +123,8 @@ struct RenderSystem {
 	    //we reset all our internal state members to their default value.
 
 		
-
-		if (!camera) return;
+		const Jellyfish::iCamera* cam = m_CameraManager.GetCurrentCamera();
+		if (cam == nullptr ) return;
 		glm::mat4 modelMatrix;
 		modelMatrix = glm::translate(modelMatrix, tf.position);
 		modelMatrix = glm::scale(modelMatrix, tf.scale);
@@ -140,6 +148,10 @@ struct RenderSystem {
 
 	void PostProcess() 
 	{
+		//Set up projection for post-process text rendering
+		//TODO
+		//m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
+
 		//Render Text
 		for (const auto &entity : textEntities) 
 		{
@@ -177,18 +189,20 @@ struct RenderSystem {
 
 
 	//Type Lists
-	EntitiesWith<const Jellyfish::Camera> camEntities;
+	
+	//Removing this one
+	//EntitiesWith<const Jellyfish::iCamera> camEntities;
+	
 	EntitiesWith<const RenderText> textEntities;
+	Jellyfish::CameraManager m_CameraManager;
 
 	//GL Impl 
 	Jellyfish::GLText gltr{ "Text.sprog" };
 	mutable Jellyfish::GLProgram program{ "Model.sprog" };
 
+	//Other
 	float Dt{ 0.f };
-	glm::mat4 m_persp_projection;
-	glm::mat4 m_ortho_projection;
-	const Jellyfish::Camera *camera{ nullptr };
-
+	
 	//TODO: Use events instead
 	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };
 };

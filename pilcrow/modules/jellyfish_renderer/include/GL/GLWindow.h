@@ -30,6 +30,7 @@ namespace Jellyfish
 		void PollEvents();
 		void PollInput(std::vector<int>& keyarray);
 
+		void FrameStart();
 		void FrameEnd();
 
 		void ResizeWindow(unsigned width, unsigned height);
