@@ -169,7 +169,9 @@ void ECSDemo() {
 	TestWorld.AddSystem<Integration>("Physics Integration");
 	TestWorld.AddSystem<CollisionDetection>("Physics Collision Detection");
 	TestWorld.AddSystem<Resolution>("Physics Resolution");
+	TestWorld.AddSystem<CameraManager>("Camera Management System");
 	TestWorld.AddSystem<RenderSystem>("Rendering System");
+	
 
 
 	//TODO: should probably have a camera archetype, and make lens an attribute of that
@@ -182,9 +184,7 @@ void ECSDemo() {
 	TestWorld.Emit(event);
 
 	//TODO: Set interface functions in RenderCamera to clean this up
-	cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
-	cam.Get<RenderCamera>().m_iCamera->SetPitch(-1.f);
-	cam.Get<RenderCamera>().m_iCamera->SetYaw(-89.f);
+	//cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
 
 
 	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };

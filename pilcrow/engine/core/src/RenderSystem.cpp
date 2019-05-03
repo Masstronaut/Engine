@@ -2,18 +2,8 @@
 #include <GLFW/glfw3.h>
 #include "../include/RenderSystem.h"
 
-void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
-	if (mme.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
-	{
-		float sensitivity{ .07f };
-		const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
-		const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
-		//cam->yaw += xoff;
-		//cam->pitch -= yoff;
-		//if (cam->pitch > 89.9f) cam->pitch = 89.9f;
-		//if (cam->pitch < -89.9f) cam->pitch = -89.9f;
-    }
-}
+
+
 //void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
 //  if (cam->fov >= 1.0f && cam->fov <= 70.0f)
 //    cam->fov -= (float)mse.offset.y;
@@ -23,6 +13,7 @@ void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
 //    cam->fov = 70.0f;
 //}
 
+// ---------------------------------------------------------------------------------------
 
 WindowManager::WindowManager()
 {
@@ -58,8 +49,23 @@ void WindowManager::Init(World& world)
 	 world.Emit(event);
 	});
 
+	pWindow->On([&](const Jellyfish::iWindow::EMouseMoved &event)
+	{
+		world.Emit(event);
+	});
+
+	this->On([&](const Jellyfish::iCamera::ECameraLook &event)
+	{
+		world.Emit(event);
+	});
+
+	this->On([&](const Jellyfish::iCamera::ECameraMoved &event)
+	{
+		world.Emit(event);
+	});
+
 	//Set callback functions
-	pWindow->On(MouseCallback2);
+	//pWindow->On(MouseCallback2);
   
 }
 
@@ -105,46 +111,139 @@ inline void WindowManager::ProcessInput()
 		}
 		else if (keyarray[i] == GLFW_KEY_W)
 		{
-			//cam.position += camSpeed * cam.Front();
 			Jellyfish::iCamera::ECameraMoved event;
 			event.offset = { 0.f, 0.f, 1.f };
 			event.offset *= Dt;
-			this->Emit(event);  //see if I need the world to do this..
+			this->Emit(event);
 		}
 		else if (keyarray[i] == GLFW_KEY_S)
 		{
-			//cam.position -= camSpeed * cam.Front();
 			Jellyfish::iCamera::ECameraMoved event;
 			event.offset = { 0.f, 0.f, -1.f };
 			event.offset *= Dt;
-			this->Emit(event);  //see if I need the world to do this..
+			this->Emit(event);
 		}
 		else if (keyarray[i] == GLFW_KEY_A)
 		{
-			//cam.position -= cam.Right() * camSpeed;
 			Jellyfish::iCamera::ECameraMoved event;
 			event.offset = { -1.f, 0.f, 0.f };
 			event.offset *= Dt;
-			this->Emit(event);  //see if I need the world to do this..
+			this->Emit(event); 
 		}
 		else if (keyarray[i] == GLFW_KEY_D)
 		{
-			//cam.position += cam.Right() * camSpeed;
 			Jellyfish::iCamera::ECameraMoved event;
 			event.offset = { 1.f, 0.f, 0.f };
 			event.offset *= Dt;
-			this->Emit(event);  //see if I need the world to do this..
+			this->Emit(event); 
 		}
-		else if (keyarray[i] == GLFW_KEY_SPACE) //center camera on origin
+		else if (keyarray[i] == GLFW_KEY_SPACE) 
 		{
+			//center camera target on origin
 			Jellyfish::iCamera::ECameraLook event;
 			event.target = { 0.f, 0.f, 0.f };
-			this->Emit(event);  //see if I need the world to do this..
+			this->Emit(event); 
 		}
 		
 	}//endfunc
+}
+
+
+// ---------------------------------------------------------------------------------------
+
+void CameraManager::Init(World& world)
+{
+	//Event Listening and actions
+	world.On([&](const Jellyfish::iCamera::ECameraCreated &event)
+	{
+		RegisterCamera(event.pCamera);
+	});
+
+	world.On([&](const Jellyfish::iCamera::ECameraLook &event)
+	{
+		//change lookat
+		m_currentCamera->LookAt(event.target);
+	});
+
+	world.On([&](const Jellyfish::iCamera::ECameraMoved &event)
+	{
+		//reposition the camera
+		m_currentCamera->Move(event.offset);
+	});
+
+	world.On([&](const Jellyfish::iWindow::EMouseMoved &event)
+	{
+		if (event.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
+		{
+			float sensitivity{ .07f };
+			const float xoff{ sensitivity * (float)(event.newPosition.x - event.oldPosition.x) };
+			const float yoff{ sensitivity * (float)(event.newPosition.y - event.oldPosition.y) };
+			
+			float newYaw = m_currentCamera->GetYaw() + xoff;
+			float newPitch = m_currentCamera->GetPitch() - yoff;
+
+			m_currentCamera->SetPitch(newPitch);
+			m_currentCamera->SetYaw(newYaw);
+		}
+	});
+
+	//Rebroadcast CameraManager events out to the engine
+	this->On([&](const ECurrentCamChanged &event)
+	{
+		world.Emit(event);
+	});
 
 	
+}
 
-  
+void CameraManager::Update(float dt)
+{
+	m_currentCamera->Update(dt);
+}
+
+glm::mat4 CameraManager::View() const
+{
+	return m_currentCamera->GetView();
+}
+
+glm::mat4 CameraManager::Projection() const
+{
+	return m_currentCamera->GetProjection();
+}
+
+void CameraManager::RegisterCamera(std::shared_ptr<Jellyfish::iCamera> camera, std::string id)
+{
+	//if a string id was not supplied, we'll use a number
+	if (id == "")
+	{
+		id = std::to_string(this->idCounter++);
+	}
+
+	m_cameras[id] = camera;
+
+	//if no camera has been set as current, set this one
+	if (m_currentCamera == nullptr)
+	{
+		m_currentCamera = camera;
+
+		ECurrentCamChanged event;
+		event.pNewCamera = m_currentCamera;
+		this->Emit(event);
+	}
+		
+	return;
+}
+
+void CameraManager::SetCameraByID(std::string id)
+{
+	m_currentCamera = m_cameras[id];
+
+	ECurrentCamChanged event;
+	event.pNewCamera = m_currentCamera;
+	this->Emit(event);
+}
+
+std::shared_ptr<Jellyfish::iCamera> CameraManager::GetCurrentCamera() const
+{
+	return m_currentCamera;
 }

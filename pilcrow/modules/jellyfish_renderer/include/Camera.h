@@ -48,6 +48,27 @@ namespace Jellyfish
 			return m_projection;
 		}
 
+		glm::vec3 GetPosition(void) const
+		{
+			return m_position;
+		}
+
+		float GetSpeed(void) const
+		{
+			return m_speed;
+		}
+
+		float GetPitch(void)
+		{
+			return m_pitch;
+		}
+
+		float GetYaw(void)
+		{
+			return m_yaw;
+		}
+
+
 		void SetPerspectiveProjection(float window_size_x, float window_size_y)
 		{
 			m_projection = glm::perspective(glm::radians(m_fov), window_size_x / window_size_y, m_nearplane, m_farplane);
@@ -63,22 +84,43 @@ namespace Jellyfish
 			m_position = pos;
 		}
 
-		glm::vec3 GetPosition(void) const
-		{
-			return m_position;
-		}
-		
 		void SetPitch(float pitch)
 		{
 			m_pitch = pitch;
+
+			if (m_pitch > 89.9f)  m_pitch = 89.9f;
+			if (m_pitch < -89.9f) m_pitch = -89.9f;
 		}
 
 		void SetYaw(float yaw)
 		{
 			m_yaw = yaw;
 		}
+
+		void Move(glm::vec3 offset)
+		{
+			m_position += (Right() * m_speed * offset.x);
+			//m_position += (Up() * m_speed * offset.y);
+			m_position += (Front() * m_speed * offset.z);
+		}
+
+		//TODO: --current method not working, view gets overridden
+		//in the update function
+		void LookAt(glm::vec3 target)
+		{
+			//m_right = Right();
+			//
+			//m_view = glm::mat4
+			//{
+			//	m_right.x,  m_right.y,  m_right.z,  0,
+			//	m_up.x,     m_up.y,     m_up.z,     0,
+			//	target.x, target.y, target.z, 0,
+			//	m_position.x, m_position.y, m_position.z, 1.f
+			//};
+			//return;
+		}
 	
-	private:
+	protected:
 		glm::vec3 Front() const
 		{
 			return glm::normalize(
@@ -93,19 +135,6 @@ namespace Jellyfish
 		glm::vec3 Right() const
 		{
 			return glm::normalize(glm::cross(Front(), m_up));
-		}
-
-		glm::mat4 LookAt(glm::vec3 target)
-		{
-			m_right = Right();
-
-			return glm::mat4
-			{
-				m_right.x,  m_right.y,  m_right.z,  0,
-				m_up.x,     m_up.y,     m_up.z,     0,
-				target.x, target.y, target.z, 0,
-				m_position.x, m_position.y, m_position.z, 1.f
-			};
 		}
 
 		glm::vec3 Direction() const

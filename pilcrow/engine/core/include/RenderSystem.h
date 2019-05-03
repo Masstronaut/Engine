@@ -33,61 +33,26 @@ class CameraManager : public EventArena
 public:
 
 #pragma region EventTypes
-
+	struct ECurrentCamChanged
+	{
+		std::shared_ptr<Jellyfish::iCamera> pNewCamera = nullptr;
+	};
 #pragma endregion
 
-	//TODO: make it as system and pass the world in here
-	void Init()
-	{
+	
+	void Init(World& world);
+	void Update(float dt);
+	
+	glm::mat4 View() const;
+	glm::mat4 Projection() const;
 
-	}
-
-	void RegisterCamera(std::shared_ptr<Jellyfish::iCamera> camera, std::string id = "")
-	{
-		//if a string id was not supplied, we'll use a number
-		if (id == "")
-		{
-			id = std::to_string(this->idCounter++);
-		}
-
-		m_cameras[id] = camera;
-
-		//if no camera has been set as current, set this one
-		if (currentCamera == nullptr)
-			currentCamera = camera;
-
-		return;
-	}
-
-	void SetCameraByID(std::string id)
-	{
-		currentCamera = m_cameras[id];
-	}
-
-	//TODO: const correctness
-	std::shared_ptr<Jellyfish::iCamera> GetCurrentCamera() const
-	{
-		return currentCamera;
-	}
-
-	void Update(float dt)
-	{
-		currentCamera->Update(dt);
-	}
-
-	glm::mat4 View() const
-	{
-		return currentCamera->GetView();
-	}
-
-	glm::mat4 Projection() const
-	{
-		return currentCamera->GetProjection();
-	}
+	void RegisterCamera(std::shared_ptr<Jellyfish::iCamera> camera, std::string id = "");
+	void SetCameraByID(std::string id);
+	std::shared_ptr<Jellyfish::iCamera> GetCurrentCamera() const;
 
 private:
 	std::unordered_map<std::string, std::shared_ptr<Jellyfish::iCamera>> m_cameras;
-	std::shared_ptr<Jellyfish::iCamera> currentCamera = nullptr;
+	std::shared_ptr<Jellyfish::iCamera> m_currentCamera = nullptr;
 	int idCounter = 0;
 };
 
@@ -104,11 +69,12 @@ struct RenderSystem
 		{
 			m_windowSize = event.newSize;
 		});
-		
+
 		//add a camera to the manager every time one is created
-		world.On([&](const Jellyfish::iCamera::ECameraCreated &event)
+		world.On([&](const CameraManager::ECurrentCamChanged &event)
 		{
-			m_CameraManager.RegisterCamera(event.pCamera);
+			//m_CameraManager.RegisterCamera(event.pCamera);
+			m_CurrentCam = event.pNewCamera;
 		});
 		
 		//Load shader -- probably should move this
@@ -117,17 +83,16 @@ struct RenderSystem
 
 	void PreProcess() 
 	{	
-		//set perspective on current camera
-		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
-
 		//no camera to render with in this case
-		if (!cam)
+		if (!m_CurrentCam)
 			return;
-
-		cam->SetPerspectiveProjection(m_windowSize.x, m_windowSize.y);
+		
+		//TODO: optimize this:
+		m_CurrentCam->SetPerspectiveProjection(m_windowSize.x, m_windowSize.y);
+		
 		//set up projetion matrices
-		program.SetUniform("projection", m_CameraManager.Projection());
-		program.SetUniform("view", m_CameraManager.View());
+		program.SetUniform("projection", m_CurrentCam->GetProjection());
+		program.SetUniform("view", m_CurrentCam->GetView());
 	}
 
 	void Process(const CModel &model, const Transform &tf) const
@@ -188,8 +153,8 @@ struct RenderSystem
 	    //we reset all our internal state members to their default value.
 
 		
-		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
-		if (cam == nullptr ) return;
+		if (m_CurrentCam == nullptr ) 
+			return;
 
 
 		glm::mat4 modelMatrix;
@@ -216,9 +181,8 @@ struct RenderSystem
 	void PostProcess() 
 	{
 		//Set up projection for post-process text rendering
-		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
-		cam->SetOrthoProjection(m_windowSize.x, m_windowSize.y);
-		glm::mat4 orthoProj = cam->GetProjection();
+		m_CurrentCam->SetOrthoProjection(m_windowSize.x, m_windowSize.y);
+		glm::mat4 orthoProj = m_CurrentCam->GetProjection();
 
 		//Render Text
 		for (const auto &entity : textEntities) 
@@ -228,7 +192,7 @@ struct RenderSystem
 		}
 
 		float position;
-		glm::vec3 camPos = cam->GetPosition();
+		glm::vec3 camPos = m_CurrentCam->GetPosition();
 		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, position=NextTextPos(m_windowSize.y) }, orthoProj, { .5f,.8f,.2f });
 		gltr.Render("Camera Pos X: " + std::to_string(camPos.x), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
 		gltr.Render("Camera Pos Y: " + std::to_string(camPos.y), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
@@ -258,12 +222,7 @@ struct RenderSystem
 
 
 	//Type Lists
-	
-	//Removing this one
-	//EntitiesWith<const Jellyfish::iCamera> camEntities;
-	
 	EntitiesWith<const RenderText> textEntities;
-	CameraManager m_CameraManager;
 
 	//GL Impl 
 	Jellyfish::GLText gltr{ "Text.sprog" };
@@ -271,6 +230,6 @@ struct RenderSystem
 
 	//Other
 	float Dt{ 0.f };
-	
+	std::shared_ptr<Jellyfish::iCamera> m_CurrentCam;
 	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };
 };
