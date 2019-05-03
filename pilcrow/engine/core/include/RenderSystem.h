@@ -36,6 +36,7 @@ public:
 
 #pragma endregion
 
+	//TODO: make it as system and pass the world in here
 	void Init()
 	{
 
@@ -64,7 +65,7 @@ public:
 	}
 
 	//TODO: const correctness
-	std::shared_ptr<Jellyfish::iCamera> GetCurrentCamera()
+	std::shared_ptr<Jellyfish::iCamera> GetCurrentCamera() const
 	{
 		return currentCamera;
 	}
@@ -74,12 +75,12 @@ public:
 		currentCamera->Update(dt);
 	}
 
-	glm::mat4 View()
+	glm::mat4 View() const
 	{
 		return currentCamera->GetView();
 	}
 
-	glm::mat4 Projection()
+	glm::mat4 Projection() const
 	{
 		return currentCamera->GetProjection();
 	}
@@ -129,7 +130,7 @@ struct RenderSystem
 		program.SetUniform("view", m_CameraManager.View());
 	}
 
-	void Process(const CModel &model, const Transform &tf)
+	void Process(const CModel &model, const Transform &tf) const
 	{	
 		//TODO: implement bucket-based rendering.
 		//Functionality will mustly be implemented in jellyfish, but the API calls related to entities will happen here.
@@ -202,7 +203,7 @@ struct RenderSystem
 		program.SetUniform("model", modelMatrix);
 
 		model.model->AssignShaderToAllMeshes(program);
-		model.model->Draw(); //program no longer neede as arg textures TODO
+		model.model->Draw(); 
 	}
 
 
