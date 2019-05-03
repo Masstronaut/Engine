@@ -17,12 +17,10 @@ namespace Jellyfish
 	class iCamera : public EventArena
 	{
 	public:
-
-//not sure if I want this yet but trying it out
 #pragma region EventTypes
 		struct ECameraCreated 
 		{
-			iCamera* pCamera = nullptr;
+			std::shared_ptr<Jellyfish::iCamera> pCamera = nullptr;
 		};
 
 		struct ECameraMoved
@@ -64,10 +62,10 @@ namespace Jellyfish
 		{
 			m_position = pos;
 		}
-		
-		void SetPosition(glm::vec3 pos)
+
+		glm::vec3 GetPosition(void)
 		{
-			m_position = pos;
+			return m_position;
 		}
 		
 		void SetPitch(float pitch)
@@ -135,63 +133,6 @@ namespace Jellyfish
 		float m_speed{ 1.0f };
 	};
 	
-	class CameraManager : public EventArena
-	{
-	public:
-
-		void Init()
-		{
-
-		}
-
-		void RegisterCamera(iCamera* camera, std::string id = "")
-		{ 
-			//if a string id was not supplied, we'll use a number
-			if (id == "")
-			{
-				id = std::to_string(this->idCounter++);
-			}
-
-			m_cameras[id] = camera; 
-
-			//if no camera has been set as current, set this one
-			if (currentCamera == nullptr)
-				currentCamera = camera;
-
-			return;
-		}
-		
-		void SetCameraByID(std::string id) 
-		{ 
-			currentCamera = m_cameras[id]; 
-		}
-
-		//TODO: const correctness
-		iCamera* GetCurrentCamera()
-		{
-			return currentCamera;
-		}
-
-		void Update(float dt) 
-		{ 
-			currentCamera->Update(dt); 
-		}
-		
-		glm::mat4 View()
-		{ 
-			return currentCamera->GetView();
-		}
-
-		glm::mat4 Projection()
-		{
-			return currentCamera->GetProjection();
-		}
-	
-	private:
-		 std::unordered_map<std::string, iCamera*> m_cameras;
-		 iCamera* currentCamera = nullptr;
-		 int idCounter = 0;
-	};
 
 	// ------------------------------------
 	// CAMERA TYPES AND IMPLEMENTATIONS

@@ -8,10 +8,10 @@ void MouseCallback2(const Jellyfish::iWindow::EMouseMoved &mme) {
 		float sensitivity{ .07f };
 		const float xoff{ sensitivity * (float)(mme.newPosition.x - mme.oldPosition.x) };
 		const float yoff{ sensitivity * (float)(mme.newPosition.y - mme.oldPosition.y) };
-		cam->yaw += xoff;
-		cam->pitch -= yoff;
-		if (cam->pitch > 89.9f) cam->pitch = 89.9f;
-		if (cam->pitch < -89.9f) cam->pitch = -89.9f;
+		//cam->yaw += xoff;
+		//cam->pitch -= yoff;
+		//if (cam->pitch > 89.9f) cam->pitch = 89.9f;
+		//if (cam->pitch < -89.9f) cam->pitch = -89.9f;
     }
 }
 //void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {

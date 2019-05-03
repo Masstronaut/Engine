@@ -177,6 +177,10 @@ void ECSDemo() {
 	lens.Add<RenderCamera>();
 
 	EntityRef cam{ TestWorld.Spawn(lens) };
+	Jellyfish::iCamera::ECameraCreated event;
+	event.pCamera = cam.Get<RenderCamera>().m_iCamera;
+	TestWorld.Emit(event);
+
 	//TODO: Set interface functions in RenderCamera to clean this up
 	cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
 	cam.Get<RenderCamera>().m_iCamera->SetPitch(-1.f);
@@ -243,7 +247,6 @@ void ECSDemo() {
 		if (event.newState == Jellyfish::WindowState::closed)
 			WindowOpen = false;
 	});
-
 
 	try {
 

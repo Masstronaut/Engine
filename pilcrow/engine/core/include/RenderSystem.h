@@ -27,6 +27,69 @@ private:
   bool m_windowFullscreenSetting{ g_StartFullscreen };
 };
 
+
+class CameraManager : public EventArena
+{
+public:
+
+#pragma region EventTypes
+
+#pragma endregion
+
+	void Init()
+	{
+
+	}
+
+	void RegisterCamera(std::shared_ptr<Jellyfish::iCamera> camera, std::string id = "")
+	{
+		//if a string id was not supplied, we'll use a number
+		if (id == "")
+		{
+			id = std::to_string(this->idCounter++);
+		}
+
+		m_cameras[id] = camera;
+
+		//if no camera has been set as current, set this one
+		if (currentCamera == nullptr)
+			currentCamera = camera;
+
+		return;
+	}
+
+	void SetCameraByID(std::string id)
+	{
+		currentCamera = m_cameras[id];
+	}
+
+	//TODO: const correctness
+	std::shared_ptr<Jellyfish::iCamera> GetCurrentCamera()
+	{
+		return currentCamera;
+	}
+
+	void Update(float dt)
+	{
+		currentCamera->Update(dt);
+	}
+
+	glm::mat4 View()
+	{
+		return currentCamera->GetView();
+	}
+
+	glm::mat4 Projection()
+	{
+		return currentCamera->GetProjection();
+	}
+
+private:
+	std::unordered_map<std::string, std::shared_ptr<Jellyfish::iCamera>> m_cameras;
+	std::shared_ptr<Jellyfish::iCamera> currentCamera = nullptr;
+	int idCounter = 0;
+};
+
 struct RenderSystem 
 {
 	
@@ -41,7 +104,6 @@ struct RenderSystem
 			m_windowSize = event.newSize;
 		});
 		
-		
 		//add a camera to the manager every time one is created
 		world.On([&](const Jellyfish::iCamera::ECameraCreated &event)
 		{
@@ -55,17 +117,19 @@ struct RenderSystem
 	void PreProcess() 
 	{	
 		//set perspective on current camera
-		Jellyfish::iCamera* cam = m_CameraManager.GetCurrentCamera();
+		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
+
+		//no camera to render with in this case
+		if (!cam)
+			return;
+
 		cam->SetPerspectiveProjection(m_windowSize.x, m_windowSize.y);
-
-
-
 		//set up projetion matrices
 		program.SetUniform("projection", m_CameraManager.Projection());
 		program.SetUniform("view", m_CameraManager.View());
 	}
 
-	void Process(const CModel &model, const Transform &tf) const 
+	void Process(const CModel &model, const Transform &tf)
 	{	
 		//TODO: implement bucket-based rendering.
 		//Functionality will mustly be implemented in jellyfish, but the API calls related to entities will happen here.
@@ -123,8 +187,10 @@ struct RenderSystem
 	    //we reset all our internal state members to their default value.
 
 		
-		const Jellyfish::iCamera* cam = m_CameraManager.GetCurrentCamera();
+		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
 		if (cam == nullptr ) return;
+
+
 		glm::mat4 modelMatrix;
 		modelMatrix = glm::translate(modelMatrix, tf.position);
 		modelMatrix = glm::scale(modelMatrix, tf.scale);
@@ -149,21 +215,23 @@ struct RenderSystem
 	void PostProcess() 
 	{
 		//Set up projection for post-process text rendering
-		//TODO
-		//m_ortho_projection = glm::ortho(0.f, m_windowSize.x, 0.f, m_windowSize.y);
+		std::shared_ptr<Jellyfish::iCamera> cam = m_CameraManager.GetCurrentCamera();
+		cam->SetOrthoProjection(m_windowSize.x, m_windowSize.y);
+		glm::mat4 orthoProj = cam->GetProjection();
 
 		//Render Text
 		for (const auto &entity : textEntities) 
 		{
 			const RenderText &renderable{ entity.Get<const RenderText>() };
-			gltr.Render(renderable.Text, renderable.Position, m_ortho_projection, renderable.Color, renderable.Size);
+			gltr.Render(renderable.Text, renderable.Position, orthoProj, renderable.Color, renderable.Size);
 		}
 
 		float position;
-		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, position=NextTextPos(m_windowSize.y) }, m_ortho_projection, { .5f,.8f,.2f });
-		gltr.Render("Camera Pos X: " + std::to_string(camera->position.x), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Y: " + std::to_string(camera->position.y), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Z: " + std::to_string(camera->position.z), { 0.f, position = NextTextPos(position) }, m_ortho_projection, { 0.f, 0.f, 1.f });
+		glm::vec3 camPos = cam->GetPosition();
+		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, position=NextTextPos(m_windowSize.y) }, orthoProj, { .5f,.8f,.2f });
+		gltr.Render("Camera Pos X: " + std::to_string(camPos.x), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Y: " + std::to_string(camPos.y), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Z: " + std::to_string(camPos.z), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
 	}
 
 	void Draw() 
@@ -194,7 +262,7 @@ struct RenderSystem
 	//EntitiesWith<const Jellyfish::iCamera> camEntities;
 	
 	EntitiesWith<const RenderText> textEntities;
-	Jellyfish::CameraManager m_CameraManager;
+	CameraManager m_CameraManager;
 
 	//GL Impl 
 	Jellyfish::GLText gltr{ "Text.sprog" };
@@ -203,6 +271,5 @@ struct RenderSystem
 	//Other
 	float Dt{ 0.f };
 	
-	//TODO: Use events instead
 	glm::vec2 m_windowSize{ g_InitialWindowWidth, g_InitialWindowHeight };
 };
