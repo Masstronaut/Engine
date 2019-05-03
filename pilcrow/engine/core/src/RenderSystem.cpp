@@ -17,8 +17,6 @@
 
 WindowManager::WindowManager()
 {
-  //window.MouseMode(CursorMode::disabled);
-
   //window.On( ScrollCallback2 );
 }
 

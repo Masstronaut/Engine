@@ -149,17 +149,17 @@ namespace Jellyfish
 
 		glm::mat4 m_view;
 		glm::mat4 m_projection;
-		glm::vec3 m_position{ 0.f, 2.f, 0.f };
+		glm::vec3 m_position{ 0.f, 0.15f, 0.f };
 		glm::vec3 m_up{ 0.f, 1.f, 0.f };
 		glm::vec3 m_right{ 1.f, 0.f, 0.f };
 		
 		float m_fov{ 80.f };
-		float m_nearplane{ 0.1f };
-		float m_farplane{ 100.f };
+		float m_nearplane{ 0.001f };
+		float m_farplane{ 1000.f };
 		float m_yaw{ 0.f };
 		float m_pitch{ 0.f };
 
-		float m_speed{ 1.0f };
+		float m_speed{ 0.5f };
 	};
 	
 

@@ -177,8 +177,8 @@ void ECSDemo() {
 	//TODO: should probably have a camera archetype, and make lens an attribute of that
 	ArchetypeRef lens{ Sim.CreateArchetype("Camera Lens") };
 	lens.Add<RenderCamera>();
-
 	EntityRef cam{ TestWorld.Spawn(lens) };
+	
 	Jellyfish::iCamera::ECameraCreated event;
 	event.pCamera = cam.Get<RenderCamera>().m_iCamera;
 	TestWorld.Emit(event);
@@ -186,58 +186,70 @@ void ECSDemo() {
 	//TODO: Set interface functions in RenderCamera to clean this up
 	//cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
 
-
-	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
-	enemy.Add<RigidBody>();
-	CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
+	ArchetypeRef sponza{ Sim.CreateArchetype("Sponza") };
+	sponza.Add<RigidBody>();
+	CModel& cm{ sponza.Add<CModel>( "sponza/sponza.obj") };
 	
 	float s = 0.f;
 	s = cm.model->GetScale();
-	enemy.Add<Transform>().scale = { s, s, s};
-	enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
-
-	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+	sponza.Add<Transform>().scale = { s* 2.0, s * 2.0, s * 2.0};
+	sponza.Get<Transform>().position = { 0.0f, 0.0, 0.0f };
+	sponza.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
 	
-	// set SpawnNanos to false if you want higher FPS and less nanosuits
-	std::vector<EntityRef> nanos;
-	if (g_SpawnNanos)
-	{
-		float scalor = 1.f; //differentiating scale
-		float angle = 0.f;  //pi/6
+	EntityRef building{ TestWorld.Spawn(sponza) };
 
-		for (int i{ 0 }; i < 4; ++i)
-		{
-			for (int j{ 0 }; j < 4; ++j)
-			{
-				nanos.emplace_back(EnemyA.Clone());
-				
-				//position
-				nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
-				
-				//rotation -- NOT WORKING!
-				nanos.back().Get<Transform>().rotation.y *= angle;
-				angle += 30.f; //degrees or radians? lacking documentation.
 
-				//scale
-				nanos.back().Get<Transform>().scale.x *= scalor;
-				nanos.back().Get<Transform>().scale.y *= scalor;
-				nanos.back().Get<Transform>().scale.z *= scalor;
-				scalor = scalor + 0.1f;
-			}
-		}
-
-		//TODO: google test this
-		//Model remove testing
-		nanos[0].Remove<CModel>();
-
-		//TODO: google test this
-		//Model change testing
-		CModel bunny{ "bunny.ply" };
-		s = bunny.model->GetScale();
-		nanos[1].Get<CModel>() = bunny;
-		nanos[1].Get<Transform>().scale = { s,s,s };
-	}
+	//ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
+	//enemy.Add<RigidBody>();
+	//CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
+	//
+	//float s = 0.f;
+	//s = cm.model->GetScale();
+	//enemy.Add<Transform>().scale = { s, s, s};
+	//enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
+	//enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
+	//
+	//EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+	//
+	//// set SpawnNanos to false if you want higher FPS and less nanosuits
+	//std::vector<EntityRef> nanos;
+	//if (g_SpawnNanos)
+	//{
+	//	float scalor = 1.f; //differentiating scale
+	//	float angle = 0.f;  //pi/6
+	//
+	//	for (int i{ 0 }; i < 4; ++i)
+	//	{
+	//		for (int j{ 0 }; j < 4; ++j)
+	//		{
+	//			nanos.emplace_back(EnemyA.Clone());
+	//			
+	//			//position
+	//			nanos.back().Get<Transform>().position = glm::vec3{ i * 2, 0, j * 2 };
+	//			
+	//			//rotation -- NOT WORKING!
+	//			nanos.back().Get<Transform>().rotation.y *= angle;
+	//			angle += 30.f; //degrees or radians? lacking documentation.
+	//
+	//			//scale
+	//			nanos.back().Get<Transform>().scale.x *= scalor;
+	//			nanos.back().Get<Transform>().scale.y *= scalor;
+	//			nanos.back().Get<Transform>().scale.z *= scalor;
+	//			scalor = scalor + 0.1f;
+	//		}
+	//	}
+	//
+	//	//TODO: google test this
+	//	//Model remove testing
+	//	nanos[0].Remove<CModel>();
+	//
+	//	//TODO: google test this
+	//	//Model change testing
+	//	CModel bunny{ "bunny.ply" };
+	//	s = bunny.model->GetScale();
+	//	nanos[1].Get<CModel>() = bunny;
+	//	nanos[1].Get<Transform>().scale = { s,s,s };
+	//}
 	
 	//Event Listener
 	//Makes the Game exit on window close
