@@ -26,12 +26,14 @@ namespace Jellyfish
 		struct ECameraMoved
 		{
 			//z = front , y= up, x = right for all positive vals
-			glm::vec3 offset = { 0.f, 0.f, 0.f };
+			glm::vec3 pos = { 0.f, 0.f, 0.f };
 		};
 
 		struct ECameraLook
 		{
 			glm::vec3 target = { 0.f, 0.f, 0.f };
+			float x_offset = 0.f;
+			float y_offset = 0.f;
 		};
 #pragma endregion
 
@@ -68,7 +70,6 @@ namespace Jellyfish
 			return m_yaw;
 		}
 
-
 		void SetPerspectiveProjection(float window_size_x, float window_size_y)
 		{
 			m_projection = glm::perspective(glm::radians(m_fov), window_size_x / window_size_y, m_nearplane, m_farplane);
@@ -97,17 +98,16 @@ namespace Jellyfish
 			m_yaw = yaw;
 		}
 
-		void Move(glm::vec3 offset)
+		void Move(const iCamera::ECameraMoved &event)
 		{
-			m_position += (Right() * m_speed * offset.x);
+			m_position += (Right() * m_speed * event.pos.x);
 			//m_position += (Up() * m_speed * offset.y);
-			m_position += (Front() * m_speed * offset.z);
+			m_position += (Front() * m_speed * event.pos.z);
 		}
 
-		//TODO: --current method not working, view gets overridden
-		//in the update function
-		void LookAt(glm::vec3 target)
+		void Look(const Jellyfish::iCamera::ECameraLook &event)
 		{
+			// FOR TARGET BASED LOOKAT -- not working, view overwritten in update
 			//m_right = Right();
 			//
 			//m_view = glm::mat4
@@ -118,6 +118,11 @@ namespace Jellyfish
 			//	m_position.x, m_position.y, m_position.z, 1.f
 			//};
 			//return;
+
+			float xoff = m_sensitivity * event.x_offset;
+			float yoff = m_sensitivity * event.y_offset;
+			m_yaw += xoff;
+			m_pitch -= yoff;
 		}
 	
 	protected:
@@ -160,6 +165,7 @@ namespace Jellyfish
 		float m_pitch{ 0.f };
 
 		float m_speed{ 0.5f };
+		float m_sensitivity{ 0.07f };
 	};
 	
 

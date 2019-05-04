@@ -35,6 +35,9 @@ namespace Jellyfish
 
 		void ResizeWindow(unsigned width, unsigned height);
 
+		void ProcessInput(std::vector<int>& keyarray, const float& Dt) final;
+		void ProcessMouseEvent(const iWindow::EMouseMoved &event) final;
+
 	private:
 		//glfw callback functions
 		static void Callback_ResizeWindow(GLFWwindow* windowhandle, int width, int height);

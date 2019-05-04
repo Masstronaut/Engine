@@ -1,8 +1,4 @@
-#include <glad/include/glad.h> // MUST be included BEFORE glfw3.h
-#include <GLFW/glfw3.h>
 #include "../include/RenderSystem.h"
-
-
 
 //void ScrollCallback2(const GLFWWindow::EMouseScrolled &mse) {
 //  if (cam->fov >= 1.0f && cam->fov <= 70.0f)
@@ -50,21 +46,20 @@ void WindowManager::Init(World& world)
 	pWindow->On([&](const Jellyfish::iWindow::EMouseMoved &event)
 	{
 		world.Emit(event);
+
+		//also send to the window to deal with internal keycodes
+		pWindow->ProcessMouseEvent(event);
 	});
 
-	this->On([&](const Jellyfish::iCamera::ECameraLook &event)
+	pWindow->On([&](const Jellyfish::iCamera::ECameraLook &event)
 	{
 		world.Emit(event);
 	});
 
-	this->On([&](const Jellyfish::iCamera::ECameraMoved &event)
+	pWindow->On([&](const Jellyfish::iCamera::ECameraMoved &event)
 	{
 		world.Emit(event);
 	});
-
-	//Set callback functions
-	//pWindow->On(MouseCallback2);
-  
 }
 
 void WindowManager::FrameStart( ) 
@@ -82,68 +77,11 @@ inline void WindowManager::ProcessInput()
 {
 	std::vector<int> keyarray;
 	pWindow->PollInput(keyarray);
-
-	for (int i = 0; i < keyarray.size(); ++i)
-	{
-		//TODO: Move GL Code into Jellyfish as low-level interface to render modes
-
-		//TODO: Broadcast keys to input system to map keys to actions
-		  //TODO: Input System
-
-		if (keyarray[i] == GLFW_KEY_ESCAPE) 
-		{
-			pWindow->SetWindowState(Jellyfish::WindowState::closed);
-		}
-		else if (keyarray[i] == GLFW_KEY_1)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
-		}
-		else if (keyarray[i] == GLFW_KEY_2) 
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-			glLineWidth(1.5f);
-		}
-		else if (keyarray[i] == GLFW_KEY_3)
-		{
-			glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
-		}
-		else if (keyarray[i] == GLFW_KEY_W)
-		{
-			Jellyfish::iCamera::ECameraMoved event;
-			event.offset = { 0.f, 0.f, 1.f };
-			event.offset *= Dt;
-			this->Emit(event);
-		}
-		else if (keyarray[i] == GLFW_KEY_S)
-		{
-			Jellyfish::iCamera::ECameraMoved event;
-			event.offset = { 0.f, 0.f, -1.f };
-			event.offset *= Dt;
-			this->Emit(event);
-		}
-		else if (keyarray[i] == GLFW_KEY_A)
-		{
-			Jellyfish::iCamera::ECameraMoved event;
-			event.offset = { -1.f, 0.f, 0.f };
-			event.offset *= Dt;
-			this->Emit(event); 
-		}
-		else if (keyarray[i] == GLFW_KEY_D)
-		{
-			Jellyfish::iCamera::ECameraMoved event;
-			event.offset = { 1.f, 0.f, 0.f };
-			event.offset *= Dt;
-			this->Emit(event); 
-		}
-		else if (keyarray[i] == GLFW_KEY_SPACE) 
-		{
-			//center camera target on origin
-			Jellyfish::iCamera::ECameraLook event;
-			event.target = { 0.f, 0.f, 0.f };
-			this->Emit(event); 
-		}
-		
-	}//endfunc
+	
+	//TODO: Use a proper Input Manager for this at some point
+	//Map key arrays to actions ans such
+	//have defines for which input key codes to use maybe..?
+	pWindow->ProcessInput(keyarray, Dt);
 }
 
 
@@ -159,30 +97,13 @@ void CameraManager::Init(World& world)
 
 	world.On([&](const Jellyfish::iCamera::ECameraLook &event)
 	{
-		//change lookat
-		m_currentCamera->LookAt(event.target);
+		m_currentCamera->Look(event);
 	});
 
 	world.On([&](const Jellyfish::iCamera::ECameraMoved &event)
 	{
 		//reposition the camera
-		m_currentCamera->Move(event.offset);
-	});
-
-	world.On([&](const Jellyfish::iWindow::EMouseMoved &event)
-	{
-		if (event.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
-		{
-			float sensitivity{ .07f };
-			const float xoff{ sensitivity * (float)(event.newPosition.x - event.oldPosition.x) };
-			const float yoff{ sensitivity * (float)(event.newPosition.y - event.oldPosition.y) };
-			
-			float newYaw = m_currentCamera->GetYaw() + xoff;
-			float newPitch = m_currentCamera->GetPitch() - yoff;
-
-			m_currentCamera->SetPitch(newPitch);
-			m_currentCamera->SetYaw(newYaw);
-		}
+		m_currentCamera->Move(event);
 	});
 
 	//Rebroadcast CameraManager events out to the engine
@@ -190,8 +111,6 @@ void CameraManager::Init(World& world)
 	{
 		world.Emit(event);
 	});
-
-	
 }
 
 void CameraManager::Update(float dt)

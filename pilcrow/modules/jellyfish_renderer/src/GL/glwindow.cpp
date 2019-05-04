@@ -406,4 +406,82 @@ namespace Jellyfish
 		//set window state data
 		g_singleton_window->m_Cursor.buttonStates[button] = action;
 	}
+
+	void GLWindow::ProcessInput(std::vector<int>& keyarray, const float& Dt)
+	{
+		for (int i = 0; i < keyarray.size(); ++i)
+		{
+			if (keyarray[i] == GLFW_KEY_ESCAPE)
+			{
+				SetWindowState(Jellyfish::WindowState::closed);
+			}
+			else if (keyarray[i] == GLFW_KEY_1)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+			}
+			else if (keyarray[i] == GLFW_KEY_2)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+				glLineWidth(1.5f);
+			}
+			else if (keyarray[i] == GLFW_KEY_3)
+			{
+				glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
+			}
+			else if (keyarray[i] == GLFW_KEY_W)
+			{
+				Jellyfish::iCamera::ECameraMoved event;
+				event.pos = { 0.f, 0.f, 1.f };
+				event.pos *= Dt;
+				g_singleton_window->Emit(event);
+			}
+			else if (keyarray[i] == GLFW_KEY_S)
+			{
+				Jellyfish::iCamera::ECameraMoved event;
+				event.pos = { 0.f, 0.f, -1.f };
+				event.pos *= Dt;
+				g_singleton_window->Emit(event);
+			}
+			else if (keyarray[i] == GLFW_KEY_A)
+			{
+				Jellyfish::iCamera::ECameraMoved event;
+				event.pos = { -1.f, 0.f, 0.f };
+				event.pos *= Dt;
+				g_singleton_window->Emit(event);
+			}
+			else if (keyarray[i] == GLFW_KEY_D)
+			{
+				Jellyfish::iCamera::ECameraMoved event;
+				event.pos = { 1.f, 0.f, 0.f };
+				event.pos *= Dt;
+				g_singleton_window->Emit(event);
+			}
+			else if (keyarray[i] == GLFW_KEY_SPACE)
+			{
+				//center camera target on origin
+				Jellyfish::iCamera::ECameraLook event;
+				event.target = { 0.f, 0.f, 0.f };
+				g_singleton_window->Emit(event);
+			}
+
+		}//endfunc
+	}
+
+	void GLWindow::ProcessMouseEvent(const iWindow::EMouseMoved &event)
+	{
+		if (event.cursorData.buttonHeld[GLFW_MOUSE_BUTTON_RIGHT] == GLFW_PRESS)
+		{
+			const float xoff{ (float)(event.newPosition.x - event.oldPosition.x) };
+			const float yoff{ (float)(event.newPosition.y - event.oldPosition.y) };
+
+			Jellyfish::iCamera::ECameraLook camEvent;
+			camEvent.target = { 0.f, 0.f, 0.f };
+			camEvent.x_offset = xoff;
+			camEvent.y_offset = yoff;
+			g_singleton_window->Emit(camEvent);
+		}
+
+		return;
+	}
+
 } //namespace Jellyfish

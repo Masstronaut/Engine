@@ -9,6 +9,9 @@
 //ours
 #include <utils/include/EventArena.hpp> //event messaging
 
+//these are kind of temporary for object-specific messages
+#include "Camera.h"
+
 namespace Jellyfish
 {
 
@@ -99,6 +102,10 @@ namespace Jellyfish
 
 		virtual void FrameStart() = 0;
 		virtual void FrameEnd() = 0;
+
+		//This functionality will eventually move to an input manager, not part of jellyfish
+		virtual void ProcessInput(std::vector<int>& keyarray, const float& Dt) = 0;
+		virtual void ProcessMouseEvent(const Jellyfish::iWindow::EMouseMoved &event) = 0;
 
 		const glm::uvec2& GetSize() const
 		{
