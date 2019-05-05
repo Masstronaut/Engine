@@ -103,11 +103,13 @@ namespace Jellyfish
 		{
 			aiMaterial *material{ scene.mMaterials[mesh.mMaterialIndex] };
 
+			//LoadMaterialTextures could be overloaded and have different return types
 			auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
 			textures.insert(textures.end(), mats.begin(), mats.end());
 
 			//Load every texture type associated with this mesh
-			int i = aiTextureType_DIFFUSE + 1;
+			int i = aiTextureType_DIFFUSE;
+			++i;
 			for (i; i <= aiTextureType_UNKNOWN; ++i)
 			{
 				mats = LoadMaterialTextures(material, aiTextureType(i));

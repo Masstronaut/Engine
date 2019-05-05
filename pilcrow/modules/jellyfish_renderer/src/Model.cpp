@@ -90,18 +90,25 @@ namespace Jellyfish
 
 	}
 
+
+	/// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+	//   Move this into the Assimp Loaders and re-write the fuck out of it...
+	/// !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! //
+
 	std::vector<std::shared_ptr<GLTexture>> Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type)
 	{
 		std::vector<std::shared_ptr<GLTexture>> textures;
 		static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
 
+		//for the number of textures of this type on the mesh
 		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
 		{
+			//check by string name if this texture was loaded already in this loop
 			aiString str;
 			mat->GetTexture(type, i, &str);
-
 			auto it{ loaded.find(str.C_Str()) };
 
+			//if loaded already, add it to the vector?
 			if (it != loaded.end())
 			{
 				textures.push_back(it->second);
@@ -111,6 +118,8 @@ namespace Jellyfish
 				auto res = loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
 				textures.push_back(res.first->second);
 				
+
+				//maybe able to just assign Type by using passed in "type"
 				if (type == aiTextureType_DIFFUSE)
 					textures.back()->Type(iTexture::TextureType::diffuse);
 				else if (type == aiTextureType_SPECULAR)
