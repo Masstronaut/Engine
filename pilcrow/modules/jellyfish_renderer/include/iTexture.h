@@ -8,13 +8,19 @@ namespace Jellyfish
 		// Add others as needed
 		enum class TextureType
 		{
-			image,
 			diffuse,
 			specular,
 			normalmap,
 			cubemap,
 			heightmap,
-			lightmap
+			lightmap,
+			ambient,
+			emissive,
+			shininess,
+			opacity,
+			displacement,
+			reflection,
+			image
 		}; //end enum TextureType
 
 		virtual ~iTexture() {}

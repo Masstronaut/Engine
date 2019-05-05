@@ -115,6 +115,26 @@ namespace Jellyfish
 					textures.back()->Type(iTexture::TextureType::diffuse);
 				else if (type == aiTextureType_SPECULAR)
 					textures.back()->Type(iTexture::TextureType::specular);
+				else if (type == aiTextureType_AMBIENT)
+					textures.back()->Type(iTexture::TextureType::ambient);
+				else if (type == aiTextureType_EMISSIVE)
+					textures.back()->Type(iTexture::TextureType::emissive);
+				else if (type == aiTextureType_HEIGHT)
+					textures.back()->Type(iTexture::TextureType::heightmap);
+				else if (type == aiTextureType_NORMALS)
+					textures.back()->Type(iTexture::TextureType::normalmap);
+				else if (type == aiTextureType_SHININESS)
+					textures.back()->Type(iTexture::TextureType::shininess);
+				else if (type == aiTextureType_OPACITY)
+					textures.back()->Type(iTexture::TextureType::opacity);
+				else if (type == aiTextureType_DISPLACEMENT)
+					textures.back()->Type(iTexture::TextureType::displacement);
+				else if (type == aiTextureType_LIGHTMAP)
+					textures.back()->Type(iTexture::TextureType::lightmap);
+				else if (type == aiTextureType_REFLECTION)
+					textures.back()->Type(iTexture::TextureType::reflection);
+				else if (type == aiTextureType_UNKNOWN)
+					textures.back()->Type(iTexture::TextureType::image);
 			}
 		}
 

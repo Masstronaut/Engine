@@ -184,33 +184,51 @@ void ECSDemo() {
 	TestWorld.Emit(event);
 
 	//TODO: Set interface functions in RenderCamera to clean this up
-	//cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.6f, -2.f });
+	cam.Get<RenderCamera>().m_iCamera->SetPosition(glm::vec3{ 0.f, 0.7f, 0.0f });
 
+
+	//Spawn Environment
 	ArchetypeRef sponza{ Sim.CreateArchetype("Sponza") };
 	sponza.Add<RigidBody>();
 	CModel& cm{ sponza.Add<CModel>( "sponza/sponza.obj") };
-	
 	float s = 0.f;
 	s = cm.model->GetScale();
-	sponza.Add<Transform>().scale = { s* 2.0, s * 2.0, s * 2.0};
-	sponza.Get<Transform>().position = { 0.0f, 0.0, 0.0f };
-	sponza.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
-	
+	sponza.Add<Transform>().scale = { 10.f*s, 10.f*s, 10.f*s};
+	sponza.Get<Transform>().position = { -s*420.f, 0.f, 0.0f };
+	sponza.Get<Transform>().rotation = { 0.f, -3.14159f / 2.0f, 0.f };
 	EntityRef building{ TestWorld.Spawn(sponza) };
 
 
-	//ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
-	//enemy.Add<RigidBody>();
-	//CModel& cm{ enemy.Add<CModel>( "nanosuit.obj") };
+	//Spawn Character
+	ArchetypeRef enemy{ Sim.CreateArchetype("Nanosuit Character") };
+	enemy.Add<RigidBody>();
+	CModel& nanomodel{ enemy.Add<CModel>( "nanosuit.obj") };
+	float t = 0.f;
+	t = nanomodel.model->GetScale();
+	enemy.Add<Transform>().scale = { 0.7 *t, 0.7 *t, 0.7 *t };
+	enemy.Get<Transform>().position = { 0.0f, 0.0f, -2.f };
+	enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
+	EntityRef EnemyA{ TestWorld.Spawn(enemy) };
+
+
+	////adtl nanos do determine axes
+	//std::vector<EntityRef> nanos;
 	//
-	//float s = 0.f;
-	//s = cm.model->GetScale();
-	//enemy.Add<Transform>().scale = { s, s, s};
-	//enemy.Get<Transform>().position = { 0.0f, 0.0f, -3.0f };
-	//enemy.Get<Transform>().rotation = { 0.f, 0.f, 0.f };
-	//
-	//EntityRef EnemyA{ TestWorld.Spawn(enemy) };
-	//
+	////- Z	
+	//nanos.emplace_back(EnemyA.Clone());
+	////position
+	//nanos.back().Get<Transform>().position = { 0.0f, 0.0f, -2.0f };
+	////scale
+	//nanos.back().Get<Transform>().scale = { t, t, t };
+
+
+	
+
+
+
+
+	
+	
 	//// set SpawnNanos to false if you want higher FPS and less nanosuits
 	//std::vector<EntityRef> nanos;
 	//if (g_SpawnNanos)

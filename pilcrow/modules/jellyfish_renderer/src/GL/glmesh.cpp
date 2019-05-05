@@ -21,7 +21,7 @@ namespace Jellyfish
 
 	void GLMesh::Draw() const
 	{
-		unsigned diffuse{ 1 }, specular{ 1 };
+		unsigned diffuse{ 1 }, specular{ 1 }, normalmap { 1 };
 		
 		for (unsigned i{ 0 }; i < m_Textures.size(); ++i) 
 		{
@@ -47,11 +47,44 @@ namespace Jellyfish
 
 					break;
 				}
+				case iTexture::TextureType::specular:
+				{
+					name = "specular";
+					name += std::to_string(specular++);
+
+					if (!m_shader->SetUniform(name, (int)i))
+					{
+						std::cout << "Error! Could not set shader uniform:" << name << std::endl;
+					}
+					else
+					{
+						glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
+						glActiveTexture(GL_TEXTURE1);
+					}
+
+					break;
+				}
+
+				case iTexture::TextureType::normalmap:
+				{
+					name = "normalmap";
+					name += std::to_string(normalmap++);
+
+					if (!m_shader->SetUniform(name, (int)i))
+					{
+						std::cout << "Error! Could not set shader uniform:" << name << std::endl;
+					}
+					else
+					{
+						glBindTexture(GL_TEXTURE_2D, m_Textures[i]->ID());
+						glActiveTexture(GL_TEXTURE2);
+					}
+
+					break;
+				}
 				
-			//case iTexture::TextureType::specular:
-			//	name = "specular";
-			//	name += std::to_string(specular++);
-			//	break;
+			//other cases here
+			
 			}
 		}
 		

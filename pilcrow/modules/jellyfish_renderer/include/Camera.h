@@ -125,6 +125,11 @@ namespace Jellyfish
 			m_pitch -= yoff;
 		}
 	
+		glm::vec3 Direction() const
+		{
+			return glm::normalize(m_position - Front());
+		}
+
 	protected:
 		glm::vec3 Front() const
 		{
@@ -142,11 +147,6 @@ namespace Jellyfish
 			return glm::normalize(glm::cross(Front(), m_up));
 		}
 
-		glm::vec3 Direction() const
-		{
-			return glm::normalize(m_position - Front());
-		}
-
 		glm::mat4 View() const
 		{
 			return glm::lookAt(m_position, m_position + Front(), m_up);
@@ -154,17 +154,17 @@ namespace Jellyfish
 
 		glm::mat4 m_view;
 		glm::mat4 m_projection;
-		glm::vec3 m_position{ 0.f, 0.15f, 0.f };
+		glm::vec3 m_position{ 0.f, 0.0f, 0.f };
 		glm::vec3 m_up{ 0.f, 1.f, 0.f };
 		glm::vec3 m_right{ 1.f, 0.f, 0.f };
 		
 		float m_fov{ 80.f };
 		float m_nearplane{ 0.001f };
 		float m_farplane{ 1000.f };
-		float m_yaw{ 0.f };
+		float m_yaw{ -90.f };
 		float m_pitch{ 0.f };
 
-		float m_speed{ 0.5f };
+		float m_speed{ 2.f };
 		float m_sensitivity{ 0.07f };
 	};
 	

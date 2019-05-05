@@ -106,8 +106,13 @@ namespace Jellyfish
 			auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
 			textures.insert(textures.end(), mats.begin(), mats.end());
 
-			mats = LoadMaterialTextures(material, aiTextureType_SPECULAR);
-			textures.insert(textures.end(), mats.begin(), mats.end());
+			//Load every texture type associated with this mesh
+			int i = aiTextureType_DIFFUSE + 1;
+			for (i; i <= aiTextureType_UNKNOWN; ++i)
+			{
+				mats = LoadMaterialTextures(material, aiTextureType(i));
+				textures.insert(textures.end(), mats.begin(), mats.end());
+			}
 		}
 
 		//TODO: Determine Renderer type, and create the VBO's / Constant Buffers Accordingly

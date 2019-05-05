@@ -194,9 +194,15 @@ struct RenderSystem
 		float position;
 		glm::vec3 camPos = m_CurrentCam->GetPosition();
 		gltr.Render("FPS: " + std::to_string(1.f / Dt), { 0.f, position=NextTextPos(m_windowSize.y) }, orthoProj, { .5f,.8f,.2f });
-		gltr.Render("Camera Pos X: " + std::to_string(camPos.x), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Y: " + std::to_string(camPos.y), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
-		gltr.Render("Camera Pos Z: " + std::to_string(camPos.z), { 0.f, position = NextTextPos(position) }, orthoProj, { 0.f, 0.f, 1.f });
+		gltr.Render("Camera Pos X: " + std::to_string(camPos.x), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Y: " + std::to_string(camPos.y), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
+		gltr.Render("Camera Pos Z: " + std::to_string(camPos.z), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
+
+
+		glm::vec3 camDir = m_CurrentCam->Direction() * -1.f;
+		gltr.Render("Camera Dir X: " + std::to_string(camDir.x), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
+		gltr.Render("Camera Dir Y: " + std::to_string(camDir.y), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
+		gltr.Render("Camera Dir Z: " + std::to_string(camDir.z), { 0.f, position = NextTextPos(position) }, orthoProj, { 1.f, 0.f, 1.f });
 	}
 
 	void Draw() 
