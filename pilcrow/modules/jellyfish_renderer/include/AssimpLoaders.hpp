@@ -19,7 +19,37 @@
 
 namespace Jellyfish
 {
-	
+
+	std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(aiMaterial *mat, aiTextureType type)
+	{
+		std::vector<std::shared_ptr<GLTexture>> textures;
+		static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
+
+		//for the number of textures of this type on the mesh
+		for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
+		{
+			//check by string name if this texture was loaded already in this loop
+			aiString str;
+			mat->GetTexture(type, i, &str);
+			auto it{ loaded.find(str.C_Str()) };
+
+			//if loaded already, add it to the vector?
+			if (it != loaded.end())
+			{
+				textures.push_back(it->second);
+			}
+			else
+			{
+				auto res = loaded.emplace(str.C_Str(), std::make_shared<GLTexture>(str.C_Str()));
+				textures.push_back(res.first->second);
+
+				//we can construct our texture type directly with the ai_texturetype
+				textures.back()->Type(iTexture::TextureType(type));
+			}
+		}
+
+		return textures;
+	}
 
 	//Process an aiMesh, turning it into a generic mesh object which we can later 
 	//convert into an API-specific mesh type (BO's & CB's).  
@@ -28,7 +58,6 @@ namespace Jellyfish
 	{
 		std::vector<Vertex> vertices;
 		std::vector<unsigned int> indices;
-		std::vector<std::shared_ptr<GLTexture>> textures; //TODO: fix for multuiplatform
 
 		//Get Vertex Data
 		for (unsigned i{ 0 }; i < mesh.mNumVertices; ++i)
@@ -101,32 +130,28 @@ namespace Jellyfish
 		//Proces any materials
 		if (mesh.mMaterialIndex >= 0)
 		{
-			aiMaterial *material{ scene.mMaterials[mesh.mMaterialIndex] };
-
+			//create a material list for this mesh from assimp's mesh data
+			aiMaterial* pMaterials{ scene.mMaterials[mesh.mMaterialIndex] };
+			
 			//LoadMaterialTextures could be overloaded and have different return types
-			auto mats{ LoadMaterialTextures(material, aiTextureType_DIFFUSE) };
-			textures.insert(textures.end(), mats.begin(), mats.end());
-
-			//Load every texture type associated with this mesh
-			int i = aiTextureType_DIFFUSE;
-			++i;
-			for (i; i <= aiTextureType_UNKNOWN; ++i)
-			{
-				mats = LoadMaterialTextures(material, aiTextureType(i));
-				textures.insert(textures.end(), mats.begin(), mats.end());
-			}
+			auto mats{ LoadMaterialTextures(pMaterials) };
 		}
 
 		//TODO: Determine Renderer type, and create the VBO's / Constant Buffers Accordingly
 		//currently uses GLMesh as return type
 		std::cout << "Mesh Created with " << vertices.size() << " vertices." << std::endl;
-		return { vertices, indices, textures };
+		return { vertices, indices, mats };
 		
 	}//endfunc
 
 	//Recursive down node tree to process all mesh nodes
 	void Model::Assimp_ProcessNode(aiNode * node, const aiScene * scene)
 	{
+		/// TODO:  Model meshes should really mirror the node graph structure
+		/// Add meshes to a mesh tree/graph under the model instead of a vector
+		/// This would allow us to operate on individual meshes in proper sequence, assuming the node structure is sensical
+		/// Instead of a vector iteration, use a "find height of tree" type alg.
+		/// When we process child nodes / meshes, we assign parent/child pointers
 		for (unsigned i{ 0 }; i < node->mNumMeshes; ++i)
 		{
 			aiMesh *mesh{ scene->mMeshes[node->mMeshes[i]] };
@@ -136,9 +161,6 @@ namespace Jellyfish
 				m_Meshes.push_back(std::move(Assimp_ProcessMesh(*mesh, *scene)));
 				std::cout << "Assimp Node successfullly processed." << std::endl;
 			}
-
-			
-			
 		}
 		for (unsigned i{ 0 }; i < node->mNumChildren; ++i)
 		{
@@ -175,6 +197,7 @@ namespace Jellyfish
 		{
 			std::cout << "File OK! Processing scene..." << std::endl;
 			Assimp_ProcessNode(scene->mRootNode, scene);
+			//scaling to the scalefactor should in theory fit the model to unit cube scale
 			m_scalefactor = 1.0f / glm::max(m_mx_vtx.x - m_mn_vtx.x, glm::max(m_mx_vtx.y - m_mn_vtx.y, m_mx_vtx.z - m_mn_vtx.z));
 			std::cout << "SUCCESS - Model Loaded: " << name << "  with scalefactor: "  << m_scalefactor << std::endl;
 		}

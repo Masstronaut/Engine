@@ -9,7 +9,7 @@
 
 //ours
 #include "Vertex.h"
-#include "GL/GLProgram.h"
+#include "GL/GLProgram.h"  //temp
 
 namespace Jellyfish
 {
@@ -25,7 +25,6 @@ namespace Jellyfish
 
 	class iShader;
 	class iTexture;
-	class GLTexture;
 	class iMesh
 	{
 	public:
@@ -43,7 +42,7 @@ namespace Jellyfish
 		iMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, std::vector<std::shared_ptr<GLTexture>>& Textures) :
 			m_Vertices(Vertices)
 			, m_Indices(Indices)
-			, m_Textures(Textures)
+			, m_Textures(Textures) //working on it
 		{
 			//called by derived classes only
 		}
@@ -65,12 +64,12 @@ namespace Jellyfish
 
 		//Material properties for this mesh
 		iShader* m_Material;
-		
-		//TODO: fix for multiplatform
-		std::vector<std::shared_ptr<GLTexture>> m_Textures;
-
-		//TEMP
+		//TEMP -- need to use the iShader above instead or id's into the resources
 		GLProgram* m_shader;
+		
+		//this is awful..  we should pull from the resource library and only store id's
+		std::vector<std::shared_ptr<iTexture>> m_Textures;
+
 
 		//TODO: Add bone support
 		//unsigned int mNumBones;

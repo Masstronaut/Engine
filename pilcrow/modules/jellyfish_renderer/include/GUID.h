@@ -3,6 +3,11 @@
 #include <cstring>  //std>>memcp
 #include <cstdint>  //uint<size>_t
 
+
+//!!! THIS ISN"T BEING USED YET BUT IT SHOULD BE! ///
+
+
+
 //Global Unique Identifier, each one is randomly generated, guaranteed unique, 
 //and identified in a comment where the GUID is assigned to the object
 namespace Jellyfish

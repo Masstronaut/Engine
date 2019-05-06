@@ -43,7 +43,7 @@ namespace Jellyfish
 		}
 
 		void AssignShaderToAllMeshes(GLProgram& shader);
-		
+
 
 	private:
 		std::string Model::Directory() const override;
@@ -53,7 +53,9 @@ namespace Jellyfish
 
 		//TODO: fix so not GL
 		std::vector<GLMesh> m_Meshes;
-		std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
+		
+		//MOVED INTO ASSIMP LOADERS
+		//std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
 		
 		//assimp laoders -- will probably move out of Model once we have a proper
 		//memory management system
