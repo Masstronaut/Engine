@@ -17,7 +17,7 @@
 #include "../include/iTexture.h"
 
 //fix for multiplatform
-#include "../include/GL/GLTexture.h"
+#include "../include/GL/GLMesh.h"
 
 namespace Jellyfish
 {
@@ -36,6 +36,9 @@ namespace Jellyfish
 
 	Model::~Model()
 	{
+		//delete all the meshes on this model
+		for (auto m : m_Meshes)
+			delete m;
 	}
 
 	void Model::Draw() const
@@ -43,15 +46,17 @@ namespace Jellyfish
 		//iMesh is abstract type, cannot use Draw() directly unless cast to real type
 		for (auto &mesh : m_Meshes)
 		{
-		   mesh.Draw();
+			//TODO: figure out real type somehow
+			//for now I'm just casting to GL to get on with this
+		   static_cast<GLMesh*>(mesh)->Draw();
 		}
 	}
 
-	void Model::AssignShaderToAllMeshes(GLProgram& shader)
+	void Model::AssignMaterialToAllMeshes(unsigned int id)
 	{
 		for (auto& mesh : m_Meshes)
 		{
-			mesh.AssignShader(shader);
+			mesh->AssignMaterial(id);
 		}
 	}
 
@@ -73,7 +78,7 @@ namespace Jellyfish
 	{
 		//just use assimp loader functions for now
 		std::cout << "Attempting to load Model: " << this->Path() << std::endl;
-		bool loadstatus = Assimp_LoadModelFromFile(this->Path(), this->Name());
+		bool loadstatus = Assimp_LoadModelFromFile(this->Path(), this->Name(), this->m_Meshes, this->m_scalefactor);
 
 		if(loadstatus)
 			std::cout << "Model was successfully loaded." << std::endl;

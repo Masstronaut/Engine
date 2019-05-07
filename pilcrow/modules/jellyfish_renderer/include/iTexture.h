@@ -1,7 +1,13 @@
 #pragma once
+
+//Assimp enums
 //#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
+#include <assimp/scene.h> 
 //#include <assimp/postprocess.h>
+
+
+//ours
+#include <utils/include/Resource.hpp>
 
 namespace Jellyfish
 {
@@ -30,6 +36,7 @@ namespace Jellyfish
 
 		iTexture()
 		{
+			//TODO: investigate need for this -- fix
 			//this should never get called directly
 		}
 		virtual ~iTexture() {}		

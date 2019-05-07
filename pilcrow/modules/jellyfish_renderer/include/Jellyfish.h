@@ -11,6 +11,7 @@
 #include "iWindow.h" //Windowing
 #include "Model.h" //3D Model support
 #include "Camera.h" //3D ortho/persp Camera support
+#include "RenderResourceManager.h" //Asset/Resource Management
 
 //GL Implementations
 #include "GL/GLMesh.h"
@@ -45,9 +46,18 @@ namespace Jellyfish
 		int stub;
 	};
 
-	class Renderer
+	class Jellyfish_Renderer
 	{
-		void Draw() {} //not used yet!!
+		Jellyfish_Renderer() 
+		{
+
+		}
+
+		
+		//things
+
+
+		void Render() {} //not used yet!!
 	};
 
 	//PLAN:

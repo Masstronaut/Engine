@@ -12,9 +12,7 @@
 
 namespace Jellyfish
 {
-	GLMesh::GLMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices, 
-		std::vector<std::shared_ptr<GLTexture>>& Textures) :
-		iMesh(Vertices, Indices, Textures)
+	GLMesh::GLMesh(const std::vector<Vertex>& Vertices, const std::vector<unsigned>& Indices) : iMesh(Vertices, Indices)
 	{
 		Load();
 	}

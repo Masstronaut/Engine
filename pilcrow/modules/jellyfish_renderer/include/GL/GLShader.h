@@ -10,7 +10,7 @@
 
 namespace Jellyfish
 {
-	class GLShader : public iShader, public Resource
+	class GLShader : virtual public iShader
 	{
 	public:
 		 GLShader(const std::string &name);
@@ -18,14 +18,13 @@ namespace Jellyfish
 		~GLShader();
 
 		//Overriding iShader:
-		unsigned ID() const override;
-		unsigned Type() const override;
-		void Use() const override;
-		bool Check() const override;
+		unsigned Type() const final;
+		void Use() const final;
+		bool Check() const final;
 
 		//Overriding Resource:
-		bool Reloadable() const override;
-		std::string Directory() const override;
+		bool Reloadable() const final;
+		std::string Directory() const final;
 
 	private:
 		//Overriding Resource:

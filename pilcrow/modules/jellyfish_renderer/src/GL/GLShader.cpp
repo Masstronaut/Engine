@@ -6,7 +6,7 @@
 
 //ours
 #include "../../include/GL/GLShader.h"
-#include "../../include/Util.h" //ShaderPath()
+#include "../../include/Util.h"
 
 namespace Jellyfish
 {	
@@ -48,12 +48,6 @@ namespace Jellyfish
 	{
 		return m_GLShaderType;
 	}
-
-	unsigned GLShader::ID() const
-	{
-		//implicit cast here
-		return m_GLuID;
-	}
 	
 	void GLShader::Use() const
 	{
@@ -92,6 +86,7 @@ namespace Jellyfish
 	bool GLShader::LoadImpl()
 	{
 		m_GLuID = glCreateShader(m_GLShaderType);
+		m_ID = m_GLuID;
 
 		const GLchar * ShaderSrc { Data().c_str() };
 		glShaderSource (m_GLuID, 1, &ShaderSrc, nullptr);

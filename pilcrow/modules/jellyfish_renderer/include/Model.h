@@ -11,24 +11,11 @@
 //ours
 #include <utils/include/Resource.hpp>
 
-#include "GL/GLProgram.h"
-
-//assimp stuff
-struct aiNode;
-struct aiMesh;
-struct aiScene;
-struct aiMaterial;
-enum aiTextureType;
 
 namespace Jellyfish
 {
 	class iMesh;
-	class iShader;
 	
-	//fix
-	class GLTexture;
-	class GLMesh;
-
 	class Model : public Resource
 	{
 	public:
@@ -42,7 +29,7 @@ namespace Jellyfish
 			return m_scalefactor;
 		}
 
-		void AssignShaderToAllMeshes(GLProgram& shader);
+		void AssignMaterialToAllMeshes(unsigned int id);
 
 
 	private:
@@ -51,23 +38,10 @@ namespace Jellyfish
 		virtual bool LoadImpl() final;
 		virtual void UnloadImpl() final;
 
-		//TODO: fix so not GL
-		std::vector<GLMesh> m_Meshes;
-		
-		//MOVED INTO ASSIMP LOADERS
-		//std::vector<std::shared_ptr<GLTexture>> LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
-		
-		//assimp laoders -- will probably move out of Model once we have a proper
-		//memory management system
-		void Assimp_ProcessNode(aiNode * node, const aiScene * scene);
+		//TODO: fix so not a vector, also maybe template this
+		std::vector<iMesh*> m_Meshes;
 
-		//TODO: fix hardcoded glmesh here
-		GLMesh Assimp_ProcessMesh(aiMesh& mesh, const aiScene& scene);
-		bool Assimp_LoadModelFromFile(const std::string& path, const std::string& name);
-
-		//std::vector<std::shared_ptr<Texture>> LoadMaterialTextures( aiMaterial *mat, aiTextureType type );
-
-		//uniform scalor of 1/boundingbox.max
+		//uniform scalor of 1/boundingbox.max_range
 		float m_scalefactor{ 0.f };
 		//model space bounding box;
 		glm::vec4 m_mn_vtx{ std::numeric_limits<float>::max() }, m_mx_vtx{ -std::numeric_limits<float>::max() };

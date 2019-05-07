@@ -5,7 +5,6 @@
 
 //ours
 #include <utils/include/Resource.hpp>
-
 #include "../iTexture.h"
 
 

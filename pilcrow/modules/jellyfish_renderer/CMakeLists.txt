@@ -20,6 +20,8 @@ set(jfr_includes
   "include/Util.h"
   "include/Frustum.h"
   "include/Camera.h"
+  "include/Material.h"
+  "include/RenderResourceManager.h"
   "include/Jellyfish.h"
 )
 
@@ -34,6 +36,7 @@ set(jfr_srcs
   "src/Vertex.cpp"
   "src/RenderMain.cpp"
   "src/Camera.cpp"
+  "src/RenderResourceManager.cpp"
 )
 
 foreach(jfr_include IN ITEMS ${jfr_includes})

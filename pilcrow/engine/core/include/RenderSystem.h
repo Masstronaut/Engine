@@ -167,7 +167,7 @@ struct RenderSystem
 		
 		program.SetUniform("model", modelMatrix);
 
-		model.model->AssignShaderToAllMeshes(program);
+		model.model->AssignMaterialToAllMeshes(program); //fix
 		model.model->Draw(); 
 	}
 
@@ -230,7 +230,7 @@ struct RenderSystem
 	//Type Lists
 	EntitiesWith<const RenderText> textEntities;
 
-	//GL Impl 
+	//GL Impl --This shader loading will need to be moved into Jellyfish for default values
 	Jellyfish::GLText gltr{ "Text.sprog" };
 	mutable Jellyfish::GLProgram program{ "Model.sprog" };
 
