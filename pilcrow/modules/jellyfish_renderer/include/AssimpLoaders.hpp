@@ -39,7 +39,13 @@ namespace Jellyfish
 		////for the number of textures of this type on the Material
 		//for (unsigned int i = 0; i < mat->GetTextureCount(type); ++i)
 		//{
-		//	//check by string name if this texture was loaded already in this loop
+		
+		//IDEA:  we can use the material count for this scene, to locally track if we've used this
+		// index before when we're loading the meshes of this model.  Then we end up with only one copy
+		// of each in the resource manager, and we can use the resource manager's id system
+
+
+
 		//	aiString str;
 		//	mat->GetTexture(type, i, &str);
 		//	auto it{ loaded.find(str.C_Str()) };
