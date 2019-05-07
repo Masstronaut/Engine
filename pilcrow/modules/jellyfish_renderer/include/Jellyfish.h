@@ -89,8 +89,12 @@ namespace Jellyfish
 		6b. Each mesh could be threaded as long as the structure is preserved...  
 			ideas: save a traversal record for re-inserting, create the structure with placeholder meshes and match id's later, can combine these
 		6c. meshes will spawn threads that load materials, which spawn threads that load shaders and textures
-			- this means each mesh has to wait for all the materials to load to store the id's..
-			- if we 
+			- if we generate a unique id for the material, then we can just store the id on the mesh fro grabbing later
+			- Since shaders/textures are the only asset loading parts, we can set up a material with an ID first, then send that ID back to the
+			  Mesh, while the Material spawns threads for the shaders/textures and gives those threads the material ID to assign themselves to.
+		6d. We'll need to be careful about checking for null resources since objects will want to use them before they've actually loaded.
+		    - Fancy stuff: if we encounter this, we should fade in the resource with an interpolated opacity afterward, or do that grainy fade thing
+
 
 
 
