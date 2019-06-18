@@ -1,0 +1,15 @@
+target_sources(jellyfish_renderer
+PRIVATE
+    GLWindow.cpp
+    GLWindow.h
+    GLMesh.cpp
+    GLMesh.h
+    GLTexture.cpp
+    GLTexture.h
+    GLText.cpp
+    GLText.h
+    GLShader.cpp
+    GLShader.h
+    GLProgram.cpp
+    GLProgram.h
+)

@@ -151,7 +151,7 @@ endforeach()
 
 include_directories(${PROJECT_SOURCE_DIR}/pilcrow/dependencies)
 include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/rest_api/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer/include)
+include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer)
 include_directories(${CPPREST_INCLUDE_DIRS})
 include_directories(${ASSIMP_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIRS})

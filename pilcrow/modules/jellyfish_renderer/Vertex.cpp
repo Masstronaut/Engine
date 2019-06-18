@@ -1,5 +1,5 @@
 // ours
-#include "../include/Vertex.h"
+#include "Vertex.h"
 
 namespace Jellyfish {
 Vertex::Vertex()

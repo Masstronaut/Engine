@@ -5,8 +5,8 @@
 #include <glad/include/glad.h>
 
 // ours
-#include "../../include/GL/GLMesh.h"
-#include "../../include/GL/GLTexture.h"
+#include "../GL/GLMesh.h"
+#include "../GL/GLTexture.h"
 
 namespace Jellyfish {
 GLMesh::GLMesh(const std::vector<Vertex> &              Vertices,

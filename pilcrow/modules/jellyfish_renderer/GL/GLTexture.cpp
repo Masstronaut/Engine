@@ -6,7 +6,7 @@
 #include <stb_image/stb_image.h>  //image data loader
 
 // ours
-#include "../../include/GL/GLTexture.h"
+#include "../GL/GLTexture.h"
 #include "utils/include/ResourceSettings.h"
 
 namespace Jellyfish {

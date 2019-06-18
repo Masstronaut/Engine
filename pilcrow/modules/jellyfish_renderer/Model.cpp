@@ -9,13 +9,13 @@
 #include "utils/include/ResourceSettings.h"  //g_resourcePath
 #include <utils/include/Resource.hpp>
 
-#include "../include/AssimpLoaders.hpp"
-#include "../include/Model.h"
-#include "../include/iMesh.h"
-#include "../include/iTexture.h"
+#include "AssimpLoaders.hpp"
+#include "Model.h"
+#include "iMesh.h"
+#include "iTexture.h"
 
 // fix for multiplatform
-#include "../include/GL/GLTexture.h"
+#include "GL/GLTexture.h"
 
 namespace Jellyfish {
 Model::Model(const std::string &path) : Resource(path) {
