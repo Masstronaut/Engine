@@ -2,7 +2,7 @@
 
 #include <entity/EntitiesWith.hpp>
 
-#include "../../include/components/Body.h"
+#include "../components/Body.h"
 #include <components/Transform.h>
 
 class CollisionDetection {

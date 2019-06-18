@@ -1,4 +1,4 @@
-#include "../../include/components/Body.h"
+#include "../components/Body.h"
 
 void Body::SetMass(float m) {
   if(m <= Epsilon) {

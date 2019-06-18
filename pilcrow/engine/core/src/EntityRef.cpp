@@ -1,6 +1,7 @@
 #include <string>
 #include <tuple>
 #include <utility>
+#include <stdexcept>
 
 #include "../include/World.hpp"
 

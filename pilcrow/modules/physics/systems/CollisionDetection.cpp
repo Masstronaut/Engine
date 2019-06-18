@@ -1,4 +1,4 @@
-#include "../../include/systems/CollisionDetection.h"
+#include "../systems/CollisionDetection.h"
 
 #include <iostream>
 
