@@ -1,11 +1,13 @@
 #pragma once
-#include "Camera.hpp"
-#include "RenderComponents.h"
-#include "components/Transform.h"
-#include "entity/EntitiesWith.hpp"
+#include <pilcrow/modules/jellyfish_renderer/Jellyfish.h>
 
-#include "SettingsFileReader.hpp"
-#include <Jellyfish.h>
+#include "pilcrow/engine/core/components/Transform.h"
+#include "pilcrow/engine/core/entity/EntitiesWith.hpp"
+
+#include "pilcrow/engine/core/Camera.hpp"
+#include "pilcrow/engine/core/RenderComponents.h"
+
+#include "pilcrow/engine/core/SettingsFileReader.hpp"
 
 struct WindowManager {
   WindowManager();

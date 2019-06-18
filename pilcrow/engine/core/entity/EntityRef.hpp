@@ -4,7 +4,7 @@
 #include <typeindex>
 #include <vector>
 
-#include "EntityID.hpp"
+#include "pilcrow/engine/core/entity/EntityID.hpp"
 
 class World;
 class Entity;

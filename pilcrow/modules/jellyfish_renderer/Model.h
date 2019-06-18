@@ -6,12 +6,12 @@
 #include <vector>
 
 // GLM
-#include <assimp/material.h>
 #include <glm/glm.hpp>
 
 // ours
-#include "GL/GLProgram.h"
 #include <utils/include/Resource.hpp>
+
+#include "pilcrow/modules/jellyfish_renderer/GL/GLProgram.h"
 
 // assimp stuff
 struct aiNode;
@@ -47,7 +47,7 @@ private:
   // TODO: fix so not GL
   std::vector<GLMesh> m_Meshes;
   std::vector<std::shared_ptr<GLTexture>>
-  LoadMaterialTextures(aiMaterial *mat, aiTextureType type);
+  LoadMaterialTextures(aiMaterial *mat, int textureType);
 
   // assimp laoders -- will probably move out of Model once we have a proper
   // memory management system

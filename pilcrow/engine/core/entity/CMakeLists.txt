@@ -12,6 +12,7 @@ PRIVATE
     Entity.hpp
     Entity.inl
     EntityID.hpp
+    EntityRef.cpp
     EntityRef.hpp
     EntityRef.inl
 )

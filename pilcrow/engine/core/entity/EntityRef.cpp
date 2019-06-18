@@ -3,7 +3,7 @@
 #include <utility>
 #include <stdexcept>
 
-#include "World.hpp"
+#include "pilcrow/engine/core/World.hpp"
 
 EntityRef::EntityRef(EntityID ID, World *world)
   : m_ID(std::move(ID)), m_World(world) {}

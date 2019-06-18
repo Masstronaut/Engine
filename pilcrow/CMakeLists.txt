@@ -1,3 +1,5 @@
+include(../cmake/pilcrow_source_group.cmake)
+
 add_subdirectory(dependencies)
 add_subdirectory(engine)
 add_subdirectory(runtimes)

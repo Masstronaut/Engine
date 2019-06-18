@@ -2,7 +2,7 @@
 #include <iostream>
 
 // ours
-#include "Jellyfish.h"
+#include "pilcrow/modules/jellyfish_renderer/Jellyfish.h"
 
 namespace Jellyfish {
 void Derp::DoAThing() { std::cout << str << std::endl; }

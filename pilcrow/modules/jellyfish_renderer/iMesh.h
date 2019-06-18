@@ -8,8 +8,8 @@
 #include <glm/glm.hpp>  //mat4
 
 // ours
-#include "GL/GLProgram.h"
-#include "Vertex.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLProgram.h"
+#include "pilcrow/modules/jellyfish_renderer/Vertex.h"
 
 namespace Jellyfish {
 // Allows for manipulation of individual mesh faces

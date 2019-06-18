@@ -1,7 +1,7 @@
 #include <string>
 
-#include "../World.hpp"
-#include "../component/ComponentTraits.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/core/component/ComponentTraits.hpp"
 
 template <typename Component>
 inline ComponentPool<Component>::ComponentPool(World &world) {

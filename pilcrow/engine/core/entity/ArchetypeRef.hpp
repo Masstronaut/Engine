@@ -1,5 +1,5 @@
 #pragma once
-#include "EntityRef.hpp"
+#include "pilcrow/engine/core/entity/EntityRef.hpp"
 
 class ArchetypeRef : private EntityRef {
 public:

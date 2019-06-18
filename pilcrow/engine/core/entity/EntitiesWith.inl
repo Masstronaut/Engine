@@ -1,5 +1,5 @@
 #pragma once
-#include "../entity/ConstrainedEntityRef.hpp"
+#include "pilcrow/engine/core/entity/ConstrainedEntityRef.hpp"
 
 template <typename... Args>
 inline typename EntitiesWith<Args...>::iterator EntitiesWith<Args...>::begin() {

@@ -12,11 +12,11 @@
 #include "iWindow.h"  //Windowing
 
 // GL Implementations
-#include "GL/GLMesh.h"
-#include "GL/GLProgram.h"  //includes GLShader.h
-#include "GL/GLText.h"
-#include "GL/GLTexture.h"
-#include "GL/GLWindow.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLMesh.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLProgram.h"  //includes GLShader.h
+#include "pilcrow/modules/jellyfish_renderer/GL/GLText.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLWindow.h"
 
 namespace Jellyfish {
 //-------------------

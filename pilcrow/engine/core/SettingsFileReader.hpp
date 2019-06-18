@@ -1,12 +1,14 @@
 #pragma once
-#include "settings/GameSettings.h"
-#include "settings/WindowSettings.h"
 #include <fstream>
 #include <iostream>
 #include <sstream>
+#include <vector>
+
 #include <utils/include/Resource.hpp>
 #include <utils/include/ResourceSettings.h>
-#include <vector>
+
+#include "pilcrow/engine/core/settings/GameSettings.h"
+#include "pilcrow/engine/core/settings/WindowSettings.h"
 
 class SettingsFile : public Resource {
 public:

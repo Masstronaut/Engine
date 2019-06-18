@@ -1,7 +1,7 @@
 #pragma once
 
 // ours
-#include "../iWindow.h"  //base class
+#include "pilcrow/modules/jellyfish_renderer/iWindow.h"  //base class
 
 struct GLFWwindow;
 

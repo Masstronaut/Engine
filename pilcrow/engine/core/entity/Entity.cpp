@@ -2,9 +2,10 @@
 #include <utility>
 #include <vector>
 
-#include "../World.hpp"
-#include "../entity/Entity.hpp"
-#include "../entity/EntityRef.hpp"
+#include "pilcrow/engine/core/entity/Entity.hpp"
+#include "pilcrow/engine/core/entity/EntityRef.hpp"
+
+#include "pilcrow/engine/core/World.hpp"
 
 Entity::Entity(World &world, EntityID id)
   : m_World(world), m_ID(std::move(id)), m_Name("Nameless Entity") {}

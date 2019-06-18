@@ -3,7 +3,7 @@
 #include <tuple>
 #include <typeindex>
 
-#include "../entity/EntityID.hpp"
+#include "pilcrow/engine/core/entity/EntityID.hpp"
 
 class ComponentPoolBase {
 public:

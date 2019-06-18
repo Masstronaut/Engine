@@ -1,5 +1,5 @@
 #pragma once
-#include "../Entity/ArchetypeRef.hpp"
+#include "pilcrow/engine/core/Entity/ArchetypeRef.hpp"
 #include <cstdint>
 
 enum class Keys { X, Y, A, B, L, R };

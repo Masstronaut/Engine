@@ -1,6 +1,6 @@
-#include "../World.hpp"
-#include "../WorldEvents.hpp"
-#include "../entity/Entity.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/core/WorldEvents.hpp"
+#include "pilcrow/engine/core/entity/Entity.hpp"
 
 template <typename Component>
 bool EntityRef::Has() const {

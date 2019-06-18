@@ -11,7 +11,6 @@ add_subdirectory(systems)
 target_sources(engine
 PRIVATE
     Detectors.hpp
-    EntityRef.cpp
     RenderComponents.h
     RenderSystem.cpp
     RenderSystem.h
@@ -25,12 +24,10 @@ PRIVATE
 )
 
 target_include_directories(engine 
+PUBLIC
+  ${PROJECT_SOURCE_DIR}
 PRIVATE
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
-  ${PROJECT_SOURCE_DIR}/pilcrow/engine/rest_api/include
-  ${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer
-  ${CPPREST_INCLUDE_DIRS}
-  ${ASSIMP_INCLUDE_DIRS}
   ${GLFW_INCLUDE_DIRS}
   ${FREETYPE_INCLUDE_DIRS}
 )
@@ -43,6 +40,8 @@ PRIVATE
   detection_idiom
   slot_map
 )
+
+pilcrow_source_group(CMAKE_CURRENT_LIST_DIR engine)
 
 #The filter the library will be in
 set_target_properties(engine PROPERTIES FOLDER pilcrow/engine)

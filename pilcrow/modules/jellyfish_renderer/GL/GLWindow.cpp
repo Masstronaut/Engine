@@ -8,7 +8,7 @@
 #include <GLFW/glfw3.h>         //glfw window stuff
 
 // ours
-#include "../GL/GLWindow.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLWindow.h"
 
 // TODO(unknown): fix, put in settings or something
 const unsigned glmajor = 4;

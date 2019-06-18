@@ -1,9 +1,9 @@
 #pragma once
 
-#include <entity/EntitiesWith.hpp>
+#include "pilcrow/engine/core/entity/EntitiesWith.hpp"
 
-#include "../components/Body.h"
-#include <components/Transform.h>
+#include "pilcrow/modules/physics/components/Body.h"
+#include "pilcrow/engine/core/components/Transform.h"
 
 class Integration {
 public:

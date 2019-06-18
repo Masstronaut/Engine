@@ -2,9 +2,10 @@
 #include <functional>
 #include <utility>  // forward
 
-#include "../WorldEvents.hpp"
-#include "../entity/EntitiesWith.hpp"
-#include "SystemTraits.hpp"
+#include "pilcrow/engine/core/WorldEvents.hpp"
+#include "pilcrow/engine/core/entity/EntitiesWith.hpp"
+
+#include "pilcrow/engine/core/system/SystemTraits.hpp"
 
 class World;
 class SystemBase {

@@ -12,8 +12,9 @@
 #include <cpprest/json.h>
 #include <cpprest/uri.h>
 
-#include "../include/RESTAPI.h"
-#include <Simulation.hpp>
+#include "pilcrow/engine/core/Simulation.hpp"
+
+#include "pilcrow/engine/rest_api/RESTAPI.h"
 
 REST_VM::REST_VM(Simulation &sim, const utility::string_t &url)
   : m_listener(url), m_simulation(sim) {

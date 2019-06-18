@@ -1,7 +1,8 @@
 #pragma once
 #include <typeindex>
-#include <utils/include/type_list.hpp>
 #include <vector>
+
+#include <utils/include/type_list.hpp>
 
 template <typename... Args>
 class EntitiesWith;

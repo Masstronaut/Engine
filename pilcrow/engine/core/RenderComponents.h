@@ -1,8 +1,10 @@
 #pragma once
-#include <Jellyfish.h>
-#include <glm/glm.hpp>
 #include <memory>
 #include <string>
+
+#include <glm/glm.hpp>
+
+#include "pilcrow/modules/jellyfish_renderer/Jellyfish.h"
 
 // base
 struct Renderable {};

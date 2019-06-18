@@ -1,4 +1,4 @@
-#include "../components/Body.h"
+#include "pilcrow/modules/physics/components/Body.h"
 
 void Body::SetMass(float m) {
   if(m <= Epsilon) {

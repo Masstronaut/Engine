@@ -2,6 +2,9 @@
 #include <iostream>
 #include <unordered_map>
 
+// assimp
+#include <assimp/material.h>
+
 // glm
 #include <glm/glm.hpp>
 
@@ -9,13 +12,13 @@
 #include "utils/include/ResourceSettings.h"  //g_resourcePath
 #include <utils/include/Resource.hpp>
 
-#include "AssimpLoaders.hpp"
-#include "Model.h"
-#include "iMesh.h"
-#include "iTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/AssimpLoaders.hpp"
+#include "pilcrow/modules/jellyfish_renderer/Model.h"
+#include "pilcrow/modules/jellyfish_renderer/iMesh.h"
+#include "pilcrow/modules/jellyfish_renderer/iTexture.h"
 
 // fix for multiplatform
-#include "GL/GLTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLTexture.h"
 
 namespace Jellyfish {
 Model::Model(const std::string &path) : Resource(path) {
@@ -72,9 +75,11 @@ bool Model::LoadImpl() {
 void Model::UnloadImpl() {}
 
 std::vector<std::shared_ptr<GLTexture>>
-Model::LoadMaterialTextures(aiMaterial *mat, aiTextureType type) {
+Model::LoadMaterialTextures(aiMaterial *mat, int textureType) {
   std::vector<std::shared_ptr<GLTexture>>                            textures;
   static std::unordered_map<std::string, std::shared_ptr<GLTexture>> loaded;
+
+  aiTextureType type = static_cast<aiTextureType>(textureType);
 
   for(unsigned int i = 0; i < mat->GetTextureCount(type); ++i) {
     aiString str;

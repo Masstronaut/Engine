@@ -9,7 +9,7 @@
 #include <GLFW/glfw3.h>
 
 // TODO(unknown): Remove
-#include "Camera.hpp"
+#include "pilcrow/engine/core/Camera.hpp"
 
 double dt{0.f};
 double lastFrame{0.f};
@@ -40,11 +40,12 @@ std::string RelativePath() {
   return path;
 }
 
-#include "Detectors.hpp"
+#include "pilcrow/engine/core/Detectors.hpp"
 
-#include <entity/EntitiesWith.hpp>
+#include "pilcrow/engine/core/entity/EntitiesWith.hpp"
 
-#include <components/Transform.h>
+#include "pilcrow/engine/core/components/Transform.h"
+
 struct RigidBody {
   glm::vec3 velocity{0.f, 0.f, 0.f}, acceleration{0.f, 0.f, 0.f};
   bool      isStatic{false}, isGhost{false};
@@ -147,15 +148,15 @@ const char *g_ResourcePath = "../../../../Resources/";
 bool g_SpawnNanos = false;
 // ---------------------------
 
-#include "RenderSystem.h"
-#include "SettingsFileReader.hpp"
-#include "Simulation.hpp"
-#include "World.hpp"
-#include <RESTAPI.h>
+#include "pilcrow/engine/core/RenderSystem.h"
+#include "pilcrow/engine/core/SettingsFileReader.hpp"
+#include "pilcrow/engine/core/Simulation.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/rest_api/RESTAPI.h"
 
-#include <systems/CollisionDetection.h>
-#include <systems/Integration.h>
-#include <systems/Resolution.h>
+#include "pilcrow/modules/physics/systems/CollisionDetection.h"
+#include "pilcrow/modules/physics/systems/Integration.h"
+#include "pilcrow/modules/physics/systems/Resolution.h"
 
 void ECSDemo() {
   Simulation Sim;
@@ -254,7 +255,7 @@ void ECSDemo() {
                    // it can't open a port.
 }
 
-#include <Mathematics.h>
+#include "pilcrow/modules/physics/Mathematics.h"
 
 int main() {
   ECSDemo();

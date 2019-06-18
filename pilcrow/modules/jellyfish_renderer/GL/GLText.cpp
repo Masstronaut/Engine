@@ -9,7 +9,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 // ours
-#include "../GL/GLText.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLText.h"
 #include "utils/include/ResourceSettings.h"
 
 namespace Jellyfish {

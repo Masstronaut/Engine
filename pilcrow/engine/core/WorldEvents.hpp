@@ -1,6 +1,9 @@
 #pragma once
-#include "entity/EntityRef.hpp"
+
 #include <typeindex>
+
+#include "pilcrow/engine/core/entity/EntityRef.hpp"
+
 struct EditorUpdateEvent {};
 
 struct EntitySpawnedEvent {

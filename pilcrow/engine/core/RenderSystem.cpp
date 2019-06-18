@@ -1,6 +1,8 @@
-#include "RenderSystem.h"
-#include <GLFW/glfw3.h>
 #include <glad/include/glad.h>  // MUST be included BEFORE glfw3.h
+
+#include <GLFW/glfw3.h>
+
+#include "pilcrow/engine/core/RenderSystem.h"
 
 Camera *cam;
 

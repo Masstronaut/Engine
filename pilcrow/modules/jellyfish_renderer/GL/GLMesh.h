@@ -1,8 +1,8 @@
 #pragma once
 
 // ours
-#include "../iMesh.h"
-#include "GLTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/iMesh.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLTexture.h"
 
 namespace Jellyfish {
 class GLMesh : public iMesh {

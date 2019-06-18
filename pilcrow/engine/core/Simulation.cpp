@@ -1,6 +1,6 @@
-#include "Simulation.hpp"
-#include "World.hpp"
-#include "entity/ArchetypeRef.hpp"
+#include "pilcrow/engine/core/Simulation.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/core/entity/ArchetypeRef.hpp"
 
 void Simulation::Run(double timestep, const std::string &world) {
   this->GetWorld(world).Update(static_cast<float>(timestep));

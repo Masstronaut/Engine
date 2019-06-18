@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Detectors.hpp"
+#include "pilcrow/engine/core/Detectors.hpp"
 
 template <typename Component>
 struct ComponentTraits {

@@ -2,7 +2,7 @@
 #include <algorithm>
 #include <functional>
 
-#include "../entity/EntitiesWith.hpp"
+#include "pilcrow/engine/core/entity/EntitiesWith.hpp"
 
 // Note: the type_list<Args...> parameter is required for the constructor to
 // deduce the template arguments.

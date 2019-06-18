@@ -16,7 +16,7 @@
 // ours
 #include <utils/include/Resource.hpp>
 
-#include "GL/GLShader.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLShader.h"
 
 namespace Jellyfish {
 class GLProgram : public Resource {

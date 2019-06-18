@@ -11,7 +11,7 @@
 // ours
 #include <utils/include/Resource.hpp>
 
-#include "GLProgram.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLProgram.h"
 
 #ifdef DEBUG_TEXT_SIZE
 #undef DEBUG_TEXT_SIZE

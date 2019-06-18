@@ -1,8 +1,8 @@
 #include <utility>
 
-#include "Simulation.hpp"
-#include "World.hpp"
-#include "WorldEvents.hpp"
+#include "pilcrow/engine/core/Simulation.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/core/WorldEvents.hpp"
 
 World::World(std::string name) : m_Name(std::move(name)) {
   this->On([&](const EntitySpawnedEvent &event) {

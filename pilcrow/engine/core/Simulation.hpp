@@ -4,8 +4,8 @@
 #include <utils/include/EventArena.hpp>
 #include <utils/include/ThreadPool.hpp>
 
-#include "World.hpp"
-#include "entity/ArchetypeRef.hpp"
+#include "pilcrow/engine/core/World.hpp"
+#include "pilcrow/engine/core/entity/ArchetypeRef.hpp"
 
 class Simulation : public EventArena, public ThreadPool<> {
 public:

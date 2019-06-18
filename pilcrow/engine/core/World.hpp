@@ -8,9 +8,10 @@
 #include <typeinfo>
 #include <vector>
 
-#include "entity/EntityID.hpp"
 #include <utils/include/EventArena.hpp>
 #include <utils/include/type_list.hpp>
+
+#include "pilcrow/engine/core/entity/EntityID.hpp"
 
 class ArchetypeRef;
 class SystemBase;

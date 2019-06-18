@@ -1,5 +1,5 @@
 #pragma once
-#include "../World.hpp"
+#include "pilcrow/engine/core/World.hpp"
 
 template <typename Component, typename... Args>
 inline Component &ArchetypeRef::Add(Args &&... args) {

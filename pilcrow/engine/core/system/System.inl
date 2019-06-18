@@ -1,6 +1,8 @@
 #pragma once
-#include "../World.hpp"
-#include "../system/System.hpp"
+
+#include "pilcrow/engine/core/system/System.hpp"
+
+#include "pilcrow/engine/core/World.hpp"
 
 template <typename T>
 bool System<T>::HasEntities() const {

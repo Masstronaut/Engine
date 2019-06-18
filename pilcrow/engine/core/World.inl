@@ -2,13 +2,13 @@
 #include <algorithm>
 #include <functional>
 
-#include "component/ComponentAggregate.hpp"
-#include "component/ComponentPool.hpp"
-#include "component/ComponentTraits.hpp"
-#include "entity/Entity.hpp"
-#include "entity/EntityRef.hpp"
-#include "system/System.hpp"
-#include "system/SystemTraits.hpp"
+#include "pilcrow/engine/core/component/ComponentAggregate.hpp"
+#include "pilcrow/engine/core/component/ComponentPool.hpp"
+#include "pilcrow/engine/core/component/ComponentTraits.hpp"
+#include "pilcrow/engine/core/entity/Entity.hpp"
+#include "pilcrow/engine/core/entity/EntityRef.hpp"
+#include "pilcrow/engine/core/system/System.hpp"
+#include "pilcrow/engine/core/system/SystemTraits.hpp"
 
 template <typename T>
 T &World::GetComponent(EntityID entity) {

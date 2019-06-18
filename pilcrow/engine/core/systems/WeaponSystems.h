@@ -1,6 +1,6 @@
 #pragma once
-#include "../Components/Transform.h"
-#include "../Components/WeaponComponents.h"
+#include "pilcrow/engine/core/components/Transform.h"
+#include "pilcrow/engine/core/components/WeaponComponents.h"
 
 struct InputSource {
   bool KeyDown(Keys key) const { return key == Key; }

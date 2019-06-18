@@ -16,9 +16,9 @@
 #include <glm/gtc/type_ptr.hpp>
 
 // ours
-#include "../GL/GLProgram.h"
-#include "../GL/GLShader.h"
-#include "../Util.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLProgram.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLShader.h"
+#include "pilcrow/modules/jellyfish_renderer/Util.h"
 
 namespace Jellyfish {
 GLProgram::GLProgram(const std::string &name) : Resource(name), m_ProgramID(0) {

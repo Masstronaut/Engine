@@ -9,13 +9,13 @@
 #include <assimp/scene.h>
 
 // ours
-#include "Model.h"
-#include "Vertex.h"
-#include "iMesh.h"
-#include "iTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/Model.h"
+#include "pilcrow/modules/jellyfish_renderer/Vertex.h"
+#include "pilcrow/modules/jellyfish_renderer/iMesh.h"
+#include "pilcrow/modules/jellyfish_renderer/iTexture.h"
 
 // Temporary
-#include "GL/GLMesh.h"
+#include "pilcrow/modules/jellyfish_renderer/GL/GLMesh.h"
 
 namespace Jellyfish {
 

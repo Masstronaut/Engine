@@ -6,7 +6,7 @@
 // ours
 #include <utils/include/Resource.hpp>
 
-#include "../iTexture.h"
+#include "pilcrow/modules/jellyfish_renderer/iTexture.h"
 
 namespace Jellyfish {
 class GLTexture : public iTexture, public Resource {

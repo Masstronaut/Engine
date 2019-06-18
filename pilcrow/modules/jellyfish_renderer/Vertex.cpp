@@ -1,5 +1,5 @@
 // ours
-#include "Vertex.h"
+#include "pilcrow/modules/jellyfish_renderer/Vertex.h"
 
 namespace Jellyfish {
 Vertex::Vertex()

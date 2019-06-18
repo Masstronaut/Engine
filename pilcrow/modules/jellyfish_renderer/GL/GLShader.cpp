@@ -3,8 +3,8 @@
 #include <iostream>
 
 // ours
-#include "../GL/GLShader.h"
-#include "../Util.h"  //ShaderPath()
+#include "pilcrow/modules/jellyfish_renderer/GL/GLShader.h"
+#include "pilcrow/modules/jellyfish_renderer/Util.h"  //ShaderPath()
 
 namespace Jellyfish {
 GLShader::GLShader(const std::string &name) : Resource(name) {

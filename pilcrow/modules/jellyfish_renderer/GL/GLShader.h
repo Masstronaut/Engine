@@ -6,7 +6,7 @@
 // ours
 #include <utils/include/Resource.hpp>
 
-#include "../iShader.h"
+#include "pilcrow/modules/jellyfish_renderer/iShader.h"
 
 namespace Jellyfish {
 class GLShader : public iShader, public Resource {

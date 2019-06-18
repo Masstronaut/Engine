@@ -1,5 +1,5 @@
-#include "../component/ComponentAggregate.hpp"
-#include "../entity/EntityRef.hpp"
+#include "pilcrow/engine/core/component/ComponentAggregate.hpp"
+#include "pilcrow/engine/core/entity/EntityRef.hpp"
 
 // Check if the entity has all the components of this aggregate.
 // If it does, add it to the aggregate.

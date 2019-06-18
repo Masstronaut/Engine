@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../Mathematics.h"
+#include "pilcrow/modules/physics/Mathematics.h"
 
 struct Body {
   float restitution;

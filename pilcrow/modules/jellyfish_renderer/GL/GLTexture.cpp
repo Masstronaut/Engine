@@ -6,8 +6,9 @@
 #include <stb_image/stb_image.h>  //image data loader
 
 // ours
-#include "../GL/GLTexture.h"
 #include "utils/include/ResourceSettings.h"
+
+#include "pilcrow/modules/jellyfish_renderer/GL/GLTexture.h"
 
 namespace Jellyfish {
 GLTexture::GLTexture(const std::string &name) : Resource(name) {

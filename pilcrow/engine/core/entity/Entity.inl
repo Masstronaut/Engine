@@ -1,7 +1,7 @@
 #pragma once
 #include <cassert>
 
-#include "../World.hpp"
+#include "pilcrow/engine/core/World.hpp"
 
 template <typename Component>
 bool Entity::Has() const {
