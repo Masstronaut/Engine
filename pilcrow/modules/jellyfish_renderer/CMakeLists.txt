@@ -33,4 +33,4 @@ PRIVATE
 target_link_libraries(jellyfish_renderer ${GLFW_LIBRARIES})
 
 #The filter the library will be in
-set_target_properties(jellyfish_renderer PROPERTIES FOLDER libraries)
+set_target_properties(jellyfish_renderer PROPERTIES FOLDER pilcrow/modules)

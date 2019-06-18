@@ -12,8 +12,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 add_executable(unit_test_runtime ${unit_test_runtime_srcs})
 
 #Specifying unit_test_runtime to be put in a filter in visual studio called executables
-set_target_properties(unit_test_runtime PROPERTIES
-    FOLDER executables)
+set_target_properties(unit_test_runtime PROPERTIES FOLDER pilcrow/runtimes)
 
 add_dependencies(unit_test_runtime sample_test)
 

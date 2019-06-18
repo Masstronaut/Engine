@@ -15,7 +15,7 @@ foreach(restAPI_src_file IN ITEMS ${restAPI_src})
 endforeach()
 
 include_directories(${CPPREST_INCLUDE_DIRS})
-include_directories("${PROJECT_SOURCE_DIR}/pilcrow/engine/core/include")
+include_directories("${PROJECT_SOURCE_DIR}/pilcrow/engine/core")
 include_directories("${PROJECT_SOURCE_DIR}/pilcrow/dependencies")
 
 add_library(rest_api ${restAPI_include} ${restAPI_src})
@@ -24,5 +24,4 @@ target_link_libraries(rest_api slot_map)
 target_link_libraries(rest_api detection_idiom)
 
 #The filter the library will be in
-SET_TARGET_PROPERTIES (rest_api PROPERTIES
-    FOLDER libraries)
+set_target_properties(rest_api PROPERTIES FOLDER pilcrow/engine)

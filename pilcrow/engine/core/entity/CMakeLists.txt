@@ -1,0 +1,17 @@
+target_sources(engine
+PRIVATE
+    ArchetypeRef.cpp
+    ArchetypeRef.hpp
+    ArchetypeRef.inl
+    CMakeLists.txt
+    ConstrainedEntityRef.hpp
+    ConstrainedEntityRef.inl
+    EntitiesWith.hpp
+    EntitiesWith.inl
+    Entity.cpp
+    Entity.hpp
+    Entity.inl
+    EntityID.hpp
+    EntityRef.hpp
+    EntityRef.inl
+)

@@ -7,10 +7,10 @@ set(restful_runtime_src
 source_group("src" FILES ${restful_runtime_src})
 
 include_directories(${PROJECT_SOURCE_DIR}/pilcrow/dependencies)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/core/include)
+include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/core)
 include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/rest_api/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/physics/include)
+include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer)
+include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/physics)
 include_directories(${CPPREST_INCLUDE_DIRS})
 include_directories(${GLFW_INCLUDE_DIRS})
 include_directories(${FREETYPE_INCLUDE_DIRS})
@@ -20,8 +20,7 @@ include_directories(${ASSIMP_INCLUDE_DIRS})
 add_executable(restful_runtime ${restful_runtime_src})
 
 #Set Visual Studio Project(restful_runtime) to be inside filter "executables"
-set_target_properties(restful_runtime PROPERTIES
-    FOLDER executables)
+set_target_properties(restful_runtime PROPERTIES FOLDER pilcrow/runtimes)
 
 add_dependencies(restful_runtime jellyfish_renderer)
 add_dependencies(restful_runtime physics)
