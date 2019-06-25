@@ -1,15 +1,16 @@
 #pragma once
 #include <algorithm>
 #include <functional>
-#include <slot_map.hpp>
 #include <string>
 #include <tuple>
 #include <typeindex>
 #include <typeinfo>
 #include <vector>
 
-#include <utils/include/EventArena.hpp>
-#include <utils/include/type_list.hpp>
+#include "slot_map.hpp"
+
+#include "utils/include/EventArena.hpp"
+#include "utils/include/type_list.hpp"
 
 #include "pilcrow/engine/core/entity/EntityID.hpp"
 

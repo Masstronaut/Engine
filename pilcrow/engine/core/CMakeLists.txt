@@ -32,13 +32,15 @@ PRIVATE
   ${FREETYPE_INCLUDE_DIRS}
 )
 
+target_compile_features(engine PUBLIC cxx_std_17)
+
 #Header only includes
 target_link_libraries(engine 
 PUBLIC
   glm
-PRIVATE 
   detection_idiom
   slot_map
+PRIVATE 
 )
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR engine)

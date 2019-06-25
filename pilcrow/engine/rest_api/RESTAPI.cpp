@@ -9,6 +9,7 @@
 #include <string>
 #include <vector>
 
+#include <cpprest/asyncrt_utils.h>
 #include <cpprest/json.h>
 #include <cpprest/uri.h>
 
@@ -46,10 +47,12 @@ void REST_VM::handle_request(const web::http::http_request &message) {
     std::string       world_name;
     utility::string_t str;
     if(paths.size() > 1) {
-      // @@TODO: this conversion isn't safe and should be updated in the future.
-      world_name.assign(paths[1].begin(), paths[1].end());
+      world_name = utility::conversions::to_utf8string(paths[1]);
+
       World &world{m_simulation.GetWorld(world_name)};
+
       paths.erase(paths.begin(), paths.begin() + 2);
+
       if(paths.empty()) {
         // @@TODO: return contents of the world.
         message.reply(web::http::status_codes::OK,
