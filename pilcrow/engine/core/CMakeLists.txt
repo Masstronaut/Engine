@@ -28,7 +28,6 @@ PUBLIC
   ${PROJECT_SOURCE_DIR}
 PRIVATE
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
-  ${GLFW_INCLUDE_DIRS}
   ${FREETYPE_INCLUDE_DIRS}
 )
 
@@ -40,6 +39,7 @@ PUBLIC
   glm
   detection_idiom
   slot_map
+  glfw
 PRIVATE 
 )
 

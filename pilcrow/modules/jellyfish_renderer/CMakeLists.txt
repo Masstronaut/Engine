@@ -23,14 +23,13 @@ target_include_directories(jellyfish_renderer
 PUBLIC
   ${PROJECT_SOURCE_DIR}
 PRIVATE
-  ${GLFW_INCLUDE_DIRS}
   ${GLM_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
   ${FREETYPE_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
 )
 
-target_link_libraries(jellyfish_renderer ${GLFW_LIBRARIES})
+target_link_libraries(jellyfish_renderer glfw)
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR jellyfish_renderer)
 

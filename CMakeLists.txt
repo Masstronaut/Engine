@@ -16,7 +16,6 @@ set(CMAKE_MODULE_PATH
 set(dependencies ${CMAKE_CURRENT_SOURCE_DIR}/pilcrow/dependencies)
 
 #Specify the root directory of the libraries 
-set(GLFW_ROOT "${dependencies}/glfw/glfw-3.2.1")
 set(ASSIMP_ROOT "${dependencies}/assimp/assimp-4.0.1")
 set(GTEST_ROOT "${dependencies}/googletest/googletest-1.8.0")
 set(GLM_ROOT "${dependencies}/glm/glm-0.9.9.0")
@@ -27,7 +26,6 @@ set(SLOT_MAP_ROOT "${dependencies}/slot_map")
 
 
 #Finding the specified libraries to be included later
-find_package(GLFW)
 find_package(ASSIMP)
 find_package(FREETYPE)
 find_package(CPPREST)

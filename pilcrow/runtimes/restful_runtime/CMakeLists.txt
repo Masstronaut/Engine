@@ -17,7 +17,7 @@ PRIVATE
 
 target_link_libraries(restful_runtime
 PRIVATE
-  ${GLFW_LIBRARY}
+  glfw
   ${ASSIMP_LIBRARY}
   ${CPPREST_LIBRARY}
   ${FREETYPE_LIBRARY}
