@@ -3,7 +3,7 @@ add_subdirectory(utils)
 add_subdirectory(assimp)
 #add_subdirectory(cpprestsdk)
 #add_subdirectory(freetype)
-#add_subdirectory(glfw)
+add_subdirectory(glfw)
 #add_subdirectory(googletest)
 
 #Header only libraries
