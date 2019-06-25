@@ -25,11 +25,14 @@ PUBLIC
 PRIVATE
   ${GLM_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
-  ${FREETYPE_INCLUDE_DIRS}
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
 )
 
-target_link_libraries(jellyfish_renderer glfw)
+target_link_libraries(jellyfish_renderer 
+PUBLIC 
+  glfw 
+  freetype
+)
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR jellyfish_renderer)
 

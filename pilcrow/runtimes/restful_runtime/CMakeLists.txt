@@ -11,16 +11,13 @@ PRIVATE
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
   ${CPPREST_INCLUDE_DIRS}
   ${GLFW_INCLUDE_DIRS}
-  ${FREETYPE_INCLUDE_DIRS}
   ${ASSIMP_INCLUDE_DIRS}
 )
 
 target_link_libraries(restful_runtime
 PRIVATE
-  glfw
   ${ASSIMP_LIBRARY}
   ${CPPREST_LIBRARY}
-  ${FREETYPE_LIBRARY}
   ${OPENGL_LIBRARIES}
   jellyfish_renderer
   physics

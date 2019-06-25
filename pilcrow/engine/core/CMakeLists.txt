@@ -28,7 +28,6 @@ PUBLIC
   ${PROJECT_SOURCE_DIR}
 PRIVATE
   ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
-  ${FREETYPE_INCLUDE_DIRS}
 )
 
 target_compile_features(engine PUBLIC cxx_std_17)
@@ -40,6 +39,7 @@ PUBLIC
   detection_idiom
   slot_map
   glfw
+  freetype
 PRIVATE 
 )
 
