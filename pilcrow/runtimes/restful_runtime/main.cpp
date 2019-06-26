@@ -34,7 +34,7 @@ std::string ReadFile(const std::string &path) {
   return result;
 }
 
-#include "utils/include/ResourceSettings.h"
+#include "Utils/ResourceSettings.hpp"
 std::string RelativePath() {
   static std::string path{g_ResourcePath};
   return path;

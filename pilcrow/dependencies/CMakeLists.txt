@@ -1,21 +1,18 @@
-add_subdirectory(utils)
-
 add_subdirectory(assimp)
 #add_subdirectory(cpprestsdk)
+add_subdirectory(detection_idiom)
 add_subdirectory(freetype)
 add_subdirectory(glfw)
-#add_subdirectory(googletest)
-
-#Header only libraries
-add_subdirectory(slot_map)
-add_subdirectory(detection_idiom)
 add_subdirectory(glm)
+#add_subdirectory(googletest)
+add_subdirectory(slot_map)
+add_subdirectory(Utils)
 
 #Will eventually be removed and exist in graphics
 add_subdirectory(glad)
 add_subdirectory(stb_image)
-#################################################
 
+#################################################
 # Turn the warnings off on our dependencies.
 if (${CMAKE_CXX_COMPILER_ID} STREQUAL MSVC)
   set(disableWarning /W0)

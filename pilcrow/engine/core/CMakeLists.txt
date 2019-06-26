@@ -40,6 +40,7 @@ PUBLIC
   slot_map
   glfw
   freetype
+  Utils
 PRIVATE 
 )
 

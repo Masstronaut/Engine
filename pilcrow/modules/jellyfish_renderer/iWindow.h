@@ -7,7 +7,7 @@
 #include <glm/glm.hpp>
 
 // ours
-#include <utils/include/EventArena.hpp>  //event messaging
+#include "Utils/EventArena.hpp"  //event messaging
 
 namespace Jellyfish {
 

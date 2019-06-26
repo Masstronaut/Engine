@@ -15,9 +15,11 @@ PRIVATE
 )
 
 target_link_libraries(rest_api 
+PUBLIC
+  engine
 PRIVATE
-   slot_map
-   detection_idiom
+  slot_map
+  detection_idiom
 )
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR rest_api)

@@ -6,7 +6,7 @@
 #include <stb_image/stb_image.h>  //image data loader
 
 // ours
-#include "utils/include/ResourceSettings.h"
+#include "Utils/ResourceSettings.hpp"
 
 #include "pilcrow/modules/jellyfish_renderer/GL/GLTexture.h"
 

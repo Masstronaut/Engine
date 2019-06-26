@@ -4,7 +4,7 @@
 #include <glad/include/glad.h>  //GLuint
 
 // ours
-#include <utils/include/Resource.hpp>
+#include "Utils/Resource.hpp"
 
 #include "pilcrow/modules/jellyfish_renderer/iShader.h"
 

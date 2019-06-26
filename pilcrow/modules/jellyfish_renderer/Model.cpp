@@ -9,8 +9,8 @@
 #include <glm/glm.hpp>
 
 // ours
-#include "utils/include/ResourceSettings.h"  //g_resourcePath
-#include <utils/include/Resource.hpp>
+#include "Utils/ResourceSettings.hpp"  //g_resourcePath
+#include "Utils/Resource.hpp"
 
 #include "pilcrow/modules/jellyfish_renderer/AssimpLoaders.hpp"
 #include "pilcrow/modules/jellyfish_renderer/Model.h"

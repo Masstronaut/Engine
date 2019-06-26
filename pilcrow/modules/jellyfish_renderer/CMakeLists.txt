@@ -29,8 +29,9 @@ PRIVATE
 )
 
 target_link_libraries(jellyfish_renderer 
-PUBLIC 
-  glfw 
+PUBLIC
+  engine
+  glfw
   freetype
 )
 

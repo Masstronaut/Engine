@@ -9,8 +9,8 @@
 
 #include "slot_map.hpp"
 
-#include "utils/include/EventArena.hpp"
-#include "utils/include/type_list.hpp"
+#include "Utils/EventArena.hpp"
+#include "Utils/type_list.hpp"
 
 #include "pilcrow/engine/core/entity/EntityID.hpp"
 

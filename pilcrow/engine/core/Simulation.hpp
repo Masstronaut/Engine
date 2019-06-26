@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
 #include <unordered_map>
-#include <utils/include/EventArena.hpp>
-#include <utils/include/ThreadPool.hpp>
+#include "Utils/EventArena.hpp"
+#include "Utils/ThreadPool.hpp"
 
 #include "pilcrow/engine/core/World.hpp"
 #include "pilcrow/engine/core/entity/ArchetypeRef.hpp"

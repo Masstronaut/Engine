@@ -22,7 +22,7 @@ PRIVATE
   jellyfish_renderer
   physics
   rest_api
-  utils
+  Utils
   engine
 
   #glad and stb_image are temporary libraries they are fully moved to graphics

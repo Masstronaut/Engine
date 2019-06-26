@@ -4,8 +4,8 @@
 #include <sstream>
 #include <vector>
 
-#include <utils/include/Resource.hpp>
-#include <utils/include/ResourceSettings.h>
+#include "Utils/Resource.hpp"
+#include "Utils/ResourceSettings.hpp"
 
 #include "pilcrow/engine/core/settings/GameSettings.h"
 #include "pilcrow/engine/core/settings/WindowSettings.h"

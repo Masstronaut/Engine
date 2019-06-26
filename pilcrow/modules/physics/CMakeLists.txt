@@ -12,9 +12,11 @@ PRIVATE
 )
 
 target_link_libraries(physics 
-PRIVATE 
+PUBLIC
+  engine
   slot_map 
   detection_idiom
+PRIVATE 
 )
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR physics)

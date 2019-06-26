@@ -4,7 +4,7 @@
 #include <string>
 
 // ours
-#include "utils/include/ResourceSettings.h"
+#include "Utils/ResourceSettings.hpp"
 
 namespace Jellyfish {
 static std::string ShaderPath() {

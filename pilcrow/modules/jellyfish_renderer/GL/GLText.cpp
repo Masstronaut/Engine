@@ -8,9 +8,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "Utils/ResourceSettings.hpp"
+
 // ours
 #include "pilcrow/modules/jellyfish_renderer/GL/GLText.h"
-#include "utils/include/ResourceSettings.h"
 
 namespace Jellyfish {
 std::string FontPath() { return std::string(g_ResourcePath) + "Fonts/"; }
