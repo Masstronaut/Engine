@@ -1,6 +1,3 @@
-[submodule "Modules/Utils"]
-	path = Modules/Utils
-	url = https://github.com/Masstronaut/Utils
 [submodule "pilcrow/dependencies/glfw"]
 	path = pilcrow/dependencies/glfw
 	url = https://github.com/glfw/glfw.git
