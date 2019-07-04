@@ -45,37 +45,7 @@ PRIVATE
 )
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR engine)
+pilcrow_create_reflection_target(engine)
 
 #The filter the library will be in
 set_target_properties(engine PROPERTIES FOLDER pilcrow/engine)
-
-function (ListToString result delim)
-    list(GET ARGV 2 temp)
-    math(EXPR N "${ARGC}-1")
-    foreach(IDX RANGE 3 ${N})
-        list(GET ARGV ${IDX} STR)
-        set(temp "${temp}${delim}${STR}")
-    endforeach()
-    set(${result} "${temp}" PARENT_SCOPE)
-endfunction(ListToString)
-
-
-
-function(pilcrow_source_group aRoot aTarget) 
-  get_target_property(targetBinaryDir ${aTarget} BINARY_DIR)
-  get_target_property(targetSourceDir ${aTarget} SOURCE_DIR)
-  get_target_property(targetSources ${aTarget} SOURCES)
-  get_target_property(targetIncludeDirectories ${aTarget} INCLUDE_DIRECTORIES)
-  
-
-  list(FILTER targetSources INCLUDE REGEX "^.*\.(c(pp)?)$")
-
-  ListToString(targetSourcesList " " ${targetSources})
-  ListToString(targetIncludeDirectoriesList " " ${targetIncludeDirectories})
-
-  message(Sources: "--sources ${targetSourcesList}")
-  
-  message(Includes: "--includes ${targetIncludeDirectoriesList}")
-  
-
-endfunction() 
