@@ -7,3 +7,6 @@
 [submodule "pilcrow/dependencies/Utils"]
 	path = pilcrow/dependencies/Utils
 	url = https://github.com/Masstronaut/Utils.git
+[submodule "pilcrow/dependencies/SimpleReflection"]
+	path = pilcrow/dependencies/SimpleReflection
+	url = https://github.com/playmer/SimpleReflection.git
