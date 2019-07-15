@@ -4,6 +4,7 @@
 #include <tuple>
 #include <type_traits>  // declval, remove_reference
 #include <vector>
+#include <stdexcept>
 
 template <typename T, typename Token = std::pair<unsigned, unsigned>,
           template <typename...> class Container = std::vector>

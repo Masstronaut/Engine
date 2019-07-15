@@ -105,30 +105,24 @@ function(pilcrow_create_reflection_target aTarget)
 
   pilcrow_populate_include_list(${aTarget} targetIncludeDirectories)
   
-  message(STATUS ${targetIncludeDirectories})
+  #message(STATUS ${targetIncludeDirectories})
 
   list(FILTER targetSources INCLUDE REGEX "^.*\.(c(pp)?)$")
   
   pilcrow_process_sources(${aTarget} targetSources processedTargetSources)
 
-  #message(STATUS ${processedTargetSources})
-
-  pilcrow_list_to_string(targetSourcesList " " processedTargetSources)
-  pilcrow_list_to_string(targetIncludeDirectoriesList " " targetIncludeDirectories)
-
-  #message(Target: ${aTarget})
-  #message(Sources: "--sources ${targetSourcesList}")
-  #message(Includes: "--include ${targetIncludeDirectoriesList}")
+  list(JOIN processedTargetSources ";" targetSourcesList)
+  list(JOIN targetIncludeDirectories ";" targetIncludeDirectoriesList)
 
   add_custom_command(TARGET ${aTarget} PRE_BUILD
     # Runs ReflectionExporter
-    COMMAND ${toolsDirectory}/ReflectionExporter.exe
+    COMMAND ${toolsDirectory}/ReflectionExporter/ReflectionExporter.exe
     # Includes
-    "--include ${targetIncludeDirectoriesList}"
+    --include ${targetIncludeDirectoriesList}
     # Sources
-    "--sources ${targetSourcesList}"
+    --sources ${targetSourcesList}
     # Output file
-    "--outputFile \"${targetBinaryDir}/ReflectionCode.cpp\""
+    --outputFile "\"${targetBinaryDir}/ReflectionCode.cpp\""
   )
 endfunction() 
 
