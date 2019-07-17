@@ -1,3 +1,9 @@
-[submodule "Modules/Utils"]
-	path = Modules/Utils
-	url = https://github.com/Masstronaut/Utils
+[submodule "pilcrow/dependencies/glfw"]
+	path = pilcrow/dependencies/glfw
+	url = https://github.com/glfw/glfw.git
+[submodule "pilcrow/dependencies/freetype"]
+	path = pilcrow/dependencies/freetype
+	url = git://git.sv.nongnu.org/freetype/freetype2.git
+[submodule "pilcrow/dependencies/Utils"]
+	path = pilcrow/dependencies/Utils
+	url = https://github.com/Masstronaut/Utils.git

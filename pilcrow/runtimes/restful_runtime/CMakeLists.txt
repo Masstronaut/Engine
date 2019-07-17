@@ -1,52 +1,39 @@
+add_executable(restful_runtime)
+
 #Specify all restful_runtime source files
-set(restful_runtime_src
-  "src/main.cpp"
+target_sources(restful_runtime
+PRIVATE
+  main.cpp
 )
 
-#Specifying all the restful runtime sources to be in a filter called "src"
-source_group("src" FILES ${restful_runtime_src})
+target_include_directories(restful_runtime
+PRIVATE
+  ${PROJECT_SOURCE_DIR}/pilcrow/dependencies
+  ${CPPREST_INCLUDE_DIRS}
+  ${GLFW_INCLUDE_DIRS}
+  ${ASSIMP_INCLUDE_DIRS}
+)
 
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/dependencies)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/core/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/engine/rest_api/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/jellyfish_renderer/include)
-include_directories(${PROJECT_SOURCE_DIR}/pilcrow/modules/physics/include)
-include_directories(${CPPREST_INCLUDE_DIRS})
-include_directories(${GLFW_INCLUDE_DIRS})
-include_directories(${FREETYPE_INCLUDE_DIRS})
-include_directories(${ASSIMP_INCLUDE_DIRS})
+target_link_libraries(restful_runtime
+PRIVATE
+  ${ASSIMP_LIBRARY}
+  ${CPPREST_LIBRARY}
+  ${OPENGL_LIBRARIES}
+  jellyfish_renderer
+  physics
+  rest_api
+  Utils
+  engine
 
+  #glad and stb_image are temporary libraries they are fully moved to graphics
+  glad
+  stb_image
+)
 
-add_executable(restful_runtime ${restful_runtime_src})
+pilcrow_source_group(CMAKE_CURRENT_LIST_DIR restful_runtime)
 
 #Set Visual Studio Project(restful_runtime) to be inside filter "executables"
-set_target_properties(restful_runtime PROPERTIES
-    FOLDER executables)
-
-add_dependencies(restful_runtime jellyfish_renderer)
-add_dependencies(restful_runtime physics)
-add_dependencies(restful_runtime rest_api)
-add_dependencies(restful_runtime utils)
-add_dependencies(restful_runtime engine)
-
-#glad and stb_image are temporary libraries they are fully moved to graphics
-add_dependencies(restful_runtime glad)
-add_dependencies(restful_runtime stb_image)
-target_link_libraries(restful_runtime glad)
-target_link_libraries(restful_runtime stb_image)
-############################################################################
-
-target_link_libraries(restful_runtime ${GLFW_LIBRARY})
-target_link_libraries(restful_runtime ${ASSIMP_LIBRARY})
-target_link_libraries(restful_runtime ${CPPREST_LIBRARY})
-target_link_libraries(restful_runtime ${FREETYPE_LIBRARY})
-target_link_libraries(restful_runtime ${OPENGL_LIBRARIES})
-
-target_link_libraries(restful_runtime jellyfish_renderer)
-target_link_libraries(restful_runtime physics)
-target_link_libraries(restful_runtime rest_api)
-target_link_libraries(restful_runtime utils)
-target_link_libraries(restful_runtime engine)
+set_target_properties(restful_runtime PROPERTIES FOLDER pilcrow/runtimes)
 
 #Copy cpprest sdk's dll to restful_runtime output directory
 add_custom_command(TARGET restful_runtime POST_BUILD   # Adds a post-build event to restful_runtime

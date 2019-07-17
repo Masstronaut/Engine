@@ -1,0 +1,10 @@
+target_sources(physics
+PRIVATE
+    CollisionDetection.cpp
+    CollisionDetection.h
+    Integration.cpp
+    Integration.h
+    PhysicsSystems.h
+    Resolution.cpp
+    Resolution.h
+)

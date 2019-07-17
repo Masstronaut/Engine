@@ -1,0 +1,9 @@
+target_sources(engine
+PRIVATE
+    ComponentAggregate.cpp
+    ComponentAggregate.hpp
+    ComponentAggregate.inl
+    ComponentPool.hpp
+    ComponentPool.inl
+    ComponentTraits.hpp
+)

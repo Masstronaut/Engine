@@ -23,8 +23,7 @@ add_library(sample_test
 )
 
 #Specifying sampe_test to be put in a filter in visual studio called tests
-set_target_properties(sample_test PROPERTIES
-    FOLDER tests)
+set_target_properties(sample_test PROPERTIES FOLDER pilcrow/tests)
 
 #linking sample_test to libraries
 target_link_libraries(sample_test ${GTEST_LIBRARY})
