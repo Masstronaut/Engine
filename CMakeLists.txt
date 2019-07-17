@@ -12,6 +12,7 @@ set(CMAKE_MODULE_PATH
 
 #Adding a global variable where the dependencies of the project lives
 set(dependencies ${CMAKE_CURRENT_SOURCE_DIR}/pilcrow/dependencies)
+set(toolsDirectory ${CMAKE_CURRENT_SOURCE_DIR}/Tools)
 
 #Specify the root directory of the libraries 
 set(ASSIMP_ROOT "${dependencies}/assimp/assimp-4.0.1")

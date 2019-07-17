@@ -45,6 +45,7 @@ PRIVATE
 )
 
 pilcrow_source_group(CMAKE_CURRENT_LIST_DIR engine)
+pilcrow_create_reflection_target(engine)
 
 #The filter the library will be in
 set_target_properties(engine PROPERTIES FOLDER pilcrow/engine)

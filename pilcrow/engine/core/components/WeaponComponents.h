@@ -3,7 +3,7 @@
 #include <cstdint>
 
 enum class Keys { X, Y, A, B, L, R };
-struct Weapon {
+struct [[Meta::Reflectable]] Weapon {
   float        TimeSinceFired{1.f};
   float        FireRate{1.f};
   uint16_t     CurrentAmmo{20};
@@ -12,7 +12,7 @@ struct Weapon {
   uint16_t     MaxAmmo{20};
 };
 
-struct ReloadableClip {
+struct [[Meta::Reflectable]] ReloadableClip {
   Keys     ReloadKey{Keys::Y};
   float    ReloadSpeed{1.f};
   float    TimeSinceReloaded{1.f};
@@ -20,14 +20,14 @@ struct ReloadableClip {
   uint16_t MaxClips{10};
 };
 
-struct Bullet {
+struct [[Meta::Reflectable]] Bullet {
   float Damage{1.f};
 };
-struct Lifetime {
+struct [[Meta::Reflectable]] Lifetime {
   float Lifetime{1.f};
 };
 
-struct ChargeWeapon {
+struct [[Meta::Reflectable]] ChargeWeapon {
   float MinChargeTime{1.f};
   float CurrentCharge{0.f};
   bool  LoseChargeOverTime{false};
